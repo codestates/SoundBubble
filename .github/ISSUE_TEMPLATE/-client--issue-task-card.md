@@ -1,6 +1,6 @@
 ---
-name: "[Server] Issue Task Card"
-about: "[Server] Issue Task Card"
+name: "[Client] Issue Task Card"
+about: "[Client] Issue Task Card"
 title: ''
 labels: ''
 assignees: ''
@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 ### ISSUE
- * Group:  `server`
+ * Group:  `client`
  * Type: `bug`, `feature`
  * Detail: 
  
