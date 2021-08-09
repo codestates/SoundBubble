@@ -1,7 +1,29 @@
 import { Request, Response } from "express";
+import { Bubble } from "../../entity/Bubble";
+import checkQueryParams from "../../utils/checkQueryParams";
 
 const readAllBubble = async (req: Request, res: Response) => {
+  let { start, end, limit, order } = req.query as any;
 
+  try {
+    const _start = checkQueryParams("start", start);
+    const _end = checkQueryParams("end", end);
+    const _limit = checkQueryParams("limit", limit);
+    const _order = checkQueryParams("order", order);
+
+    const bubbles: Bubble[] = await Bubble.createQueryBuilder("bubble")
+      .where("bubble.id >= :sId AND bubble.id <= :eId", { sId: _start, eId: _end })
+      .limit(_limit)
+      .leftJoinAndSelect("bubble.user", "user")
+      .select(["bubble", "user.nickname"])
+      .orderBy("bubble.id", _order)
+      .getMany();
+
+    res.json({ data: { bubbles }, message: "All bubbles successfully read" });
+  } catch (error) {
+    console.error(error);
+    res.json({ message: "Failed to read all bubbles" });
+  }
 };
 
 export default readAllBubble;
