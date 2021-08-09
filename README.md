@@ -1,6 +1,3 @@
 # SoundBubble
 
-
-
-
-### I'm dk
+Readme jb
