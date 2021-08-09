@@ -17,7 +17,8 @@ const LikedBubble_1 = require("./LikedBubble");
 let Bubble = class Bubble extends typeorm_1.BaseEntity {
     id;
     image;
-    thumbnail;
+    // @Column()
+    // thumbnail!: string;
     sound;
     textContent;
     createdAt;
@@ -34,10 +35,6 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Bubble.prototype, "image", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Bubble.prototype, "thumbnail", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)

@@ -22,8 +22,8 @@ export class Bubble extends BaseEntity {
   @Column()
   image!: string;
 
-  @Column()
-  thumbnail!: string;
+  // @Column()
+  // thumbnail!: string;
 
   @Column()
   sound!: string;

@@ -24,16 +24,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller = __importStar(require("../controllers"));
 const express_1 = __importDefault(require("express"));
+const uploadResources_1 = __importDefault(require("../middlewares/uploadResources"));
 const bubbleRouter = express_1.default.Router();
 // 모든 버블 조회
-bubbleRouter.get('/', controller.readAllBubble);
+bubbleRouter.get("/", controller.readAllBubble);
 // 버블 업로드
-bubbleRouter.post('/upload', controller.createBubble);
+bubbleRouter.post("/upload", uploadResources_1.default.fields([
+    { name: "image", maxCount: 1 },
+    { name: "sound", maxCount: 1 },
+]), controller.createBubble);
 // 버블 상세 조회
-bubbleRouter.get('/:id', controller.readBubble);
+bubbleRouter.get("/:id", controller.readBubble);
 // 버블 댓글 등록
-bubbleRouter.post('/:id/comment', controller.createBubbleComment);
+bubbleRouter.post("/:id/comment", controller.createBubbleComment);
 // 본인 댓글 삭제
-bubbleRouter.delete('/:id/comment', controller.deleteBubbleComment);
+bubbleRouter.delete("/:id/comment", controller.deleteBubbleComment);
 exports.default = bubbleRouter;
 //# sourceMappingURL=bubbleRouter.js.map
