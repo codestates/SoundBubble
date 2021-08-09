@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootReducerType } from './Store'
-import  {increaseNumber,decreaseNumber} from './actions/index'
+import { increaseNumber, decreaseNumber } from './actions/index'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
 
