@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = void 0;
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
+//* option
 const connectionOptions = {
     developtment: {
         type: "mysql",
@@ -12,10 +13,10 @@ const connectionOptions = {
         password: process.env.DATABASE_LOCAL_PASSWORD,
         database: process.env.DATABASE_LOCAL_NAME,
         synchronize: true,
-        logging: false,
-        entities: ["entity/**/*.{ts,js}"],
-        migrations: ["migration/**/*.{ts,js}"],
-        subscribers: ["subscriber/**/*.{ts,js}"],
+        logging: true,
+        entities: [__dirname + "/entity/**/*.{ts,js}"],
+        migrations: [__dirname + "/migration/**/*.{ts,js}"],
+        subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],
         cli: {
             entitiesDir: "entity",
             migrationsDir: "migration",
@@ -31,21 +32,23 @@ const connectionOptions = {
         database: process.env.DATABASE_NAME,
         synchronize: true,
         logging: false,
-        entities: ["entity/**/*.{ts,js}"],
-        migrations: ["migration/**/*.{ts,js}"],
-        subscribers: ["subscriber/**/*.{ts,js}"],
+        entities: [__dirname + "/entity/**/*.{ts,js}"],
+        migrations: [__dirname + "/migration/**/*.{ts,js}"],
+        subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],
         cli: {
-            entitiesDir: "entity",
-            migrationsDir: "migration",
-            subscribersDir: "subscriber",
+            entitiesDir: "./entity",
+            migrationsDir: "./migration",
+            subscribersDir: "./subscriber",
         },
     },
 };
+//* Select option
 const env = process.env.NODE_ENV || "developtment";
 const connectionOption = connectionOptions[env];
-console.log("Database info: ", connectionOption);
-const connectDB = () => {
-    typeorm_1.createConnection(connectionOption)
+console.log("Database info: ", env);
+//* Connect to Database
+const connectDB = async () => {
+    await typeorm_1.createConnection(connectionOption)
         .then(async () => {
         console.log("Database connected");
     })

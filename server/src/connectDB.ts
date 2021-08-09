@@ -4,7 +4,7 @@ import { createConnection, ConnectionOptions } from "typeorm";
 type DatabaseOptions = {
   [env: string]: ConnectionOptions;
 };
-
+//* option
 const connectionOptions: DatabaseOptions = {
   developtment: {
     type: "mysql",
@@ -14,10 +14,10 @@ const connectionOptions: DatabaseOptions = {
     password: process.env.DATABASE_LOCAL_PASSWORD,
     database: process.env.DATABASE_LOCAL_NAME,
     synchronize: true,
-    logging: false,
-    entities: ["entity/**/*.{ts,js}"],
-    migrations: ["migration/**/*.{ts,js}"],
-    subscribers: ["subscriber/**/*.{ts,js}"],
+    logging: true,
+    entities: [__dirname + "/entity/**/*.{ts,js}"],
+    migrations: [__dirname + "/migration/**/*.{ts,js}"],
+    subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],
     cli: {
       entitiesDir: "entity",
       migrationsDir: "migration",
@@ -33,24 +33,26 @@ const connectionOptions: DatabaseOptions = {
     database: process.env.DATABASE_NAME,
     synchronize: true,
     logging: false,
-    entities: ["entity/**/*.{ts,js}"],
-    migrations: ["migration/**/*.{ts,js}"],
-    subscribers: ["subscriber/**/*.{ts,js}"],
+    entities: [__dirname + "/entity/**/*.{ts,js}"],
+    migrations: [__dirname + "/migration/**/*.{ts,js}"],
+    subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],
     cli: {
-      entitiesDir: "entity",
-      migrationsDir: "migration",
-      subscribersDir: "subscriber",
+      entitiesDir: "./entity",
+      migrationsDir: "./migration",
+      subscribersDir: "./subscriber",
     },
   },
 };
 
+//* Select option
 const env: string = process.env.NODE_ENV || "developtment";
 
 const connectionOption: ConnectionOptions = connectionOptions[env];
-console.log("Database info: ", connectionOption);
+console.log("Database info: ", env);
 
-export const connectDB = (): void => {
-  createConnection(connectionOption)
+//* Connect to Database
+export const connectDB = async () => {
+  await createConnection(connectionOption)
     .then(async () => {
       console.log("Database connected");
     })
