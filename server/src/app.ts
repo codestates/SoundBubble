@@ -1,9 +1,12 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: __dirname + "/./../.env" });
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
+import { connectDB } from "./connectDB";
+
+connectDB();
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 80;
@@ -16,11 +19,13 @@ morgan.token("date", () => {
 });
 
 app.use(morgan(`"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length] [:date]`));
-app.use(cors({
+app.use(
+  cors({
     origin: true,
     credentials: true,
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
-}));
+  })
+);
 app.use(cookieParser());
 
 app.use(express.json());

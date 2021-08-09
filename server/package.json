@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/app.ts",
+    "start:js": "NODE_ENV=production nodemon dist/app.js",
+    "start:pm2": "NODE_ENV=production authbind --deep pm2 start dist/app.js",
+    "stop:pm2": "authbind --deep pm2 stop dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
