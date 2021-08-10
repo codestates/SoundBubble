@@ -17,11 +17,13 @@ const LikedBubble_1 = require("./LikedBubble");
 let Bubble = class Bubble extends typeorm_1.BaseEntity {
     id;
     image;
-    thumbnail;
+    // @Column()
+    // thumbnail!: string;
     sound;
     textContent;
     createdAt;
     updatedAt;
+    userId;
     user;
     bubbleComments;
     likedBubbles;
@@ -34,10 +36,6 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Bubble.prototype, "image", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Bubble.prototype, "thumbnail", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
@@ -54,6 +52,10 @@ __decorate([
     typeorm_1.UpdateDateColumn({ name: "updatedAt" }),
     __metadata("design:type", Date)
 ], Bubble.prototype, "updatedAt", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Number)
+], Bubble.prototype, "userId", void 0);
 __decorate([
     typeorm_1.ManyToOne((type) => User_1.User, (user) => user.bubbles, { onDelete: "CASCADE" }),
     __metadata("design:type", User_1.User)
