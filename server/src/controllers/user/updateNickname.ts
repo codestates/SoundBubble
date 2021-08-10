@@ -28,9 +28,7 @@ const updateNickname = async (req: Request, res: Response) => {
     }
     userInfo.nickname = nickname;
     User.update({ email: email }, { nickname: nickname });
-    // console.log(userInfo);
     return res.status(201).json({ data: { userInfo }, message: "Update nickname succeed" });
-
   } catch (error) {
     return res.status(500).json({ message: "Update nickname failed"})
   }
