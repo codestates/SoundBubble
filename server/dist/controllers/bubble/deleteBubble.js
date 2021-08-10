@@ -28,7 +28,6 @@ const deleteBubble = async (req, res) => {
                 await bubbleInfo.remove();
             }
             else {
-                console.log('본인 아님');
                 return res.status(400).json({ message: "Invalid request" });
             }
         }
