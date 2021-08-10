@@ -1,27 +1,30 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootReducerType } from './Store'
-import { increaseNumber, decreaseNumber } from './actions/index'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Landing from "./Pages/Landing";
+import MainPage from "./Pages/MainPage";
+import Palette from "./Pages/Palette";
+import BubbleDetail from "./Pages/BubbleDetail";
+import Mypage from "./Pages/Mypage";
+import LoginModal from "./Pages/LoginModal";
+import SignupModal from "./Pages/SignupModal";
+import Test from "./Pages/Test";
+import Navigation from "./Components/Navigation";
 
 function App() {
-
-const numberReducer = useSelector((state:RootReducerType) => state.numberReducer)
-  const dispatch = useDispatch();
-  
-
-  const changeNum = (event: any) => {
-    if(event.target.innerText === '-') dispatch(decreaseNumber())
-    if(event.target.innerText === '+') dispatch(increaseNumber())
-  }
-  
   return (
     <>
-      <div className='main'>
-        <h1>{numberReducer.num}</h1>
-      <button onClick={changeNum}>-</button>
-      <button onClick={changeNum}>+</button>
-      </div>
+      <Router>
+        <Navigation />
+        <Switch>
+          <Route path="/landing" component={Landing} />
+          <Route path="/MainPage" component={MainPage} />
+          <Route path="/Palette" component={Palette} />
+          <Route path="/BubbleDetail" component={BubbleDetail} />
+          <Route path="/Mypage" component={Mypage} />
+          <Route path="/LoginModal" component={LoginModal} />
+          <Route path="/SignupModal" component={SignupModal} />
+          <Route path="/test" component={Test} />
+        </Switch>
+      </Router>
     </>
   );
 }
