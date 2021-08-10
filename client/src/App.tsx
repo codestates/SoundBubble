@@ -6,6 +6,7 @@ import BubbleDetail from "./Pages/BubbleDetail";
 import Mypage from "./Pages/Mypage";
 import LoginModal from "./Pages/LoginModal";
 import SignupModal from "./Pages/SignupModal";
+import error404 from "./Pages/error404";
 import Test from "./Pages/Test";
 import Navigation from "./Components/Navigation";
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/LoginModal" component={LoginModal} />
           <Route path="/SignupModal" component={SignupModal} />
           <Route path="/test" component={Test} />
+          <Route path="*" component={error404} />
         </Switch>
       </Router>
     </>

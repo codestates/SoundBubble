@@ -1,7 +1,9 @@
+import MainPiano from "../Components/MainPiano";
+import MainMic from "../Components/MainMic";
+import MainUpload from "../Components/MainUpload";
+
 const MainPage = () => {
-  return <div>
-    MainPage
-  </div>;
+  return <MainPiano />;
 };
 
 export default MainPage;
