@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
 import Footer from "../Components/Footer";
 import LandingFirst from './Landing/LandingPart1';
 import LandingSecond from './Landing/LandingPart2';
