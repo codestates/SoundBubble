@@ -1,15 +1,15 @@
-import { Request, Response } from "express";
+import { Request, Response, RequestHandler } from "express";
 import { Bubble } from "../../entity/Bubble";
 import checkQueryParams from "../../utils/checkQueryParams";
 
-const readAllBubble = async (req: Request, res: Response) => {
+const readAllBubble: RequestHandler = async (req: Request, res: Response) => {
   let { start, end, limit, order } = req.query as any;
 
   try {
-    const _start = checkQueryParams("start", start);
-    const _end = checkQueryParams("end", end);
-    const _limit = checkQueryParams("limit", limit);
-    const _order = checkQueryParams("order", order);
+    const _start: number = checkQueryParams("start", start);
+    const _end: number = checkQueryParams("end", end);
+    const _limit: number = checkQueryParams("limit", limit);
+    const _order: any = checkQueryParams("order", order);
 
     const bubbles: Bubble[] = await Bubble.createQueryBuilder("bubble")
       .where("bubble.id >= :sId AND bubble.id <= :eId", { sId: _start, eId: _end })

@@ -1,4 +1,4 @@
-const checkQueryParams = (type: string, value: any) => {
+const checkQueryParams: any = (type: string, value: any) => {
   switch (type) {
     case "start":
       if (value && !isNaN(Number(value))) value = Number(value);

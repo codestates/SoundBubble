@@ -33,8 +33,8 @@ app.use(cookie_parser_1.default());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 // Route
-app.use('/user', userRouter_1.default);
-app.use('/bubble', bubbleRouter_1.default);
+app.use("/user", userRouter_1.default);
+app.use("/bubble", bubbleRouter_1.default);
 app.get("/", (req, res) => {
     res.send("Hello world!!");
 });

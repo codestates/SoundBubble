@@ -1,15 +1,15 @@
-import { Request, Response } from "express";
+import { Request, Response, RequestHandler } from "express";
 import { Bubble } from "../../entity/Bubble";
 import { BubbleComment } from "../../entity/BubbleComment";
 
 import checkQueryParams from "../../utils/checkQueryParams";
 
-const readBubble = async (req: Request, res: Response) => {
+const readBubble: RequestHandler = async (req: Request, res: Response) => {
   const { id: bubbleId }: { id: string } = req.params as any;
   let { order } = req.query as any;
 
   try {
-    const _order = checkQueryParams("order", order);
+    const _order: any = checkQueryParams("order", order);
 
     const bubble: Bubble | undefined = await Bubble.createQueryBuilder("bubble")
       .where("bubble.id = :id", { id: bubbleId })

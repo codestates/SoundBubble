@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_1 = require("../../entity/User");
 const Bubble_1 = require("../../entity/Bubble");
 const BubbleComment_1 = require("../../entity/BubbleComment");
 const createBubbleComment = async (req, res) => {
@@ -13,7 +12,6 @@ const createBubbleComment = async (req, res) => {
         return res.status(400).json({ message: "Insufficient parameters supplied" });
     }
     try {
-        const userInfo = (await User_1.User.findOne(userId));
         const bubbleInfo = await Bubble_1.Bubble.findOne(bubbleId);
         if (!bubbleInfo) {
             return res.status(400).json({ message: "Invalid request" });

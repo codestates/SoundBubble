@@ -12,10 +12,12 @@ const createBubble = async (req, res) => {
         if (!textContent) {
             return res.status(422).json({ message: "Insufficient parameters supplied" });
         }
+        //! Not necessary. 토큰으로 검증된 유저만 접근 가능하기 때문
         const userInfo = await User_1.User.findOne(userId);
         if (!userInfo) {
-            return res.status(400).json({ message: "no user" }); //! Not necessary. 토큰으로 검증된 유저만 접근 가능하기 때문
+            return res.status(400).json({ message: "no user" });
         }
+        //! ---------------------------
         const { image: imageInfo, sound: soundInfo } = req.files;
         if (!imageInfo || !soundInfo) {
             return res.status(400).json({ message: "Image or Sound does not exist" });
@@ -26,7 +28,7 @@ const createBubble = async (req, res) => {
         newBubble.image = imageSrc;
         newBubble.sound = soundSrc;
         newBubble.textContent = textContent;
-        newBubble.user = userInfo;
+        newBubble.userId = userId;
         newBubble.save();
         res.status(201).json({ message: "create succeed" });
     }

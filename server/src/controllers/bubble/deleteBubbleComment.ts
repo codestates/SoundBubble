@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response, RequestHandler } from "express";
 import { User } from "../../entity/User";
 import { Bubble } from "../../entity/Bubble";
 import { BubbleComment } from "../../entity/BubbleComment";
 
-const deleteBubbleComment = async (req: Request, res: Response) => {
+const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) => {
   //* 임시로 userId를 이용하여 유저 특정 -> 토큰에서 검증한 값으로 변경
   const userId = 1;
   //* ---------------------------
@@ -37,8 +37,7 @@ const deleteBubbleComment = async (req: Request, res: Response) => {
       } else {
         return res.status(400).json({ message: "Invalid request" });
       }
-    }
-        
+    }        
 
     const comments = await BubbleComment.createQueryBuilder("comment")
       .where("bubbleId = :id", { id: bubbleId })
