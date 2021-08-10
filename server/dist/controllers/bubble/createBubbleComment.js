@@ -3,9 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
 const BubbleComment_1 = require("../../entity/BubbleComment");
 const createBubbleComment = async (req, res) => {
-    //* 임시로 userId를 이용하여 유저 특정 -> 토큰에서 검증한 값으로 변경
-    const userId = 1;
-    //* ---------------------------
+    const { userId } = req.userInfo;
     const { id: bubbleId } = req.params;
     const { textContent } = req.body;
     if (!bubbleId || !textContent) {
@@ -20,7 +18,6 @@ const createBubbleComment = async (req, res) => {
         newBubbleComment.textContent = textContent;
         newBubbleComment.bubble = bubbleInfo;
         newBubbleComment.userId = userId;
-        // newBubbleComment.user = userInfo;
         newBubbleComment.save();
         res.status(201).json({ message: "Comment successfully registered" });
     }

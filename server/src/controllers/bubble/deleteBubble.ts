@@ -1,20 +1,15 @@
 import { Request, Response, RequestHandler } from "express";
-import { User } from "../../entity/User";
 import { Bubble } from "../../entity/Bubble";
 import { deleteResource } from "../../aws/s3";
 
 const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
-  //* 임시로 userId를 이용하여 유저 특정 -> 토큰에서 검증한 값으로 변경
-  const userId = 1;
-  //* ---------------------------
-
+  const { userId, accountType } = req.userInfo as any;
   const { id: bubbleId }: { id: string } = req.params as any;
 
   if (!bubbleId) {
     return res.status(400).json({ message: "Insufficient parameters supplied" });
   }
   try {
-    const userInfo: User = (await User.findOne(userId)) as User;  //! Not necessary. 토큰에 권한 정보 존재
     const bubbleInfo: Bubble | undefined = await Bubble.findOne(bubbleId);
 
     if (!bubbleInfo) {
@@ -24,9 +19,7 @@ const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
     const soundSrc: string = bubbleInfo.sound.split("/").pop() as string;
     const imageSrc: string = bubbleInfo.image.split("/").pop() as string;
 
-    console.log(userInfo, bubbleInfo);
-
-    if (userInfo.accountType === "admin") {
+    if (accountType === "admin") {
       await bubbleInfo.remove();
     } else {
       if (bubbleInfo.userId === userId) {

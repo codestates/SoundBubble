@@ -25,9 +25,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const controller = __importStar(require("../controllers"));
 const express_1 = __importDefault(require("express"));
 const uploadResources_1 = __importDefault(require("../middlewares/uploadResources"));
+const authUser_1 = __importDefault(require("../middlewares/authUser"));
 const bubbleRouter = express_1.default.Router();
 // 모든 버블 조회
 bubbleRouter.get("/", controller.readAllBubble);
+// 버블 상세 조회
+bubbleRouter.get("/:id", controller.readBubble);
+//* 로그인이 필요한 요청
+bubbleRouter.use("/", authUser_1.default);
 // 버블 업로드
 bubbleRouter.post("/upload", uploadResources_1.default.fields([
     { name: "image", maxCount: 1 },
@@ -35,8 +40,6 @@ bubbleRouter.post("/upload", uploadResources_1.default.fields([
 ]), controller.createBubble);
 // 버블 삭제
 bubbleRouter.delete("/:id", controller.deleteBubble);
-// 버블 상세 조회
-bubbleRouter.get("/:id", controller.readBubble);
 // 버블 댓글 등록
 bubbleRouter.post("/:id/comment", controller.createBubbleComment);
 // 본인 댓글 삭제

@@ -4,10 +4,7 @@ import { Bubble } from "../../entity/Bubble";
 import { BubbleComment } from "../../entity/BubbleComment";
 
 const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) => {
-  //* 임시로 userId를 이용하여 유저 특정 -> 토큰에서 검증한 값으로 변경
-  const userId = 1;
-  //* ---------------------------
-
+  const { userId, accountType } = req.userInfo as any;
   const { id: bubbleId }: { id: string } = req.params as any;
   const { commentId }: { commentId: number | string } = req.body as any;
 
@@ -21,7 +18,6 @@ const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) 
     if (!bubbleInfo) {
       return res.status(400).json({ message: "Invalid request" });
     }
-    const userInfo: User = (await User.findOne(userId)) as User;  //! Not necessary. 토큰에 권한 정보 존재
 
     const commentInfo: BubbleComment | undefined = await BubbleComment.findOne(commentId);
 
@@ -29,7 +25,7 @@ const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) 
       return res.status(400).json({ message: "Invalid request" });
     }
 
-    if (userInfo.accountType === "admin") {
+    if (accountType === "admin") {
       await commentInfo.remove();
     } else {
       if (commentInfo.userId === userId) {

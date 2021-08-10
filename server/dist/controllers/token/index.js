@@ -8,6 +8,7 @@ const generateAccessToken = (user) => {
     return jwt.sign({
         userId: user.id,
         email: user.email,
+        accountType: user.accountType,
     }, accessSecret, { expiresIn: '1d' });
 };
 exports.generateAccessToken = generateAccessToken;
@@ -15,17 +16,13 @@ const generateRefreshToken = (user) => {
     return jwt.sign({
         userId: user.id,
         email: user.email,
+        accountType: user.accountType,
     }, refreshSecret, { expiresIn: '14d' });
 };
 exports.generateRefreshToken = generateRefreshToken;
-const verifyAccessToken = (req) => {
-    const authorization = req.headers["authorization"];
-    if (!authorization) {
-        return "not authorized";
-    }
-    const token = authorization.split(" ")[1];
+const verifyAccessToken = (accessToken) => {
     try {
-        return jwt.verify(token, accessSecret);
+        return jwt.verify(accessToken, accessSecret);
     }
     catch (error) {
         return error;
