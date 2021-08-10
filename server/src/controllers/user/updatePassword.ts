@@ -21,6 +21,7 @@ const updatePassword = async (req: Request, res: Response) => {
     if (!userInfo) {
       return res.status(404).json({ message: "User not found" });
     }
+    
     const updatePassword = crypto
       .createHash("sha512")
       .update(newPassword + salt)
@@ -28,7 +29,7 @@ const updatePassword = async (req: Request, res: Response) => {
     
     userInfo.password = updatePassword;
     User.update({ email: email }, { password: updatePassword });
-    return res.status(201).json({ data: { userInfo }, message: "Update password succeed" });   
+    return res.status(201).json({ message: "Update password succeed" });    
   } catch (error) {
     return res.status(500).json({ message: "Update password failed"})
   }
