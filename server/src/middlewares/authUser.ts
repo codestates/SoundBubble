@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import getUserInfo from "./getUserInfo";
-import { TokenUserInfo } from "../@type/tokenUserInfo";
+import { TokenUserInfo, UserInfo } from "../@type/tokenUserInfo";
 
 const authUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization, logintype: loginType }: { authorization: string; logintype: string } = req.headers as any;
@@ -14,7 +14,7 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
 
   const accessToken: string = authorization.split("Bearer ")[1];
 
-  const userInfo: TokenUserInfo = (await getUserInfo(accessToken, loginType, res)) as TokenUserInfo;
+  const userInfo: TokenUserInfo = (await getUserInfo(accessToken, loginType, res));
 
   if (userInfo.error) {
     if (userInfo.error === "EXPIRED") {
@@ -31,7 +31,7 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
     return res.status(403).json({ message: "Invalid token" });
   }
   
-  req.userInfo = userInfo;
+  req.userInfo = userInfo as UserInfo;
   next();
 };
 

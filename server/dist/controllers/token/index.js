@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyAccessToken = exports.generateRefreshToken = exports.generateAccessToken = void 0;
+exports.verifyRefreshToken = exports.verifyExpiredAccessToken = exports.verifyAccessToken = exports.generateRefreshToken = exports.generateAccessToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const accessSecret = process.env.ACCESS_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;
@@ -32,4 +32,22 @@ const verifyAccessToken = (accessToken) => {
     }
 };
 exports.verifyAccessToken = verifyAccessToken;
+const verifyExpiredAccessToken = (accessToken) => {
+    try {
+        return jsonwebtoken_1.default.verify(accessToken, accessSecret, { ignoreExpiration: true });
+    }
+    catch (error) {
+        return error;
+    }
+};
+exports.verifyExpiredAccessToken = verifyExpiredAccessToken;
+const verifyRefreshToken = (refreshToken) => {
+    try {
+        return jsonwebtoken_1.default.verify(refreshToken, refreshSecret);
+    }
+    catch (error) {
+        return error;
+    }
+};
+exports.verifyRefreshToken = verifyRefreshToken;
 //# sourceMappingURL=index.js.map

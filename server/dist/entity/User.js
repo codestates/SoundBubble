@@ -23,6 +23,7 @@ let User = class User extends typeorm_1.BaseEntity {
     profileImage;
     signUpType;
     accountType;
+    refreshToken;
     createdAt;
     updatedAt;
     bubbles;
@@ -57,6 +58,10 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], User.prototype, "accountType", void 0);
+__decorate([
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "refreshToken", void 0);
 __decorate([
     typeorm_1.CreateDateColumn({ name: "createdAt" }),
     __metadata("design:type", Date)

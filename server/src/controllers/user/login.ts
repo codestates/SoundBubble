@@ -3,7 +3,6 @@ import crypto = require("crypto");
 import { User } from "../../entity/User";
 import { generateAccessToken, generateRefreshToken } from "../token/index";
 
-
 const login = async (req: Request, res: Response) => {
   const { email, password }: { email: string; password: string } = req.body;
 
@@ -30,10 +29,14 @@ const login = async (req: Request, res: Response) => {
     // 비밀번호 제외하고 액세스 토큰 발급
     const { password: temp, ...userWithoutPassword } = userInfo;
     const accessToken = generateAccessToken(userInfo);
-    // const refreshToken = generateRefreshToken(userInfo);
+    const refreshToken = generateRefreshToken(userInfo);
+
+    userInfo.refreshToken = refreshToken;
+    await userInfo.save();
 
     return res.status(201).json({ data: { accessToken, userWithoutPassword }, message: "Login succeed" });
-  } catch(error) {
+  } catch (error) {
+    console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 };

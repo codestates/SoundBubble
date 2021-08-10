@@ -37,6 +37,9 @@ export class User extends BaseEntity {
   @Column()
   accountType!: string;
 
+  @Column({ nullable: true })
+  refreshToken!: string;
+
   @CreateDateColumn({ name: "createdAt" })
   createdAt!: Date;
 

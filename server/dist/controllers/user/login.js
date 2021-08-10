@@ -27,10 +27,13 @@ const login = async (req, res) => {
         // 비밀번호 제외하고 액세스 토큰 발급
         const { password: temp, ...userWithoutPassword } = userInfo;
         const accessToken = index_1.generateAccessToken(userInfo);
-        // const refreshToken = generateRefreshToken(userInfo);
+        const refreshToken = index_1.generateRefreshToken(userInfo);
+        userInfo.refreshToken = refreshToken;
+        await userInfo.save();
         return res.status(201).json({ data: { accessToken, userWithoutPassword }, message: "Login succeed" });
     }
     catch (error) {
+        console.error(error);
         return res.status(500).json({ message: "Server error" });
     }
 };
