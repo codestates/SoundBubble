@@ -4497,7 +4497,7 @@
   "resolved" "https://registry.npmjs.org/dotenv-expand/-/dotenv-expand-5.1.0.tgz"
   "version" "5.1.0"
 
-"dotenv@8.2.0":
+"dotenv@^8.2.0", "dotenv@8.2.0":
   "integrity" "sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw=="
   "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz"
   "version" "8.2.0"
@@ -5219,6 +5219,11 @@
   "version" "2.0.1"
   dependencies:
     "bser" "2.1.1"
+
+"fft.js@^4.0.3":
+  "integrity" "sha512-f9c00hphOgeQTlDyavwTtu6RiK8AIFjD6+jvXkNkpeQ7rirK3uFWVpalkoS4LAwbdX7mfZ8aoBfFVQX1Re/8aw=="
+  "resolved" "https://registry.npmjs.org/fft.js/-/fft.js-4.0.4.tgz"
+  "version" "4.0.4"
 
 "figgy-pudding@^3.5.1":
   "integrity" "sha512-0btnI/H8f2pavGMN8w40mlSKOfTK2SVJmBfBeVIj3kNw0swwgzyRq0d5TJVOwodFmtvpPeWPN/MCcfuWF0Ezbw=="
@@ -7740,6 +7745,11 @@
   "resolved" "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   "version" "2.6.2"
 
+"next-pow-2@^1.0.0":
+  "integrity" "sha1-y1wvHa4EDFbN1c2h3FxqOjOPQ2c="
+  "resolved" "https://registry.npmjs.org/next-pow-2/-/next-pow-2-1.0.0.tgz"
+  "version" "1.0.0"
+
 "next-tick@~1.0.0":
   "integrity" "sha1-yobR/ogoFpsBICCOPchCS524NCw="
   "resolved" "https://registry.npmjs.org/next-tick/-/next-tick-1.0.0.tgz"
@@ -8367,6 +8377,15 @@
   "version" "4.0.1"
   dependencies:
     "node-modules-regexp" "^1.0.0"
+
+"pitchy@^2.0.3":
+  "integrity" "sha512-Yt4PDXtVdH8agX6gt4d20V8tvvZe8DieduZIMvgbqw1WceAFwqjBgYIIZDP1wK3HhCOzZVt2joOnM4n2JQIi8w=="
+  "resolved" "https://registry.npmjs.org/pitchy/-/pitchy-2.0.3.tgz"
+  "version" "2.0.3"
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "fft.js" "^4.0.3"
+    "next-pow-2" "^1.0.0"
 
 "pkg-dir@^2.0.0":
   "integrity" "sha1-9tXREJ4Z1j7fQo4L1X4Sd3YVM0s="
