@@ -12,11 +12,11 @@ const deleteBubbleComment = async (req, res) => {
     try {
         const bubbleInfo = await Bubble_1.Bubble.findOne(bubbleId);
         if (!bubbleInfo) {
-            return res.status(400).json({ message: "Invalid request" });
+            return res.status(400).json({ message: "Invalid bubble" });
         }
         const commentInfo = await BubbleComment_1.BubbleComment.findOne(commentId);
         if (!commentInfo) {
-            return res.status(400).json({ message: "Invalid request" });
+            return res.status(400).json({ message: "Invalid comment" });
         }
         if (accountType === "admin") {
             await commentInfo.remove();
@@ -29,11 +29,7 @@ const deleteBubbleComment = async (req, res) => {
                 return res.status(400).json({ message: "Invalid request" });
             }
         }
-        const comments = await BubbleComment_1.BubbleComment.createQueryBuilder("comment")
-            .where("bubbleId = :id", { id: bubbleId })
-            .leftJoinAndSelect("comment.user", "user")
-            .select(["comment.id", "comment.textContent", "user.nickname"])
-            .getMany();
+        const comments = await BubbleComment_1.BubbleComment.findComments(Number(bubbleId));
         res.json({ data: { comments }, message: "Comment successfully deleted" });
     }
     catch (error) {

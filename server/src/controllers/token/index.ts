@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../../entity/User";
-import jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const accessSecret = process.env.ACCESS_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;

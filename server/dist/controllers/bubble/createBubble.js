@@ -6,7 +6,7 @@ const createBubble = async (req, res) => {
     const { textContent } = req.body;
     try {
         if (!textContent) {
-            return res.status(422).json({ message: "Insufficient parameters supplied" });
+            return res.status(400).json({ message: "Insufficient parameters supplied" });
         }
         const { image: imageInfo, sound: soundInfo } = req.files;
         if (!imageInfo || !soundInfo) {
@@ -14,13 +14,8 @@ const createBubble = async (req, res) => {
         }
         const imageSrc = imageInfo[0].location;
         const soundSrc = soundInfo[0].location;
-        const newBubble = new Bubble_1.Bubble();
-        newBubble.image = imageSrc;
-        newBubble.sound = soundSrc;
-        newBubble.textContent = textContent;
-        newBubble.userId = userId;
-        newBubble.save();
-        res.status(201).json({ message: "create succeed" });
+        const newBubble = await Bubble_1.Bubble.insertBubble(userId, textContent, imageSrc, soundSrc);
+        res.status(201).json({ newBubble, message: "Bubble successfully uploaded" });
     }
     catch (error) {
         console.error(error);

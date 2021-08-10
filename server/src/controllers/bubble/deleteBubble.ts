@@ -1,9 +1,10 @@
 import { Request, Response, RequestHandler } from "express";
 import { Bubble } from "../../entity/Bubble";
 import { deleteResource } from "../../aws/s3";
+import { UserInfo } from '../../@type/tokenUserInfo';
 
 const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
-  const { userId, accountType } = req.userInfo as any;
+  const { userId, accountType }: { userId: number; accountType: string } = req.userInfo as UserInfo;
   const { id: bubbleId }: { id: string } = req.params as any;
 
   if (!bubbleId) {
@@ -13,7 +14,7 @@ const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
     const bubbleInfo: Bubble | undefined = await Bubble.findOne(bubbleId);
 
     if (!bubbleInfo) {
-      return res.status(400).json({ message: "Invalid request" });
+      return res.status(400).json({ message: "Invalid bubble" });
     }
 
     const soundSrc: string = bubbleInfo.sound.split("/").pop() as string;

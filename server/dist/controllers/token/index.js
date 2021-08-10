@@ -1,11 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyAccessToken = exports.generateRefreshToken = exports.generateAccessToken = void 0;
-const jwt = require("jsonwebtoken");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const accessSecret = process.env.ACCESS_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;
 const generateAccessToken = (user) => {
-    return jwt.sign({
+    return jsonwebtoken_1.default.sign({
         userId: user.id,
         email: user.email,
         accountType: user.accountType,
@@ -13,7 +16,7 @@ const generateAccessToken = (user) => {
 };
 exports.generateAccessToken = generateAccessToken;
 const generateRefreshToken = (user) => {
-    return jwt.sign({
+    return jsonwebtoken_1.default.sign({
         userId: user.id,
         email: user.email,
         accountType: user.accountType,
@@ -22,7 +25,7 @@ const generateRefreshToken = (user) => {
 exports.generateRefreshToken = generateRefreshToken;
 const verifyAccessToken = (accessToken) => {
     try {
-        return jwt.verify(accessToken, accessSecret);
+        return jsonwebtoken_1.default.verify(accessToken, accessSecret);
     }
     catch (error) {
         return error;

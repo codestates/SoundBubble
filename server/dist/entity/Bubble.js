@@ -8,13 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var Bubble_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bubble = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
 const BubbleComment_1 = require("./BubbleComment");
 const LikedBubble_1 = require("./LikedBubble");
-let Bubble = class Bubble extends typeorm_1.BaseEntity {
+let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
     id;
     image;
     // @Column()
@@ -27,6 +28,33 @@ let Bubble = class Bubble extends typeorm_1.BaseEntity {
     user;
     bubbleComments;
     likedBubbles;
+    static async insertBubble(userId, textContent, imageSrc, soundSrc) {
+        const newBubble = new Bubble_1();
+        newBubble.userId = userId;
+        newBubble.textContent = textContent;
+        newBubble.image = imageSrc;
+        newBubble.sound = soundSrc;
+        await newBubble.save();
+        return newBubble;
+    }
+    static async findAllBubbles(start, end, limit, order) {
+        const bubbles = await this.createQueryBuilder("bubble")
+            .where("bubble.id >= :sId AND bubble.id <= :eId", { sId: start, eId: end })
+            .limit(limit)
+            .leftJoinAndSelect("bubble.user", "user")
+            .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+            .orderBy("bubble.id", order)
+            .getMany();
+        return bubbles;
+    }
+    static async findBubble(bubbleId) {
+        const bubble = await this.createQueryBuilder("bubble")
+            .where("bubble.id = :id", { id: bubbleId })
+            .leftJoinAndSelect("bubble.user", "user")
+            .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+            .getOne();
+        return bubble;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -68,7 +96,7 @@ __decorate([
     typeorm_1.OneToMany((type) => LikedBubble_1.LikedBubble, (likedBubble) => likedBubble.bubble),
     __metadata("design:type", Array)
 ], Bubble.prototype, "likedBubbles", void 0);
-Bubble = __decorate([
+Bubble = Bubble_1 = __decorate([
     typeorm_1.Entity({
         name: "Bubbles",
     })

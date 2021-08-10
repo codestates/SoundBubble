@@ -11,7 +11,7 @@ const deleteBubble = async (req, res) => {
     try {
         const bubbleInfo = await Bubble_1.Bubble.findOne(bubbleId);
         if (!bubbleInfo) {
-            return res.status(400).json({ message: "Invalid request" });
+            return res.status(400).json({ message: "Invalid bubble" });
         }
         const soundSrc = bubbleInfo.sound.split("/").pop();
         const imageSrc = bubbleInfo.image.split("/").pop();

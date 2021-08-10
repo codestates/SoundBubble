@@ -1,12 +1,12 @@
 import { Request, Response, RequestHandler } from "express";
-import { User } from "../../entity/User";
 import { Bubble } from "../../entity/Bubble";
 import { BubbleComment } from "../../entity/BubbleComment";
+import { UserInfo } from '../../@type/tokenUserInfo';
 
 const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) => {
-  const { userId, accountType } = req.userInfo as any;
+  const { userId, accountType }: { userId: number; accountType: string } = req.userInfo as UserInfo;
   const { id: bubbleId }: { id: string } = req.params as any;
-  const { commentId }: { commentId: number | string } = req.body as any;
+  const { commentId }: { commentId: number | string } = req.body;
 
   if (!commentId) {
     return res.status(400).json({ message: "Insufficient parameters supplied" });
@@ -16,13 +16,13 @@ const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) 
     const bubbleInfo: Bubble | undefined = await Bubble.findOne(bubbleId);
 
     if (!bubbleInfo) {
-      return res.status(400).json({ message: "Invalid request" });
+      return res.status(400).json({ message: "Invalid bubble" });
     }
 
     const commentInfo: BubbleComment | undefined = await BubbleComment.findOne(commentId);
 
     if (!commentInfo) {
-      return res.status(400).json({ message: "Invalid request" });
+      return res.status(400).json({ message: "Invalid comment" });
     }
 
     if (accountType === "admin") {
@@ -33,13 +33,9 @@ const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) 
       } else {
         return res.status(400).json({ message: "Invalid request" });
       }
-    }        
+    }
 
-    const comments = await BubbleComment.createQueryBuilder("comment")
-      .where("bubbleId = :id", { id: bubbleId })
-      .leftJoinAndSelect("comment.user", "user")
-      .select(["comment.id", "comment.textContent", "user.nickname"])
-      .getMany();
+    const comments: BubbleComment[] = await BubbleComment.findComments(Number(bubbleId));
 
     res.json({ data: { comments }, message: "Comment successfully deleted" });
   } catch (error) {

@@ -1,4 +1,6 @@
-const checkQueryParams: any = (type: string, value: any) => {
+import { QueryParams } from '../@type/query';
+
+const checkQueryParam = (type: QueryParams, value: any): any => {
   switch (type) {
     case "start":
       if (value && !isNaN(Number(value))) value = Number(value);
@@ -21,4 +23,4 @@ const checkQueryParams: any = (type: string, value: any) => {
   }
 };
 
-export default checkQueryParams;
+export default checkQueryParam;

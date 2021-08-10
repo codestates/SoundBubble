@@ -1,13 +1,14 @@
 import { Request, Response, RequestHandler } from "express";
 import { Bubble } from "../../entity/Bubble";
+import { UserInfo } from '../../@type/tokenUserInfo';
 
 const createBubble: RequestHandler  = async (req: Request, res: Response) => {
-  const { userId } = req.userInfo as any;
-  const { textContent }: { textContent: string } = req.body as any;
+  const { userId }: { userId: number } = req.userInfo as UserInfo;
+  const { textContent }: { textContent: string | undefined } = req.body;
 
   try {
     if (!textContent) {
-      return res.status(422).json({ message: "Insufficient parameters supplied" });
+      return res.status(400).json({ message: "Insufficient parameters supplied" });
     }
 
     const { image: imageInfo, sound: soundInfo } = req.files as { [fieldname: string]: Express.MulterS3.File[] };
@@ -18,15 +19,9 @@ const createBubble: RequestHandler  = async (req: Request, res: Response) => {
     const imageSrc: string = imageInfo[0].location;
     const soundSrc: string = soundInfo[0].location;
 
-    const newBubble: Bubble = new Bubble();
-    newBubble.image = imageSrc;
-    newBubble.sound = soundSrc;
-    newBubble.textContent = textContent;
-    newBubble.userId = userId;
+    const newBubble: Bubble = await Bubble.insertBubble(userId, textContent, imageSrc, soundSrc);
 
-    newBubble.save();
-
-    res.status(201).json({ message: "create succeed" });
+    res.status(201).json({ newBubble, message: "Bubble successfully uploaded" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Failed to upload bubble" });

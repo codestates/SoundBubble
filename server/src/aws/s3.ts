@@ -9,7 +9,7 @@ aws.config.update({
 
 export const s3: aws.S3 = new aws.S3();
 
-export const deleteResource = async (bucket: string, filename: string): Promise<void>  => {
+export const deleteResource = async (bucket: string, filename: string) => {
   s3.deleteObject(
     {
       Bucket: bucket,
