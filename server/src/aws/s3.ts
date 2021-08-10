@@ -1,4 +1,4 @@
-const aws = require("aws-sdk");
+import aws from 'aws-sdk';
 
 //* S3 이미지 서버 연결
 aws.config.update({
@@ -7,6 +7,20 @@ aws.config.update({
   region: process.env.AWS_REGION,
 });
 
-export const s3 = new aws.S3();
+export const s3: aws.S3 = new aws.S3();
+
+export const deleteResource = async (bucket: string, filename: string): Promise<void>  => {
+  s3.deleteObject(
+    {
+      Bucket: bucket,
+      Key: filename,
+    },
+    function (error: aws.AWSError, data: aws.S3.DeleteObjectOutput) {
+      if (error) {
+        console.error(error);
+      }
+    }
+  );
+};
 
 console.log("resource server connected");

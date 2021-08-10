@@ -36,6 +36,9 @@ export class Bubble extends BaseEntity {
 
   @UpdateDateColumn({ name: "updatedAt" })
   updatedAt!: Date;
+  
+  @Column()
+  userId!: number;
 
   @ManyToOne((type) => User, (user) => user.bubbles, { onDelete: "CASCADE" })
   user!: User;

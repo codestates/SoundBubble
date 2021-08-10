@@ -33,6 +33,8 @@ bubbleRouter.post("/upload", uploadResources_1.default.fields([
     { name: "image", maxCount: 1 },
     { name: "sound", maxCount: 1 },
 ]), controller.createBubble);
+// 버블 삭제
+bubbleRouter.delete("/:id", controller.deleteBubble);
 // 버블 상세 조회
 bubbleRouter.get("/:id", controller.readBubble);
 // 버블 댓글 등록

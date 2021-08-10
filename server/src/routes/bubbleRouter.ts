@@ -17,6 +17,9 @@ bubbleRouter.post(
   controller.createBubble
 );
 
+// 버블 삭제
+bubbleRouter.delete("/:id", controller.deleteBubble);
+
 // 버블 상세 조회
 bubbleRouter.get("/:id", controller.readBubble);
 

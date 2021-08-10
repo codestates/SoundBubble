@@ -23,6 +23,7 @@ let Bubble = class Bubble extends typeorm_1.BaseEntity {
     textContent;
     createdAt;
     updatedAt;
+    userId;
     user;
     bubbleComments;
     likedBubbles;
@@ -51,6 +52,10 @@ __decorate([
     typeorm_1.UpdateDateColumn({ name: "updatedAt" }),
     __metadata("design:type", Date)
 ], Bubble.prototype, "updatedAt", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Number)
+], Bubble.prototype, "userId", void 0);
 __decorate([
     typeorm_1.ManyToOne((type) => User_1.User, (user) => user.bubbles, { onDelete: "CASCADE" }),
     __metadata("design:type", User_1.User)
