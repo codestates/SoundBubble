@@ -16,7 +16,7 @@ const readAllBubble = async (req, res) => {
             .where("bubble.id >= :sId AND bubble.id <= :eId", { sId: _start, eId: _end })
             .limit(_limit)
             .leftJoinAndSelect("bubble.user", "user")
-            .select(["bubble", "user.nickname"])
+            .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.nickname"])
             .orderBy("bubble.id", _order)
             .getMany();
         res.json({ data: { bubbles }, message: "All bubbles successfully read" });
