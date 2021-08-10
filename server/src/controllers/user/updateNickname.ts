@@ -27,7 +27,8 @@ const updateNickname = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
     userInfo.nickname = nickname;
-    console.log(userInfo);
+    User.update({ email: email }, { nickname: nickname });
+    // console.log(userInfo);
     return res.status(201).json({ data: { userInfo }, message: "Update nickname succeed" });
 
   } catch (error) {
