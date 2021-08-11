@@ -8,13 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var User_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const Bubble_1 = require("./Bubble");
 const BubbleComment_1 = require("./BubbleComment");
 const LikedBubble_1 = require("./LikedBubble");
-let User = class User extends typeorm_1.BaseEntity {
+let User = User_1 = class User extends typeorm_1.BaseEntity {
     // Active Record 패턴. 모델에서 바로 메소드 사용 가능
     id;
     email;
@@ -23,11 +24,37 @@ let User = class User extends typeorm_1.BaseEntity {
     profileImage;
     signUpType;
     accountType;
+    // @Column({ nullable: true })
+    // refreshToken!: string;
     createdAt;
     updatedAt;
     bubbles;
     bubbleComments;
     likedBubbles;
+    static async insertUser(email, password, nickname, signUpType, accountType) {
+        const newUser = new User_1();
+        newUser.email = email;
+        newUser.password = password;
+        newUser.nickname = nickname;
+        newUser.signUpType = signUpType;
+        newUser.accountType = accountType;
+        await newUser.save();
+        return newUser;
+    }
+    static async findUserByEmail(email, password) {
+        const user = await this.createQueryBuilder("user")
+            .where("email = :email AND password = :password", { email: email, password: password })
+            .select(["user.id", "user.email", "user.nickname", "user.profileImage", "user.signUpType", "user.accountType", "user.createdAt"])
+            .getOne();
+        return user;
+    }
+    static async findUserById(userId, password) {
+        const user = await this.createQueryBuilder("user")
+            .where("user.id = :id AND user.password = :password", { id: userId, password: password })
+            .select(["user.id", "user.email", "user.nickname", "user.profileImage", "user.signUpType", "user.accountType", "user.createdAt"])
+            .getOne();
+        return user;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -77,7 +104,7 @@ __decorate([
     typeorm_1.OneToMany((type) => LikedBubble_1.LikedBubble, (LikedBubble) => LikedBubble.user),
     __metadata("design:type", Array)
 ], User.prototype, "likedBubbles", void 0);
-User = __decorate([
+User = User_1 = __decorate([
     typeorm_1.Entity({
         name: "Users",
     })

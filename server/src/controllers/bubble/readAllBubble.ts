@@ -1,23 +1,18 @@
 import { Request, Response, RequestHandler } from "express";
 import { Bubble } from "../../entity/Bubble";
-import checkQueryParams from "../../utils/checkQueryParams";
+import checkQueryParam from "../../utils/checkQueryParam";
+import { QueryOrder } from "../../@type/query";
 
 const readAllBubble: RequestHandler = async (req: Request, res: Response) => {
   let { start, end, limit, order } = req.query as any;
 
   try {
-    const _start: number = checkQueryParams("start", start);
-    const _end: number = checkQueryParams("end", end);
-    const _limit: number = checkQueryParams("limit", limit);
-    const _order: any = checkQueryParams("order", order);
+    const _start: number = checkQueryParam("start", start);
+    const _end: number = checkQueryParam("end", end);
+    const _limit: number = checkQueryParam("limit", limit);
+    const _order: QueryOrder = checkQueryParam("order", order);
 
-    const bubbles: Bubble[] = await Bubble.createQueryBuilder("bubble")
-      .where("bubble.id >= :sId AND bubble.id <= :eId", { sId: _start, eId: _end })
-      .limit(_limit)
-      .leftJoinAndSelect("bubble.user", "user")
-      .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.nickname"])
-      .orderBy("bubble.id", _order)
-      .getMany();
+    const bubbles: Bubble[] = await Bubble.findAllBubbles(_start, _end, _limit, _order);
 
     res.json({ data: { bubbles }, message: "All bubbles successfully read" });
   } catch (error) {

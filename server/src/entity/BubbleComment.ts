@@ -37,4 +37,22 @@ export class BubbleComment extends BaseEntity {
 
   @ManyToOne((type) => User, (user) => user.bubbles, { onDelete: "CASCADE" })
   user!: User;
+
+  static async insertComment(userId: number, bubbleId: number, textContent: string): Promise<BubbleComment> {
+    const newBubbleComment: BubbleComment = new BubbleComment();
+    newBubbleComment.userId = userId;
+    newBubbleComment.bubbleId = bubbleId;
+    newBubbleComment.textContent = textContent;
+    await newBubbleComment.save();
+    return newBubbleComment;
+  }
+
+  static async findComments(bubbleId: number): Promise<BubbleComment[]> {
+    const comments: BubbleComment[] = await this.createQueryBuilder("comment")
+      .where("bubbleId = :id", { id: bubbleId })
+      .leftJoinAndSelect("comment.user", "user")
+      .select(["comment.id", "comment.textContent", "user.email", "user.nickname"])
+      .getMany();
+    return comments;
+  }
 }

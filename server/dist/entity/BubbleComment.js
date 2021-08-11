@@ -8,12 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var BubbleComment_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BubbleComment = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
 const Bubble_1 = require("./Bubble");
-let BubbleComment = class BubbleComment extends typeorm_1.BaseEntity {
+let BubbleComment = BubbleComment_1 = class BubbleComment extends typeorm_1.BaseEntity {
     id;
     textContent;
     createdAt;
@@ -22,6 +23,22 @@ let BubbleComment = class BubbleComment extends typeorm_1.BaseEntity {
     bubble;
     userId;
     user;
+    static async insertComment(userId, bubbleId, textContent) {
+        const newBubbleComment = new BubbleComment_1();
+        newBubbleComment.userId = userId;
+        newBubbleComment.bubbleId = bubbleId;
+        newBubbleComment.textContent = textContent;
+        await newBubbleComment.save();
+        return newBubbleComment;
+    }
+    static async findComments(bubbleId) {
+        const comments = await this.createQueryBuilder("comment")
+            .where("bubbleId = :id", { id: bubbleId })
+            .leftJoinAndSelect("comment.user", "user")
+            .select(["comment.id", "comment.textContent", "user.email", "user.nickname"])
+            .getMany();
+        return comments;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -55,7 +72,7 @@ __decorate([
     typeorm_1.ManyToOne((type) => User_1.User, (user) => user.bubbles, { onDelete: "CASCADE" }),
     __metadata("design:type", User_1.User)
 ], BubbleComment.prototype, "user", void 0);
-BubbleComment = __decorate([
+BubbleComment = BubbleComment_1 = __decorate([
     typeorm_1.Entity({
         name: "BubbleComments",
     })

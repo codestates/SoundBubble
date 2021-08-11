@@ -24,11 +24,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller = __importStar(require("../controllers"));
 const express_1 = __importDefault(require("express"));
+const authUser_1 = __importDefault(require("../middlewares/authUser"));
 const userRouter = express_1.default.Router();
 // 회원가입
 userRouter.post("/signup", controller.signUp);
 // 로그인
 userRouter.post("/login", controller.login);
+//* 로그인이 필요한 요청
+userRouter.use("/", authUser_1.default);
 // 닉네임 수정
 userRouter.patch("/mypage/nickname", controller.updateNickname);
 // 비밀번호 수정
