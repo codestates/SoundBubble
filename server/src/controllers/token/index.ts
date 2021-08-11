@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../../entity/User";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { TokenUserInfo, TokenError } from '../../@type/tokenUserInfo';
+import { TokenInfo, TokenError } from '../../@type/tokenUserInfo';
 
 const accessSecret = process.env.ACCESS_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;

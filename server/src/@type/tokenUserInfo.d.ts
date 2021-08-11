@@ -1,6 +1,6 @@
 type TokenError = "EXPIRED" | "INVALID" | "SERVER";
 
-export interface TokenUserInfo {
+export interface TokenInfo {
   userId: number | null;
   email: string | null;
   accountType: string | null;

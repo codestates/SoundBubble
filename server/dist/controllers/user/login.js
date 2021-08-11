@@ -1,37 +1,29 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const crypto = require("crypto");
 const User_1 = require("../../entity/User");
+const UserToken_1 = require("../../entity/UserToken");
 const index_1 = require("../token/index");
+const hash_1 = __importDefault(require("../../utils/hash"));
 const login = async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
         return res.status(400).json({ message: "Insufficient parameters supplied" });
     }
-    const salt = process.env.PASSWORD_SALT;
-    const hashedPassword = crypto
-        .createHash("sha512")
-        .update(password + salt)
-        .digest("hex");
     try {
-        const userInfo = await User_1.User.findOne({
-            where: { email: email, password: hashedPassword },
-        });
-        console.log("userInfo\n", userInfo);
+        const hashedPassword = hash_1.default(password);
+        const userInfo = await User_1.User.findUserByEmail(email, hashedPassword);
+        console.log(userInfo);
         if (!userInfo) {
             return res.status(401).json({ message: "Not authorized" });
         }
-        if (userInfo.password !== hashedPassword) {
-            return res.status(401).json({ message: "Not authorized" });
-        }
-        // 비밀번호 제외하고 액세스 토큰 발급
-        const { password: temp, ...userWithoutPassword } = userInfo;
         const accessToken = index_1.generateAccessToken(userInfo);
         const refreshToken = index_1.generateRefreshToken(userInfo);
-        // 유저 DB에 리프레시 토큰 저장
-        userInfo.refreshToken = refreshToken;
-        await userInfo.save();
-        return res.status(201).json({ data: { accessToken, userWithoutPassword }, message: "Login succeed" });
+        // DB에 리프레시 토큰 저장
+        await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
+        return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
     }
     catch (error) {
         console.error(error);

@@ -5,11 +5,12 @@ import {
   verifyRefreshToken,
   generateAccessToken,
 } from "../controllers/token";
-import { TokenUserInfo } from "../@type/tokenUserInfo";
+import { TokenInfo } from "../@type/tokenUserInfo";
 import { User } from "../entity/User";
+import { UserToken } from "../entity/UserToken";
 
-const getUserInfo = async (accessToken: string, loginType: string, res: Response): Promise<TokenUserInfo> => {
-  const tokenUserInfo: TokenUserInfo = {
+const getUserInfo = async (accessToken: string, loginType: string, res: Response): Promise<TokenInfo> => {
+  const tokenInfo: TokenInfo = {
     userId: null,
     email: null,
     accountType: null,
@@ -22,72 +23,74 @@ const getUserInfo = async (accessToken: string, loginType: string, res: Response
 
       //* 만료된 토큰
       if (decoded.name === "TokenExpiredError") {
-        // tokenUserInfo.error = "EXPIRED";
-        // return tokenUserInfo;
+        // tokenInfo.error = "EXPIRED";
+        // return tokenInfo;
         //! 만료된 토큰 재발급
         //?-------------------------------------------------------
         // 만료된 액세스 토큰 강제 검증
         const decodedExpired = await verifyExpiredAccessToken(accessToken);
         if (!decodedExpired.userId || !decodedExpired.email || !decodedExpired.accountType) {
-          tokenUserInfo.error = "INVALID";
-          return tokenUserInfo;
+          tokenInfo.error = "INVALID";
+          return tokenInfo;
         }
 
         // 검증한 값으로 유저를 특정하여 리프레시 토큰 획득
         const userInfo: User | undefined = await User.findOne(decodedExpired.userId);
         if (!userInfo) {
-          tokenUserInfo.error = "INVALID";
-          return tokenUserInfo;
+          tokenInfo.error = "INVALID";
+          return tokenInfo;
+        }
+        const userToken: UserToken | undefined = await UserToken.findOne(userInfo.id);
+        if (!userToken) {
+          tokenInfo.error = "INVALID";
+          return tokenInfo;
         }
 
-        // 리프레시 토큰 검증
-        const refreshToken: string = userInfo.refreshToken;
-        if (!refreshToken) {
-          tokenUserInfo.error = "INVALID";
-          return tokenUserInfo;
-        }
+        // 리프레시 토큰
+        const refreshToken = userToken.refreshToken;
         const decodedRefresh = await verifyRefreshToken(refreshToken);
         if (decodedRefresh.name) {
           if (decodedRefresh.name === "TokenExpiredError") {
-            tokenUserInfo.error = "EXPIRED";
+            tokenInfo.error = "EXPIRED";
           } else if (decodedRefresh.name === "JsonWebTokenError") {
-            tokenUserInfo.error = "INVALID";
+            tokenInfo.error = "INVALID";
           }
           if (userInfo.id !== decodedRefresh.userId) {
-            tokenUserInfo.error = "INVALID";
+            tokenInfo.error = "INVALID";
           }
-          userInfo.refreshToken = "";
-          await userInfo.save();
-          return tokenUserInfo;
+          userToken.refreshToken = "";
+          await userToken.save();
+          return tokenInfo;
         }
 
         // 액세스 토큰 재발급하고 헤더에 저장
         const newAccessToken = await generateAccessToken(userInfo);
         res.setHeader("authorization", `Bearer ${newAccessToken}`);
-        tokenUserInfo.userId = decodedRefresh.userId;
-        tokenUserInfo.email = decodedRefresh.email;
-        tokenUserInfo.accountType = decodedRefresh.accountType;
+        console.log("액세스 토큰 재발급");
+        tokenInfo.userId = decodedRefresh.userId;
+        tokenInfo.email = decodedRefresh.email;
+        tokenInfo.accountType = decodedRefresh.accountType;
         //?-------------------------------------------------------
 
         //* 유효하지 않은 토큰
       } else if (decoded.name === "JsonWebTokenError") {
-        tokenUserInfo.error = "INVALID";
-        return tokenUserInfo;
+        tokenInfo.error = "INVALID";
+        return tokenInfo;
       } else {
-        tokenUserInfo.userId = decoded.userId;
-        tokenUserInfo.email = decoded.email;
-        tokenUserInfo.accountType = decoded.accountType;
-        return tokenUserInfo;
+        tokenInfo.userId = decoded.userId;
+        tokenInfo.email = decoded.email;
+        tokenInfo.accountType = decoded.accountType;
+        return tokenInfo;
       }
     } else if (loginType === "google") {
     } else if (loginType === "naver") {
     }
     
-    return tokenUserInfo;
+    return tokenInfo;
   } catch (error) {
     console.error(error);
-    tokenUserInfo.error = "SERVER";
-    return tokenUserInfo;
+    tokenInfo.error = "SERVER";
+    return tokenInfo;
   }
 };
 
