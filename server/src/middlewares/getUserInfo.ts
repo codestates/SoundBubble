@@ -21,8 +21,9 @@ const getUserInfo = async (accessToken: string, loginType: string, res: Response
       const decoded = await verifyAccessToken(accessToken);
 
       //* 만료된 토큰
-      if (decoded.error === "TokenExpiredError") {
+      if (decoded.name === "TokenExpiredError") {
         // tokenUserInfo.error = "EXPIRED";
+        // return tokenUserInfo;
         //! 만료된 토큰 재발급
         //?-------------------------------------------------------
         // 만료된 액세스 토큰 강제 검증
@@ -71,15 +72,17 @@ const getUserInfo = async (accessToken: string, loginType: string, res: Response
         //* 유효하지 않은 토큰
       } else if (decoded.name === "JsonWebTokenError") {
         tokenUserInfo.error = "INVALID";
+        return tokenUserInfo;
       } else {
         tokenUserInfo.userId = decoded.userId;
         tokenUserInfo.email = decoded.email;
         tokenUserInfo.accountType = decoded.accountType;
+        return tokenUserInfo;
       }
     } else if (loginType === "google") {
     } else if (loginType === "naver") {
     }
-
+    
     return tokenUserInfo;
   } catch (error) {
     console.error(error);

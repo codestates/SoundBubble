@@ -31,6 +31,7 @@ const login = async (req: Request, res: Response) => {
     const accessToken = generateAccessToken(userInfo);
     const refreshToken = generateRefreshToken(userInfo);
 
+    // 유저 DB에 리프레시 토큰 저장
     userInfo.refreshToken = refreshToken;
     await userInfo.save();
 

@@ -28,6 +28,7 @@ const login = async (req, res) => {
         const { password: temp, ...userWithoutPassword } = userInfo;
         const accessToken = index_1.generateAccessToken(userInfo);
         const refreshToken = index_1.generateRefreshToken(userInfo);
+        // 유저 DB에 리프레시 토큰 저장
         userInfo.refreshToken = refreshToken;
         await userInfo.save();
         return res.status(201).json({ data: { accessToken, userWithoutPassword }, message: "Login succeed" });

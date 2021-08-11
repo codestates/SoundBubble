@@ -14,6 +14,6 @@ export interface UserInfo {
 }
 declare module "express" {
   interface Request {
-    userInfo?: TokenUserInfo;
+    userInfo?: UserInfo;
   }
 }

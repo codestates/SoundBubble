@@ -2,7 +2,7 @@ import * as controller from "../controllers";
 import express from "express";
 import authUser from "../middlewares/authUser";
 
-const userRouter = express.Router();
+const userRouter: express.Router = express.Router();
 
 // 회원가입
 userRouter.post("/signup", controller.signUp);

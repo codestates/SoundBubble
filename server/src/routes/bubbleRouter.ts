@@ -3,7 +3,7 @@ import express from "express";
 import upload from "../middlewares/uploadResources";
 import authUser from "../middlewares/authUser";
 
-const bubbleRouter = express.Router();
+const bubbleRouter: express.Router = express.Router();
 
 // 모든 버블 조회
 bubbleRouter.get("/", controller.readAllBubble);
