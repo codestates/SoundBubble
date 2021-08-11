@@ -1,0 +1,47 @@
+.mypageContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(36,36,36);
+  display: flex;
+}
+
+.leftContents {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.rightContents {
+  width: 100vw;
+  background-color: white;
+}
+
+.mypageTitle {
+  padding: 3rem;
+  font-size: 2rem;
+  color: white;
+
+}
+
+.userId {
+  padding: 3rem;
+}
+
+.sideTap {
+  padding: 2.8rem;
+  min-width: 250px;
+  height: 30vh;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.tap {
+  background-color: rgb(216, 216, 216);
+  color: rgb(36, 36, 36);
+  padding: 1vh;
+  width: 100px;
+  text-align: center;
+}
+

@@ -1920,6 +1920,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-icons@^3.0.0":
+  "integrity" "sha512-Vefs6LkLqF61vfV7AiAqls+vpR94q67gunhMueDznG+msAkrYgRxl7gYjNem/kZ+as2l2mNChmF1jRZzzQQtMg=="
+  "resolved" "https://registry.npmjs.org/@types/react-icons/-/react-icons-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "react-icons" "*"
+
 "@types/react-redux@^7.1.16", "@types/react-redux@^7.1.18":
   "integrity" "sha512-9iwAsPyJ9DLTRH+OFeIrm9cAbIj1i2ANL3sKQFATqnPWRbg+jEFXyZOKHiQK/N86pNRXbb4HRxAxo0SIX1XwzQ=="
   "resolved" "https://registry.npmjs.org/@types/react-redux/-/react-redux-7.1.18.tgz"
@@ -9414,6 +9421,11 @@
   "integrity" "sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew=="
   "resolved" "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.9.tgz"
   "version" "6.0.9"
+
+"react-icons@*", "react-icons@^4.2.0":
+  "integrity" "sha512-rmzEDFt+AVXRzD7zDE21gcxyBizD/3NqjbX6cmViAgdqfJ2UiLer8927/QhhrXQV7dEj/1EGuOTPp7JnLYVJKQ=="
+  "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.2.0.tgz"
+  "version" "4.2.0"
 
 "react-is@^16.13.1":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="

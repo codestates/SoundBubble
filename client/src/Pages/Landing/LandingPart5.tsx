@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import '../Styles/LandingPart3.css';
-import Piano from '../../Components/Piano/Piano'
+import '../Styles/LandingPart5.css';
 
-const LandingThird = () => {
+const LandingFifth = () => {
   const [scrollPosition, setScrollPosition] = useState<number>(0);
+  const BackToTopRef = useRef<HTMLDivElement>(null);
 
   const onScroll = useCallback((): void => {
 		setScrollPosition(window.pageYOffset);
   }, []);
+
+ 
   
   useEffect(() => {
 		window.addEventListener('scroll', onScroll);
@@ -16,11 +18,14 @@ const LandingThird = () => {
   
   return (
     <>
-      <div className="container3">
-        <Piano />
+      <div className="container5" ref={BackToTopRef} >
+        다섯번째 랜딩페이지 - 메인페이지로 이동
+        <div className="messageWrapper"> 지금 체험해보세요 
+        <button className="startBtn"> <p> 시작하기 </p> </button>
+        </div>
       </div>
 		</>
 	);
 }
 
-export default LandingThird;
+export default LandingFifth;
