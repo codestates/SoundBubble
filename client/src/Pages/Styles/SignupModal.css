@@ -1,7 +1,7 @@
 body {
   margin: 0;
 }
-.body {
+.signup-body {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +39,7 @@ body {
   width: 100%;
 }
 
-.password-group {
+.signup-password-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,7 +48,7 @@ body {
   /* background-color: yellow; */
 }
 
-.user-RePassword {
+.signup-user-RePassword {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -62,7 +62,7 @@ body {
   color: black;
 }
 
-.password-group > fieldset {
+.signup-password-group > fieldset {
   width: 100%;
 }
 
@@ -76,20 +76,20 @@ body {
 }
 
 /* fieldset */
-.user-name,
-.user-email,
-.user-password,
-.user-RePassword {
+.signup-user-name,
+.signup-user-email,
+.signup-user-password,
+.signup-user-RePassword {
   margin: 0;
   padding: 0;
   border: none;
 }
 
 /* input */
-.input-name,
-.input-email,
-.input-password,
-.input-RePassword {
+.signup-input-name,
+.signup-input-email,
+.signup-input-password,
+.signup-input-RePassword {
   width: 100%;
   height: 2.6rem;
   margin: 0;
@@ -99,20 +99,20 @@ body {
   background-color: rgb(239, 239, 239);
 }
 
-.input-password,
-.input-RePassword {
+.signup-input-password,
+.signup-input-RePassword {
   width: 90%;
 }
 
 /* button */
-.form-btn {
+.signup-form-btn {
   display: flex;
   justify-content: space-between;
   width: 100%;
   border: none;
 }
 
-.form-btn > button {
+.signup-form-btn > button {
   width: 46%;
   height: 2.6rem;
   font-size: 1rem;
@@ -123,10 +123,10 @@ body {
   padding: 0;
 }
 
-.form-btn > button:nth-child(1) {
+.signup-form-btn > button:nth-child(1) {
   background-color: rgb(119, 112, 255);
 }
 
-.form-btn > button:nth-child(2) {
+.signup-form-btn > button:nth-child(2) {
   background-color: rgb(200, 112, 255);
 }

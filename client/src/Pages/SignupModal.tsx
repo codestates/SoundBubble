@@ -2,7 +2,7 @@ import "./Styles/SignupModal.css";
 
 const SignupModal = () => {
   return (
-    <div className="body">
+    <div className="signup-body">
       <aside className="signup-sidebar-content">
         <header className="signup-header"></header>
         <img />
@@ -10,27 +10,26 @@ const SignupModal = () => {
       <main className="signup-main">
         <div className="signup-content">
           <h2>Sign up to soundBubble</h2>
-          <div className="social-login-group"></div>
           <hr className="divider" />
-          <fieldset className="user-name">
+          <fieldset className="signup-user-name">
             <label className="signup-label">Name</label>
-            <input className="input-name" type="text" />
+            <input className="signup-input-name" type="text" />
           </fieldset>
-          <fieldset className="user-email">
+          <fieldset className="signup-user-email">
             <label className="signup-label">Email</label>
-            <input className="input-email" type="email" />
+            <input className="signup-input-email" type="email" />
           </fieldset>
-          <div className="password-group">
-            <fieldset className="user-password">
+          <div className="signup-password-group">
+            <fieldset className="signup-user-password">
               <label className="signup-label">Password</label>
-              <input className="input-password" type="password" />
+              <input className="signup-input-password" type="password" />
             </fieldset>
-            <fieldset className="user-RePassword">
+            <fieldset className="signup-user-RePassword">
               <label className="signup-label">Re-Password</label>
-              <input className="input-RePassword" type="password" />
+              <input className="signup-input-RePassword" type="password" />
             </fieldset>
           </div>
-          <div className="form-btn">
+          <div className="signup-form-btn">
             <button>Create Account</button>
             <button>Go To Login</button>
           </div>
