@@ -19,10 +19,7 @@ const LandingFourth = () => {
   return (
     <>
       <div className="container4" ref={BackToTopRef} >
-        네번째 랜딩페이지 - 메인페이지로 이동
-        <p>
-          <a href="/main" className="myButton">체험하기</a>
-        </p>
+        네번째 랜딩페이지 - 버블이용예시
       </div>
       
 		</>

@@ -4,6 +4,7 @@ import LandingFirst from './Landing/LandingPart1';
 import LandingSecond from './Landing/LandingPart2';
 import LandingThird from './Landing/LandingPart3';
 import LandingFourth from './Landing/LandingPart4';
+import LandingFifth from './Landing/LandingPart5';
 
 const Landing = () => {
   const [isScroll, setIsScroll] = useState<boolean>(false);
@@ -31,6 +32,7 @@ const Landing = () => {
 			<LandingSecond />
 			<LandingThird />
 			<LandingFourth />
+			<LandingFifth />
       <Footer />
     </>
   );
