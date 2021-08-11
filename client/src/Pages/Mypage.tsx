@@ -1,9 +1,9 @@
 import Footer from "../Components/Footer";
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import MyPalettes from './Mypage/MyPalettes'
-import Nickname from './Mypage/Nickname';
-import Password from './Mypage/Password';
+import MyPalettes from '../Components/Mypage/MyPalettes'
+import Nickname from '../Components/Mypage/Nickname';
+import Password from '../Components/Mypage/Password';
 import './Styles/Mypage.css';
 
 const Mypage = () => {
