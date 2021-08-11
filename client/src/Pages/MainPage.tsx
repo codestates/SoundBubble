@@ -3,6 +3,7 @@ import MainPiano from "../Components/MainPage/MainPiano";
 import MainMic from "../Components/MainPage/MainMic";
 import MainUpload from "../Components/MainPage/MainUpload";
 import Error404 from "../Pages/error404";
+import Navigation from "../Components/Navigation";
 
 import "./Styles/MainPage.css";
 import MainSelectBar from "../Components/MainPage/MainSelectBar";
@@ -28,6 +29,7 @@ const MainPage = () => {
 
   return (
     <>
+      <Navigation />
       <div className="main-page">
         <MainSelectBar select={select} handleBtnClick={handleBtnClick} />
         <ChoiceMode select={select} />

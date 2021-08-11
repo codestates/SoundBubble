@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config({ path: __dirname + "/./../.env" });
-import express, { Express } from "express";
+import express from "express";
 import { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -13,7 +13,7 @@ import bubbleRouter from "./routes/bubbleRouter";
 // Connect DB
 connectDB();
 
-const app: Express = express();
+const app: express.Application = express();
 const PORT: string | number = process.env.SERVER_PORT || 80;
 
 // Setting morgan date
@@ -44,11 +44,11 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello world!!");
 });
 
-app.use((req: Request, res: Response, next: NextFunction): void => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).send("Page Not Found!");
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction): void => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).send("Internal Server Error");
 });

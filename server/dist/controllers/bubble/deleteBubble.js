@@ -1,26 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_1 = require("../../entity/User");
 const Bubble_1 = require("../../entity/Bubble");
 const s3_1 = require("../../aws/s3");
 const deleteBubble = async (req, res) => {
-    //* 임시로 userId를 이용하여 유저 특정 -> 토큰에서 검증한 값으로 변경
-    const userId = 1;
-    //* ---------------------------
+    const { userId, accountType } = req.userInfo;
     const { id: bubbleId } = req.params;
     if (!bubbleId) {
         return res.status(400).json({ message: "Insufficient parameters supplied" });
     }
     try {
-        const userInfo = (await User_1.User.findOne(userId)); //! Not necessary. 토큰에 권한 정보 존재
         const bubbleInfo = await Bubble_1.Bubble.findOne(bubbleId);
         if (!bubbleInfo) {
-            return res.status(400).json({ message: "Invalid request" });
+            return res.status(400).json({ message: "Invalid bubble" });
         }
         const soundSrc = bubbleInfo.sound.split("/").pop();
         const imageSrc = bubbleInfo.image.split("/").pop();
-        console.log(userInfo, bubbleInfo);
-        if (userInfo.accountType === "admin") {
+        if (accountType === "admin") {
             await bubbleInfo.remove();
         }
         else {

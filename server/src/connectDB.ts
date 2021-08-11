@@ -53,8 +53,10 @@ console.log("Database info: ", env);
 //* Connect to Database
 export const connectDB = async () => {
   await createConnection(connectionOption)
-    .then(async () => {
+    .then(async (connection) => {
       console.log("Database connected");
+      // await connection.dropDatabase();
+      // await connection.synchronize();
     })
     .catch((error) => {
       console.log("Failed to connect database");

@@ -1,12 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_1 = require("../../entity/User");
 const Bubble_1 = require("../../entity/Bubble");
 const BubbleComment_1 = require("../../entity/BubbleComment");
 const deleteBubbleComment = async (req, res) => {
-    //* 임시로 userId를 이용하여 유저 특정 -> 토큰에서 검증한 값으로 변경
-    const userId = 1;
-    //* ---------------------------
+    const { userId, accountType } = req.userInfo;
     const { id: bubbleId } = req.params;
     const { commentId } = req.body;
     if (!commentId) {
@@ -15,14 +12,13 @@ const deleteBubbleComment = async (req, res) => {
     try {
         const bubbleInfo = await Bubble_1.Bubble.findOne(bubbleId);
         if (!bubbleInfo) {
-            return res.status(400).json({ message: "Invalid request" });
+            return res.status(400).json({ message: "Invalid bubble" });
         }
-        const userInfo = (await User_1.User.findOne(userId)); //! Not necessary. 토큰에 권한 정보 존재
         const commentInfo = await BubbleComment_1.BubbleComment.findOne(commentId);
         if (!commentInfo) {
-            return res.status(400).json({ message: "Invalid request" });
+            return res.status(400).json({ message: "Invalid comment" });
         }
-        if (userInfo.accountType === "admin") {
+        if (accountType === "admin") {
             await commentInfo.remove();
         }
         else {
@@ -33,11 +29,7 @@ const deleteBubbleComment = async (req, res) => {
                 return res.status(400).json({ message: "Invalid request" });
             }
         }
-        const comments = await BubbleComment_1.BubbleComment.createQueryBuilder("comment")
-            .where("bubbleId = :id", { id: bubbleId })
-            .leftJoinAndSelect("comment.user", "user")
-            .select(["comment.id", "comment.textContent", "user.nickname"])
-            .getMany();
+        const comments = await BubbleComment_1.BubbleComment.findComments(Number(bubbleId));
         res.json({ data: { comments }, message: "Comment successfully deleted" });
     }
     catch (error) {

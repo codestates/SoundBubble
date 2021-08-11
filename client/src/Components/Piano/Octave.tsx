@@ -5,9 +5,9 @@ import { NoteType } from './helpers';
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  height: 100vh;
+  height: 90vh;
 `;
 
 type Props = {

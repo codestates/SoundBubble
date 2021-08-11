@@ -1,6 +1,68 @@
 .container1 {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(40, 40, 40);
+  background-color: rgb(36,37,39);
   color: white;
+}
+
+.toTopBtnWrapper {
+  cursor: pointer;
+	flex-direction: column;
+	position: fixed;
+	right: 2vw;
+	bottom: 4vh;
+	z-index: 99;
+	width: 60px;
+	hieght: 60px;
+}
+.toTopBtn {
+	padding: 4px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	border-radius: 3px;
+}
+
+.contentsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+	width: 100%;
+  height: 100vh;
+}
+
+.mainMessage {
+  margin-bottom: 1.1vw;
+	font-family: NanumSquareEB;
+	font-size: 4.5vw;
+	color: #d8d8d8;
+}
+
+.subMessage {
+  margin-bottom: 7.5vw;
+	font-family: NanumSquareB;
+	font-size: 2.1vw;
+	color: #fafafa;
+}
+
+.freeExpBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  z-index: 8;
+  transition: 0.3s;
+  width: 11vw;
+  height: 3.2vw;
+  font-family: NanumSquareEB;
+  font-size: 1.4vw;
+  color: rgb(46, 46, 46);
+  background-color: #d8d8d8;
+  border-radius: 5px;
+}
+
+.freeExpBtn:hover {
+  color: rgb(46, 46, 46);
+  background-color: #9a9a9a;
 }

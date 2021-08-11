@@ -1,39 +1,35 @@
-import { Request, Response } from "express";
-import crypto = require("crypto");
+import { Request, Response, RequestHandler } from "express";
 import { User } from "../../entity/User";
+import { UserToken } from "../../entity/UserToken";
 import { generateAccessToken, generateRefreshToken } from "../token/index";
+import hash from "../../utils/hash";
 
-
-const login = async (req: Request, res: Response) => {
+const login: RequestHandler = async (req: Request, res: Response) => {
   const { email, password }: { email: string; password: string } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({ message: "Insufficient parameters supplied" });
   }
-  const salt = process.env.PASSWORD_SALT;
-  const hashedPassword = crypto
-    .createHash("sha512")
-    .update(password + salt)
-    .digest("hex");
+
   try {
-    const userInfo = await User.findOne({
-      where: { email: email, password: hashedPassword },
-    });
-    console.log("userInfo\n", userInfo);
+    const hashedPassword: string = hash(password);
+
+    const userInfo: User | undefined = await User.findUserByEmail(email, hashedPassword);
+    console.log(userInfo);
+
     if (!userInfo) {
       return res.status(401).json({ message: "Not authorized" });
     }
-    if (userInfo.password !== hashedPassword) {
-      return res.status(401).json({ message: "Not authorized" });
-    }
 
-    // 비밀번호 제외하고 액세스 토큰 발급
-    const { password: temp, ...userWithoutPassword } = userInfo;
     const accessToken = generateAccessToken(userInfo);
-    // const refreshToken = generateRefreshToken(userInfo);
+    const refreshToken = generateRefreshToken(userInfo);
 
-    return res.status(201).json({ data: { accessToken, userWithoutPassword }, message: "Login succeed" });
-  } catch(error) {
+    // DB에 리프레시 토큰 저장
+    await UserToken.insertToken(userInfo.id, refreshToken);
+
+    return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
+  } catch (error) {
+    console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 };
