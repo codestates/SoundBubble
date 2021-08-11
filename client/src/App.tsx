@@ -8,21 +8,19 @@ import LoginModal from "./Pages/LoginModal";
 import SignupModal from "./Pages/SignupModal";
 import error404 from "./Pages/error404";
 import Test from "./Pages/Test";
-import Navigation from "./Components/Navigation";
 
 function App() {
   return (
     <>
       <Router>
-        <Navigation />
         <Switch>
           <Route path="/landing" component={Landing} />
-          <Route path="/MainPage" component={MainPage} />
-          <Route path="/Palette" component={Palette} />
-          <Route path="/BubbleDetail" component={BubbleDetail} />
-          <Route path="/Mypage" component={Mypage} />
-          <Route path="/LoginModal" component={LoginModal} />
-          <Route path="/SignupModal" component={SignupModal} />
+          <Route path="/main" component={MainPage} />
+          <Route path="/palette" component={Palette} />
+          <Route path="/bubble/:id" component={BubbleDetail} />
+          <Route path="/mypage" component={Mypage} />
+          <Route path="/login" component={LoginModal} />
+          <Route path="/signup" component={SignupModal} />
           <Route path="/test" component={Test} />
           <Route path="*" component={error404} />
         </Switch>
