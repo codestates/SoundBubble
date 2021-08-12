@@ -17,12 +17,12 @@ const login: RequestHandler = async (req: Request, res: Response) => {
     const userInfo: User | undefined = await User.findUserByEmail(email, hashedPassword);
     console.log(userInfo);
 
-    if (!userInfo) {
+    if (!userInfo || (userInfo.signUpType !== "email" && userInfo.signUpType !== "intergration")) {
       return res.status(401).json({ message: "Not authorized" });
     }
 
-    const accessToken = generateAccessToken(userInfo);
-    const refreshToken = generateRefreshToken(userInfo);
+    const accessToken: string = generateAccessToken(userInfo);
+    const refreshToken: string = generateRefreshToken(userInfo);
 
     // DB에 리프레시 토큰 저장
     await UserToken.insertToken(userInfo.id, refreshToken);

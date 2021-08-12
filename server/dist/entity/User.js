@@ -31,27 +31,77 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
     bubbles;
     bubbleComments;
     likedBubbles;
-    static async insertUser(email, password, nickname, signUpType, accountType) {
+    static async insertUser(email, password, nickname, signUpType, accountType, profileImage) {
         const newUser = new User_1();
         newUser.email = email;
         newUser.password = password;
         newUser.nickname = nickname;
         newUser.signUpType = signUpType;
         newUser.accountType = accountType;
+        if (profileImage)
+            newUser.profileImage = profileImage;
         await newUser.save();
         return newUser;
     }
     static async findUserByEmail(email, password) {
-        const user = await this.createQueryBuilder("user")
-            .where("email = :email AND password = :password", { email: email, password: password })
-            .select(["user.id", "user.email", "user.nickname", "user.profileImage", "user.signUpType", "user.accountType", "user.createdAt"])
-            .getOne();
+        let user;
+        if (password) {
+            user = await this.createQueryBuilder("user")
+                .where("email = :email AND password = :password", { email: email, password: password })
+                .select([
+                "user.id",
+                "user.email",
+                "user.nickname",
+                "user.profileImage",
+                "user.signUpType",
+                "user.accountType",
+                "user.createdAt",
+            ])
+                .getOne();
+        }
+        else {
+            user = await this.createQueryBuilder("user")
+                .where("email = :email", { email: email })
+                .select([
+                "user.id",
+                "user.email",
+                "user.nickname",
+                "user.profileImage",
+                "user.signUpType",
+                "user.accountType",
+                "user.createdAt",
+            ])
+                .getOne();
+        }
         return user;
     }
     static async findUserById(userId, password) {
         const user = await this.createQueryBuilder("user")
             .where("user.id = :id AND user.password = :password", { id: userId, password: password })
-            .select(["user.id", "user.email", "user.nickname", "user.profileImage", "user.signUpType", "user.accountType", "user.createdAt"])
+            .select([
+            "user.id",
+            "user.email",
+            "user.nickname",
+            "user.profileImage",
+            "user.signUpType",
+            "user.accountType",
+            "user.createdAt",
+        ])
+            .getOne();
+        return user;
+    }
+    static async findUserBySignUpType(email, signUpType) {
+        const user = await this.createQueryBuilder("user")
+            .where("email = :email AND signUpType = :signUpType", { email: email, signUpType: signUpType })
+            .select([
+            "user.id",
+            "user.email",
+            "user.nickname",
+            "user.profileImage",
+            "user.signUpType",
+            "user.accountType",
+            "user.createdAt",
+        ])
             .getOne();
         return user;
     }
@@ -61,7 +111,7 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([

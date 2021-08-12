@@ -16,7 +16,7 @@ const login = async (req, res) => {
         const hashedPassword = hash_1.default(password);
         const userInfo = await User_1.User.findUserByEmail(email, hashedPassword);
         console.log(userInfo);
-        if (!userInfo) {
+        if (!userInfo || (userInfo.signUpType !== "email" && userInfo.signUpType !== "intergration")) {
             return res.status(401).json({ message: "Not authorized" });
         }
         const accessToken = index_1.generateAccessToken(userInfo);

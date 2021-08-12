@@ -11,7 +11,7 @@ import { Bubble } from "./Bubble";
 import { BubbleComment } from "./BubbleComment";
 import { LikedBubble } from "./LikedBubble";
 
-type SignUpType = "email" | "google" | "naver";
+type SignUpType = "email" | "google" | "naver" | "intergration";
 type accountType = "user" | "admin";
 
 @Entity({
@@ -22,7 +22,7 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ unique: true })
   email!: string;
 
   @Column()
@@ -58,29 +58,86 @@ export class User extends BaseEntity {
   @OneToMany((type) => LikedBubble, (LikedBubble) => LikedBubble.user)
   likedBubbles!: BubbleComment[];
 
-  static async insertUser(email: string, password: string, nickname: string, signUpType: SignUpType, accountType: accountType): Promise<User> {
+  static async insertUser(
+    email: string,
+    password: string,
+    nickname: string,
+    signUpType: SignUpType,
+    accountType: accountType,
+    profileImage?: string
+  ): Promise<User> {
     const newUser: User = new User();
     newUser.email = email;
     newUser.password = password;
     newUser.nickname = nickname;
     newUser.signUpType = signUpType;
     newUser.accountType = accountType;
+    if (profileImage) newUser.profileImage = profileImage;
     await newUser.save();
     return newUser;
   }
 
-  static async findUserByEmail(email: string, password: string): Promise<User | undefined> {
-    const user: User | undefined = await this.createQueryBuilder("user")
-      .where("email = :email AND password = :password", { email: email, password: password })
-      .select(["user.id", "user.email", "user.nickname", "user.profileImage", "user.signUpType", "user.accountType", "user.createdAt"])
-      .getOne();
+  static async findUserByEmail(email: string, password?: string): Promise<User | undefined> {
+    let user: User | undefined;
+
+    if (password) {
+      user = await this.createQueryBuilder("user")
+        .where("email = :email AND password = :password", { email: email, password: password })
+        .select([
+          "user.id",
+          "user.email",
+          "user.nickname",
+          "user.profileImage",
+          "user.signUpType",
+          "user.accountType",
+          "user.createdAt",
+        ])
+        .getOne();
+    } else {
+      user = await this.createQueryBuilder("user")
+        .where("email = :email", { email: email })
+        .select([
+          "user.id",
+          "user.email",
+          "user.nickname",
+          "user.profileImage",
+          "user.signUpType",
+          "user.accountType",
+          "user.createdAt",
+        ])
+        .getOne();
+    }
     return user;
   }
 
   static async findUserById(userId: number, password: string): Promise<User | undefined> {
     const user: User | undefined = await this.createQueryBuilder("user")
       .where("user.id = :id AND user.password = :password", { id: userId, password: password })
-      .select(["user.id", "user.email", "user.nickname", "user.profileImage", "user.signUpType", "user.accountType", "user.createdAt"])
+      .select([
+        "user.id",
+        "user.email",
+        "user.nickname",
+        "user.profileImage",
+        "user.signUpType",
+        "user.accountType",
+        "user.createdAt",
+      ])
+      .getOne();
+    return user;
+  }
+
+  static async findUserBySignUpType(email: string, signUpType: SignUpType): Promise<User | undefined> {
+    const user: User | undefined = await this.createQueryBuilder("user")
+      .where("email = :email AND signUpType = :signUpType", { email: email, signUpType: signUpType })
+      .select([
+        "user.id",
+        "user.email",
+        "user.nickname",
+        "user.profileImage",
+        "user.signUpType",
+        "user.accountType",
+        "user.createdAt",
+      ])
       .getOne();
     return user;
   }

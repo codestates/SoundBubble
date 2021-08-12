@@ -9,7 +9,7 @@ import { TokenInfo } from "../@type/tokenUserInfo";
 import { User } from "../entity/User";
 import { UserToken } from "../entity/UserToken";
 
-const getUserInfo = async (accessToken: string, loginType: string, res: Response): Promise<TokenInfo> => {
+const getUserInfo = async (res: Response, accessToken: string): Promise<TokenInfo> => {
   const tokenInfo: TokenInfo = {
     userId: null,
     email: null,
@@ -18,7 +18,7 @@ const getUserInfo = async (accessToken: string, loginType: string, res: Response
   };
 
   try {
-    if (loginType === "email") {
+    // if (loginType === "email") {
       const decoded = await verifyAccessToken(accessToken);
 
       //* 만료된 토큰
@@ -82,9 +82,9 @@ const getUserInfo = async (accessToken: string, loginType: string, res: Response
         tokenInfo.accountType = decoded.accountType;
         return tokenInfo;
       }
-    } else if (loginType === "google") {
-    } else if (loginType === "naver") {
-    }
+    // } else if (loginType === "google") {
+    // } else if (loginType === "naver") {
+    // }
     
     return tokenInfo;
   } catch (error) {
