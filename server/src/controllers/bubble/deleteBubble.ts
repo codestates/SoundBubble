@@ -30,8 +30,8 @@ const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
       }
     }
 
-    await deleteResource("soundbubble-resource/resource", soundSrc);
-    await deleteResource("soundbubble-resource/resource", imageSrc);
+    // await deleteResource("soundbubble-resource/original", soundSrc);
+    // await deleteResource("soundbubble-resource/original", imageSrc);
 
     res.status(201).json({ message: "Bubble successfully deleted" });
   } catch (error) {
