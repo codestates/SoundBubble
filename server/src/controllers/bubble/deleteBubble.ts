@@ -19,6 +19,7 @@ const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
 
     const soundSrc: string = bubbleInfo.sound.split("/").pop() as string;
     const imageSrc: string = bubbleInfo.image.split("/").pop() as string;
+    const thumbnailSrc: string = bubbleInfo.thumbnail.split("/").pop() as string;
 
     if (accountType === "admin") {
       await bubbleInfo.remove();
@@ -30,8 +31,9 @@ const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
       }
     }
 
-    // await deleteResource("soundbubble-resource/original", soundSrc);
-    // await deleteResource("soundbubble-resource/original", imageSrc);
+    await deleteResource("soundbubble-resource/sound", soundSrc);
+    await deleteResource("soundbubble-resource/original", imageSrc);
+    await deleteResource("soundbubble-resource/thumb", thumbnailSrc);
 
     res.status(201).json({ message: "Bubble successfully deleted" });
   } catch (error) {

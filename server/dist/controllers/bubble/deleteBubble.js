@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
+const s3_1 = require("../../aws/s3");
 const deleteBubble = async (req, res) => {
     const { userId, accountType } = req.userInfo;
     const { id: bubbleId } = req.params;
@@ -14,6 +15,7 @@ const deleteBubble = async (req, res) => {
         }
         const soundSrc = bubbleInfo.sound.split("/").pop();
         const imageSrc = bubbleInfo.image.split("/").pop();
+        const thumbnailSrc = bubbleInfo.thumbnail.split("/").pop();
         if (accountType === "admin") {
             await bubbleInfo.remove();
         }
@@ -25,8 +27,9 @@ const deleteBubble = async (req, res) => {
                 return res.status(400).json({ message: "Invalid request" });
             }
         }
-        // await deleteResource("soundbubble-resource/original", soundSrc);
-        // await deleteResource("soundbubble-resource/original", imageSrc);
+        await s3_1.deleteResource("soundbubble-resource/sound", soundSrc);
+        await s3_1.deleteResource("soundbubble-resource/original", imageSrc);
+        await s3_1.deleteResource("soundbubble-resource/thumb", thumbnailSrc);
         res.status(201).json({ message: "Bubble successfully deleted" });
     }
     catch (error) {
