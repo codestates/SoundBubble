@@ -11,8 +11,9 @@ body {
 }
 
 .login-sidebar-content {
-  width: 40%;
+  width: 35%;
   height: 100vh;
+  background-size: 100% 100%;
   background-image: url(https://images.unsplash.com/photo-1561577762-a50bcb6417d1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80);
 }
 
@@ -20,7 +21,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: 65%;
   height: 100vh;
   /* background-color: blue; */
 }
@@ -30,8 +31,11 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  width: 40%;
+  width: 100%;
+  max-width: 420px;
   height: 70%;
+  max-height: 800px;
+  margin: auto;
   /* background-color: green; */
 }
 

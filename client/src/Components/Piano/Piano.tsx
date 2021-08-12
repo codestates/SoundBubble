@@ -7,7 +7,6 @@ function Piano() {
     console.log(e.currentTarget.value);
     const audio = new Audio(`sounds/piano_${e.currentTarget.value}.mp3`);
     audio.play();
-
   };
 
   return <Octave notes={notes} clickHandler={handleClick} />;

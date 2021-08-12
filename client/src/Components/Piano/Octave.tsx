@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  height: 90vh;
+  height: max-content;
 `;
 
 type Props = {
