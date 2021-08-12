@@ -13,9 +13,10 @@ const createBubble = async (req, res) => {
             return res.status(400).json({ message: "Image or Sound does not exist" });
         }
         const imageSrc = imageInfo[0].location;
+        const thumbnailSrc = imageSrc.replace("original", "thumb").replace("jpg", "jpeg");
         const soundSrc = soundInfo[0].location;
-        const newBubble = await Bubble_1.Bubble.insertBubble(userId, textContent, imageSrc, soundSrc);
-        res.status(201).json({ newBubble, message: "Bubble successfully uploaded" });
+        const newBubble = await Bubble_1.Bubble.insertBubble(userId, textContent, imageSrc, soundSrc, thumbnailSrc);
+        res.status(201).json({ message: "Bubble successfully uploaded" });
     }
     catch (error) {
         console.error(error);

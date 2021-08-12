@@ -10,6 +10,9 @@ const authUser = async (req, res, next) => {
         return res.status(401).json({ message: "Token does not exist" });
     }
     const accessToken = authorization.split("Bearer ")[1];
+    if (!accessToken) {
+        return res.status(401).json({ message: "Token does not exist" });
+    }
     const userInfo = await getUserInfo_1.default(res, accessToken);
     if (userInfo.error) {
         if (userInfo.error === "EXPIRED") {

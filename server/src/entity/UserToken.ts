@@ -1,4 +1,13 @@
-import { Entity, Column, BaseEntity, OneToOne, JoinColumn, PrimaryColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  BaseEntity,
+  OneToOne,
+  JoinColumn,
+  PrimaryColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { User } from "./User";
 
 @Entity({
@@ -10,6 +19,12 @@ export class UserToken extends BaseEntity {
 
   @Column()
   refreshToken!: string;
+
+  @CreateDateColumn({ name: "createdAt" })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ name: "updatedAt" })
+  updatedAt!: Date;
 
   @OneToOne((type) => User, { onDelete: "CASCADE" })
   @JoinColumn()

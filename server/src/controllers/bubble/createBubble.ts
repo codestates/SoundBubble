@@ -1,8 +1,8 @@
 import { Request, Response, RequestHandler } from "express";
 import { Bubble } from "../../entity/Bubble";
-import { UserInfo } from '../../@type/tokenUserInfo';
+import { UserInfo } from "../../@type/tokenUserInfo";
 
-const createBubble: RequestHandler  = async (req: Request, res: Response) => {
+const createBubble: RequestHandler = async (req: Request, res: Response) => {
   const { userId }: { userId: number } = req.userInfo as UserInfo;
   const { textContent }: { textContent: string | undefined } = req.body;
 
@@ -17,11 +17,12 @@ const createBubble: RequestHandler  = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Image or Sound does not exist" });
     }
     const imageSrc: string = imageInfo[0].location;
+    const thumbnailSrc: string = imageSrc.replace("original", "thumb").replace("jpg", "jpeg");
     const soundSrc: string = soundInfo[0].location;
 
-    const newBubble: Bubble = await Bubble.insertBubble(userId, textContent, imageSrc, soundSrc);
+    const newBubble: Bubble = await Bubble.insertBubble(userId, textContent, imageSrc, soundSrc, thumbnailSrc);
 
-    res.status(201).json({ newBubble, message: "Bubble successfully uploaded" });
+    res.status(201).json({ message: "Bubble successfully uploaded" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Failed to upload bubble" });

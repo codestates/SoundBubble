@@ -1,11 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BaseEntity,
-  ManyToOne,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne } from "typeorm";
 import { User } from "./User";
 import { Bubble } from "./Bubble";
 
@@ -22,10 +15,9 @@ export class LikedBubble extends BaseEntity {
   @UpdateDateColumn({ name: "updatedAt" })
   updatedAt!: Date;
 
-  @ManyToOne((type) => User, (user) => user.bubbles, { onDelete: 'CASCADE' })
+  @ManyToOne((type) => User, (user) => user.bubbles, { onDelete: "CASCADE" })
   user!: User;
 
-  @ManyToOne((type) => Bubble, (bubble) => bubble.likedBubbles, { onDelete: 'CASCADE' })
+  @ManyToOne((type) => Bubble, (bubble) => bubble.likedBubbles, { onDelete: "CASCADE" })
   bubble!: Bubble;
-  
 }

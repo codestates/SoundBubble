@@ -10,6 +10,9 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
   }
 
   const accessToken: string = authorization.split("Bearer ")[1];
+  if (!accessToken) {
+    return res.status(401).json({ message: "Token does not exist" });
+  }
 
   const userInfo: TokenInfo = await getUserInfo(res, accessToken);
 

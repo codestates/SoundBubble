@@ -11,14 +11,9 @@ const getUserInfo = async (res, accessToken) => {
         error: null,
     };
     try {
-        // if (loginType === "email") {
         const decoded = await token_1.verifyAccessToken(accessToken);
         //* 만료된 토큰
         if (decoded.name === "TokenExpiredError") {
-            // tokenInfo.error = "EXPIRED";
-            // return tokenInfo;
-            //! 만료된 토큰 재발급
-            //?-------------------------------------------------------
             // 만료된 액세스 토큰 강제 검증
             const decodedExpired = await token_1.verifyExpiredAccessToken(accessToken);
             if (!decodedExpired.userId || !decodedExpired.email || !decodedExpired.accountType) {
@@ -49,7 +44,7 @@ const getUserInfo = async (res, accessToken) => {
                 if (userInfo.id !== decodedRefresh.userId) {
                     tokenInfo.error = "INVALID";
                 }
-                userToken.refreshToken = "";
+                userToken.refreshToken = ""; // 검증 실패 -> 리프레시 토큰 삭제
                 await userToken.save();
                 return tokenInfo;
             }
@@ -60,12 +55,13 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.userId = decodedRefresh.userId;
             tokenInfo.email = decodedRefresh.email;
             tokenInfo.accountType = decodedRefresh.accountType;
-            //?-------------------------------------------------------
+            return tokenInfo;
             //* 유효하지 않은 토큰
         }
         else if (decoded.name === "JsonWebTokenError") {
             tokenInfo.error = "INVALID";
             return tokenInfo;
+            //* 유요한 토큰
         }
         else {
             tokenInfo.userId = decoded.userId;
@@ -73,10 +69,6 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.accountType = decoded.accountType;
             return tokenInfo;
         }
-        // } else if (loginType === "google") {
-        // } else if (loginType === "naver") {
-        // }
-        return tokenInfo;
     }
     catch (error) {
         console.error(error);

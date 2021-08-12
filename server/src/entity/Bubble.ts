@@ -23,8 +23,8 @@ export class Bubble extends BaseEntity {
   @Column()
   image!: string;
 
-  // @Column()
-  // thumbnail!: string;
+  @Column()
+  thumbnail!: string;
 
   @Column()
   sound!: string;
@@ -50,22 +50,43 @@ export class Bubble extends BaseEntity {
   @OneToMany((type) => LikedBubble, (likedBubble) => likedBubble.bubble)
   likedBubbles!: BubbleComment[];
 
-  static async insertBubble(userId: number, textContent: string, imageSrc: string, soundSrc: string): Promise<Bubble> {
+  static async insertBubble(
+    userId: number,
+    textContent: string,
+    imageSrc: string,
+    soundSrc: string,
+    thumbnailSrc: string
+  ): Promise<Bubble> {
     const newBubble: Bubble = new Bubble();
     newBubble.userId = userId;
     newBubble.textContent = textContent;
     newBubble.image = imageSrc;
+    newBubble.thumbnail = thumbnailSrc;
     newBubble.sound = soundSrc;
     await newBubble.save();
     return newBubble;
   }
 
-  static async findAllBubbles(start: number, end: number, limit: number | undefined, order: QueryOrder): Promise<Bubble[]> {
+  static async findAllBubbles(
+    start: number,
+    end: number,
+    limit: number | undefined,
+    order: QueryOrder
+  ): Promise<Bubble[]> {
     const bubbles: Bubble[] = await this.createQueryBuilder("bubble")
       .where("bubble.id >= :sId AND bubble.id <= :eId", { sId: start, eId: end })
       .limit(limit)
       .leftJoinAndSelect("bubble.user", "user")
-      .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+      .select([
+        "bubble.id",
+        "bubble.image",
+        "bubble.thumbnail",
+        "bubble.sound",
+        "bubble.textContent",
+        "bubble.createdAt",
+        "user.email",
+        "user.nickname",
+      ])
       .orderBy("bubble.id", order)
       .getMany();
     return bubbles;
@@ -75,7 +96,16 @@ export class Bubble extends BaseEntity {
     const bubble: Bubble | undefined = await this.createQueryBuilder("bubble")
       .where("bubble.id = :id", { id: bubbleId })
       .leftJoinAndSelect("bubble.user", "user")
-      .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+      .select([
+        "bubble.id",
+        "bubble.image",
+        "bubble.thumbnail",
+        "bubble.sound",
+        "bubble.textContent",
+        "bubble.createdAt",
+        "user.email",
+        "user.nickname",
+      ])
       .getOne();
     return bubble;
   }
