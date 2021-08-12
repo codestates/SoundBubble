@@ -10,6 +10,8 @@ userRouter.post("/signup", controller.signUp);
 // 로그인
 userRouter.post("/login", controller.login);
 
+userRouter.post("/login/google", controller.loginGoogle);
+
 //* 로그인이 필요한 요청
 userRouter.use("/", authUser);
 

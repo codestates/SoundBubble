@@ -5,15 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const getUserInfo_1 = __importDefault(require("./getUserInfo"));
 const authUser = async (req, res, next) => {
-    const { authorization, logintype: loginType } = req.headers;
+    const { authorization } = req.headers;
     if (!authorization) {
         return res.status(401).json({ message: "Token does not exist" });
     }
-    if (!loginType) {
-        return res.status(401).json({ message: "Type does not exist" });
-    }
     const accessToken = authorization.split("Bearer ")[1];
-    const userInfo = (await getUserInfo_1.default(accessToken, loginType, res));
+    const userInfo = await getUserInfo_1.default(res, accessToken);
     if (userInfo.error) {
         if (userInfo.error === "EXPIRED") {
             return res.status(403).json({ message: "Expired token" });

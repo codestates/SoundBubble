@@ -13,7 +13,7 @@ const connectionOptions = {
         password: process.env.DATABASE_LOCAL_PASSWORD,
         database: process.env.DATABASE_LOCAL_NAME,
         synchronize: true,
-        logging: true,
+        logging: false,
         entities: [__dirname + "/entity/**/*.{ts,js}"],
         migrations: [__dirname + "/migration/**/*.{ts,js}"],
         subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],

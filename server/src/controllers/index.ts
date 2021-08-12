@@ -1,5 +1,5 @@
 import login from "./user/login";
-import signUp from './user/signUp';
+import signUp from "./user/signUp";
 import updateNickname from "./user/updateNickname";
 import updatePassword from "./user/updatePassword";
 import readMyBubble from "./user/readMyBubble";
@@ -12,8 +12,11 @@ import readBubble from "./bubble/readBubble";
 import createBubbleComment from "./bubble/createBubbleComment";
 import deleteBubbleComment from "./bubble/deleteBubbleComment";
 
+import loginGoogle from "./user/loginGoogle";
+
 export {
   login,
+  loginGoogle,
   signUp,
   updateNickname,
   updatePassword,
