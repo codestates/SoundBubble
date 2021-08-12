@@ -1,10 +1,11 @@
 import "../Styles/MainMic.css";
+import Record from "./Record";
 
 const MainMic = () => {
   return (
     <>
       <div className="main-page__mic">
-        <h1>mic-page</h1>
+        <Record />
       </div>
     </>
   );

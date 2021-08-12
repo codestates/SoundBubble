@@ -1,0 +1,39 @@
+.audio-btn {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: none;
+  color: rgb(119, 112, 255);
+  font-size: 1.5rem;
+}
+
+.get-color-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.message {
+  font-size: 1.2rem;
+}
+/* 
+빨 0
+주 30
+노 60
+초 90
+파 240
+보 270
+
+C3(도) 130
+D3(레) 146
+E3(미) 165
+F3(파) 175
+G3(솔) 196
+A3(라) 220
+B3(시) 247
+
+C4(도) 260
+
+*/
