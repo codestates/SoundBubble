@@ -32,8 +32,7 @@ const MainPage = () => {
       <Navigation />
       <div className="main-page">
         <MainSelectBar select={select} handleBtnClick={handleBtnClick} />
-        {/* <ChoiceMode select={select} /> */}
-        <MainMic />;
+        <ChoiceMode select={select} />
       </div>
     </>
   );
