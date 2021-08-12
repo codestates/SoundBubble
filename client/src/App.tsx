@@ -14,7 +14,7 @@ function App() {
     <>
       <Router>
         <Switch>
-          <Route path="/landing" component={Landing} />
+          <Route exact path="/" component={Landing} />
           <Route path="/main" component={MainPage} />
           <Route path="/palette" component={Palette} />
           <Route path="/bubble/:id" component={BubbleDetail} />
