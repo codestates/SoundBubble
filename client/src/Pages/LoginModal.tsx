@@ -5,7 +5,7 @@ import axios from "axios";
 
 import "./Styles/LoginModal.css";
 
-const LoginModal = () => {
+const LoginModal = (): JSX.Element => {
 	const [ID, setID] = useState("");
 	const [PW, setPW] = useState("");
 	const history = useHistory();

@@ -10,7 +10,7 @@ import SignupModal from "./Pages/SignupModal";
 import error404 from "./Pages/error404";
 import Test from "./Pages/Test";
 
-function App() {
+function App(): JSX.Element {
 	return (
 		<>
 			<Router>
