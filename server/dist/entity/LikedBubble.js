@@ -33,11 +33,11 @@ __decorate([
     __metadata("design:type", Date)
 ], LikedBubble.prototype, "updatedAt", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => User_1.User, (user) => user.bubbles, { onDelete: 'CASCADE' }),
+    typeorm_1.ManyToOne((type) => User_1.User, (user) => user.bubbles, { onDelete: "CASCADE" }),
     __metadata("design:type", User_1.User)
 ], LikedBubble.prototype, "user", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => Bubble_1.Bubble, (bubble) => bubble.likedBubbles, { onDelete: 'CASCADE' }),
+    typeorm_1.ManyToOne((type) => Bubble_1.Bubble, (bubble) => bubble.likedBubbles, { onDelete: "CASCADE" }),
     __metadata("design:type", Bubble_1.Bubble)
 ], LikedBubble.prototype, "bubble", void 0);
 LikedBubble = __decorate([

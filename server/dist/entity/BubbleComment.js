@@ -35,7 +35,7 @@ let BubbleComment = BubbleComment_1 = class BubbleComment extends typeorm_1.Base
         const comments = await this.createQueryBuilder("comment")
             .where("bubbleId = :id", { id: bubbleId })
             .leftJoinAndSelect("comment.user", "user")
-            .select(["comment.id", "comment.textContent", "user.email", "user.nickname"])
+            .select(["comment.id", "comment.bubbleId", "comment.textContent", "comment.createdAt", "user.email", "user.nickname"])
             .getMany();
         return comments;
     }

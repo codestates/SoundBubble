@@ -5,17 +5,24 @@ const createBubble = async (req, res) => {
     const { userId } = req.userInfo;
     const { textContent } = req.body;
     try {
+        //* 파라미터 검사
         if (!textContent) {
-            return res.status(400).json({ message: "Insufficient parameters supplied" });
+            return res.status(400).json({ message: `Invalid textContent(FormData), input 'textContent': ${textContent}` });
         }
         const { image: imageInfo, sound: soundInfo } = req.files;
-        if (!imageInfo || !soundInfo) {
-            return res.status(400).json({ message: "Image or Sound does not exist" });
+        if (!imageInfo) {
+            return res.status(400).json({ message: `Invalid image(FormData), input 'image': ${imageInfo}` });
         }
+        if (!soundInfo) {
+            return res.status(400).json({ message: `Invalid sound(FormData), input 'sound': ${soundInfo}` });
+        }
+        //* 이미지 및 소리 경로 추출
         const imageSrc = imageInfo[0].location;
+        const thumbnailSrc = imageSrc.replace("original", "thumb").replace("jpg", "jpeg");
         const soundSrc = soundInfo[0].location;
-        const newBubble = await Bubble_1.Bubble.insertBubble(userId, textContent, imageSrc, soundSrc);
-        res.status(201).json({ newBubble, message: "Bubble successfully uploaded" });
+        //* DB 입력
+        await Bubble_1.Bubble.insertBubble(userId, textContent, imageSrc, soundSrc, thumbnailSrc);
+        res.status(201).json({ message: "Bubble successfully uploaded" });
     }
     catch (error) {
         console.error(error);

@@ -51,7 +51,7 @@ export class BubbleComment extends BaseEntity {
     const comments: BubbleComment[] = await this.createQueryBuilder("comment")
       .where("bubbleId = :id", { id: bubbleId })
       .leftJoinAndSelect("comment.user", "user")
-      .select(["comment.id", "comment.textContent", "user.email", "user.nickname"])
+      .select(["comment.id", "comment.bubbleId", "comment.textContent", "comment.createdAt", "user.email", "user.nickname"])
       .getMany();
     return comments;
   }

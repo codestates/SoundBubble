@@ -18,8 +18,7 @@ const LikedBubble_1 = require("./LikedBubble");
 let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
     id;
     image;
-    // @Column()
-    // thumbnail!: string;
+    thumbnail;
     sound;
     textContent;
     createdAt;
@@ -28,11 +27,12 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
     user;
     bubbleComments;
     likedBubbles;
-    static async insertBubble(userId, textContent, imageSrc, soundSrc) {
+    static async insertBubble(userId, textContent, imageSrc, soundSrc, thumbnailSrc) {
         const newBubble = new Bubble_1();
         newBubble.userId = userId;
         newBubble.textContent = textContent;
         newBubble.image = imageSrc;
+        newBubble.thumbnail = thumbnailSrc;
         newBubble.sound = soundSrc;
         await newBubble.save();
         return newBubble;
@@ -42,7 +42,16 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
             .where("bubble.id >= :sId AND bubble.id <= :eId", { sId: start, eId: end })
             .limit(limit)
             .leftJoinAndSelect("bubble.user", "user")
-            .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+            .select([
+            "bubble.id",
+            "bubble.image",
+            "bubble.thumbnail",
+            "bubble.sound",
+            "bubble.textContent",
+            "bubble.createdAt",
+            "user.email",
+            "user.nickname",
+        ])
             .orderBy("bubble.id", order)
             .getMany();
         return bubbles;
@@ -51,7 +60,16 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
         const bubble = await this.createQueryBuilder("bubble")
             .where("bubble.id = :id", { id: bubbleId })
             .leftJoinAndSelect("bubble.user", "user")
-            .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+            .select([
+            "bubble.id",
+            "bubble.image",
+            "bubble.thumbnail",
+            "bubble.sound",
+            "bubble.textContent",
+            "bubble.createdAt",
+            "user.email",
+            "user.nickname",
+        ])
             .getOne();
         return bubble;
     }
@@ -64,6 +82,10 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Bubble.prototype, "image", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Bubble.prototype, "thumbnail", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)

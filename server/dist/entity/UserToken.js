@@ -16,6 +16,8 @@ const User_1 = require("./User");
 let UserToken = UserToken_1 = class UserToken extends typeorm_1.BaseEntity {
     userId;
     refreshToken;
+    createdAt;
+    updatedAt;
     user;
     static async insertToken(userId, refreshToken) {
         const newToken = new UserToken_1();
@@ -33,6 +35,14 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], UserToken.prototype, "refreshToken", void 0);
+__decorate([
+    typeorm_1.CreateDateColumn({ name: "createdAt" }),
+    __metadata("design:type", Date)
+], UserToken.prototype, "createdAt", void 0);
+__decorate([
+    typeorm_1.UpdateDateColumn({ name: "updatedAt" }),
+    __metadata("design:type", Date)
+], UserToken.prototype, "updatedAt", void 0);
 __decorate([
     typeorm_1.OneToOne((type) => User_1.User, { onDelete: "CASCADE" }),
     typeorm_1.JoinColumn(),
