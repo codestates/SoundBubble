@@ -1,7 +1,8 @@
+import React from "react";
 import "./Styles/Navigation.css";
 
 const Navigation = () => {
-  let isLogin = false;
+  const isLogin = false;
   return (
     <>
       <nav className="navigation">

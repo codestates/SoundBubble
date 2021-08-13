@@ -1,3 +1,4 @@
+import React from "react";
 import "../Styles/MainMic.css";
 import Record from "./Record";
 

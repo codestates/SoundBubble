@@ -1,3 +1,4 @@
+import React from "react";
 import "../Styles/MainPiano.css";
 import Piano from '../../Components/Piano/Piano'
 

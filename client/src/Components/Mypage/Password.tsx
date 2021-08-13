@@ -5,11 +5,11 @@ import axios from "axios";
 const Password = () => {
   const [password, setPassword] = useState("");
   const [passwordRe, setPasswordRe] = useState("");
-  const history = useHistory();
-  const URL = process.env.REACT_APP_API_URL;
+  const history = useHistory()
+  const URL = process.env.REACT_APP_API_URL
 
   const handleChangePassword = () => {
-
+    console.log('click')
   }
 
   return (
