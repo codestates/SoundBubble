@@ -1,5 +1,4 @@
 import { Request, Response, RequestHandler } from "express";
-import { Bubble } from "../../entity/Bubble";
 import { BubbleComment } from "../../entity/BubbleComment";
 import { UserInfo } from "../../@type/tokenUserInfo";
 

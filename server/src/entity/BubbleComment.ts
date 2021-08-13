@@ -29,13 +29,13 @@ export class BubbleComment extends BaseEntity {
   @Column()
   bubbleId!: number;
 
-  @ManyToOne((type) => Bubble, (bubble) => bubble.bubbleComments, { onDelete: "CASCADE" })
+  @ManyToOne(() => Bubble, (bubble) => bubble.bubbleComments, { onDelete: "CASCADE" })
   bubble!: Bubble;
 
   @Column()
   userId!: number;
 
-  @ManyToOne((type) => User, (user) => user.bubbles, { onDelete: "CASCADE" })
+  @ManyToOne(() => User, (user) => user.bubbles, { onDelete: "CASCADE" })
   user!: User;
 
   static async insertComment(userId: number, bubbleId: number, textContent: string): Promise<BubbleComment> {

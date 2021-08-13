@@ -44,7 +44,7 @@ __decorate([
     __metadata("design:type", Date)
 ], UserToken.prototype, "updatedAt", void 0);
 __decorate([
-    typeorm_1.OneToOne((type) => User_1.User, { onDelete: "CASCADE" }),
+    typeorm_1.OneToOne(() => User_1.User, { onDelete: "CASCADE" }),
     typeorm_1.JoinColumn(),
     __metadata("design:type", User_1.User)
 ], UserToken.prototype, "user", void 0);

@@ -26,7 +26,7 @@ export class UserToken extends BaseEntity {
   @UpdateDateColumn({ name: "updatedAt" })
   updatedAt!: Date;
 
-  @OneToOne((type) => User, { onDelete: "CASCADE" })
+  @OneToOne(() => User, { onDelete: "CASCADE" })
   @JoinColumn()
   user!: User;
 

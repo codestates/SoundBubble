@@ -15,9 +15,9 @@ export class LikedBubble extends BaseEntity {
   @UpdateDateColumn({ name: "updatedAt" })
   updatedAt!: Date;
 
-  @ManyToOne((type) => User, (user) => user.bubbles, { onDelete: "CASCADE" })
+  @ManyToOne(() => User, (user) => user.bubbles, { onDelete: "CASCADE" })
   user!: User;
 
-  @ManyToOne((type) => Bubble, (bubble) => bubble.likedBubbles, { onDelete: "CASCADE" })
+  @ManyToOne(() => Bubble, (bubble) => bubble.likedBubbles, { onDelete: "CASCADE" })
   bubble!: Bubble;
 }

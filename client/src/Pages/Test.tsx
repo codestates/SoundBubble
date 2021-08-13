@@ -4,7 +4,7 @@ import { increaseNumber, decreaseNumber } from "../actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
 
-export default function Test() {
+export default function Test(): JSX.Element {
 	const numberReducer = useSelector((state: RootReducerType) => state.numberReducer);
 	const dispatch = useDispatch();
 	const changeNum = (event: any) => {

@@ -4,7 +4,7 @@ import checkQueryParam from "../../utils/checkQueryParam";
 import { QueryOrder } from "../../@type/query";
 
 const readAllBubble: RequestHandler = async (req: Request, res: Response) => {
-  let { start, end, limit, order } = req.query as any;
+  const { start, end, limit, order } = req.query as any;
 
   try {
     //* 파라미터 조정
