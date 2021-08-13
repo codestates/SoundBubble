@@ -41,13 +41,13 @@ export class Bubble extends BaseEntity {
   @Column()
   userId!: number;
 
-  @ManyToOne((type) => User, (user) => user.bubbles, { onDelete: "CASCADE" })
+  @ManyToOne(() => User, (user) => user.bubbles, { onDelete: "CASCADE" })
   user!: User;
 
-  @OneToMany((type) => BubbleComment, (bubbleComment) => bubbleComment.bubble)
+  @OneToMany(() => BubbleComment, (bubbleComment) => bubbleComment.bubble)
   bubbleComments!: BubbleComment[];
 
-  @OneToMany((type) => LikedBubble, (likedBubble) => likedBubble.bubble)
+  @OneToMany(() => LikedBubble, (likedBubble) => likedBubble.bubble)
   likedBubbles!: BubbleComment[];
 
   static async insertBubble(

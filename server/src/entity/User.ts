@@ -49,13 +49,13 @@ export class User extends BaseEntity {
   @UpdateDateColumn({ name: "updatedAt" })
   updatedAt!: Date;
 
-  @OneToMany((type) => Bubble, (bubble) => bubble.user)
+  @OneToMany(() => Bubble, (bubble) => bubble.user)
   bubbles!: Bubble[];
 
-  @OneToMany((type) => BubbleComment, (bubbleComment) => bubbleComment.user)
+  @OneToMany(() => BubbleComment, (bubbleComment) => bubbleComment.user)
   bubbleComments!: BubbleComment[];
 
-  @OneToMany((type) => LikedBubble, (LikedBubble) => LikedBubble.user)
+  @OneToMany(() => LikedBubble, (LikedBubble) => LikedBubble.user)
   likedBubbles!: BubbleComment[];
 
   static async insertUser(

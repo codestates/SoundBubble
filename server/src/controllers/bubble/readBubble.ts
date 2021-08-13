@@ -1,7 +1,6 @@
 import { Request, Response, RequestHandler } from "express";
 import { Bubble } from "../../entity/Bubble";
 import { BubbleComment } from "../../entity/BubbleComment";
-import checkQueryParam from "../../utils/checkQueryParam";
 
 const readBubble: RequestHandler = async (req: Request, res: Response) => {
   const { id: bubbleId }: { id: string } = req.params as any;
