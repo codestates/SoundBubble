@@ -1,40 +1,46 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Bubble_1 = require("../../entity/Bubble");
 const BubbleComment_1 = require("../../entity/BubbleComment");
 const deleteBubbleComment = async (req, res) => {
     const { userId, accountType } = req.userInfo;
     const { id: bubbleId } = req.params;
     const { commentId } = req.body;
-    if (!commentId) {
-        return res.status(400).json({ message: "Insufficient parameters supplied" });
-    }
     try {
-        const bubbleInfo = await Bubble_1.Bubble.findOne(bubbleId);
-        if (!bubbleInfo) {
-            return res.status(400).json({ message: "Invalid bubble" });
+        //* 파라미터 검사
+        if (!commentId) {
+            return res.status(400).json({ message: `Invalid commentId(body), input 'commentId': ${commentId}` });
         }
-        const commentInfo = await BubbleComment_1.BubbleComment.findOne(commentId);
+        //* 댓글 조회. 존재하는 댓글인지 확인
+        const commentInfo = await BubbleComment_1.BubbleComment.findOne({
+            where: {
+                id: commentId,
+                bubbleId: bubbleId,
+            },
+        });
         if (!commentInfo) {
-            return res.status(400).json({ message: "Invalid comment" });
+            return res.status(404).json({ message: "Comment not found" });
         }
+        //* 댓글 삭제
+        // 관리자 권한 -> 모든 댓글 삭제 가능
         if (accountType === "admin") {
             await commentInfo.remove();
         }
+        // 일반 유저 -> 본인이 작성한 버블만 삭제 가능
         else {
-            if (commentInfo.userId === userId) {
-                await commentInfo.remove();
+            if (commentInfo.userId !== userId) {
+                return res.status(403).json({ message: "Not authorized" });
             }
             else {
-                return res.status(400).json({ message: "Invalid request" });
+                await commentInfo.remove();
             }
         }
+        //* 갱신된 댓글 목록 조회
         const comments = await BubbleComment_1.BubbleComment.findComments(Number(bubbleId));
         res.json({ data: { comments }, message: "Comment successfully deleted" });
     }
     catch (error) {
         console.error(error);
-        res.json({ message: "Failed to delete comment" });
+        return res.status(500).json({ message: "Failed to delete comment" });
     }
 };
 exports.default = deleteBubbleComment;

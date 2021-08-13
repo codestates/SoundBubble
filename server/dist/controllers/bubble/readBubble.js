@@ -5,16 +5,18 @@ const BubbleComment_1 = require("../../entity/BubbleComment");
 const readBubble = async (req, res) => {
     const { id: bubbleId } = req.params;
     try {
+        //* 버블 조회
         const bubble = await Bubble_1.Bubble.findBubble(Number(bubbleId));
         if (!bubble) {
-            return res.status(400).json({ message: "Invalid request" });
+            return res.status(404).json({ message: "Bubble not found" });
         }
+        //* 해당 버블의 댓글 조회
         const comments = await BubbleComment_1.BubbleComment.findComments(Number(bubbleId));
-        res.json({ data: { bubble, comments }, message: "All bubble info successfully read" });
+        res.status(200).json({ data: { bubble, comments }, message: "Bubble and comments successfully read" });
     }
     catch (error) {
         console.error(error);
-        res.json({ message: "Failed to read all bubbles" });
+        return res.status(500).json({ message: "Failed to read bubble and comments" });
     }
 };
 exports.default = readBubble;

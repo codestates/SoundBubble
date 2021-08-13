@@ -8,16 +8,18 @@ const checkQueryParam_1 = __importDefault(require("../../utils/checkQueryParam")
 const readAllBubble = async (req, res) => {
     let { start, end, limit, order } = req.query;
     try {
+        //* 파라미터 조정
         const _start = checkQueryParam_1.default("start", start);
         const _end = checkQueryParam_1.default("end", end);
         const _limit = checkQueryParam_1.default("limit", limit);
         const _order = checkQueryParam_1.default("order", order);
+        //* 모든 버블 조회
         const bubbles = await Bubble_1.Bubble.findAllBubbles(_start, _end, _limit, _order);
-        res.json({ data: { bubbles }, message: "All bubbles successfully read" });
+        res.status(200).json({ data: { bubbles }, message: "All bubbles successfully read" });
     }
     catch (error) {
         console.error(error);
-        res.json({ message: "Failed to read all bubbles" });
+        return res.status(500).json({ message: "Failed to read all bubbles" });
     }
 };
 exports.default = readAllBubble;

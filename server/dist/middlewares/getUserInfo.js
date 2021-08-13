@@ -11,8 +11,9 @@ const getUserInfo = async (res, accessToken) => {
         error: null,
     };
     try {
+        // 토큰 검사
         const decoded = await token_1.verifyAccessToken(accessToken);
-        //* 만료된 토큰
+        //* (1) 만료된 토큰
         if (decoded.name === "TokenExpiredError") {
             // 만료된 액세스 토큰 강제 검증
             const decodedExpired = await token_1.verifyExpiredAccessToken(accessToken);
@@ -31,7 +32,7 @@ const getUserInfo = async (res, accessToken) => {
                 tokenInfo.error = "INVALID";
                 return tokenInfo;
             }
-            // 리프레시 토큰
+            // 리프레시 토큰 검증
             const refreshToken = userToken.refreshToken;
             const decodedRefresh = await token_1.verifyRefreshToken(refreshToken);
             if (decodedRefresh.name) {
@@ -44,11 +45,12 @@ const getUserInfo = async (res, accessToken) => {
                 if (userInfo.id !== decodedRefresh.userId) {
                     tokenInfo.error = "INVALID";
                 }
-                userToken.refreshToken = ""; // 검증 실패 -> 리프레시 토큰 삭제
+                // 검증 실패 -> 리프레시 토큰 삭제
+                userToken.refreshToken = "";
                 await userToken.save();
                 return tokenInfo;
             }
-            // 액세스 토큰 재발급하고 헤더에 저장
+            // 액세스 토큰 재발급, 응답 헤더에 저장
             const newAccessToken = await token_1.generateAccessToken(userInfo);
             res.setHeader("authorization", `Bearer ${newAccessToken}`);
             console.log("액세스 토큰 재발급");
@@ -56,12 +58,12 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.email = decodedRefresh.email;
             tokenInfo.accountType = decodedRefresh.accountType;
             return tokenInfo;
-            //* 유효하지 않은 토큰
+            //* (2) 유효하지 않은 토큰
         }
         else if (decoded.name === "JsonWebTokenError") {
             tokenInfo.error = "INVALID";
             return tokenInfo;
-            //* 유요한 토큰
+            //* (3) 유효한 토큰
         }
         else {
             tokenInfo.userId = decoded.userId;
