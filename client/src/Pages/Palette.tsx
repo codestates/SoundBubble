@@ -1,6 +1,6 @@
 import React from "react";
 
-const Palette = () => {
+const Palette = (): JSX.Element => {
 	return <div>Palette</div>;
 };
 
