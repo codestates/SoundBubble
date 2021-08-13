@@ -73,6 +73,15 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
             .getOne();
         return bubble;
     }
+    static async findBubblesByUserId(userId) {
+        const bubbles = await this.createQueryBuilder("bubble")
+            .where("bubble.userId = :userId", { userId: userId })
+            .leftJoinAndSelect("bubble.user", "user")
+            .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+            .orderBy("bubble.id", "DESC")
+            .getMany();
+        return bubbles;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -107,15 +116,15 @@ __decorate([
     __metadata("design:type", Number)
 ], Bubble.prototype, "userId", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => User_1.User, (user) => user.bubbles, { onDelete: "CASCADE" }),
+    typeorm_1.ManyToOne(() => User_1.User, (user) => user.bubbles, { onDelete: "CASCADE" }),
     __metadata("design:type", User_1.User)
 ], Bubble.prototype, "user", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => BubbleComment_1.BubbleComment, (bubbleComment) => bubbleComment.bubble),
+    typeorm_1.OneToMany(() => BubbleComment_1.BubbleComment, (bubbleComment) => bubbleComment.bubble),
     __metadata("design:type", Array)
 ], Bubble.prototype, "bubbleComments", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => LikedBubble_1.LikedBubble, (likedBubble) => likedBubble.bubble),
+    typeorm_1.OneToMany(() => LikedBubble_1.LikedBubble, (likedBubble) => likedBubble.bubble),
     __metadata("design:type", Array)
 ], Bubble.prototype, "likedBubbles", void 0);
 Bubble = Bubble_1 = __decorate([

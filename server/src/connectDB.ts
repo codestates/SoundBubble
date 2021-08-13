@@ -51,7 +51,7 @@ const connectionOption: ConnectionOptions = connectionOptions[env];
 console.log("Database info: ", env);
 
 //* Connect to Database
-export const connectDB = async () => {
+export const connectDB = async (): Promise<void> => {
   await createConnection(connectionOption)
     .then(async (connection) => {
       console.log("Database connected");

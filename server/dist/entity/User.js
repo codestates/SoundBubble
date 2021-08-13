@@ -143,15 +143,15 @@ __decorate([
     __metadata("design:type", Date)
 ], User.prototype, "updatedAt", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => Bubble_1.Bubble, (bubble) => bubble.user),
+    typeorm_1.OneToMany(() => Bubble_1.Bubble, (bubble) => bubble.user),
     __metadata("design:type", Array)
 ], User.prototype, "bubbles", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => BubbleComment_1.BubbleComment, (bubbleComment) => bubbleComment.user),
+    typeorm_1.OneToMany(() => BubbleComment_1.BubbleComment, (bubbleComment) => bubbleComment.user),
     __metadata("design:type", Array)
 ], User.prototype, "bubbleComments", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => LikedBubble_1.LikedBubble, (LikedBubble) => LikedBubble.user),
+    typeorm_1.OneToMany(() => LikedBubble_1.LikedBubble, (LikedBubble) => LikedBubble.user),
     __metadata("design:type", Array)
 ], User.prototype, "likedBubbles", void 0);
 User = User_1 = __decorate([

@@ -61,7 +61,7 @@ __decorate([
     __metadata("design:type", Number)
 ], BubbleComment.prototype, "bubbleId", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => Bubble_1.Bubble, (bubble) => bubble.bubbleComments, { onDelete: "CASCADE" }),
+    typeorm_1.ManyToOne(() => Bubble_1.Bubble, (bubble) => bubble.bubbleComments, { onDelete: "CASCADE" }),
     __metadata("design:type", Bubble_1.Bubble)
 ], BubbleComment.prototype, "bubble", void 0);
 __decorate([
@@ -69,7 +69,7 @@ __decorate([
     __metadata("design:type", Number)
 ], BubbleComment.prototype, "userId", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => User_1.User, (user) => user.bubbles, { onDelete: "CASCADE" }),
+    typeorm_1.ManyToOne(() => User_1.User, (user) => user.bubbles, { onDelete: "CASCADE" }),
     __metadata("design:type", User_1.User)
 ], BubbleComment.prototype, "user", void 0);
 BubbleComment = BubbleComment_1 = __decorate([

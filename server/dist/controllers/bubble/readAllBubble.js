@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
 const checkQueryParam_1 = __importDefault(require("../../utils/checkQueryParam"));
 const readAllBubble = async (req, res) => {
-    let { start, end, limit, order } = req.query;
+    const { start, end, limit, order } = req.query;
     try {
         //* 파라미터 조정
         const _start = checkQueryParam_1.default("start", start);
