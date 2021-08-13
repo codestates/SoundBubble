@@ -112,9 +112,9 @@ export class Bubble extends BaseEntity {
 
   static async findBubblesByUserId(userId: number): Promise<Bubble[]> {
     const bubbles: Bubble[] = await this.createQueryBuilder("bubble")
-      .where("bubble.userId = :userId", {userId: userId})
+      .where("bubble.userId = :userId", { userId: userId })
       .leftJoinAndSelect("bubble.user", "user")
-      .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+      .select(["bubble.id", "bubble.thumbnail", "bubble.image", "bubble.sound", "bubble.textContent", "bubble.createdAt", "user.email", "user.nickname"])
       .orderBy("bubble.id", "DESC")
       .getMany();
     return bubbles;
