@@ -3,10 +3,16 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 const Nickname = () => {
+  const url = process.env.REACT_APP_API_URL;
+  const accessToken = localStorage.getItem("accessToken");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-  const URL = process.env.REACT_APP_API_URL;
+
+  const [errorMsg, setErrorMsg] = useState("");
+  const resetErrorMsg = () => {
+    setErrorMsg("");
+  }
 
   const handleChangeNickname = () => {
   };
@@ -22,6 +28,7 @@ const Nickname = () => {
           <input type="text" name="password" placeholder="비밀번호를 입력하세요"/>
         </label>
         <button onClick={handleChangeNickname}>닉네임 변경</button>
+        <div className="mypage__alert-box">{errorMsg}</div>
       </form>
     </>
   )

@@ -1,9 +1,9 @@
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";//라우트 추가함
 import profile from "../Static/profile-img.png";
 // import Footer from "../Components/Footer";
 // import Navigation from "../Components/Navigation";
-import React, { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import MyPalettes from "../Components/Mypage/MyPalettes";
 import Nickname from "../Components/Mypage/Nickname";
 import Password from "../Components/Mypage/Password";
