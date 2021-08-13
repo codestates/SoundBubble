@@ -1,3 +1,4 @@
+import React from "react";
 import "./Styles/BubbleDetail.css";
 import pastel from "../Static/pastel.png";
 

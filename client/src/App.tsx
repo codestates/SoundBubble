@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Landing from "./Pages/Landing";
 import MainPage from "./Pages/MainPage";
@@ -10,23 +11,23 @@ import error404 from "./Pages/error404";
 import Test from "./Pages/Test";
 
 function App() {
-  return (
-    <>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route path="/main" component={MainPage} />
-          <Route path="/palette" component={Palette} />
-          <Route path="/bubble/:id" component={BubbleDetail} />
-          <Route path="/mypage" component={Mypage} />
-          <Route path="/login" component={LoginModal} />
-          <Route path="/signup" component={SignupModal} />
-          <Route path="/test" component={Test} />
-          <Route path="*" component={error404} />
-        </Switch>
-      </Router>
-    </>
-  );
+	return (
+		<>
+			<Router>
+				<Switch>
+					<Route exact path="/" component={Landing} />
+					<Route path="/main" component={MainPage} />
+					<Route path="/palette" component={Palette} />
+					<Route path="/bubble/:id" component={BubbleDetail} />
+					<Route path="/mypage" component={Mypage} />
+					<Route path="/login" component={LoginModal} />
+					<Route path="/signup" component={SignupModal} />
+					<Route path="/test" component={Test} />
+					<Route path="*" component={error404} />
+				</Switch>
+			</Router>
+		</>
+	);
 }
 
 export default App;

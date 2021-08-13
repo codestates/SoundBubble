@@ -15,6 +15,7 @@ const Nickname = () => {
   }
 
   const handleChangeNickname = () => {
+    console.log('click')
   };
 
   return (
