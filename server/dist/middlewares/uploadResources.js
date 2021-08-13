@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const multer_s3_1 = __importDefault(require("multer-s3"));
 const s3_1 = require("../aws/s3");
-const extensions = ["wav", "jpg"];
+const extensions = ["wav", "jpg", "jpeg", "png"];
 const upload = multer_1.default({
     storage: multer_s3_1.default({
         s3: s3_1.s3,
@@ -16,7 +16,7 @@ const upload = multer_1.default({
         key: function (req, file, callback) {
             let extenstion = file.originalname.split(".").pop()?.toLowerCase();
             if (!extensions.includes(extenstion))
-                extenstion = "wav";
+                extenstion = "jpg"; //? 확장자 제한 필요
             const fileName = Date.now() + "." + extenstion;
             let fullPath;
             if (extenstion === "wav") {
