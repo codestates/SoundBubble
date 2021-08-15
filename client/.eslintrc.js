@@ -15,6 +15,9 @@ module.exports = {
 		eqeqeq: ["error", "always"], // '==' 밎 '!=' 사용을 지양한다.
 		"prefer-template": "error", // 문자열 연결 연산자를 지양하고 템플릿 리터럴을 사용한다.
 		"react/prop-types": "off",
+		// "@typescript-eslint/no-unused-vars": "off",
+		// "@typescript-eslint/no-explicit-any": "off",
+		// "@typescript-eslint/explicit-function-return-type": "off",
 	},
 	settings: {
 		react: {

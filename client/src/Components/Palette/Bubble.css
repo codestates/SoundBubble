@@ -1,0 +1,20 @@
+.bubble-section {
+	width: 400px;
+	height: 400px;
+	/* background-color: rgb(255, 184, 184); */
+	/* border: 5px solid green; */
+	display: flex;
+}
+
+.bubble {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	/* z-index: 999; */
+	width: 60%;
+	height: 60%;
+	border: 3px solid black;
+	border-radius: 50%;
+	background-color: white;
+}
