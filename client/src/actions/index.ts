@@ -6,12 +6,17 @@ export const ACCESS_TOKEN_AUTHENTICAITON = "ACCESS_TOKEN_AUTHENTICAITON";
 export const REFRESH_TOKEN_AUTHENTICAITON = "REFRESH_TOKEN_AUTHENTICAITON";
 
 interface UserInfo {
+	id: number;
 	email: string;
 	nickname: string;
-	accessToken: string;
+	createdAt: string;
+	accountType: string;
+	signUpType: string;
 	profileImage?: string;
-	signUpType?: string;
-	refreshToken?: string;
+}
+
+interface AccessToken {
+	accessToken: string;
 }
 
 export const increaseNumber = () => {
@@ -25,10 +30,10 @@ export const decreaseNumber = () => {
 	};
 };
 
-export const loginUser = (userInfo: UserInfo): any => {
+export const loginUser = (userInfo: UserInfo, accessToken: AccessToken): any => {
 	return {
 		type: LOGIN_USER,
-		payload: userInfo,
+		payload: { userInfo, accessToken },
 	};
 };
 

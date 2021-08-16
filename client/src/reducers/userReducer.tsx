@@ -7,45 +7,54 @@ import {
 } from "../actions/index";
 
 interface InitialState {
+	id: number;
 	email: string;
 	nickname: string;
+	createdAt: string;
+	accountType: string;
+	signUpType: string;
 	accessToken: string;
-	// profileImage?: string;
-	// signUpType?: string;
-	// refreshToken?: string;
+	profileImage?: string;
 }
 
-type CounterAction = ReturnType<typeof loginUser>;
+type LoginAction = ReturnType<typeof loginUser>;
 
 const initialState: InitialState = {
-	email: "dummy@mail.com",
-	nickname: "dummyName",
-	accessToken: "dummy token",
-	// profileImage: "",
-	// signUpType: "",
-	// refreshToken: "",
+	id: 0,
+	email: "",
+	nickname: "",
+	createdAt: "",
+	accountType: "",
+	signUpType: "",
+	accessToken: "",
+	profileImage: "",
 };
 
-const numberReducer = (state = initialState, action: CounterAction): InitialState => {
+const userReducer = (state = initialState, action: LoginAction): InitialState => {
 	switch (action.type) {
 		case LOGIN_USER:
+			const { userInfo, accessToken } = action.payload;
 			return Object.assign({}, state, {
-				email: action.payload.email,
-				nickname: action.payload.nickname,
-				accessToken: action.payload.accessToken,
-				// profileImage: action.payload.profileImage,
-				// signUpType: action.payload.signUpType,
-				// refreshToken: action.payload.refreshToken,
+				id: userInfo.id,
+				email: userInfo.email,
+				nickname: userInfo.nickname,
+				createdAt: userInfo.createdAt,
+				accountType: userInfo.accountType,
+				signUpType: userInfo.signUpType,
+				profileImage: userInfo.profileImage,
+				accessToken: accessToken,
 			});
 
 		case LOGOUT_USER:
 			return Object.assign({}, state, {
+				id: "",
 				email: "",
 				nickname: "",
-				profileImage: "",
+				createdAt: "",
+				accountType: "",
 				signUpType: "",
 				accessToken: "",
-				refreshToken: "",
+				profileImage: "",
 			});
 
 		case ACCESS_TOKEN_AUTHENTICAITON:
@@ -62,4 +71,4 @@ const numberReducer = (state = initialState, action: CounterAction): InitialStat
 	}
 };
 
-export default numberReducer;
+export default userReducer;

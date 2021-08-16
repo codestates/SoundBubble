@@ -4,9 +4,6 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { emailIsValid, pwIsValid } from "../Utils/Validator";
 import "./Styles/SignupModal.css";
-import { useSelector, useDispatch } from "react-redux";
-import { loginUser } from "../actions/index";
-import { RootReducerType } from "../Store";
 import Modal from "../Components/Modal";
 
 const SignupModal = (): JSX.Element => {
@@ -22,11 +19,6 @@ const SignupModal = (): JSX.Element => {
 	const handleCloseModal = () => {
 		setIsModal(false);
 	};
-
-	// ! ###### test zone ######
-	const dispatch = useDispatch();
-	const state = useSelector((state: RootReducerType) => state.user);
-	// ! ###### test zone ######
 
 	const handleSamePW = (PW: string, RePW: string) => {
 		return PW === RePW ? true : false;
@@ -44,15 +36,6 @@ const SignupModal = (): JSX.Element => {
 			return;
 		}
 		if (handleSamePW(PW, RePW)) {
-			// ! ###### test zone ######
-			// ? # login시 user-info와 access token을 받아두기
-			// const userInfo = {
-			// 	email: ID,
-			// 	nickname: name,
-			// 	accessToken: "temp token",
-			// };
-			// dispatch(loginUser(userInfo));
-			// ! ###### test zone ######
 			axios({
 				method: "POST",
 				url: `${URL}/user/signup`,
