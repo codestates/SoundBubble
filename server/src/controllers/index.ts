@@ -13,10 +13,12 @@ import createBubbleComment from "./bubble/createBubbleComment";
 import deleteBubbleComment from "./bubble/deleteBubbleComment";
 
 import loginGoogle from "./user/loginGoogle";
+import loginNaver from "./user/loginNaver";
 
 export {
   login,
   loginGoogle,
+  loginNaver,
   signUp,
   updateNickname,
   updatePassword,

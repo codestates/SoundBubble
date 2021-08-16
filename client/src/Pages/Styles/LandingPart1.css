@@ -1,68 +1,101 @@
 .container1 {
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(36,37,39);
-  color: white;
+	width: 100%;
+	height: 100vh;
+	background-color: #000;
+	color: white;
+	position: relative;
 }
-
+.circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 100%;
+	background-color: #fff;
+}
 .toTopBtnWrapper {
-  cursor: pointer;
+	cursor: pointer;
 	flex-direction: column;
 	position: fixed;
 	right: 2vw;
 	bottom: 4vh;
 	z-index: 99;
 	width: 60px;
-	hieght: 60px;
+	height: 60px;
 }
 .toTopBtn {
-	padding: 4px;
-	color: white;
-	background-color: rgba(0, 0, 0, 0.3);
+	padding: 10px;
+	color: #fff;
+	background-color: rgb(119, 112, 255);
+	outline: none;
+	border: none;
 	border-radius: 3px;
+	cursor: pointer;
 }
 
 .contentsWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 	width: 100%;
-  height: 100vh;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	top: 0;
+	left: 0;
 }
-
-.mainMessage {
-  margin-bottom: 1.1vw;
-	font-family: NanumSquareEB;
-	font-size: 4.5vw;
-	color: #d8d8d8;
+.textWrap {
+	text-align: center;
+	margin-bottom: 5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
-
-.subMessage {
-  margin-bottom: 7.5vw;
-	font-family: NanumSquareB;
-	font-size: 2.1vw;
-	color: #fafafa;
+.textWrap h1 {
+	font-size: 3.5rem;
+	font-weight: bold;
+	margin: 1rem 0;
 }
-
+.textWrap h2 {
+	font-size: 2rem;
+	font-weight: lighter;
+}
+.btnWrap {
+	width: 36rem;
+	display: flex;
+	justify-content: space-between;
+}
+.mainBtn {
+	width: 17rem;
+	height: 4.5rem;
+	font-family: "Noto Sans KR", sans-serif;
+	font-size: 1.6rem;
+	outline: none;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
 .freeExpBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  z-index: 8;
-  transition: 0.3s;
-  width: 11vw;
-  height: 3.2vw;
-  font-family: NanumSquareEB;
-  font-size: 1.4vw;
-  color: rgb(46, 46, 46);
-  background-color: #d8d8d8;
-  border-radius: 5px;
+	background-color: #fff;
+	color: #2e2e2e;
 }
-
+.paletteBtn {
+	background-color: #6d6b6b;
+	color: #fff;
+}
 .freeExpBtn:hover {
-  color: rgb(46, 46, 46);
-  background-color: #9a9a9a;
+	transform: scale(1.03);
+	-o-transform: scale(1.03);
+	-moz-transform: scale(1.03);
+	-webkit-transform: scale(1.03);
+	color: #fff;
+	background-color: rgb(119, 112, 255);
+}
+.paletteBtn:hover {
+	transform: scale(1.03);
+	-o-transform: scale(1.03);
+	-moz-transform: scale(1.03);
+	-webkit-transform: scale(1.03);
+	color: #fff;
+	background-color: rgb(119, 112, 255);
 }
