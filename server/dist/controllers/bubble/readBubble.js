@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
 const BubbleComment_1 = require("../../entity/BubbleComment");
 const readBubble = async (req, res) => {
-    const { id: bubbleId } = req.params;
+    const bubbleId = req.params.id;
     try {
         //* 버블 조회
         const bubble = await Bubble_1.Bubble.findBubble(Number(bubbleId));

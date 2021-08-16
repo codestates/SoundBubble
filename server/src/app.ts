@@ -10,7 +10,7 @@ import { connectDB } from "./connectDB";
 import userRouter from "./routes/userRouter";
 import bubbleRouter from "./routes/bubbleRouter";
 
-// Connect DB
+//* Connect DB
 connectDB();
 
 const app: express.Application = express();
@@ -23,7 +23,7 @@ morgan.token("date", () => {
   return dateFormat;
 });
 
-// Middleware
+//* Middleware
 app.use(morgan(`"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length] [:date]`));
 app.use(
   cors({
@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Route
+//* Route
 app.use("/user", userRouter);
 app.use("/bubble", bubbleRouter);
 
@@ -44,14 +44,18 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello world!!");
 });
 
+// 404 Error Handling
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).send("Page Not Found!");
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
+// Error Handling middleware
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+  console.error(err);
   res.status(500).send("Internal Server Error");
 });
 
-// Listen
-app.listen(PORT, () => console.log(`http server is runnning on ${PORT}`));
+//* Listen
+app.listen(PORT, () => console.log(`Server is runnning on ${PORT}`));

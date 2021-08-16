@@ -4,8 +4,9 @@ const Bubble_1 = require("../../entity/Bubble");
 const BubbleComment_1 = require("../../entity/BubbleComment");
 const createBubbleComment = async (req, res) => {
     const { userId } = req.userInfo;
-    const { id: bubbleId } = req.params;
-    const { textContent } = req.body;
+    const textContent = req.body.textContent;
+    const bubbleId = req.params.id;
+    // const { id: bubbleId }: { id: string } = req.params as any;
     try {
         //* 파라미터 검사
         if (!textContent) {

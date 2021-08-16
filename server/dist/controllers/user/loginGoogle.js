@@ -6,7 +6,7 @@ const index_1 = require("../token/index");
 const google_auth_library_1 = require("google-auth-library");
 const loginGoogle = async (req, res) => {
     //* 클라이언트로부터 Authorization Code 획득
-    const { authorizationCode } = req.body;
+    const authorizationCode = req.body.authorizationCode;
     try {
         //* 파라미터 검사
         if (!authorizationCode) {

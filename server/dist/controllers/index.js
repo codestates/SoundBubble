@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBubbleComment = exports.createBubbleComment = exports.readBubble = exports.deleteBubble = exports.createBubble = exports.readAllBubble = exports.readMyBubble = exports.updatePassword = exports.updateNickname = exports.signUp = exports.loginGoogle = exports.login = void 0;
+exports.deleteBubbleComment = exports.createBubbleComment = exports.readBubble = exports.deleteBubble = exports.createBubble = exports.readAllBubble = exports.readMyBubble = exports.updatePassword = exports.updateNickname = exports.signUp = exports.loginNaver = exports.loginGoogle = exports.login = void 0;
 const login_1 = __importDefault(require("./user/login"));
 exports.login = login_1.default;
 const signUp_1 = __importDefault(require("./user/signUp"));
@@ -28,4 +28,6 @@ const deleteBubbleComment_1 = __importDefault(require("./bubble/deleteBubbleComm
 exports.deleteBubbleComment = deleteBubbleComment_1.default;
 const loginGoogle_1 = __importDefault(require("./user/loginGoogle"));
 exports.loginGoogle = loginGoogle_1.default;
+const loginNaver_1 = __importDefault(require("./user/loginNaver"));
+exports.loginNaver = loginNaver_1.default;
 //# sourceMappingURL=index.js.map

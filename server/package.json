@@ -5,9 +5,9 @@
    "main": "index.js",
    "scripts": {
       "start": "nodemon src/app.ts",
-      "start:js": "nodemon dist/app.js",
-      "start:pm2": "NODE_ENV=production authbind --deep pm2 start dist/app.js",
-      "stop:pm2": "authbind --deep pm2 stop dist/app.js",
+      "start:dev": "nodemon dist/app.js",
+      "start:prod": "NODE_ENV=production authbind --deep pm2 start dist/app.js",
+      "stop:prod": "authbind --deep pm2 stop dist/app.js",
       "test": "echo \"Error: no test specified\" && exit 1"
    },
    "devDependencies": {
@@ -31,6 +31,7 @@
    },
    "dependencies": {
       "aws-sdk": "^2.963.0",
+      "axios": "^0.21.1",
       "cookie-parser": "^1.4.5",
       "cors": "^2.8.5",
       "crypto": "^1.0.1",

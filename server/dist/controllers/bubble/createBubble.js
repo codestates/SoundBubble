@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
 const createBubble = async (req, res) => {
     const { userId } = req.userInfo;
-    const { textContent } = req.body;
+    const textContent = req.body.textContent;
     try {
         //* 파라미터 검사
         if (!textContent) {

@@ -4,7 +4,7 @@ const Bubble_1 = require("../../entity/Bubble");
 const s3_1 = require("../../aws/s3");
 const deleteBubble = async (req, res) => {
     const { userId, accountType } = req.userInfo;
-    const { id: bubbleId } = req.params;
+    const bubbleId = req.params.id;
     try {
         //* 버블 조회. 존재하는 버블인지 확인
         const bubbleInfo = await Bubble_1.Bubble.findOne(bubbleId);

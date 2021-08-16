@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const BubbleComment_1 = require("../../entity/BubbleComment");
 const deleteBubbleComment = async (req, res) => {
     const { userId, accountType } = req.userInfo;
-    const { id: bubbleId } = req.params;
-    const { commentId } = req.body;
+    const commentId = req.body;
+    const bubbleId = req.params.id;
     try {
         //* 파라미터 검사
         if (!commentId) {

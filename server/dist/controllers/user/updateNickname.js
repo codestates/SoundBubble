@@ -20,13 +20,10 @@ const updateNickname = async (req, res) => {
         }
         const hashedPassword = hash_1.default(password);
         //* 유저 조회
-        const userInfo = await User_1.User.findOne(userId);
+        const userInfo = await User_1.User.findUserById(userId, hashedPassword);
         if (!userInfo) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        if (userInfo.password !== hashedPassword) {
             // 패스워드 다름
-            return res.status(403).json({ message: "Incorrect password" });
+            return res.status(403).json({ message: "Not authorized" });
         }
         if (userInfo.nickname === nickname) {
             // 이전과 동일한 닉네임

@@ -77,7 +77,7 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
         const bubbles = await this.createQueryBuilder("bubble")
             .where("bubble.userId = :userId", { userId: userId })
             .leftJoinAndSelect("bubble.user", "user")
-            .select(["bubble.id", "bubble.image", "bubble.sound", "bubble.textContent", "user.email", "user.nickname"])
+            .select(["bubble.id", "bubble.thumbnail", "bubble.image", "bubble.sound", "bubble.textContent", "bubble.createdAt", "user.email", "user.nickname"])
             .orderBy("bubble.id", "DESC")
             .getMany();
         return bubbles;

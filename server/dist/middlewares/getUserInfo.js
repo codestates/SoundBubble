@@ -12,11 +12,11 @@ const getUserInfo = async (res, accessToken) => {
     };
     try {
         // 토큰 검사
-        const decoded = await token_1.verifyAccessToken(accessToken);
+        const decoded = (await token_1.verifyAccessToken(accessToken));
         //* (1) 만료된 토큰
         if (decoded.name === "TokenExpiredError") {
             // 만료된 액세스 토큰 강제 검증
-            const decodedExpired = await token_1.verifyExpiredAccessToken(accessToken);
+            const decodedExpired = (await token_1.verifyExpiredAccessToken(accessToken));
             if (!decodedExpired.userId || !decodedExpired.email || !decodedExpired.accountType) {
                 tokenInfo.error = "INVALID";
                 return tokenInfo;
@@ -34,15 +34,12 @@ const getUserInfo = async (res, accessToken) => {
             }
             // 리프레시 토큰 검증
             const refreshToken = userToken.refreshToken;
-            const decodedRefresh = await token_1.verifyRefreshToken(refreshToken);
+            const decodedRefresh = (await token_1.verifyRefreshToken(refreshToken));
             if (decodedRefresh.name) {
                 if (decodedRefresh.name === "TokenExpiredError") {
                     tokenInfo.error = "EXPIRED";
                 }
                 else if (decodedRefresh.name === "JsonWebTokenError") {
-                    tokenInfo.error = "INVALID";
-                }
-                if (userInfo.id !== decodedRefresh.userId) {
                     tokenInfo.error = "INVALID";
                 }
                 // 검증 실패 -> 리프레시 토큰 삭제

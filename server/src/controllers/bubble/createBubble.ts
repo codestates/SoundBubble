@@ -1,10 +1,10 @@
 import { Request, Response, RequestHandler } from "express";
 import { Bubble } from "../../entity/Bubble";
-import { UserInfo } from "../../@type/tokenUserInfo";
+import { UserInfo } from "../../@type/userInfo";
 
 const createBubble: RequestHandler = async (req: Request, res: Response) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
-	const { textContent }: { textContent: string | undefined } = req.body;
+	const textContent: string | undefined = req.body.textContent;
 
 	try {
 		//* 파라미터 검사
