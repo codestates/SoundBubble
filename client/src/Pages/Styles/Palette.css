@@ -1,0 +1,22 @@
+.palette-main {
+	position: absolute;
+	width: 100%;
+}
+
+.palette-message {
+	color: white;
+
+	animation: MessageFadeInOut 3s;
+}
+
+@keyframes MessageFadeInOut {
+	0% {
+		color: transparent;
+	}
+	50% {
+		color: white;
+	}
+	100% {
+		color: transparent;
+	}
+}
