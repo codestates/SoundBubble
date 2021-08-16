@@ -1,12 +1,13 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
 import { generateAccessToken, generateRefreshToken } from "../token/index";
 import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
 import { GoogleTokenPayload } from "../../@type/oAuthUserInfo";
 import { GetTokenResponse } from "google-auth-library/build/src/auth/oauth2client";
+import { logError } from "../../utils/log";
 
-const loginGoogle: RequestHandler = async (req: Request, res: Response) => {
+const loginGoogle: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	//* 클라이언트로부터 Authorization Code 획득
 	const authorizationCode: string | undefined = req.body.authorizationCode;
 
@@ -73,9 +74,9 @@ const loginGoogle: RequestHandler = async (req: Request, res: Response) => {
 		await UserToken.insertToken(userInfo.id, refreshToken);
 
 		return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Faild to google login" });
+	} catch (err) {
+		logError("Faild to google login");
+		next(err);
 	}
 };
 

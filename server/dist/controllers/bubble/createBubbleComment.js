@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
 const BubbleComment_1 = require("../../entity/BubbleComment");
-const createBubbleComment = async (req, res) => {
+const log_1 = require("../../utils/log");
+const createBubbleComment = async (req, res, next) => {
     const { userId } = req.userInfo;
     const textContent = req.body.textContent;
     const bubbleId = req.params.id;
-    // const { id: bubbleId }: { id: string } = req.params as any;
     try {
         //* 파라미터 검사
         if (!textContent) {
@@ -23,9 +23,9 @@ const createBubbleComment = async (req, res) => {
         const comments = await BubbleComment_1.BubbleComment.findComments(Number(bubbleId));
         res.status(201).json({ data: { comments }, message: "Comment successfully registered" });
     }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Failed to register comment" });
+    catch (err) {
+        log_1.logError("Failed to register comment");
+        next(err);
     }
 };
 exports.default = createBubbleComment;

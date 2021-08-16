@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
 const User_1 = require("../../entity/User");
-const readMyBubble = async (req, res) => {
+const log_1 = require("../../utils/log");
+const readMyBubble = async (req, res, next) => {
     const { userId } = req.userInfo;
     try {
         const userInfo = await User_1.User.findOne(userId);
@@ -12,9 +13,9 @@ const readMyBubble = async (req, res) => {
         const bubbles = await Bubble_1.Bubble.findBubblesByUserId(userId);
         return res.status(200).json({ data: { bubbles }, message: "All my bubbles successfully read" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to read all bubbles" });
+    catch (err) {
+        log_1.logError("Failed to read all bubbles");
+        next(err);
     }
 };
 exports.default = readMyBubble;

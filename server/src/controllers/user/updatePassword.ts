@@ -1,10 +1,11 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserInfo } from "../../@type/userInfo";
 import { checkPassword } from "../../utils/validate";
 import hash from "../../utils/hash";
+import { logError } from "../../utils/log";
 
-const updatePassword: RequestHandler = async (req: Request, res: Response) => {
+const updatePassword: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
 	const { password, newPassword }: { password: string; newPassword: string } = req.body;
 
@@ -51,9 +52,9 @@ const updatePassword: RequestHandler = async (req: Request, res: Response) => {
 		}
 
 		return res.status(200).json({ message: "User password successfully updated" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Failed to update password" });
+	} catch (err) {
+    logError("Failed to update password");
+		next(err);
 	}
 };
 

@@ -45,8 +45,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // 404 Error Handling
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response) => {
   res.status(404).send("Page Not Found!");
 });
 

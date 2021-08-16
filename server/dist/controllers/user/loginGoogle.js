@@ -4,7 +4,8 @@ const User_1 = require("../../entity/User");
 const UserToken_1 = require("../../entity/UserToken");
 const index_1 = require("../token/index");
 const google_auth_library_1 = require("google-auth-library");
-const loginGoogle = async (req, res) => {
+const log_1 = require("../../utils/log");
+const loginGoogle = async (req, res, next) => {
     //* 클라이언트로부터 Authorization Code 획득
     const authorizationCode = req.body.authorizationCode;
     try {
@@ -59,9 +60,9 @@ const loginGoogle = async (req, res) => {
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
         return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Faild to google login" });
+    catch (err) {
+        log_1.logError("Faild to google login");
+        next(err);
     }
 };
 exports.default = loginGoogle;

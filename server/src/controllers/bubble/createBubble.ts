@@ -1,8 +1,9 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { Bubble } from "../../entity/Bubble";
 import { UserInfo } from "../../@type/userInfo";
+import { logError } from "../../utils/log"
 
-const createBubble: RequestHandler = async (req: Request, res: Response) => {
+const createBubble: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
 	const textContent: string | undefined = req.body.textContent;
 
@@ -28,9 +29,9 @@ const createBubble: RequestHandler = async (req: Request, res: Response) => {
 		await Bubble.insertBubble(userId, textContent, imageSrc, soundSrc, thumbnailSrc);
 
 		res.status(201).json({ message: "Bubble successfully uploaded" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Failed to upload bubble" });
+	} catch (err) {
+		logError("Failed to upload bubble");
+		next(err);
 	}
 };
 

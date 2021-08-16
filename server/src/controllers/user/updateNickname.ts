@@ -1,10 +1,11 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserInfo } from "../../@type/userInfo";
 import { checkPassword } from "../../utils/validate";
 import hash from "../../utils/hash";
+import { logError } from "../../utils/log";
 
-const updateNickname: RequestHandler = async (req: Request, res: Response) => {
+const updateNickname: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
 	const { nickname, password }: { nickname: string; password: string } = req.body;
 
@@ -38,9 +39,9 @@ const updateNickname: RequestHandler = async (req: Request, res: Response) => {
 		await userInfo.save();
 
 		return res.status(200).json({ data: { userInfo }, message: "User nickname successfully updated" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Failed to update nickname" });
+	} catch (err) {
+		logError("Failed to update nickname");
+		next(err);
 	}
 };
 

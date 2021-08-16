@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = require("../../entity/User");
 const validate_1 = require("../../utils/validate");
 const hash_1 = __importDefault(require("../../utils/hash"));
-const updatePassword = async (req, res) => {
+const log_1 = require("../../utils/log");
+const updatePassword = async (req, res, next) => {
     const { userId } = req.userInfo;
     const { password, newPassword } = req.body;
     try {
@@ -47,9 +48,9 @@ const updatePassword = async (req, res) => {
         }
         return res.status(200).json({ message: "User password successfully updated" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to update password" });
+    catch (err) {
+        log_1.logError("Failed to update password");
+        next(err);
     }
 };
 exports.default = updatePassword;

@@ -1,9 +1,10 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { Bubble } from "../../entity/Bubble";
 import { deleteResource } from "../../aws/s3";
 import { UserInfo } from "../../@type/userInfo";
+import { logError } from "../../utils/log";
 
-const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
+const deleteBubble: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId, accountType }: { userId: number; accountType: string } = req.userInfo as UserInfo;
 	const bubbleId: string = req.params.id as string;
 
@@ -39,9 +40,9 @@ const deleteBubble: RequestHandler = async (req: Request, res: Response) => {
 		await deleteResource("soundbubble-resource/thumb", thumbnailSrc);
 
 		res.status(200).json({ message: "Bubble successfully deleted" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Failed to delete bubble" });
+	} catch (err) {
+		logError("Failed to delete bubble");
+		next(err);
 	}
 };
 

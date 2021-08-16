@@ -1,9 +1,10 @@
-import { Request, RequestHandler, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { Bubble } from "../../entity/Bubble";
 import { User } from "../../entity/User";
 import { UserInfo } from "../../@type/userInfo";
+import { logError } from "../../utils/log";
 
-const readMyBubble: RequestHandler = async (req: Request, res: Response) => {
+const readMyBubble: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
 
 	try {
@@ -14,9 +15,9 @@ const readMyBubble: RequestHandler = async (req: Request, res: Response) => {
 		}
 		const bubbles: Bubble[] = await Bubble.findBubblesByUserId(userId);
 		return res.status(200).json({ data: { bubbles }, message: "All my bubbles successfully read" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Failed to read all bubbles" });
+	} catch (err) {
+		logError("Failed to read all bubbles");
+		next(err);
 	}
 };
 

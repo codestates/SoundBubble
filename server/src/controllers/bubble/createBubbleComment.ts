@@ -1,13 +1,13 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { Bubble } from "../../entity/Bubble";
 import { BubbleComment } from "../../entity/BubbleComment";
 import { UserInfo } from "../../@type/userInfo";
+import { logError } from "../../utils/log";
 
-const createBubbleComment: RequestHandler = async (req: Request, res: Response) => {
+const createBubbleComment: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
 	const textContent: string | undefined = req.body.textContent;
 	const bubbleId: string = req.params.id as string;
-	// const { id: bubbleId }: { id: string } = req.params as any;
 
 	try {
 		//* 파라미터 검사
@@ -29,9 +29,9 @@ const createBubbleComment: RequestHandler = async (req: Request, res: Response) 
 		const comments: BubbleComment[] = await BubbleComment.findComments(Number(bubbleId));
 
 		res.status(201).json({ data: { comments }, message: "Comment successfully registered" });
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ message: "Failed to register comment" });
+	} catch (err) {
+		logError("Failed to register comment");
+		next(err);
 	}
 };
 

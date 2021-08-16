@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
 const BubbleComment_1 = require("../../entity/BubbleComment");
-const readBubble = async (req, res) => {
+const log_1 = require("../../utils/log");
+const readBubble = async (req, res, next) => {
     const bubbleId = req.params.id;
     try {
         //* 버블 조회
@@ -14,9 +15,9 @@ const readBubble = async (req, res) => {
         const comments = await BubbleComment_1.BubbleComment.findComments(Number(bubbleId));
         res.status(200).json({ data: { bubble, comments }, message: "Bubble and comments successfully read" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to read bubble and comments" });
+    catch (err) {
+        log_1.logError("Failed to read bubble and comments");
+        next(err);
     }
 };
 exports.default = readBubble;

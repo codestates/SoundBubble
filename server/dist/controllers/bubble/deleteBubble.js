@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
 const s3_1 = require("../../aws/s3");
-const deleteBubble = async (req, res) => {
+const log_1 = require("../../utils/log");
+const deleteBubble = async (req, res, next) => {
     const { userId, accountType } = req.userInfo;
     const bubbleId = req.params.id;
     try {
@@ -34,9 +35,9 @@ const deleteBubble = async (req, res) => {
         await s3_1.deleteResource("soundbubble-resource/thumb", thumbnailSrc);
         res.status(200).json({ message: "Bubble successfully deleted" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to delete bubble" });
+    catch (err) {
+        log_1.logError("Failed to delete bubble");
+        next(err);
     }
 };
 exports.default = deleteBubble;

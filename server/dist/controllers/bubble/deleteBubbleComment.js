@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const BubbleComment_1 = require("../../entity/BubbleComment");
-const deleteBubbleComment = async (req, res) => {
+const log_1 = require("../../utils/log");
+const deleteBubbleComment = async (req, res, next) => {
     const { userId, accountType } = req.userInfo;
     const commentId = req.body;
     const bubbleId = req.params.id;
@@ -38,9 +39,9 @@ const deleteBubbleComment = async (req, res) => {
         const comments = await BubbleComment_1.BubbleComment.findComments(Number(bubbleId));
         res.json({ data: { comments }, message: "Comment successfully deleted" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to delete comment" });
+    catch (err) {
+        log_1.logError("Failed to delete comment");
+        next(err);
     }
 };
 exports.default = deleteBubbleComment;

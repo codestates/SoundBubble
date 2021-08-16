@@ -1,9 +1,10 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { Bubble } from "../../entity/Bubble";
 import { checkStartQuery, checkEndQuery, checkLimitQuery, checkOrderQuery } from "../../utils/checkQueryParam";
 import { QueryOrder } from "../../@type/query";
+import { logError } from "../../utils/log";
 
-const readAllBubble: RequestHandler = async (req: Request, res: Response) => {
+const readAllBubble: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { start, end, limit, order } = req.query as { [key: string]: undefined | string };
 
 	try {
@@ -17,9 +18,9 @@ const readAllBubble: RequestHandler = async (req: Request, res: Response) => {
 		const bubbles: Bubble[] = await Bubble.findAllBubbles(_start, _end, _limit, _order);
 
 		res.status(200).json({ data: { bubbles }, message: "All bubbles successfully read" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Failed to read all bubbles" });
+	} catch (err) {
+		logError("Failed to read all bubbles");
+		next(err);
 	}
 };
 

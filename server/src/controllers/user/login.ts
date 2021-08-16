@@ -1,11 +1,12 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
 import { checkEmail, checkPassword } from "../../utils/validate";
 import { generateAccessToken, generateRefreshToken } from "../token/index";
 import hash from "../../utils/hash";
+import { logError } from "../../utils/log";
 
-const login: RequestHandler = async (req: Request, res: Response) => {
+const login: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password }: { email: string; password: string } = req.body;
 
 	try {
@@ -35,9 +36,9 @@ const login: RequestHandler = async (req: Request, res: Response) => {
 		await UserToken.insertToken(userInfo.id, refreshToken);
 
 		return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Failed to login" });
+	} catch (err) {
+		logError("Failed to login");
+		next(err);
 	}
 };
 

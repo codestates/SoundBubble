@@ -1,8 +1,9 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { BubbleComment } from "../../entity/BubbleComment";
 import { UserInfo } from "../../@type/userInfo";
+import { logError } from "../../utils/log";
 
-const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) => {
+const deleteBubbleComment: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId, accountType }: { userId: number; accountType: string } = req.userInfo as UserInfo;
 	const commentId: number | string = req.body;
 	const bubbleId: string = req.params.id as string;
@@ -43,9 +44,9 @@ const deleteBubbleComment: RequestHandler = async (req: Request, res: Response) 
 		const comments: BubbleComment[] = await BubbleComment.findComments(Number(bubbleId));
 
 		res.json({ data: { comments }, message: "Comment successfully deleted" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Failed to delete comment" });
+	} catch (err) {
+		logError("Failed to delete comment");
+		next(err);
 	}
 };
 
