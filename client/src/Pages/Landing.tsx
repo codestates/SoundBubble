@@ -1,41 +1,42 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from "react";
 import Footer from "../Components/Footer";
-import LandingFirst from './Landing/LandingPart1';
-import LandingSecond from './Landing/LandingPart2';
-import LandingThird from './Landing/LandingPart3';
-import LandingFourth from './Landing/LandingPart4';
-import LandingFifth from './Landing/LandingPart5';
+import Navigation from "../Components/Navigation";
+import LandingFirst from "./Landing/LandingPart1";
+import LandingSecond from "./Landing/LandingPart2";
+import LandingThird from "./Landing/LandingPart3";
+import LandingFourth from "./Landing/LandingPart4";
+import LandingFifth from "./Landing/LandingPart5";
 
-const Landing = () => {
-  const [isScroll, setIsScroll] = useState<boolean>(false);
+const Landing = (): JSX.Element => {
+	const [isScroll, setIsScroll] = useState<boolean>(false);
 
-  const onScrollEvent = useCallback(() => {
+	const onScrollEvent = useCallback(() => {
 		if (window.pageYOffset > 0) {
 			setIsScroll(true);
 		}
 		if (window.pageYOffset === 0) {
 			setIsScroll(false);
 		}
-  }, []);
-  
-  useEffect(() => {
+	}, []);
+
+	useEffect(() => {
 		window.scrollTo(0, 0);
-		window.addEventListener('mousewheel', onScrollEvent);
+		window.addEventListener("mousewheel", onScrollEvent);
 		return () => {
-			// TODO: 메모리 누수 방지
-			window.removeEventListener('mousewheel', onScrollEvent);
+			window.removeEventListener("mousewheel", onScrollEvent);
 		};
 	}, []);
-  return (
-    <>
-      <LandingFirst />
+	return (
+		<>
+			<Navigation />
+			<LandingFirst />
 			<LandingSecond />
 			<LandingThird />
 			<LandingFourth />
 			<LandingFifth />
-      <Footer />
-    </>
-  );
+			<Footer />
+		</>
+	);
 };
 
 export default Landing;

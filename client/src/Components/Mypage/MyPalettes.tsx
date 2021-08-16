@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React from "react";
 
 const MyPalettes = (): JSX.Element => {
 	return (

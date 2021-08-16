@@ -1,11 +1,35 @@
 .footerContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 30vh;
+	background-color: #000;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 5rem 0;
 }
+.footerWrap {
+	width: 1200px;
+	margin: 0 auto;
 
-.aboutUs {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+.aboutUs h3,
+.contact h3 {
+	font-size: 1.6rem;
+	font-weight: bold;
+	margin-bottom: 3rem;
+}
+.aboutUs p,
+.contact p {
+	font-size: 1.2rem;
+	font-weight: 100;
+	margin-bottom: 1rem;
+}
+.iconWrap img:first-child {
+	margin-right: 2rem;
+}
+.copyRight {
+	text-align: center;
+	margin-top: 10rem;
 }
