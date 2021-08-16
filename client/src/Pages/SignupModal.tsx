@@ -39,16 +39,13 @@ const SignupModal = (): JSX.Element => {
 		if (handleSamePW(PW, RePW)) {
 			// ! ###### test zone ######
 			// ? # login시 user-info와 access token을 받아두기
-			const userInfo = {
-				email: ID,
-				nickname: name,
-				accessToken: "temp token",
-			};
-			dispatch(loginUser(userInfo));
+			// const userInfo = {
+			// 	email: ID,
+			// 	nickname: name,
+			// 	accessToken: "temp token",
+			// };
+			// dispatch(loginUser(userInfo));
 			// ! ###### test zone ######
-
-			// TODO : 8/14일 기준 server가 꺼져있음.
-			// TODO : 8/14일 기준 server가 꺼져있음.
 			axios({
 				method: "POST",
 				url: `${URL}/user/signup`,
@@ -61,9 +58,16 @@ const SignupModal = (): JSX.Element => {
 			})
 				.then(resp => {
 					console.log("###", resp);
-					// window.history.back();
+					alert(resp.data.message);
+					history.push("/login");
 				})
-				.catch(err => console.log(err));
+				.catch(err => {
+					if (err.response.status === 409) {
+						alert("이미 회원가입이 완료된 이메일 입니다.");
+					} else {
+						alert("회원가입에 실패했습니다.");
+					}
+				});
 		} else {
 			setErrorMsg("비밀번호가 일치하지 않습니다.");
 		}
