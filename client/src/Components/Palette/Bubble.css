@@ -1,9 +1,7 @@
 .bubble-section {
-	width: 400px;
-	height: 400px;
-	/* background-color: rgb(255, 184, 184); */
-	/* border: 5px solid green; */
 	display: flex;
+	width: 300px;
+	height: 300px;
 }
 
 .bubble {
@@ -11,10 +9,64 @@
 	position: relative;
 	justify-content: center;
 	align-items: center;
-	/* z-index: 999; */
-	width: 60%;
-	height: 60%;
+	width: 250px;
+	height: 250px;
 	border: 3px solid black;
 	border-radius: 50%;
 	background-color: white;
+	background-size: 250px 250px;
+}
+
+.bubble-content {
+	position: absolute;
+}
+
+@media screen and (max-width: 1100px) {
+	.bubble-section {
+		display: flex;
+		width: 190px;
+		height: 250px;
+	}
+
+	.bubble {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		width: 200px;
+		height: 200px;
+		border: 3px solid black;
+		border-radius: 50%;
+		background-color: white;
+		background-size: 200px 200px;
+	}
+
+	.bubble-content {
+		position: absolute;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.bubble-section {
+		display: flex;
+		width: 120px;
+		height: 190px;
+	}
+
+	.bubble {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		width: 120px;
+		height: 120px;
+		border: 3px solid black;
+		border-radius: 50%;
+		background-color: white;
+		background-size: 120px 120px;
+	}
+
+	.bubble-content {
+		position: absolute;
+	}
 }

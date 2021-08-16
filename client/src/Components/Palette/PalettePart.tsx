@@ -4,22 +4,13 @@ import Bubble from "./Bubble";
 import axios from "axios";
 import { dummyBubble } from "./dummyBubble";
 
-// interface Bubble {
-// 	id: string;
-// 	image: string;
-// 	thumbnail: string;
-// 	sound: string;
-// 	textContent: string;
-// 	createdAt: string;
-// }
-
 const Palette = styled.div`
 	display: flex;
 `;
 
 const Column = styled.div`
 	width: 25%;
-	height: 200vh;
+	background-color: rgba(2, 7, 21, 0.9);
 	/* border: 10px solid black; */
 `;
 
@@ -27,7 +18,6 @@ const PalettePart = (): JSX.Element => {
 	// ? # bubble 배열을 받아왔을 때, column으로 배치하기
 	// axios({ method: "GET", url: process.env.REACT_APP_API_URL, withCredentials: true }).then(resp => console.log(resp));
 	const { bubbles } = dummyBubble;
-	console.log(bubbles);
 	// TODO : any type 재지정하기!!!!!!!
 	// TODO : any type 재지정하기!!!!!!!
 	// TODO : any type 재지정하기!!!!!!!
