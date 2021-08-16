@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { emailIsValid, pwIsValid } from "../Utils/Validator";
 import "./Styles/SignupModal.css";
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../actions/index";
+import { RootReducerType } from "../Store";
 
 const SignupModal = (): JSX.Element => {
 	const [name, setName] = useState("");
@@ -13,6 +16,11 @@ const SignupModal = (): JSX.Element => {
 	const [errorMsg, setErrorMsg] = useState("");
 	const URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
+
+	// ! ###### test zone ######
+	const dispatch = useDispatch();
+	const state = useSelector((state: RootReducerType) => state.user);
+	// ! ###### test zone ######
 
 	const handleSamePW = (PW: string, RePW: string) => {
 		return PW === RePW ? true : false;
@@ -29,6 +37,15 @@ const SignupModal = (): JSX.Element => {
 			return;
 		}
 		if (handleSamePW(PW, RePW)) {
+			// ! ###### test zone ######
+			// ? # login시 user-info와 access token을 받아두기
+			// const userInfo = {
+			// 	email: ID,
+			// 	nickname: name,
+			// 	accessToken: "temp token",
+			// };
+			// dispatch(loginUser(userInfo));
+			// ! ###### test zone ######
 			axios({
 				method: "POST",
 				url: `${URL}/user/signup`,
@@ -39,8 +56,18 @@ const SignupModal = (): JSX.Element => {
 				},
 				withCredentials: true,
 			})
-				.then(() => window.history.back())
-				.catch(err => console.log(err));
+				.then(resp => {
+					console.log("###", resp);
+					alert(resp.data.message);
+					history.push("/login");
+				})
+				.catch(err => {
+					if (err.response.status === 409) {
+						alert("이미 회원가입이 완료된 이메일 입니다.");
+					} else {
+						alert("회원가입에 실패했습니다.");
+					}
+				});
 		} else {
 			setErrorMsg("비밀번호가 일치하지 않습니다.");
 		}
