@@ -14,6 +14,7 @@ export const PaletteModal = styled.div`
 	width: 100%;
 	height: 120vh;
 	background-color: rgba(2, 7, 21, 0.5);
+	font-size: 3rem;
 	animation: BackgroundFadeIn 3s;
 
 	@keyframes BackgroundFadeInOut {
