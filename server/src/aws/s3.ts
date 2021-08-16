@@ -15,6 +15,7 @@ export const deleteResource = async (bucket: string, filename: string): Promise<
 			Bucket: bucket,
 			Key: filename,
 		},
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		function (error: aws.AWSError, data: aws.S3.DeleteObjectOutput) {
 			if (error) {
 				console.error(error);

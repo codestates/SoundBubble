@@ -1,47 +1,47 @@
 import "reflect-metadata";
-import { createConnection, ConnectionOptions } from "typeorm";
+import { createConnection, ConnectionOptions, Connection } from "typeorm";
 
 type DatabaseOptions = {
-  [env: string]: ConnectionOptions;
+	[env: string]: ConnectionOptions;
 };
 //* option
 const connectionOptions: DatabaseOptions = {
-  developtment: {
-    type: "mysql",
-    host: process.env.DATABASE_LOCAL_HOST,
-    port: Number(process.env.DATABASE_LOCAL_PORT),
-    username: process.env.DATABASE_LOCAL_USERNAME,
-    password: process.env.DATABASE_LOCAL_PASSWORD,
-    database: process.env.DATABASE_LOCAL_NAME,
-    synchronize: true,
-    logging: false,
-    entities: [__dirname + "/entity/**/*.{ts,js}"],
-    migrations: [__dirname + "/migration/**/*.{ts,js}"],
-    subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],
-    cli: {
-      entitiesDir: "entity",
-      migrationsDir: "migration",
-      subscribersDir: "subscriber",
-    },
-  },
-  production: {
-    type: "mysql",
-    host: process.env.DATABASE_HOST,
-    port: Number(process.env.DATABASE_PORT),
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
-    synchronize: true,
-    logging: false,
-    entities: [__dirname + "/entity/**/*.{ts,js}"],
-    migrations: [__dirname + "/migration/**/*.{ts,js}"],
-    subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],
-    cli: {
-      entitiesDir: "./entity",
-      migrationsDir: "./migration",
-      subscribersDir: "./subscriber",
-    },
-  },
+	developtment: {
+		type: "mysql",
+		host: process.env.DATABASE_LOCAL_HOST,
+		port: Number(process.env.DATABASE_LOCAL_PORT),
+		username: process.env.DATABASE_LOCAL_USERNAME,
+		password: process.env.DATABASE_LOCAL_PASSWORD,
+		database: process.env.DATABASE_LOCAL_NAME,
+		synchronize: true,
+		logging: false,
+		entities: [__dirname + "/entity/**/*.{ts,js}"],
+		migrations: [__dirname + "/migration/**/*.{ts,js}"],
+		subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],
+		cli: {
+			entitiesDir: "entity",
+			migrationsDir: "migration",
+			subscribersDir: "subscriber",
+		},
+	},
+	production: {
+		type: "mysql",
+		host: process.env.DATABASE_HOST,
+		port: Number(process.env.DATABASE_PORT),
+		username: process.env.DATABASE_USERNAME,
+		password: process.env.DATABASE_PASSWORD,
+		database: process.env.DATABASE_NAME,
+		synchronize: true,
+		logging: false,
+		entities: [__dirname + "/entity/**/*.{ts,js}"],
+		migrations: [__dirname + "/migration/**/*.{ts,js}"],
+		subscribers: [__dirname + "/subscriber/**/*.{ts,js}"],
+		cli: {
+			entitiesDir: "./entity",
+			migrationsDir: "./migration",
+			subscribersDir: "./subscriber",
+		},
+	},
 };
 
 //* Select option
@@ -52,16 +52,18 @@ console.log("Database info: ", env);
 
 //* Connect to Database
 export const connectDB = async (): Promise<void> => {
-  await createConnection(connectionOption)
-    .then(async (connection) => {
-      console.log("Database connected");
-      // await connection.dropDatabase();
-      // await connection.synchronize();
-    })
-    .catch((error) => {
-      console.log("Failed to connect database");
-      console.log(error);
-    });
+	try {
+		const connection = await createConnection(connectionOption);
+		if (process.env.DATABASE_TRUNCATE) {
+			await truncateDB(connection);
+		}
+	} catch (err) {
+		console.log("Failed to connect database");
+		console.error(err);
+	}
 };
 
-export default connectDB;
+export const truncateDB = async (connection: Connection): Promise<void> => {
+	await connection.dropDatabase();
+	await connection.synchronize();
+};

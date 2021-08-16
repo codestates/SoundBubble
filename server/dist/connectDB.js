@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectDB = void 0;
+exports.truncateDB = exports.connectDB = void 0;
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 //* option
@@ -48,17 +48,21 @@ const connectionOption = connectionOptions[env];
 console.log("Database info: ", env);
 //* Connect to Database
 const connectDB = async () => {
-    await typeorm_1.createConnection(connectionOption)
-        .then(async (connection) => {
-        console.log("Database connected");
-        // await connection.dropDatabase();
-        // await connection.synchronize();
-    })
-        .catch((error) => {
+    try {
+        const connection = await typeorm_1.createConnection(connectionOption);
+        if (process.env.DATABASE_TRUNCATE) {
+            await exports.truncateDB(connection);
+        }
+    }
+    catch (err) {
         console.log("Failed to connect database");
-        console.log(error);
-    });
+        console.error(err);
+    }
 };
 exports.connectDB = connectDB;
-exports.default = exports.connectDB;
+const truncateDB = async (connection) => {
+    await connection.dropDatabase();
+    await connection.synchronize();
+};
+exports.truncateDB = truncateDB;
 //# sourceMappingURL=connectDB.js.map
