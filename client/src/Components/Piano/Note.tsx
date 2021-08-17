@@ -20,7 +20,6 @@ const White = styled.button`
 	height: 200px;
 	background: white;
 	border: solid black 1px;
-	/* box-shadow: 2px 5px; */
 	margin: 1px;
 	margin-left: "-20px";
 	box-sizing: border-box;

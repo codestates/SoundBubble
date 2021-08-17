@@ -2,6 +2,8 @@ export const INCREASE_NUMBER = "INCREASE_NUMBER";
 export const DECREASE_NUMBER = "DECREASE_NUMBER";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
+export const EDIT_NICKNAME = "EDIT_NICKNAME";
+export const EDIT_PASSWORD = "EDIT_PASSWORD";
 export const ACCESS_TOKEN_AUTHENTICAITON = "ACCESS_TOKEN_AUTHENTICAITON";
 export const REFRESH_TOKEN_AUTHENTICAITON = "REFRESH_TOKEN_AUTHENTICAITON";
 
@@ -40,6 +42,20 @@ export const loginUser = (userInfo: UserInfo, accessToken: AccessToken): any => 
 export const logoutUser = () => {
 	return {
 		type: LOGOUT_USER,
+	};
+};
+
+export const editNickname = (userInfo: UserInfo, accessToken: AccessToken): any => {
+	return {
+		type: EDIT_NICKNAME,
+		payload: { userInfo, accessToken },
+	};
+};
+
+export const editPassword = (userInfo: UserInfo, accessToken: AccessToken): any => {
+	return {
+		type: EDIT_PASSWORD,
+		payload: { userInfo, accessToken },
 	};
 };
 
