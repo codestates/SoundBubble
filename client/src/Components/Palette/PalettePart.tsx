@@ -19,11 +19,13 @@ interface Bubble {
 // ? ###### Palette Column 구조 ######
 const Palette = styled.div`
 	display: flex;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(2, 7, 21, 0.9);
 `;
 
 const Column = styled.div`
 	width: 34%;
-	background-color: rgba(2, 7, 21, 0.9);
 `;
 
 const PalettePart = (): JSX.Element => {
