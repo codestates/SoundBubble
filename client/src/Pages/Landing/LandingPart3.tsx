@@ -5,6 +5,11 @@ import clickIcon from "../../Static/icons/clickIcon.png";
 
 const LandingThird = (): JSX.Element => {
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		console.log(e.currentTarget.value);
+		const audio = new Audio(`sounds/piano_${e.currentTarget.value}.mp3`);
+		audio.play();
+	};
 
 	const onScroll = useCallback((): void => {
 		setScrollPosition(window.pageYOffset);
@@ -26,7 +31,7 @@ const LandingThird = (): JSX.Element => {
 							<img src={clickIcon} alt="클릭아이콘" width="45px" height="50px"></img>
 						</div>
 					</div>
-					<Piano />
+					<Piano handleClick={handleClick} />
 				</div>
 			</div>
 		</>
