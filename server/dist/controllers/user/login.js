@@ -8,7 +8,8 @@ const UserToken_1 = require("../../entity/UserToken");
 const validate_1 = require("../../utils/validate");
 const index_1 = require("../token/index");
 const hash_1 = __importDefault(require("../../utils/hash"));
-const login = async (req, res) => {
+const log_1 = require("../../utils/log");
+const login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
         //* 파라미터 검사
@@ -32,9 +33,9 @@ const login = async (req, res) => {
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
         return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to login" });
+    catch (err) {
+        log_1.logError("Failed to login");
+        next(err);
     }
 };
 exports.default = login;

@@ -16,7 +16,9 @@ const deleteResource = async (bucket, filename) => {
     exports.s3.deleteObject({
         Bucket: bucket,
         Key: filename,
-    }, function (error, data) {
+    }, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    function (error, data) {
         if (error) {
             console.error(error);
         }

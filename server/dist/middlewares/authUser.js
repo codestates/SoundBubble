@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const getUserInfo_1 = __importDefault(require("./getUserInfo"));
 const authUser = async (req, res, next) => {
-    const { authorization } = req.headers;
+    const authorization = req.headers.authorization;
     //* 파라미터 검사
     if (!authorization) {
         return res.status(401).json({ message: "Invalid authorization(headers)" });

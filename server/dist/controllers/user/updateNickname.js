@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = require("../../entity/User");
 const validate_1 = require("../../utils/validate");
 const hash_1 = __importDefault(require("../../utils/hash"));
-const updateNickname = async (req, res) => {
+const log_1 = require("../../utils/log");
+const updateNickname = async (req, res, next) => {
     const { userId } = req.userInfo;
     const { nickname, password } = req.body;
     try {
@@ -20,13 +21,10 @@ const updateNickname = async (req, res) => {
         }
         const hashedPassword = hash_1.default(password);
         //* 유저 조회
-        const userInfo = await User_1.User.findOne(userId);
+        const userInfo = await User_1.User.findUserById(userId, hashedPassword);
         if (!userInfo) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        if (userInfo.password !== hashedPassword) {
             // 패스워드 다름
-            return res.status(403).json({ message: "Incorrect password" });
+            return res.status(403).json({ message: "Not authorized" });
         }
         if (userInfo.nickname === nickname) {
             // 이전과 동일한 닉네임
@@ -37,9 +35,9 @@ const updateNickname = async (req, res) => {
         await userInfo.save();
         return res.status(200).json({ data: { userInfo }, message: "User nickname successfully updated" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to update nickname" });
+    catch (err) {
+        log_1.logError("Failed to update nickname");
+        next(err);
     }
 };
 exports.default = updateNickname;

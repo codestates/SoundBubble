@@ -1,5 +1,5 @@
 import { User } from "../../entity/User";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 const accessSecret: string = process.env.ACCESS_SECRET as string;
 const refreshSecret: string = process.env.REFRESH_SECRET as string;
@@ -20,7 +20,7 @@ export const generateRefreshToken = (user: User): string => {
   }, refreshSecret, { expiresIn: '14d' });
 }
 
-export const verifyAccessToken = (accessToken: string): any => {
+export const verifyAccessToken = (accessToken: string): string | JwtPayload => {
   try {
     return jwt.verify(accessToken, accessSecret);
   } catch (error) {
@@ -28,7 +28,7 @@ export const verifyAccessToken = (accessToken: string): any => {
   }
 }
 
-export const verifyExpiredAccessToken = (accessToken: string): any => {
+export const verifyExpiredAccessToken = (accessToken: string): string | JwtPayload => {
   try {
     return jwt.verify(accessToken, accessSecret, { ignoreExpiration: true });
   } catch (error) {
@@ -36,7 +36,7 @@ export const verifyExpiredAccessToken = (accessToken: string): any => {
   }
 }
 
-export const verifyRefreshToken = (refreshToken: string): any => {
+export const verifyRefreshToken = (refreshToken: string): string | JwtPayload => {
   try {
     return jwt.verify(refreshToken, refreshSecret);
   } catch (error) {

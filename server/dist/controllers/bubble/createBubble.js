@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Bubble_1 = require("../../entity/Bubble");
-const createBubble = async (req, res) => {
+const log_1 = require("../../utils/log");
+const createBubble = async (req, res, next) => {
     const { userId } = req.userInfo;
-    const { textContent } = req.body;
+    const textContent = req.body.textContent;
     try {
         //* 파라미터 검사
         if (!textContent) {
@@ -24,9 +25,9 @@ const createBubble = async (req, res) => {
         await Bubble_1.Bubble.insertBubble(userId, textContent, imageSrc, soundSrc, thumbnailSrc);
         res.status(201).json({ message: "Bubble successfully uploaded" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to upload bubble" });
+    catch (err) {
+        log_1.logError("Failed to upload bubble");
+        next(err);
     }
 };
 exports.default = createBubble;

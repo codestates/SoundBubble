@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = require("../../entity/User");
 const validate_1 = require("../../utils/validate");
 const hash_1 = __importDefault(require("../../utils/hash"));
-const signUp = async (req, res) => {
+const log_1 = require("../../utils/log");
+const signUp = async (req, res, next) => {
     const { email, password, nickname } = req.body;
     try {
         //* 파라미터 검사
@@ -30,9 +31,9 @@ const signUp = async (req, res) => {
         await User_1.User.insertUser(email, hashedPassword, nickname, "email", "user");
         res.status(201).json({ message: "User registration completed" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Failed to registration" });
+    catch (err) {
+        log_1.logError("Failed to registration");
+        next(err);
     }
 };
 exports.default = signUp;
