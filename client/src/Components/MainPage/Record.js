@@ -63,13 +63,17 @@ function Record() {
 				className="audio-btn"
 				onClick={toggleMicrophone}
 				style={{
-					background: `hsl(540, 100%, ${pitch > 260 ? "85%" : "40%"})`,
+					background: `hsl(${pitch}, 100%, ${pitch > 260 ? "85%" : "40%"})`,
 				}}
 			></button>
 			<h1></h1>
 			<h2>{audio ? "원을 한번 더 누르면 종료됩니다." : "원을 클릭하면 시작합니다."}</h2>
-			<div className="message">피치 : {pitch} Hz</div>
-			<div className="message">정확도 : {clarity} %</div>
+			<div className="message" style={{ color: "black" }}>
+				피치 : {pitch} Hz
+			</div>
+			<div className="message" style={{ color: "black" }}>
+				정확도 : {clarity} %
+			</div>
 		</div>
 	);
 }

@@ -6,10 +6,16 @@ import store from "./Store";
 import dotenv from "dotenv";
 dotenv.config();
 
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+
+const persistor = persistStore(store);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
+	<Provider store={store}>
+		<PersistGate loading={null} persistor={persistor}>
+			<App />
+		</PersistGate>
+	</Provider>,
+	document.getElementById("root"),
 );
