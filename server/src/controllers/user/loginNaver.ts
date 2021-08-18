@@ -20,7 +20,7 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
 		const NaverRedirectUri = process.env.NAVER_REDIRECT_URI as string;
 
 		//* 토큰 발급
-		const data = await axios({
+		const token = await axios({
 			url: "https://nid.naver.com/oauth2.0/token",
 			method: "post",
 			params: {
@@ -33,7 +33,7 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
 			},
     });
     
-    const naverAccessToken = data.data.access_token;
+    const naverAccessToken = token.data.access_token;
 
 		//* 유저 정보 요청
 		const profile = await axios({
@@ -41,18 +41,20 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
 			headers: {
 				Authorization: `bearer ${naverAccessToken}`,
 			},
-		});
-
+    });
+    const { email, nickname } = profile.data.response;
+    console.log("email", email);
+    console.log("nickname", nickname);
+    if (!email || !nickname) {
+      return res.status(400).json({ message: "Invalid code(body), failed to get user information" });
+    }
 		//* 회원가입된 유저인지 확인
-		const email = profile.data.response.email;
+		// const email = profile.data.response.email;
 		const user: User | undefined = await User.findOne({ email });
 
 		if (!user) {
-			const nickname = profile.data.response.nickname;
+			// const nickname = profile.data.response.nickname;
 			const profileImage = profile.data.response.profileImage;
-
-			console.log("nickname", nickname);
-			console.log("profileImage", profileImage);
 
 			if (profileImage) {
 				await User.insertUser(email, "", nickname, "naver", "user", profileImage);
