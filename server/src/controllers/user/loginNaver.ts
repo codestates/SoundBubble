@@ -49,6 +49,9 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
     if (!user) {
       const nickname = profile.data.response.nickname;
       const profileImage = profile.data.response.profileImage;
+
+      console.log("nickname", nickname);
+      console.log("profileImage", profileImage);
       
       if (profileImage) {
         await User.insertUser(email, "", nickname, "naver", "user", profileImage);
@@ -68,14 +71,15 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
       await user.save();
     }
 
-    //* refreshToken 저장
-    const userInfo = (await User.findUserByEmail(email)) as User;
-    await UserToken.insertToken(userInfo.id, refresh_token);
-    const accessToken: string = generateAccessToken(userInfo);
-    const refreshToken: string = generateRefreshToken(userInfo);
-    await UserToken.insertToken(userInfo.id, refreshToken);
+		const userInfo = (await User.findUserByEmail(email)) as User;
 
-    return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
+		//* 토큰 발급
+		const accessToken: string = generateAccessToken(userInfo);
+		const refreshToken: string = generateRefreshToken(userInfo);
+
+		await UserToken.insertToken(userInfo.id, refreshToken);
+
+		return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Faild to Naver login" });

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const User_1 = require("../../entity/User");
 const UserToken_1 = require("../../entity/UserToken");
+const index_1 = require("../token/index");
 const loginNaver = async (req, res) => {
     //* 클라이언트로부터 Authorization Code 획득
     const { authorizationCode } = req.body;
@@ -20,21 +21,23 @@ const loginNaver = async (req, res) => {
         const NaverRedirectUri = process.env.NAVER_REDIRECT_URI;
         const NaverState = 'naverstate';
         //* 토큰 발급
-        const { data: { accessToken, refreshToken }, } = await axios_1.default({
-            url: "http://nid.naver.com/oauth2.0/token",
+        const { data: { access_token, refresh_token }, } = await axios_1.default({
+            url: "https://nid.naver.com/oauth2.0/token",
             method: "post",
             params: {
                 client_id: NaverClientId,
                 client_secret: NaverClientSecret,
                 code: authorizationCode,
                 redirect_uri: NaverRedirectUri,
+                grant_type: "authorization_code",
+                state: "naverstate",
             },
         });
         //* 유저 정보 요청
         const profile = await axios_1.default({
             url: "https://openapi.naver.com/v1/nid/me",
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `bearer ${access_token}`,
             }
         });
         //* 회원가입된 유저인지 확인
@@ -43,6 +46,8 @@ const loginNaver = async (req, res) => {
         if (!user) {
             const nickname = profile.data.response.nickname;
             const profileImage = profile.data.response.profileImage;
+            console.log("nickname", nickname);
+            console.log("profileImage", profileImage);
             if (profileImage) {
                 await User_1.User.insertUser(email, "", nickname, "naver", "user", profileImage);
             }
@@ -61,8 +66,10 @@ const loginNaver = async (req, res) => {
             user.signUpType = "intergration"; // 계정 통합
             await user.save();
         }
-        //* refreshToken 저장
         const userInfo = (await User_1.User.findUserByEmail(email));
+        //* 토큰 발급
+        const accessToken = index_1.generateAccessToken(userInfo);
+        const refreshToken = index_1.generateRefreshToken(userInfo);
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
         return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
     }
