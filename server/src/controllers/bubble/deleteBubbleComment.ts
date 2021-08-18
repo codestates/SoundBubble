@@ -5,12 +5,15 @@ import { logError } from "../../utils/log";
 
 const deleteBubbleComment: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId, accountType }: { userId: number; accountType: string } = req.userInfo as UserInfo;
-	const commentId: number | string = req.body;
+	const commentId: number | string = req.body.commentId;
 	const bubbleId: string = req.params.id as string;
 
 	try {
 		//* 파라미터 검사
-		if (!commentId) {
+		if (isNaN(Number(bubbleId))) {
+			return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
+		}
+		if (!commentId || isNaN(Number(commentId))) {
 			return res.status(400).json({ message: `Invalid commentId(body), input 'commentId': ${commentId}` });
 		}
 

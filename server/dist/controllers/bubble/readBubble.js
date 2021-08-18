@@ -6,6 +6,10 @@ const log_1 = require("../../utils/log");
 const readBubble = async (req, res, next) => {
     const bubbleId = req.params.id;
     try {
+        //* 파라미터 검사
+        if (isNaN(Number(bubbleId))) {
+            return res.status(400).json({ message: `Invalid bubbleId(param), input 'bubbleId': ${bubbleId}` });
+        }
         //* 버블 조회
         const bubble = await Bubble_1.Bubble.findBubble(Number(bubbleId));
         if (!bubble) {

@@ -1,5 +1,6 @@
 import login from "./user/login";
 import signUp from "./user/signUp";
+import logout from "./user/logout";
 import updateNickname from "./user/updateNickname";
 import updatePassword from "./user/updatePassword";
 import readMyBubble from "./user/readMyBubble";
@@ -17,6 +18,7 @@ import loginNaver from "./user/loginNaver";
 
 export {
   login,
+  logout,
   loginGoogle,
   loginNaver,
   signUp,

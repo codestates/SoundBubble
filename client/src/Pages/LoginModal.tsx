@@ -5,8 +5,6 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../actions/index";
 import { RootReducerType } from "../Store";
-import GoogleButton from "react-google-button";
-// import * as url from "url";
 import "./Styles/LoginModal.css";
 
 const LoginModal = (): JSX.Element => {
@@ -86,12 +84,9 @@ const LoginModal = (): JSX.Element => {
 					<div className="login-content">
 						<h2>Login to soundBubble</h2>
 						<div className="social-login-group">
-							<GoogleButton
-								className="login-google-btn"
-								type="light"
-								onClick={googleLoginHandler}
-								data-border-radius="5px"
-							/>
+							<button type="button" className="login-google-btn" onClick={googleLoginHandler}>
+								Sign in with Google
+							</button>
 						</div>
 						<hr className="divider" />
 						<fieldset className="login-user-email">

@@ -9,6 +9,11 @@ const deleteBubble: RequestHandler = async (req: Request, res: Response, next: N
 	const bubbleId: string = req.params.id as string;
 
 	try {
+		//* 파라미터 검사
+		if (isNaN(Number(bubbleId))) {
+			return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
+		}
+
 		//* 버블 조회. 존재하는 버블인지 확인
 		const bubbleInfo: Bubble | undefined = await Bubble.findOne(bubbleId);
 

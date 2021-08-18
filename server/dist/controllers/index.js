@@ -3,11 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBubbleComment = exports.createBubbleComment = exports.readBubble = exports.deleteBubble = exports.createBubble = exports.readAllBubble = exports.readMyBubble = exports.updatePassword = exports.updateNickname = exports.signUp = exports.loginNaver = exports.loginGoogle = exports.login = void 0;
+exports.deleteBubbleComment = exports.createBubbleComment = exports.readBubble = exports.deleteBubble = exports.createBubble = exports.readAllBubble = exports.readMyBubble = exports.updatePassword = exports.updateNickname = exports.signUp = exports.loginNaver = exports.loginGoogle = exports.logout = exports.login = void 0;
 const login_1 = __importDefault(require("./user/login"));
 exports.login = login_1.default;
 const signUp_1 = __importDefault(require("./user/signUp"));
 exports.signUp = signUp_1.default;
+const logout_1 = __importDefault(require("./user/logout"));
+exports.logout = logout_1.default;
 const updateNickname_1 = __importDefault(require("./user/updateNickname"));
 exports.updateNickname = updateNickname_1.default;
 const updatePassword_1 = __importDefault(require("./user/updatePassword"));
