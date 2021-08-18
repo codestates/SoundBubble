@@ -68,7 +68,7 @@ function Record(): JSX.Element {
 		// ? # n초에 한번씩 피치값 갱신
 		recoding = setTimeout(() => {
 			updatePitch(analyserNode, detector, input, sampleRate);
-		}, 500);
+		}, 100);
 	}
 
 	// ? ###### random하게 좌표를 찍어서 캔버스에 그림을 찍는 과정 ######

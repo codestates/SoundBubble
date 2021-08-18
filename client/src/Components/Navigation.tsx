@@ -36,11 +36,17 @@ const Navigation = (): JSX.Element => {
 			<nav className="navigation">
 				<div className="nav-container">
 					<div className="left-nav-bar">
-						<img className="nav-logo" src="" alt="logo" onClick={() => window.location.replace("/palette")} />
+						<img className="nav-logo" src="" alt="logo" onClick={() => window.location.replace("/")} />
 					</div>
 					<ul className="right-nav-bar">
 						<li>
-							<a onClick={mypageHandler}>mypage</a>
+							<a onClick={() => window.location.replace("/main")}>Main</a>
+						</li>
+						<li>
+							<a onClick={() => window.location.replace("/palette")}>Palette</a>
+						</li>
+						<li>
+							<a onClick={mypageHandler}>Mypage</a>
 						</li>
 						{isLogin ? (
 							<li>
