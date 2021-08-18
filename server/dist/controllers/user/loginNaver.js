@@ -13,13 +13,12 @@ const loginNaver = async (req, res) => {
     try {
         //* 파라미터 검사
         if (!authorizationCode) {
-            return res.status(400).json({ message: "Code(body) does not exist" });
+            return res.status(400).json({ message: "Invalid code(body), failed to get token" });
         }
-        //* 네이버 아이디 로그인 버튼 생성
+        //* 네이버 토큰 획득
         const NaverClientId = process.env.NAVER_CLIENT_ID;
         const NaverClientSecret = process.env.NAVER_CLIENT_SECRET;
         const NaverRedirectUri = process.env.NAVER_REDIRECT_URI;
-        //* 토큰 발급
         const token = await axios_1.default({
             url: "https://nid.naver.com/oauth2.0/token",
             method: "post",
@@ -33,7 +32,10 @@ const loginNaver = async (req, res) => {
             },
         });
         const naverAccessToken = token.data.access_token;
-        //* 유저 정보 요청
+        if (!naverAccessToken) {
+            return res.status(400).json({ message: "Invalid code(body), failed to get token" });
+        }
+        //* 액세스 토큰으로 유저 정보 요청
         const profile = await axios_1.default({
             url: "https://openapi.naver.com/v1/nid/me",
             headers: {
@@ -41,17 +43,14 @@ const loginNaver = async (req, res) => {
             },
         });
         const { email, nickname } = profile.data.response;
-        console.log("email", email);
-        console.log("nickname", nickname);
         if (!email || !nickname) {
-            return res.status(400).json({ message: "Invalid code(body), failed to get user information" });
+            return res.status(406).json({ message: "Invalid scope, failed to get user information" });
         }
         //* 회원가입된 유저인지 확인
-        // const email = profile.data.response.email;
         const user = await User_1.User.findOne({ email });
+        //* 유저 없음 -> 회원가입
         if (!user) {
-            // const nickname = profile.data.response.nickname;
-            const profileImage = profile.data.response.profileImage;
+            const profileImage = profile.data.response.profile_image;
             if (profileImage) {
                 await User_1.User.insertUser(email, "", nickname, "naver", "user", profileImage);
             }
