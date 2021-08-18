@@ -9,11 +9,11 @@ const createBubbleComment = async (req, res, next) => {
     const bubbleId = req.params.id;
     try {
         //* 파라미터 검사
+        if (isNaN(Number(bubbleId))) {
+            return res.status(400).json({ message: `Invalid bubbleId(param), input 'bubbleId': ${bubbleId}` });
+        }
         if (!textContent) {
             return res.status(400).json({ message: `Invalid textContent(body), input 'textContent': ${textContent}` });
-        }
-        if (typeof Number(bubbleId) !== "number") {
-            return res.status(400).json({ message: `Invalid bubbleId(param), input 'bubbleId': ${bubbleId}` });
         }
         //* 버블 조회. 존재하는 버블인지 확인
         const bubbleInfo = await Bubble_1.Bubble.findOne(bubbleId);

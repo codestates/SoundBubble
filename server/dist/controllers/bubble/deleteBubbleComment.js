@@ -8,6 +8,9 @@ const deleteBubbleComment = async (req, res, next) => {
     const bubbleId = req.params.id;
     try {
         //* 파라미터 검사
+        if (isNaN(Number(bubbleId))) {
+            return res.status(400).json({ message: `Invalid bubbleId(param), input 'bubbleId': ${bubbleId}` });
+        }
         if (!commentId) {
             return res.status(400).json({ message: `Invalid commentId(body), input 'commentId': ${commentId}` });
         }

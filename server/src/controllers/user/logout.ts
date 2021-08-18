@@ -33,8 +33,8 @@ const logout: RequestHandler = async (req: Request, res: Response, next: NextFun
 		});
 	} catch (err) {
     logError("Failed to logout");
-    res.status(200).json({ message: "Logout failed" });
-		// next(err);
+    res.status(200).json({ message: "Logout faild" });
+		next(err);
 	}
 };
 

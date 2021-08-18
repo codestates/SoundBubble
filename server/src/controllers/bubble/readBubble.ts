@@ -7,12 +7,18 @@ const readBubble: RequestHandler = async (req: Request, res: Response, next: Nex
 	const bubbleId: string = req.params.id as string;
 
 	try {
+		//* 파라미터 검사
+		if (isNaN(Number(bubbleId))) {
+			return res.status(400).json({ message: `Invalid bubbleId(param), input 'bubbleId': ${bubbleId}` });
+		}
+
 		//* 버블 조회
 		const bubble: Bubble | undefined = await Bubble.findBubble(Number(bubbleId));
 
 		if (!bubble) {
 			return res.status(404).json({ message: "Bubble not found" });
 		}
+
 
 		//* 해당 버블의 댓글 조회
 		const comments: BubbleComment[] = await BubbleComment.findComments(Number(bubbleId));
