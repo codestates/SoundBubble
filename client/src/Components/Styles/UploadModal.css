@@ -52,6 +52,10 @@
 	align-items: center;
 }
 
+.bubble-textContent {
+	position: absolute;
+}
+
 .upload-modal-option-content {
 	display: flex;
 	justify-content: center;
