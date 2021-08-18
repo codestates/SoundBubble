@@ -45,17 +45,10 @@ export const logoutUser = () => {
 	};
 };
 
-export const editNickname = (userInfo: UserInfo, accessToken: AccessToken): any => {
+export const editNickname = (nickname: string, accessToken: string | null): any => {
 	return {
 		type: EDIT_NICKNAME,
-		payload: { userInfo, accessToken },
-	};
-};
-
-export const editPassword = (userInfo: UserInfo, accessToken: AccessToken): any => {
-	return {
-		type: EDIT_PASSWORD,
-		payload: { userInfo, accessToken },
+		payload: { nickname, accessToken },
 	};
 };
 
