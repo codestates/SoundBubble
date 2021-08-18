@@ -3,7 +3,7 @@
 
 * {
 	font-family: "Noto Sans KR", sans-serif;
-	color: white;
+	/* color: white; */
 	text-decoration: none;
 	border: none;
 	background-color: transparent;
@@ -48,6 +48,7 @@
 }
 
 .userId {
+	color: black;
 	font-size: 1.1rem;
 	letter-spacing: -1px;
 }
@@ -55,12 +56,11 @@
 .sideTap {
 	text-align: center;
 	margin: 65px auto 0 auto;
-	width: 75%;
+	width: 50%;
 }
 
 .sideTap > .tap {
 	display: block;
-	width: 100%;
 	padding: 10px 0;
 	border: 1px solid teal;
 	color: teal;
@@ -108,10 +108,11 @@
 	border-radius: 5px;
 	height: 45px;
 	margin-bottom: 30px;
-	width: 100%;
+	width: 25rem;
 	font-size: 1rem;
 	padding-left: 15px;
 	transition: 0.3s all;
+	color: #333;
 }
 
 .rightContents input::placeholder {
@@ -174,4 +175,12 @@
 	letter-spacing: 2px;
 	background: url(../../Static/gradient.png) no-repeat center;
 	color: #fff;
+}
+
+.mypage__alert-box {
+	justify-self: center;
+	text-align: center;
+	margin-top: 5rem;
+	color: rgb(202, 76, 76);
+	font-weight: bold;
 }

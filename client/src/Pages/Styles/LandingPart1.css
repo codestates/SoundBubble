@@ -24,10 +24,15 @@
 .toTopBtn {
 	padding: 10px;
 	color: #fff;
-	background-color: rgb(119, 112, 255);
+	background-color: rgb(122, 122, 122);
 	outline: none;
 	border: none;
 	border-radius: 3px;
+	cursor: pointer;
+}
+
+.toTopBtn:hover {
+	background-color: rgb(119, 112, 255);
 	cursor: pointer;
 }
 

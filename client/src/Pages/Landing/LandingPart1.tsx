@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import "../Styles/LandingPart1.css";
 import "../Styles/Reset.css";
 import { IoIosArrowUp } from "react-icons/io";
+import { useHistory } from "react-router-dom";
 
 const LandingFirst = (): JSX.Element => {
+	const history = useHistory();
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
 	const BackToTopRef = useRef<HTMLDivElement>(null);
 
@@ -53,8 +55,12 @@ const LandingFirst = (): JSX.Element => {
 						<h2>나만의 Sound Bubble을 만들어 보세요</h2>
 					</div>
 					<div className="btnWrap">
-						<button className="mainBtn freeExpBtn">빠른 시작</button>
-						<button className="mainBtn paletteBtn">팔레트 구경하기</button>
+						<button className="mainBtn freeExpBtn" onClick={() => history.push("/main")}>
+							빠른 시작
+						</button>
+						<button className="mainBtn paletteBtn" onClick={() => history.push("/palette")}>
+							팔레트 구경하기
+						</button>
 					</div>
 				</div>
 			</div>

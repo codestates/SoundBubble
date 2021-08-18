@@ -22,8 +22,8 @@ const Bubble = ({ bubble }: any): JSX.Element => {
 				<div
 					className="bubble"
 					style={{
-						left: `${getRandom(-10, 30)}%`,
-						top: `${getRandom(5, 45)}%`,
+						left: `${getRandom(-10, 100)}%`,
+						top: `${getRandom(5, 70)}%`,
 						backgroundImage: `url(${TempBubbleImg})`,
 					}}
 					onClick={() => history.push(`/bubble/${id}`)}

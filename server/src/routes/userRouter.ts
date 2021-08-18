@@ -19,6 +19,9 @@ userRouter.post("/login/naver", controller.loginNaver);
 //* 로그인이 필요한 요청
 userRouter.use("/", authUser);
 
+// 로그아웃
+userRouter.get("/logout", controller.logout);
+
 // 닉네임 수정
 userRouter.patch("/mypage/nickname", controller.updateNickname);
 

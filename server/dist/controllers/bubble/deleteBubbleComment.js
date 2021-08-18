@@ -4,11 +4,14 @@ const BubbleComment_1 = require("../../entity/BubbleComment");
 const log_1 = require("../../utils/log");
 const deleteBubbleComment = async (req, res, next) => {
     const { userId, accountType } = req.userInfo;
-    const commentId = req.body;
+    const commentId = req.body.commentId;
     const bubbleId = req.params.id;
     try {
         //* 파라미터 검사
-        if (!commentId) {
+        if (isNaN(Number(bubbleId))) {
+            return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
+        }
+        if (!commentId || isNaN(Number(commentId))) {
             return res.status(400).json({ message: `Invalid commentId(body), input 'commentId': ${commentId}` });
         }
         //* 댓글 조회. 존재하는 댓글인지 확인
