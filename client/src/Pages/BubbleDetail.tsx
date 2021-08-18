@@ -14,6 +14,7 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 	const URL = process.env.REACT_APP_API_URL;
 
 	const [commentInput, setCommentInput] = useState("");
+	const [bubbleComments, setBubbleComments] = useState([]);
 
 	const getBubbleId = (): string => {
 		return window.location.pathname.split("/")[2];
@@ -36,8 +37,6 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 			setBubbleData(res.data.data.bubble);
 		});
 	};
-
-	const [bubbleComments, setBubbleComments] = useState([]);
 
 	const getComment = async () => {
 		await axios({

@@ -95,6 +95,7 @@
 	font-size: 30px;
 	color: #333;
 	text-shadow: none;
+	cursor: pointer;
 }
 
 .bubbleDetail-container .bubble {

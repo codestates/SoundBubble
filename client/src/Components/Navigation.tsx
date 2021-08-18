@@ -10,29 +10,37 @@ const Navigation = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const [isLogin, setIsLogin] = useState(false);
+
 	const logInHandler = () => {
 		if (userState.accessToken) setIsLogin(true);
 	};
+
 	const logOutHandler = () => {
 		if (userState.accessToken) {
 			setIsLogin(false);
 			dispatch(logoutUser());
+			window.location.replace("/");
 		}
 	};
 
+	const mypageHandler = () => {
+		if (userState.accessToken) history.push("/mypage");
+		else history.push("/login");
+	};
 	useEffect(() => {
 		logInHandler();
 	}, [isLogin]);
+
 	return (
 		<>
 			<nav className="navigation">
 				<div className="nav-container">
 					<div className="left-nav-bar">
-						<img className="nav-logo" src="" alt="logo" onClick={() => history.push("/palette")} />
+						<img className="nav-logo" src="" alt="logo" onClick={() => window.location.replace("/palette")} />
 					</div>
 					<ul className="right-nav-bar">
 						<li>
-							<a onClick={() => history.push("/mypage")}>mypage</a>
+							<a onClick={mypageHandler}>mypage</a>
 						</li>
 						{isLogin ? (
 							<li>
@@ -42,7 +50,7 @@ const Navigation = (): JSX.Element => {
 							</li>
 						) : (
 							<li>
-								<a className="nav-login-btn" onClick={() => history.push("/login")}>
+								<a className="nav-login-btn" onClick={() => window.location.replace("/login")}>
 									Login
 								</a>
 							</li>

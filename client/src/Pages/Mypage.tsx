@@ -25,7 +25,7 @@ const Mypage = (): JSX.Element => {
 					<div className="leftContents">
 						<div className="mypageTitle">MY PAGE</div>
 						<div className="userImg">
-							<img src={profile} alt="프로필 사진" />
+							{userImg ? <img src={userImg} alt="프로필 사진" /> : <img src={profile} alt="프로필 사진" />}
 						</div>
 						<div className="userId">{state.nickname}</div>
 						<div className="sideTap">
