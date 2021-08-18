@@ -6,7 +6,6 @@ import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
-import { cpuUsage } from "process";
 
 const BubbleDetail = ({ userInfo }): JSX.Element => {
 	const dispatch = useDispatch();
@@ -15,15 +14,29 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 	const URL = process.env.REACT_APP_API_URL;
 
 	const [commentInput, setCommentInput] = useState("");
-	// const [count, setCount] = useState(0); // 좋아요 카운트
 
 	const getBubbleId = (): string => {
 		return window.location.pathname.split("/")[2];
 	};
 	const bubbleId = Number(getBubbleId());
 
-	// ? # 해당 버블 id 의 data 불러오기
-	const [bubbleData, setBubbleData] = useState({});
+	const [bubbleData, setBubbleData] = useState({
+		id: "",
+		image: "",
+		sound: "",
+		textContent: "",
+	});
+
+	const getBubbleData = async () => {
+		await axios({
+			method: "GET",
+			url: `${URL}/bubble/${bubbleId}`,
+		}).then(res => {
+			console.log(res.data.data);
+			setBubbleData(res.data.data.bubble);
+		});
+	};
+
 	const [bubbleComments, setBubbleComments] = useState([]);
 
 	const getComment = async () => {
@@ -37,9 +50,9 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 
 	useEffect(() => {
 		getComment();
+		getBubbleData();
 	}, []);
 
-	// ? # 댓글 입력
 	const handleSubmitComment = async (text: string) => {
 		await axios({
 			method: "POST",
@@ -53,7 +66,6 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 		});
 	};
 
-	// ? # 댓글 더블 클릭시 삭제
 	const handleDeleteComment: any = async id => {
 		await axios({
 			method: "DELETE",
@@ -81,13 +93,17 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 								</p>
 							);
 						} else if (Number(comment.id) <= 15) {
-							return <p key={i}>{comment.textContent}</p>;
+							return (
+								<p key={i} onDoubleClick={() => alert("본인이 쓴 댓글만 삭제할 수 있습니다.")}>
+									{comment.textContent}
+								</p>
+							);
 						}
 					})}
 				</div>
 				<div className="bubble">
-					<img src={pastel} alt="COLORS OF MY VOICE" />
-					<p>COLORS OF MY VOICE</p>
+					<img src={bubbleData.image} alt="COLORS OF MY VOICE" />
+					<p>{bubbleData.textContent}</p>
 				</div>
 				<div className="form">
 					<label>
@@ -106,7 +122,6 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 				</div>
 				<div className="heart-container">
 					<i className="fas fa-heart"></i>
-					{/* <p className="count">13</p> */}
 				</div>
 			</div>
 		</>
