@@ -6,8 +6,8 @@ let recoding = null;
 
 function Record() {
 	const [audio, setAudio] = useState(null);
-	const [pitch, setPitch] = useState("");
-	const [clarity, setClarity] = useState("");
+	const [viewPitch, setPitch] = useState("");
+	const [viewClarity, setClarity] = useState("");
 
 	async function getMicrophone() {
 		console.log("start!");
@@ -55,25 +55,17 @@ function Record() {
 
 		recoding = setTimeout(() => updatePitch(analyserNode, detector, input, sampleRate), 100);
 	}
+	console.log(`피치: ${viewPitch}Hz, 정확도: ${viewClarity}Hz`);
 
-	// console.log(pitch, clarity);
 	return (
 		<div className="get-color-box">
 			<button
 				className="audio-btn"
 				onClick={toggleMicrophone}
 				style={{
-					background: `hsl(${pitch}, 100%, ${pitch > 260 ? "85%" : "40%"})`,
+					background: `hsl(${viewPitch}, 100%, ${viewPitch > 260 ? "85%" : "40%"})`,
 				}}
 			></button>
-			<h1></h1>
-			<h2>{audio ? "원을 한번 더 누르면 종료됩니다." : "원을 클릭하면 시작합니다."}</h2>
-			<div className="message" style={{ color: "black" }}>
-				피치 : {pitch} Hz
-			</div>
-			<div className="message" style={{ color: "black" }}>
-				정확도 : {clarity} %
-			</div>
 		</div>
 	);
 }
