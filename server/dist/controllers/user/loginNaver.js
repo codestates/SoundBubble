@@ -19,9 +19,8 @@ const loginNaver = async (req, res) => {
         const NaverClientId = process.env.NAVER_CLIENT_ID;
         const NaverClientSecret = process.env.NAVER_CLIENT_SECRET;
         const NaverRedirectUri = process.env.NAVER_REDIRECT_URI;
-        const NaverState = 'naverstate';
         //* 토큰 발급
-        const { data: { access_token, refresh_token }, } = await axios_1.default({
+        const data = await axios_1.default({
             url: "https://nid.naver.com/oauth2.0/token",
             method: "post",
             params: {
@@ -33,12 +32,13 @@ const loginNaver = async (req, res) => {
                 state: "naverstate",
             },
         });
+        const naverAccessToken = data.data.access_token;
         //* 유저 정보 요청
         const profile = await axios_1.default({
             url: "https://openapi.naver.com/v1/nid/me",
             headers: {
-                Authorization: `bearer ${access_token}`,
-            }
+                Authorization: `bearer ${naverAccessToken}`,
+            },
         });
         //* 회원가입된 유저인지 확인
         const email = profile.data.response.email;
