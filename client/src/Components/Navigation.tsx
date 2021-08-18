@@ -19,6 +19,7 @@ const Navigation = (): JSX.Element => {
 		if (userState.accessToken) {
 			setIsLogin(false);
 			dispatch(logoutUser());
+			window.location.replace("/");
 		}
 	};
 
