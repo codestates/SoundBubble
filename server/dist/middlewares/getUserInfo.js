@@ -9,7 +9,7 @@ const getUserInfo = async (res, accessToken) => {
         email: null,
         accountType: null,
         accessToken: null,
-        tokenExpiredIn: null,
+        tokenExpIn: null,
         error: null,
     };
     try {
@@ -59,7 +59,7 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.email = decodedRefresh.email;
             tokenInfo.accountType = decodedRefresh.accountType;
             tokenInfo.accessToken = newAccessToken;
-            tokenInfo.tokenExpiredIn = 86400;
+            tokenInfo.tokenExpIn = 86400;
             return tokenInfo;
             //* (2) 유효하지 않은 토큰
         }
@@ -75,7 +75,7 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.accountType = decoded.accountType;
             tokenInfo.accessToken = accessToken;
             const expiredAt = decoded.exp;
-            tokenInfo.tokenExpiredIn = expiredAt - (Math.floor(new Date().getTime() / 1000));
+            tokenInfo.tokenExpIn = expiredAt - (Math.floor(new Date().getTime() / 1000));
             return tokenInfo;
         }
     }

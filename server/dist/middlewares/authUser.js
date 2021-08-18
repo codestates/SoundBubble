@@ -4,7 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const getUserInfo_1 = __importDefault(require("./getUserInfo"));
-const redis_1 = __importDefault(require("../redis"));
+const redis_1 = require("../redis");
+const log_1 = require("../utils/log");
 const authUser = async (req, res, next) => {
     const authorization = req.headers.authorization;
     //* 파라미터 검사
@@ -34,13 +35,9 @@ const authUser = async (req, res, next) => {
     }
     //* 블랙리스트에 등록된 토큰인지 확인
     if (process.env.NODE_ENV === "production") {
-        redis_1.default.get(String(userId), (err, data) => {
-            if (err) {
-                console.log("블랙리스트 조회 실패");
-                req.userInfo = userInfo;
-                next(err);
-            }
-            else if (data) {
+        try {
+            const data = await redis_1.getAsync(String(userId));
+            if (data) {
                 console.log("데이터 존재");
                 const parsedList = JSON.parse(data);
                 if (parsedList.includes(currentToken)) {
@@ -48,10 +45,30 @@ const authUser = async (req, res, next) => {
                     return res.status(401).json({ message: "Invalid token, login again" });
                 }
             }
-            console.log("데이터 없음");
-            req.userInfo = userInfo;
-            next();
-        });
+        }
+        catch (err) {
+            log_1.logError("Redis 조회 실패");
+            next(err);
+        }
+        req.userInfo = userInfo;
+        next();
+        // redisClient.get(String(userId), (err, data) => {
+        // 	if (err) {
+        // 		console.log("블랙리스트 조회 실패");
+        // 		req.userInfo = userInfo as UserInfo;
+        // 		next(err);
+        // 	} else if (data) {
+        // 		console.log("데이터 존재");
+        // 		const parsedList = JSON.parse(data);
+        // 		if (parsedList.includes(currentToken)) {
+        // 			console.log("데이터내부에 토큰 존재");
+        // 			return res.status(401).json({ message: "Invalid token, login again" });
+        // 		}
+        // 	}
+        // 	console.log("데이터 없음");
+        // 	req.userInfo = userInfo as UserInfo;
+        // 	next();
+        // });
     }
     else {
         req.userInfo = userInfo;

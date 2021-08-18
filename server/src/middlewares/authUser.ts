@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import getUserInfo from "./getUserInfo";
 import { RequestTokenInfo, UserInfo } from "../@type/userInfo";
-import redisClient from "../redis";
+import { getAsync } from "../redis";
+import { logError } from "../utils/log";
 
 const authUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const authorization: string | undefined = req.headers.authorization;
@@ -34,23 +35,42 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
 
 	//* 블랙리스트에 등록된 토큰인지 확인
 	if (process.env.NODE_ENV === "production") {
-		redisClient.get(String(userId), (err, data) => {
-			if (err) {
-				console.log("블랙리스트 조회 실패");
-				req.userInfo = userInfo as UserInfo;
-				next(err);
-			} else if (data) {
+		try {
+			const data: string | null = await getAsync(String(userId));
+
+			if (data) {
 				console.log("데이터 존재");
-				const parsedList = JSON.parse(data);
+				const parsedList: string[] = JSON.parse(data);
 				if (parsedList.includes(currentToken)) {
 					console.log("데이터내부에 토큰 존재");
 					return res.status(401).json({ message: "Invalid token, login again" });
 				}
 			}
-			console.log("데이터 없음");
-			req.userInfo = userInfo as UserInfo;
-			next();
-		});
+		} catch (err) {
+			logError("Redis 조회 실패");
+			next(err);
+		}
+
+		req.userInfo = userInfo as UserInfo;
+		next();
+
+		// redisClient.get(String(userId), (err, data) => {
+		// 	if (err) {
+		// 		console.log("블랙리스트 조회 실패");
+		// 		req.userInfo = userInfo as UserInfo;
+		// 		next(err);
+		// 	} else if (data) {
+		// 		console.log("데이터 존재");
+		// 		const parsedList = JSON.parse(data);
+		// 		if (parsedList.includes(currentToken)) {
+		// 			console.log("데이터내부에 토큰 존재");
+		// 			return res.status(401).json({ message: "Invalid token, login again" });
+		// 		}
+		// 	}
+		// 	console.log("데이터 없음");
+		// 	req.userInfo = userInfo as UserInfo;
+		// 	next();
+		// });
 	} else {
 		req.userInfo = userInfo as UserInfo;
 		next();

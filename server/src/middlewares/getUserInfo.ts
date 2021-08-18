@@ -16,7 +16,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 		email: null,
 		accountType: null,
 		accessToken: null,
-		tokenExpiredIn: null,
+		tokenExpIn: null,
 		error: null,
 	};
 
@@ -70,7 +70,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 			tokenInfo.email = decodedRefresh.email;
 			tokenInfo.accountType = decodedRefresh.accountType;
 			tokenInfo.accessToken = newAccessToken;
-			tokenInfo.tokenExpiredIn = 86400;
+			tokenInfo.tokenExpIn = 86400;
 			return tokenInfo;
 			//* (2) 유효하지 않은 토큰
 		} else if (decoded.name === "JsonWebTokenError") {
@@ -84,7 +84,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 			tokenInfo.accountType = decoded.accountType;
 			tokenInfo.accessToken = accessToken;
 			const expiredAt: number = decoded.exp as number;
-			tokenInfo.tokenExpiredIn = expiredAt - (Math.floor(new Date().getTime() / 1000));
+			tokenInfo.tokenExpIn = expiredAt - (Math.floor(new Date().getTime() / 1000));
 			return tokenInfo;
 		}
 	} catch (error) {

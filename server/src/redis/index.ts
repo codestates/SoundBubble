@@ -1,10 +1,11 @@
 import redis from "redis";
 import { logError } from "../utils/log";
+import { promisify } from "util";
 
 const redisPort: number = Number(process.env.REDIS_PORT) as number;
 const redisHost: string = process.env.REDIS_HOST as string;
 
-const redisClient = redis.createClient(redisPort, redisHost);
+export const redisClient = redis.createClient(redisPort, redisHost);
 
 redisClient.on("error", function (error) {
 	logError("Redis 접속 실패");
@@ -14,4 +15,5 @@ redisClient.on("error", function (error) {
 
 redisClient.flushall();
 
-export default redisClient;
+export const setexAsync = promisify(redisClient.setex);
+export const getAsync = promisify(redisClient.get);

@@ -5,6 +5,7 @@ export interface RequestTokenInfo {
 	email: string | null;
 	accountType: string | null;
 	accessToken: string | null;
+	tokenExpIn: null | number;
 	error: null | TokenError;
 }
 
@@ -13,6 +14,7 @@ export interface UserInfo {
 	email: string;
 	accountType: string;
 	accessToken: string;
+	tokenExpIn: number;
 	error: null;
 }
 
