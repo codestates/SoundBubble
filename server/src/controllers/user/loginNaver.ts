@@ -2,6 +2,7 @@ import axios from "axios";
 import { Request, Response, RequestHandler } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
+import { generateAccessToken, generateRefreshToken } from "../token/index";
 
 const loginNaver: RequestHandler = async (req: Request, res: Response) => {
   //* 클라이언트로부터 Authorization Code 획득
@@ -20,14 +21,16 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
     const NaverState = 'naverstate';
 
     //* 토큰 발급
-    const { data: { accessToken, refreshToken }, } = await axios({
-      url: "http://nid.naver.com/oauth2.0/token",
+    const { data: { access_token, refresh_token }, } = await axios({
+      url: "https://nid.naver.com/oauth2.0/token",
       method: "post",
       params: {
         client_id: NaverClientId,
         client_secret: NaverClientSecret,
         code: authorizationCode,
         redirect_uri: NaverRedirectUri,
+        grant_type: "authorization_code",
+        state: "naverstate",
       },
     });
 
@@ -35,7 +38,7 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
     const profile = await axios({
       url: "https://openapi.naver.com/v1/nid/me",
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `bearer ${access_token}`,
       }
     })
 
@@ -67,6 +70,9 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
 
     //* refreshToken 저장
     const userInfo = (await User.findUserByEmail(email)) as User;
+    await UserToken.insertToken(userInfo.id, refresh_token);
+    const accessToken: string = generateAccessToken(userInfo);
+    const refreshToken: string = generateRefreshToken(userInfo);
     await UserToken.insertToken(userInfo.id, refreshToken);
 
     return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
