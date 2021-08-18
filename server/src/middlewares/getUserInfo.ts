@@ -5,16 +5,17 @@ import {
 	verifyRefreshToken,
 	generateAccessToken,
 } from "../controllers/token";
-import { TokenInfo } from "../@type/userInfo";
+import { RequestTokenInfo } from "../@type/userInfo";
 import { User } from "../entity/User";
 import { UserToken } from "../entity/UserToken";
 import { JwtPayload } from "jsonwebtoken";
 
-const getUserInfo = async (res: Response, accessToken: string): Promise<TokenInfo> => {
-	const tokenInfo: TokenInfo = {
+const getUserInfo = async (res: Response, accessToken: string): Promise<RequestTokenInfo> => {
+	const tokenInfo: RequestTokenInfo = {
 		userId: null,
 		email: null,
 		accountType: null,
+		accessToken: null,
 		error: null,
 	};
 
@@ -65,6 +66,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<TokenInf
 			tokenInfo.userId = decodedRefresh.userId;
 			tokenInfo.email = decodedRefresh.email;
 			tokenInfo.accountType = decodedRefresh.accountType;
+			tokenInfo.accessToken = newAccessToken;
 			return tokenInfo;
 			//* (2) 유효하지 않은 토큰
 		} else if (decoded.name === "JsonWebTokenError") {
@@ -75,6 +77,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<TokenInf
 			tokenInfo.userId = decoded.userId;
 			tokenInfo.email = decoded.email;
 			tokenInfo.accountType = decoded.accountType;
+			tokenInfo.accessToken = accessToken;
 			return tokenInfo;
 		}
 	} catch (error) {

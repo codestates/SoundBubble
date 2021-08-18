@@ -8,6 +8,7 @@ const getUserInfo = async (res, accessToken) => {
         userId: null,
         email: null,
         accountType: null,
+        accessToken: null,
         error: null,
     };
     try {
@@ -54,6 +55,7 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.userId = decodedRefresh.userId;
             tokenInfo.email = decodedRefresh.email;
             tokenInfo.accountType = decodedRefresh.accountType;
+            tokenInfo.accessToken = newAccessToken;
             return tokenInfo;
             //* (2) 유효하지 않은 토큰
         }
@@ -66,6 +68,7 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.userId = decoded.userId;
             tokenInfo.email = decoded.email;
             tokenInfo.accountType = decoded.accountType;
+            tokenInfo.accessToken = accessToken;
             return tokenInfo;
         }
     }
