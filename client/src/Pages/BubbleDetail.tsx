@@ -61,6 +61,7 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 				authorization: `Bearer ${state.accessToken}`,
 			},
 		}).then(res => {
+			setCommentInput("");
 			getComment();
 		});
 	};
@@ -111,6 +112,7 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 							name="comment"
 							placeholder="댓글을 남겨주세요"
 							onChange={e => setCommentInput(e.target.value)}
+							value={commentInput}
 							onKeyPress={e => {
 								if (e.key === "Enter") {
 									handleSubmitComment(commentInput);
