@@ -16,6 +16,6 @@ exports.redisClient.on("error", function (error) {
     // redisClient.quit();
 });
 exports.redisClient.flushall();
-exports.setexAsync = util_1.promisify(exports.redisClient.setex);
-exports.getAsync = util_1.promisify(exports.redisClient.get);
+exports.setexAsync = util_1.promisify(exports.redisClient.setex).bind(exports.redisClient);
+exports.getAsync = util_1.promisify(exports.redisClient.get).bind(exports.redisClient);
 //# sourceMappingURL=index.js.map

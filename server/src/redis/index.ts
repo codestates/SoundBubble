@@ -15,5 +15,5 @@ redisClient.on("error", function (error) {
 
 redisClient.flushall();
 
-export const setexAsync = promisify(redisClient.setex);
-export const getAsync = promisify(redisClient.get);
+export const setexAsync = promisify(redisClient.setex).bind(redisClient);
+export const getAsync = promisify(redisClient.get).bind(redisClient);
