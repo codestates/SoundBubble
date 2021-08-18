@@ -11,8 +11,8 @@ const redisClient = redis_1.default.createClient(redisPort, redisHost);
 redisClient.on("error", function (error) {
     log_1.logError("Redis 접속 실패");
     console.error(error);
+    // redisClient.quit();
 });
 redisClient.flushall();
-console.log("Redis 접속 완료");
 exports.default = redisClient;
 //# sourceMappingURL=index.js.map

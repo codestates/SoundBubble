@@ -9,10 +9,9 @@ const redisClient = redis.createClient(redisPort, redisHost);
 redisClient.on("error", function (error) {
 	logError("Redis 접속 실패");
 	console.error(error);
+	// redisClient.quit();
 });
 
 redisClient.flushall();
-
-console.log("Redis 접속 완료");
 
 export default redisClient;

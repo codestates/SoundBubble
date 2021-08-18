@@ -7,7 +7,6 @@ import { logError } from "../../utils/log";
 
 const updateNickname: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
-	console.log(req.userInfo);
 	const { nickname, password }: { nickname: string; password: string } = req.body;
 
 	try {

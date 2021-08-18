@@ -9,7 +9,6 @@ const hash_1 = __importDefault(require("../../utils/hash"));
 const log_1 = require("../../utils/log");
 const updateNickname = async (req, res, next) => {
     const { userId } = req.userInfo;
-    console.log(req.userInfo);
     const { nickname, password } = req.body;
     try {
         //* 파라미터 검사

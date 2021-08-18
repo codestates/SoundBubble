@@ -16,6 +16,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 		email: null,
 		accountType: null,
 		accessToken: null,
+		tokenExpiredIn: null,
 		error: null,
 	};
 
@@ -48,25 +49,28 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 			const refreshToken: string = userToken.refreshToken;
 			const decodedRefresh = (await verifyRefreshToken(refreshToken)) as JwtPayload;
 			if (decodedRefresh.name) {
+				// 검증 실패
 				if (decodedRefresh.name === "TokenExpiredError") {
 					tokenInfo.error = "EXPIRED";
 				} else if (decodedRefresh.name === "JsonWebTokenError") {
 					tokenInfo.error = "INVALID";
 				}
-				// 검증 실패 -> 리프레시 토큰 삭제
+				// -> 리프레시 토큰 삭제
 				userToken.refreshToken = "";
 				await userToken.save();
 				return tokenInfo;
 			}
 
-			// 액세스 토큰 재발급, 응답 헤더에 저장
+			// 검증 성공 -> 액세스 토큰 재발급, 응답 헤더에 저장
 			const newAccessToken = await generateAccessToken(userInfo);
 			res.setHeader("authorization", `Bearer ${newAccessToken}`);
 			console.log("액세스 토큰 재발급");
+			// 리턴 객체에 유저 및 토큰 정보 저장
 			tokenInfo.userId = decodedRefresh.userId;
 			tokenInfo.email = decodedRefresh.email;
 			tokenInfo.accountType = decodedRefresh.accountType;
 			tokenInfo.accessToken = newAccessToken;
+			tokenInfo.tokenExpiredIn = 86400;
 			return tokenInfo;
 			//* (2) 유효하지 않은 토큰
 		} else if (decoded.name === "JsonWebTokenError") {
@@ -74,10 +78,13 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 			return tokenInfo;
 			//* (3) 유효한 토큰
 		} else {
+			// 리턴 객체에 유저 및 토큰 정보 저장
 			tokenInfo.userId = decoded.userId;
 			tokenInfo.email = decoded.email;
 			tokenInfo.accountType = decoded.accountType;
 			tokenInfo.accessToken = accessToken;
+			const expiredAt: number = decoded.exp as number;
+			tokenInfo.tokenExpiredIn = expiredAt - (Math.floor(new Date().getTime() / 1000));
 			return tokenInfo;
 		}
 	} catch (error) {
