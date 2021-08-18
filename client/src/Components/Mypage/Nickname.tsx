@@ -20,8 +20,8 @@ const Nickname = (): JSX.Element => {
 		setErrorMsg("");
 	};
 
-	const handleChangeNickname = () => {
-		axios({
+	const handleChangeNickname = async () => {
+		await axios({
 			method: "PATCH",
 			url: `${url}/user/mypage/nickname`,
 			data: {
