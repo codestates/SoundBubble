@@ -4,6 +4,7 @@ import {
 	LOGOUT_USER,
 	ACCESS_TOKEN_AUTHENTICAITON,
 	REFRESH_TOKEN_AUTHENTICAITON,
+	EDIT_NICKNAME,
 } from "../actions/index";
 
 interface InitialState {
@@ -55,6 +56,11 @@ const userReducer = (state = initialState, action: LoginAction): InitialState =>
 				signUpType: "",
 				accessToken: "",
 				profileImage: "",
+			});
+
+		case EDIT_NICKNAME:
+			return Object.assign({}, state, {
+				nickname: action.payload.nickname,
 			});
 
 		case ACCESS_TOKEN_AUTHENTICAITON:

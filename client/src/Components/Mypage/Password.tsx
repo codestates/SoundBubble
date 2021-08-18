@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducerType } from "../../Store";
+import { pwIsValid } from "../../Utils/Validator";
 
 const Password = (): JSX.Element => {
 	const [password, setPassword] = useState("");
@@ -10,34 +11,42 @@ const Password = (): JSX.Element => {
 	const [newPasswordRe, setNewPasswordRe] = useState("");
 	const history = useHistory();
 	const URL = process.env.REACT_APP_API_URL;
-	const accessToken = localStorage.getItem("accessToken");
 
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
+	const state = useSelector((state: RootReducerType) => state.userReducer);
+
 	const [errorMsg, setErrorMsg] = useState("");
 	const resetErrorMsg = () => {
 		setErrorMsg("");
 	};
 
 	const handleChangePassword = () => {
-		axios({
-			method: "PATCH",
-			url: `${URL}/user/mypage/password`,
-			data: {
-				password: password,
-				newPassword: newPassword,
-			},
-			headers: {
-				authorization: `Bearer ${accessToken}`,
-			},
-		})
-			.then(resp => {
-				console.log("수정 완료");
-				history.push("/mypage/password");
-				alert("비밀번호가 수정되었습니다.");
+		if (!pwIsValid(newPassword)) {
+			setErrorMsg("비밀번호는 숫자와 영어 8글자 이상으로 이루어져야 합니다.");
+		} else if (newPassword !== newPasswordRe) {
+			setErrorMsg("새 비밀번호를 다시 확인해주세요");
+		} else {
+			axios({
+				method: "PATCH",
+				url: `${URL}/user/mypage/password`,
+				data: {
+					password: password,
+					newPassword: newPassword,
+				},
+				headers: {
+					authorization: `Bearer ${state.accessToken}`,
+				},
 			})
-			.catch(err => {
-				console.log(err);
-			});
+				.then(resp => {
+					console.log("수정 완료");
+					resetErrorMsg();
+					window.location.replace("/mypage/password"); // history.push를 사용하면 새로고침이 안됨
+					alert("비밀번호가 수정되었습니다.");
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		}
 	};
 
 	return (
@@ -69,6 +78,7 @@ const Password = (): JSX.Element => {
 					/>
 				</label>
 				<button onClick={handleChangePassword}>비밀번호 변경</button>
+				<div className="mypage__alert-box">{errorMsg}</div>
 			</div>
 		</>
 	);

@@ -5,24 +5,30 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
+	position: relative;
+	overflow-x: hidden;
 }
+
 .circle {
 	width: 20px;
 	height: 20px;
 	border-radius: 100%;
 	background-color: #fff;
 }
+
 .contentWrap3 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	position: relative;
 }
+
 .contentWrap3 h2 {
 	font-size: 3.5rem;
 	font-weight: bold;
 	margin: 1rem 0 5rem 0;
 }
+
 .clickBtn {
 	width: 100px;
 	height: 100px;
@@ -36,17 +42,62 @@
 	top: 15rem;
 	z-index: 3;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-	cursor: pointer;
 }
+
 .clickBtn .innerCircle {
-	width: 80px;
-	height: 80px;
+	width: 10vh;
+	height: 10vh;
 	border-radius: 100%;
 	background-color: rgba(255, 255, 255, 0.5);
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
+
 .innerCircle {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.sound-circle {
+	width: 12rem;
+	height: 12rem;
+	top: 150px;
+	border-radius: 50%;
+	position: absolute;
+	background-color: #fff;
+	animation-name: soundCircle;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+	-webkit-filter: blur(1px);
+	-moz-filter: blur(1px);
+	-o-filter: blur(1px);
+	-ms-filter: blur(1px);
+	filter: blur(1px);
+}
+
+@keyframes soundCircle {
+	0% {
+		transform: scale(1);
+		opacity: 0;
+	}
+
+	50% {
+		transform: scale(1.5);
+		opacity: 1;
+		-webkit-filter: blur(2px);
+		-moz-filter: blur(2px);
+		-o-filter: blur(2px);
+		-ms-filter: blur(2px);
+		filter: blur(2px);
+	}
+
+	100% {
+		transform: scale(2);
+		opacity: 0;
+		-webkit-filter: blur(5px);
+		-moz-filter: blur(5px);
+		-o-filter: blur(5px);
+		-ms-filter: blur(5px);
+		filter: blur(5px);
+	}
 }
