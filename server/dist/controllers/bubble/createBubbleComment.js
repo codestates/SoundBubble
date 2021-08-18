@@ -9,6 +9,9 @@ const createBubbleComment = async (req, res, next) => {
     const bubbleId = req.params.id;
     try {
         //* 파라미터 검사
+        if (isNaN(Number(bubbleId))) {
+            return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
+        }
         if (!textContent) {
             return res.status(400).json({ message: `Invalid textContent(body), input 'textContent': ${textContent}` });
         }

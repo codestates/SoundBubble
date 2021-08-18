@@ -25,8 +25,14 @@ const loginGoogle: RequestHandler = async (req: Request, res: Response, next: Ne
 		const googleClient: OAuth2Client = new OAuth2Client(googleClientId, googleClientSecret, redirect_url);
 
 		//* 구글 토큰 획득
-		const response: GetTokenResponse = await googleClient.getToken(authorizationCode);
-
+		let response: GetTokenResponse | undefined;
+		try {
+			response = await googleClient.getToken(authorizationCode);
+		} catch (err) {
+			console.log("Invalid Authorization Code");
+			console.error(err);
+			return res.status(400).json({ message: "Invalid code(body), failed to get token" });
+		}
 		if (!response.tokens || !response.tokens.id_token) {
 			return res.status(400).json({ message: "Invalid code(body), failed to get token" });
 		}

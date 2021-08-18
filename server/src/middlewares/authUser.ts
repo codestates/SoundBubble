@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import getUserInfo from "./getUserInfo";
-import { TokenInfo, UserInfo } from "../@type/userInfo";
+import { RequestTokenInfo, UserInfo } from "../@type/userInfo";
+import { getAsync } from "../redis";
+import { logError } from "../utils/log";
 
 const authUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const authorization: string | undefined = req.headers.authorization;
@@ -15,7 +17,7 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
 	}
 
 	//* 토큰으로부터 유저 정보 획득
-	const userInfo: TokenInfo = await getUserInfo(res, accessToken);
+	const userInfo: RequestTokenInfo = await getUserInfo(res, accessToken);
 
 	if (userInfo.error) {
 		if (userInfo.error === "EXPIRED") {
@@ -26,13 +28,35 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
 			return res.status(500).json({ message: "Server error" });
 		}
 	}
-	const { userId, email, accountType } = userInfo;
-	if (!userId || !email || !accountType) {
+	const { userId, email, accountType, accessToken: currentToken } = userInfo;
+	if (!userId || !email || !accountType || !currentToken) {
 		return res.status(401).json({ message: "Invalid token, login again" });
 	}
 
-	req.userInfo = userInfo as UserInfo;
-	next();
+	//* 블랙리스트에 등록된 토큰인지 확인
+	if (process.env.NODE_ENV === "production") {
+		try {
+			const data: string | null = await getAsync(String(userId));
+
+			if (data) {
+				console.log("데이터 존재");
+				const parsedList: string[] = JSON.parse(data);
+				if (parsedList.includes(currentToken)) {
+					console.log("데이터내부에 토큰 존재");
+					return res.status(401).json({ message: "Invalid token, login again" });
+				}
+			}
+		} catch (err) {
+			logError("Redis 조회 실패");
+			next(err);
+		}
+
+		req.userInfo = userInfo as UserInfo;
+		next();
+	} else {
+		req.userInfo = userInfo as UserInfo;
+		next();
+	}
 };
 
 export default authUser;

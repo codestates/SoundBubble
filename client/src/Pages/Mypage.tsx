@@ -9,18 +9,25 @@ import Nickname from "../Components/Mypage/Nickname";
 import Password from "../Components/Mypage/Password";
 import "./Styles/Mypage.css";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootReducerType } from "../Store";
+
 const Mypage = (): JSX.Element => {
+	const state = useSelector((state: RootReducerType) => state.userReducer);
+	const userImg = state.profileImage;
+	console.log(state);
+
 	return (
 		<>
 			<Router>
-				{/* <Navigation /> */}
+				<Navigation />
 				<div className="mypageContainer">
 					<div className="leftContents">
 						<div className="mypageTitle">MY PAGE</div>
 						<div className="userImg">
 							<img src={profile} alt="프로필 사진" />
 						</div>
-						<div className="userId">유저 아이디</div>
+						<div className="userId">{state.nickname}</div>
 						<div className="sideTap">
 							<Link to="/mypage" className="tap">
 								닉네임 변경
