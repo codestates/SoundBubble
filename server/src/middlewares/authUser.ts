@@ -53,24 +53,6 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
 
 		req.userInfo = userInfo as UserInfo;
 		next();
-
-		// redisClient.get(String(userId), (err, data) => {
-		// 	if (err) {
-		// 		console.log("블랙리스트 조회 실패");
-		// 		req.userInfo = userInfo as UserInfo;
-		// 		next(err);
-		// 	} else if (data) {
-		// 		console.log("데이터 존재");
-		// 		const parsedList = JSON.parse(data);
-		// 		if (parsedList.includes(currentToken)) {
-		// 			console.log("데이터내부에 토큰 존재");
-		// 			return res.status(401).json({ message: "Invalid token, login again" });
-		// 		}
-		// 	}
-		// 	console.log("데이터 없음");
-		// 	req.userInfo = userInfo as UserInfo;
-		// 	next();
-		// });
 	} else {
 		req.userInfo = userInfo as UserInfo;
 		next();

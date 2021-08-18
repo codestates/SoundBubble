@@ -21,20 +21,6 @@ const logout = async (req, res, next) => {
                 console.log("Redis 신규 토큰 등록");
             }
         }
-        // redisClient.get(String(userId), async (err, data) => {
-        // 	if (err) {
-        // 		logError("Redis 조회 실패");
-        // 	} else if (data) {
-        // 		const parsedList = JSON.parse(data);
-        // 		parsedList.push(accessToken);
-        // 		redisClient.setex(String(userId), tokenExpiredIn, JSON.stringify(parsedList));
-        // 		console.log("Redis 추가 토큰 등록");
-        // 	} else {
-        // 		const blackList = [];
-        // 		blackList.push(accessToken);
-        // 		redisClient.setex(String(userId), tokenExpiredIn, JSON.stringify(blackList));
-        // 		console.log("Redis 신규 토큰 등록");
-        // 	}
         const userToken = await UserToken_1.UserToken.findOne(userId);
         if (userToken) {
             userToken.refreshToken = "";
