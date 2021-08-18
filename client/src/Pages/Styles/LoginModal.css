@@ -116,3 +116,12 @@ body {
 .login-form-btn > button:nth-child(2) {
   background-color: rgb(200, 112, 255);
 }
+
+#naverIdLogin {
+  width: 240px;
+  height: 50px;
+  background-image: url("btnW_official.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  box-shadow: rgba(0,0,0,0.25);
+}
