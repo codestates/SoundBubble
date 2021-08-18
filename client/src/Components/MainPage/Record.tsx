@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { PitchDetector } from "pitchy";
 import UploadModal from "../../Components/UploadModal";
 import "../Styles/Record.css";
