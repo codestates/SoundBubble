@@ -9,15 +9,12 @@
 	position: relative;
 	justify-content: center;
 	align-items: center;
-	width: 250px;
-	height: 250px;
+	width: 300px;
+	height: 300px;
 	border-radius: 50%;
 	background-color: white;
-	background-size: 250px 250px;
+	background-size: 300px 300px;
 	/* box-shadow: 0px 0px 50px rgb(255, 252, 217); */
-}
-
-.mybubble {
 }
 
 .bubble-content {
