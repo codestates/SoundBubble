@@ -12,4 +12,6 @@
 .mic,
 .upload {
 	width: 80px;
+	background-color: white;
+	border-radius: 50%;
 }

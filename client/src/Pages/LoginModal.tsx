@@ -55,7 +55,8 @@ const LoginModal = (): JSX.Element => {
 		const url = new URL(window.location.href);
 		const authorizationCode = url.searchParams.get("code");
 
-		if (authorizationCode) {	// url에 code가 있으면
+		if (authorizationCode) {
+			// url에 code가 있으면
 			getSocialInfo(authorizationCode); // 서버에 AJAX call
 		}
 	}, []);

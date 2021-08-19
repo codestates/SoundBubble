@@ -11,4 +11,5 @@ MainSelectBar {
 	position: fixed;
 	top: 10%;
 	left: 10%;
+	background-color: rgba(2, 7, 21, 0.9);
 }
