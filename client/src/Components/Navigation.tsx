@@ -4,22 +4,36 @@ import "./Styles/Navigation.css";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { logoutUser } from "../actions/index";
+import axios from "axios";
 
 const Navigation = (): JSX.Element => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const [isLogin, setIsLogin] = useState(false);
+	const API_URL = process.env.REACT_APP_API_URL;
 
 	const logInHandler = () => {
 		if (userState.accessToken) setIsLogin(true);
 	};
 
-	const logOutHandler = () => {
+	const logOutHandler = async () => {
 		if (userState.accessToken) {
-			setIsLogin(false);
-			dispatch(logoutUser());
-			window.location.replace("/");
+			await axios({
+				method: "GET",
+				url: `${API_URL}/user/logout`,
+				headers: {
+					authorization: `Bearer ${userState.accessToken}`,
+				},
+			})
+				.catch(err => {
+					console.log(err);
+				})
+				.finally(() => {
+					setIsLogin(false);
+					dispatch(logoutUser());
+					window.location.replace("/");
+				});
 		}
 	};
 
