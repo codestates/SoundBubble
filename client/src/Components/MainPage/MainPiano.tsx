@@ -2,19 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import "../Styles/MainPiano.css";
 import Piano from "../../Components/Piano/Piano";
 import UploadModal from "../../Components/UploadModal";
-
-interface BubbleData {
-	image: string;
-	sound: string;
-}
+import { BubbleData } from "../../@type/request";
 
 const MainPiano = (): JSX.Element => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const getRandom = (min: number, max: number): string => Math.floor(Math.random() * (max - min) + min).toString();
 	const [viewImage, setViewImage] = useState("");
 	const [bubbleData, setBubbleData] = useState<BubbleData>({
-		image: "dummyImage",
-		sound: "dummySound",
+		image: null,
+		sound: null,
 	});
 	const handlePainting = (note: string) => {
 		const randomPosition = {

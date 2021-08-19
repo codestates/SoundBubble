@@ -2,25 +2,25 @@ import React, { useState, useEffect, useRef } from "react";
 import { PitchDetector } from "pitchy";
 import UploadModal from "../../Components/UploadModal";
 import "../Styles/Record.css";
+import { BubbleData } from "../../@type/request";
 
 let recoding;
-
-interface BubbleData {
-	image: string;
-	sound: string;
-}
 
 function Record(): JSX.Element {
 	const [audio, setAudio] = useState<MediaStream | null>(null);
 	const [viewPitch, setPitch] = useState<number>(0);
 	const [viewClarity, setClarity] = useState<number>(0);
 	const [bubbleData, setBubbleData] = useState<BubbleData>({
-		image: "dummyImage",
-		sound: "dummySound",
+		image: null,
+		sound: null,
 	});
 
 	const [viewImage, setViewImage] = useState("");
 	const [isClicked, setIsClicked] = useState<boolean>(false);
+
+	const [recoder, setRecoder] = useState<MediaRecorder | null>(null);
+
+	let recordedChunks: Blob[] = [];
 
 	async function getMicrophone() {
 		console.log("start!");
@@ -32,6 +32,35 @@ function Record(): JSX.Element {
 		});
 
 		setAudio(audio);
+
+		//* record
+		const options = {
+			audioBitsPerSecond: 128000,
+			mimeType: "audio/webm", // webm밖에 지원하지 않음
+		};
+
+		const micRecoder: MediaRecorder = await new MediaRecorder(audio, options);
+		setRecoder(micRecoder);
+		micRecoder.start();
+
+		//micRecoder에 이벤트 등록. stop 호출 시 dataavailable -> stop
+		micRecoder.addEventListener("dataavailable", function (event) {
+			console.log("event: dataavailable");
+			recordedChunks = [];
+			if (event.data.size > 0) {
+				recordedChunks.push(event.data);
+			}
+			console.log("recordedChunks", recordedChunks);
+		});
+
+		micRecoder.addEventListener("stop", function () {
+			console.log("event: stop");
+			// 브라우저 상 표기를 바꾸는 것, 실제로 wav로 변환 x
+			const sound = new Blob(recordedChunks, { type: "audio/wav" });
+			console.log("sound", sound);
+
+			bubbleData.sound = sound;
+		});
 
 		const audioContext = new window.AudioContext();
 		const analyserNode = audioContext.createAnalyser();
@@ -50,15 +79,30 @@ function Record(): JSX.Element {
 			console.log("isclicked!", isClicked);
 			audio.getTracks().forEach(track => track.stop());
 			setAudio(null);
+
+			// 녹음 중지
+			if (recoder) recoder.stop();
+			console.log(recoder);
 		}
 		clearTimeout(recoding);
 	}
 
 	function toggleMicrophone() {
 		if (audio) {
-			stopMicrophone();
-			setIsClicked(false);
-			handleUploadModal();
+			// stopMicrophone();
+			// setIsClicked(false);
+			// handleUploadModal();
+
+			const canvas = canvasRef.current;
+
+			canvas?.toBlob(blob => {
+				console.log(blob);
+				bubbleData.image = blob;
+
+				stopMicrophone();
+				setIsClicked(false);
+				handleUploadModal();
+			}, "image/png");
 		} else {
 			getMicrophone();
 			setIsClicked(true);

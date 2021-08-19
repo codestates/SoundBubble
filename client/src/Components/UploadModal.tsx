@@ -8,11 +8,7 @@ import SHARE from "../Static/icons/share_icon.png";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
-
-interface BubbleData {
-	image: string;
-	sound: string;
-}
+import { BubbleData } from "../@type/request";
 
 interface Props {
 	handleCloseModal: () => void;
@@ -29,30 +25,35 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, bubbleData, viewImage 
 	const { accessToken } = userState;
 
 	const handleBubbleUpload = (): void => {
+		console.log("bubbleData.sound", bubbleData.sound);
 		const formData = new FormData();
-		formData.append("image", viewImage);
-		// formData.append("sound", DummyData.sound);
+		// formData.append("image", viewImage);
+		formData.append("image", bubbleData.image as Blob);
+		formData.append("sound", bubbleData.sound as Blob);
 		formData.append("textContent", textContent);
 
 		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
 		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
 		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
-		// axios({
-		// 	method: "POST",
-		// 	url: `${BUBBLE_URL}/bubble/upload`,
-		// 	data: formData,
-		// 	headers: {
-		// 		"Content-Type": "multipart/form-data",
-		// 		authorization: `Bearer ${accessToken}`,
-		// 	},
-		// })
-		// 	.then(resp => {
-		// 		console.log("###", resp);
-		// 		// history.push("/palette");
-		// 	})
-		// 	.catch(err => {
-		// 		console.log(err);
-		// 	});
+	
+		axios({
+			method: "POST",
+			// url: `${BUBBLE_URL}/bubble/upload`,
+			url: `http://localhost:80/bubble/upload`,
+			data: formData,
+			headers: {
+				"Content-Type": "multipart/form-data",
+				authorization: `Bearer ${accessToken}`,
+			},
+			withCredentials: true,
+		})
+			.then(resp => {
+				console.log("###", resp);
+				// history.push("/palette");
+			})
+			.catch(err => {
+				console.log(err);
+			});
 	};
 
 	return (
