@@ -158,3 +158,8 @@
 	padding-left: 15px;
 	border-radius: 5px;
 }
+
+.toBackBtn {
+	border: 1px solid black;
+	padding: auto;
+}

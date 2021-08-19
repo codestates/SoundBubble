@@ -55,4 +55,9 @@
 		flex-direction: column;
 		width: 90%;
 	}
+
+	.aboutUs,
+	.contact h3 {
+		display: none;
+	}
 }

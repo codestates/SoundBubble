@@ -2,13 +2,17 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import "../Styles/LandingPart3.css";
 import Piano from "../../Components/Piano/Piano";
 import clickIcon from "../../Static/icons/clickIcon.png";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const LandingThird = (): JSX.Element => {
 	const container = document.querySelector(".container3");
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
 	const [fingerBtn, setFingerBtn] = useState(
 		<div className="clickBtn">
-			<div className="innerCircle">{<img src={clickIcon} alt="클릭아이콘" width="45px" height="50px"></img>}</div>
+			<div className="innerCircle">
+				{<img className="icon" src={clickIcon} alt="클릭아이콘" width="45px" height="50px"></img>}
+			</div>
 		</div>,
 	);
 
@@ -80,7 +84,7 @@ const LandingThird = (): JSX.Element => {
 	return (
 		<>
 			<div className="container3">
-				<div className="contentWrap3">
+				<div className="contentWrap3" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
 					<div className="circle"></div>
 					<h2>건반을 클릭해보세요</h2>
 					{fingerBtn}
