@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../actions/index";
@@ -42,7 +42,8 @@ const LoginModal = (): JSX.Element => {
 		const url = new URL(window.location.href);
 		const authorizationCode = url.searchParams.get("code");
 
-		if (authorizationCode) {	// url에 code가 있으면
+		if (authorizationCode) {
+			// url에 code가 있으면
 			getSocialInfo(authorizationCode); // 서버에 AJAX call
 		}
 	}, []);
@@ -85,7 +86,7 @@ const LoginModal = (): JSX.Element => {
 				</aside>
 				<main className="login-main">
 					<div className="login-content">
-						<h2>Login to soundBubble</h2>
+						<h2>Login to SoundBubble</h2>
 						<div className="social-login-group">
 							<button type="button" className="login-naver-btn" onClick={naverLoginHandler}>
 								Sign in with Naver

@@ -4,6 +4,7 @@ import MainMic from "../Components/MainPage/MainMic";
 import MainUpload from "../Components/MainPage/MainUpload";
 import Error404 from "../Pages/error404";
 import Navigation from "../Components/Navigation";
+import Footer from "../Components/Footer";
 
 import "./Styles/MainPage.css";
 import MainSelectBar from "../Components/MainPage/MainSelectBar";
@@ -34,6 +35,7 @@ const MainPage = (): JSX.Element => {
 				<MainSelectBar select={select} handleBtnClick={handleBtnClick} />
 				<ChoiceMode select={select} />
 			</div>
+			<Footer />
 		</>
 	);
 };

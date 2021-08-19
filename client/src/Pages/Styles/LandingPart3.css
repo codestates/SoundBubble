@@ -30,8 +30,8 @@
 }
 
 .clickBtn {
-	width: 100px;
-	height: 100px;
+	width: 12.5vh;
+	height: 12.5vh;
 	border-radius: 100%;
 	background-color: rgba(255, 255, 255, 0.5);
 	display: flex;
@@ -99,5 +99,20 @@
 		-o-filter: blur(5px);
 		-ms-filter: blur(5px);
 		filter: blur(5px);
+	}
+}
+
+@media (max-width: 768px) {
+	.contentWrap3 {
+		padding: 0 2rem;
+	}
+	.contentWrap3 h2 {
+		font-size: 2rem;
+		text-align: center;
+	}
+
+	.sound-circle {
+		width: 5rem;
+		height: 5rem;
 	}
 }

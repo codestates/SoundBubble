@@ -21,7 +21,7 @@ const LandingThird = (): JSX.Element => {
 		circle.classList.add("sound-circle");
 		circle.style.left = xPos;
 		circle.style.top = yPos;
-		circle.style.animationDuration = "1.25s";
+		circle.style.animationDuration = "1.8s";
 		container?.append(circle);
 
 		switch (note) {
@@ -50,7 +50,7 @@ const LandingThird = (): JSX.Element => {
 				circle.style.backgroundColor = "#AEE4FF";
 				break;
 			case "GSharp":
-				circle.style.backgroundColor = "#DFD4E4";
+				circle.style.backgroundColor = "#98e2dc";
 				break;
 			case "A":
 				circle.style.backgroundColor = "#FCC6F7";
@@ -59,7 +59,7 @@ const LandingThird = (): JSX.Element => {
 				circle.style.backgroundColor = "#B5C7ED";
 				break;
 			case "B":
-				circle.style.backgroundColor = "#C695FA";
+				circle.style.backgroundColor = "#cfa5f1";
 				break;
 			default:
 				circle.style.left = "0px";
