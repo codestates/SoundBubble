@@ -2,12 +2,11 @@ import React from "react";
 import "./Styles/error404.css"
 
 const error404 = (): JSX.Element => {
-	//! 주소 바꾸기
 	function goPalette(e) {
-		window.location.href = 'http://localhost:3000/palette';
+		window.location.href = 'https://www.soundbubble.io/palette';
 	}
 	function goMain(e) {
-		window.location.href = 'http://localhost:3000/main';
+		window.location.href = 'https://www.soundbubble.io/main';
 	}
 	
 	return (
