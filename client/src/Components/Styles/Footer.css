@@ -5,6 +5,7 @@
 	flex-direction: column;
 	align-items: center;
 	padding: 5rem 0;
+	bottom: 0%;
 }
 .footerWrap {
 	width: 1200px;
@@ -32,4 +33,26 @@
 .copyRight {
 	text-align: center;
 	margin-top: 10rem;
+}
+
+@media (max-width: 1200px) {
+	.footerWrap {
+		width: 90%;
+	}
+	.footerWrap > div:first-of-type {
+		margin-top: 2rem;
+	}
+	.footerWrap > div {
+		margin: 1rem 0;
+	}
+	.copyRight {
+		margin-top: 5rem;
+		padding: 0 2rem;
+	}
+}
+@media (max-width: 768px) {
+	.footerWrap {
+		flex-direction: column;
+		width: 90%;
+	}
 }
