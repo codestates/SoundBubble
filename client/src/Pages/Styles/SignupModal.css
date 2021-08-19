@@ -172,3 +172,32 @@ body {
 	outline: none;
 	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25), 0 0 0 3px #c8dafc;
 }
+
+.login-naver-btn {
+  width: 46%;
+  height: 2.6rem;
+  color: #757575;
+  font-size: 1rem;
+  padding-left: 35px;
+  border: 1rem;
+  border-color: black;
+  border-radius: 5px;
+  box-shadow: 0 -1px 0 rgb(0 0 0 / 4%), 0 1px 1px rgb(0 0 0 / 25%);
+  background-image: url("../../Static/btnG_icon_square.png");
+  background-repeat: no-repeat;
+  background-size: 1.5rem;
+	background-position: 12px center;
+}
+
+.login-naver-btn:hover {
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.login-naver-btn:active {
+	background-color: #eeeeee;
+}
+
+.login-naver-btn:focus {
+	outline: none;
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25), 0 0 0 3px #c8dafc;
+}

@@ -1,19 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../actions/index";
 import { RootReducerType } from "../Store";
 import "./Styles/LoginModal.css";
-
-declare global {
-	interface Window {
-		naver: any;
-	}
-}
-
-const { naver } = window;
 
 const LoginModal = (): JSX.Element => {
 	const [ID, setID] = useState("");
@@ -99,9 +91,11 @@ const LoginModal = (): JSX.Element => {
 				</aside>
 				<main className="login-main">
 					<div className="login-content">
-						<h2>Login to soundBubble</h2>
+						<h2>Login to SoundBubble</h2>
 						<div className="social-login-group">
-							<div id="naverIdLogin" onClick={naverLoginHandler} />
+							<button type="button" className="login-naver-btn" onClick={naverLoginHandler}>
+								Sign in with Naver
+							</button>
 							<button type="button" className="login-google-btn" onClick={googleLoginHandler}>
 								Sign in with Google
 							</button>

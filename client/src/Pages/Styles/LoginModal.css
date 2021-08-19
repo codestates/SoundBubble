@@ -45,7 +45,7 @@ body {
   align-items: center;
   width: 100%;
   height: 2.6rem;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-radius: 5px;
 }
 
@@ -115,13 +115,4 @@ body {
 
 .login-form-btn > button:nth-child(2) {
   background-color: rgb(200, 112, 255);
-}
-
-#naverIdLogin {
-  width: 240px;
-  height: 50px;
-  background-image: url("btnW_official.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  box-shadow: rgba(0,0,0,0.25);
 }
