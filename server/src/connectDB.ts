@@ -53,7 +53,7 @@ console.log("Database info: ", env);
 //* Connect to Database
 export const connectDB = async (): Promise<void> => {
 	try {
-		const connection = await createConnection(connectionOption);
+		const connection: Connection = await createConnection(connectionOption);
 		if (process.env.DATABASE_TRUNCATE) {
 			await truncateDB(connection);
 		}

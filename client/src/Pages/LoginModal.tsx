@@ -10,15 +10,12 @@ import "./Styles/LoginModal.css";
 const LoginModal = (): JSX.Element => {
 	const [ID, setID] = useState("");
 	const [PW, setPW] = useState("");
-	// const [socialType, setSocialType] = useState("");
 
 	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
 
-	// ! ###### test zone ######
 	const dispatch = useDispatch();
 	const state = useSelector((state: RootReducerType) => state.userReducer);
-	// ! ###### test zone ######
 
 	const handleLogin = () => {
 		axios({
@@ -30,11 +27,9 @@ const LoginModal = (): JSX.Element => {
 			},
 		})
 			.then(resp => {
-				// ! ###### test zone ######
 				// ? # login시 user-info와 access token을 받아두기
 				const { accessToken, userInfo } = resp.data.data;
 				dispatch(loginUser(userInfo, accessToken));
-				// ! ###### test zone ######
 				history.push("/main");
 			})
 			.catch(err => {
@@ -73,7 +68,6 @@ const LoginModal = (): JSX.Element => {
 	const NAVER_LOGIN_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver_client_id}&redirect_uri=${redirect_uri}&state=naverstate`;
 
 	const googleLoginHandler = () => {
-		// setSocialType("google");
 		localStorage.setItem("socialType", "google");
 		window.location.assign(GOOGLE_LOGIN_URL);
 	};
