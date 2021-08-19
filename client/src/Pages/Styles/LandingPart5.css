@@ -50,3 +50,14 @@ a {
 	color: #fff;
 	text-decoration: none;
 }
+
+@media (max-width: 768px) {
+	.messageWrapper h2 {
+		font-size: 2rem;
+		text-align: center;
+	}
+	.startBtn {
+		width: 80%;
+		font-size: 1.2rem;
+	}
+}

@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import "./Styles/BubbleDetail.css";
-import pastel from "../Static/pastel.png";
 import axios from "axios";
+import Footer from "../Components/Footer";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 
-const BubbleDetail = ({ userInfo }): JSX.Element => {
+const BubbleDetail = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const state = useSelector((state: RootReducerType) => state.userReducer);
-	const history = useHistory();
 	const URL = process.env.REACT_APP_API_URL;
 
 	const [commentInput, setCommentInput] = useState("");
@@ -110,7 +108,7 @@ const BubbleDetail = ({ userInfo }): JSX.Element => {
 						<input
 							type="text"
 							name="comment"
-							placeholder="댓글을 남겨주세요"
+							placeholder="댓글을 남겨주세요 (댓글 + Enter)"
 							onChange={e => setCommentInput(e.target.value)}
 							value={commentInput}
 							onKeyPress={e => {

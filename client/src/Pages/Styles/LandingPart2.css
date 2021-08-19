@@ -55,3 +55,24 @@
 .contentWrap2 strong {
 	font-weight: bold;
 }
+
+@media (max-width: 1200px) {
+	.contentWrap {
+		width: 100%;
+		padding: 0 2rem;
+	}
+	.chMessageWrapper2 {
+		background-position: center;
+	}
+}
+@media (max-width: 768px) {
+	.contentWrap h2 {
+		font-size: 2rem;
+	}
+	.contentWrap p {
+		font-size: 1.2rem;
+	}
+	.contentWrap p br {
+		display: none;
+	}
+}
