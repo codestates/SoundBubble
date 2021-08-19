@@ -12,8 +12,8 @@ export const PaletteModal = styled.div`
 	position: absolute;
 	z-index: 999;
 	width: 100%;
-	height: 120vh;
-	background-color: rgba(2, 7, 21, 0.5);
+	height: 200vh;
+	background-color: rgba(2, 7, 21, 0.95);
 	font-size: 3rem;
 	animation: BackgroundFadeIn 3s;
 
@@ -28,12 +28,19 @@ export const PaletteModal = styled.div`
 			background-color: transparent;
 		}
 	}
+	.palette-message {
+		position: fixed;
+		color: white;
+		animation: MessageFadeInOut 3s;
+		top: 50%;
+	}
 `;
 
 const Palette = (): JSX.Element => {
-	const [modalOpen, setModalOpen] = useState(true);
+	const [guideModal, setGuideModal] = useState(true);
+
 	const handleModalClose = () => {
-		setTimeout(() => setModalOpen(false), 2900);
+		setTimeout(() => setGuideModal(false), 2900);
 	};
 
 	useEffect(() => {
@@ -42,10 +49,13 @@ const Palette = (): JSX.Element => {
 
 	return (
 		<>
-			{modalOpen ? (
-				<PaletteModal>
-					<p className="palette-message">다른사람의 버블을 구경해보세요</p>
-				</PaletteModal>
+			{guideModal ? (
+				<>
+					<Navigation />
+					<PaletteModal>
+						<p className="palette-message">다른사람의 버블을 구경해보세요</p>
+					</PaletteModal>
+				</>
 			) : null}
 			<div className="palette-main">
 				<Navigation />

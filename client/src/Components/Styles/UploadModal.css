@@ -19,6 +19,7 @@
 	background-color: white;
 	box-shadow: 2px 4px 8px rgba(2, 7, 21, 0.3);
 	animation: scaleUp 0.5s;
+	margin-bottom: 200px;
 }
 
 .upload-modal-top-bar {

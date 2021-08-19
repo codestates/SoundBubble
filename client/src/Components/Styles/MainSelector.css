@@ -1,13 +1,15 @@
 .select-mode {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 40%;
-  height: 10%;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 40%;
+	height: 10%;
 }
 
 .piano,
 .mic,
 .upload {
-  width: 80px;
+	width: 80px;
+	background-color: white;
+	border-radius: 50%;
 }

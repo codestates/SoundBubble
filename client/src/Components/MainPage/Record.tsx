@@ -20,9 +20,11 @@ function Record(): JSX.Element {
 	});
 
 	const [viewImage, setViewImage] = useState("");
+	const [isClicked, setIsClicked] = useState<boolean>(false);
 
 	async function getMicrophone() {
 		console.log("start!");
+		console.log("isclicked!", isClicked);
 		// 미디어 입력 장치 사용 권한 요청
 		const audio = await navigator.mediaDevices.getUserMedia({
 			audio: true,
@@ -45,6 +47,7 @@ function Record(): JSX.Element {
 	function stopMicrophone() {
 		if (audio) {
 			console.log("stop!");
+			console.log("isclicked!", isClicked);
 			audio.getTracks().forEach(track => track.stop());
 			setAudio(null);
 		}
@@ -52,8 +55,14 @@ function Record(): JSX.Element {
 	}
 
 	function toggleMicrophone() {
-		if (audio) stopMicrophone();
-		else getMicrophone();
+		if (audio) {
+			stopMicrophone();
+			setIsClicked(false);
+			handleUploadModal();
+		} else {
+			getMicrophone();
+			setIsClicked(true);
+		}
 	}
 
 	function updatePitch(analyserNode, detector, input, sampleRate) {
@@ -68,7 +77,7 @@ function Record(): JSX.Element {
 		// ? # n초에 한번씩 피치값 갱신
 		recoding = setTimeout(() => {
 			updatePitch(analyserNode, detector, input, sampleRate);
-		}, 100);
+		}, 200);
 	}
 
 	// ? ###### random하게 좌표를 찍어서 캔버스에 그림을 찍는 과정 ######
@@ -81,22 +90,31 @@ function Record(): JSX.Element {
 			x: Number(getRandom(0, 400)),
 			y: Number(getRandom(0, 400)),
 		};
-
 		console.log(`(${randomPosition.x},${randomPosition.y})좌표에 ${viewPitch}Hz를 가진 색을 찍어보자`);
 		const canvas = canvasRef.current;
-
 		if (!canvas) throw new Error("error");
 		const context = canvas?.getContext("2d");
-		const image = canvas?.toDataURL();
-		setViewImage(image);
-
 		if (!context) throw new Error("error");
 		context?.beginPath();
 		context?.arc(randomPosition.x, randomPosition.y, 100, 0, 10 * Math.PI);
-		context?.stroke();
+		context.fillStyle = `hsla(${viewPitch}, 100%, 40%,0.2)`;
 		context?.fill();
-		context.strokeStyle = "rgba(0,0,0,0)";
-		context.fillStyle = `hsla(${viewPitch}, 100%, 40%,0.5)`;
+
+		const image = canvas?.toDataURL();
+		setViewImage(image);
+	};
+
+	const whitePainting = () => {
+		console.log("white painting");
+		const canvas = canvasRef.current;
+		if (!canvas) throw new Error("error");
+		const context = canvas?.getContext("2d");
+		if (!context) throw new Error("error");
+		context?.beginPath();
+		context.fillStyle = `white`;
+		context?.fillRect(0, 0, 400, 400);
+		const image = canvas?.toDataURL();
+		setViewImage(image);
 	};
 
 	// ? # 저장하기 버튼
@@ -114,6 +132,10 @@ function Record(): JSX.Element {
 	useEffect(() => {
 		handlePainting(viewPitch);
 	}, [viewPitch]);
+
+	useEffect(() => {
+		whitePainting();
+	}, []);
 
 	// ? # upload modal open / close
 	const [isModal, setIsModal] = useState(false);
@@ -136,7 +158,11 @@ function Record(): JSX.Element {
 				/>
 			) : null}
 			<div className="get-color-box">
-				<canvas onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
+				{isClicked ? (
+					<canvas onClick={toggleMicrophone} className="canvas backLight" ref={canvasRef}></canvas>
+				) : (
+					<canvas onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
+				)}
 				<div
 					className="audio-btn"
 					style={{
@@ -145,8 +171,8 @@ function Record(): JSX.Element {
 				>
 					원을 눌러 시작해주세요!
 				</div>
-				<button onClick={handleUploadModal} className="create-bubble-btn">
-					버블 만들기
+				<button onClick={whitePainting} className="create-bubble-btn">
+					다시 만들기
 				</button>
 			</div>
 		</>
