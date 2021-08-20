@@ -105,12 +105,7 @@ const MainPiano = (): JSX.Element => {
 	return (
 		<>
 			{isModal ? (
-				<UploadModal
-					handleCloseModal={handleCloseModal}
-					handleSaveClick={handleSaveClick}
-					bubbleData={bubbleData}
-					viewImage={viewImage}
-				/>
+				<UploadModal handleCloseModal={handleCloseModal} handleSaveClick={handleSaveClick} viewImage={viewImage} />
 			) : null}
 			<div className="main-page__piano">
 				<canvas id="canvas" ref={canvasRef}></canvas>

@@ -9,19 +9,13 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
 
-interface BubbleData {
-	image: string;
-	sound: string;
-}
-
 interface Props {
 	handleCloseModal: () => void;
 	handleSaveClick: () => void;
-	bubbleData: BubbleData;
 	viewImage: string;
 }
 
-const UploadModal = ({ handleCloseModal, handleSaveClick, bubbleData, viewImage }: Props): JSX.Element => {
+const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage }: Props): JSX.Element => {
 	const history = useHistory();
 	const BUBBLE_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");

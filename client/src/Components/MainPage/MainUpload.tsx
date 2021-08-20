@@ -5,7 +5,7 @@ const MainUpload = (): JSX.Element => {
 	return (
 		<>
 			<div className="main-page__upload">
-				<h1>upload-page</h1>
+				<h1>준비중입니다.</h1>
 			</div>
 		</>
 	);
