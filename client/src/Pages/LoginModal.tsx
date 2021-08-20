@@ -12,11 +12,11 @@ const LoginModal = (): JSX.Element => {
 	const [PW, setPW] = useState("");
 
 	const history = useHistory();
-	const API_URL = process.env.REACT_APP_API_URL;
-
 	const dispatch = useDispatch();
 	const state = useSelector((state: RootReducerType) => state.userReducer);
+	const API_URL = process.env.REACT_APP_API_URL;
 
+	//* Normal login
 	const handleLogin = () => {
 		axios({
 			method: "POST",
@@ -27,7 +27,6 @@ const LoginModal = (): JSX.Element => {
 			},
 		})
 			.then(resp => {
-				// ? # login시 user-info와 access token을 받아두기
 				const { accessToken, userInfo } = resp.data.data;
 				dispatch(loginUser(userInfo, accessToken));
 				history.push("/main");
@@ -37,32 +36,43 @@ const LoginModal = (): JSX.Element => {
 			});
 	};
 
-	//! social login
+	//* Social login
 	useEffect(() => {
 		const url = new URL(window.location.href);
 		const authorizationCode = url.searchParams.get("code");
 
 		if (authorizationCode) {
-			// url에 code가 있으면
-			getSocialInfo(authorizationCode); // 서버에 AJAX call
+			handleSocialLogin(authorizationCode);
 		}
 	}, []);
 
-	const getSocialInfo = async authorizationCode => {
+	const handleSocialLogin = async authorizationCode => {
+		const socialType = localStorage.getItem("socialType");
 		await axios
-			.post(`${API_URL}/user/login/${localStorage.getItem("socialType")}`, {
+			.post(`${API_URL}/user/login/${socialType}`, {
 				authorizationCode: authorizationCode,
 			})
 			.then(res => {
 				const { accessToken, userInfo } = res.data.data;
 				dispatch(loginUser(userInfo, accessToken));
 				history.push("/main");
+			})
+			.catch(err => {
+				console.log(err);
+				if (socialType === "naver" && err.response.status === 406) {
+					alert(
+						"반드시 이메일과 별명 항목을 제공해 주셔야 가입이 가능합니다. '네이버와 연결된 서비스 관리'에서 SoundBubble을 철회한 후 다시 시도해주세요",
+					);
+				}
+			})
+			.finally(() => {
+				localStorage.removeItem("socialType");
 			});
 	};
 
-	const google_client_id = "871862507517-g22r0ffes8kkvdea1k5d0be6mc3o56gm.apps.googleusercontent.com";
-	const naver_client_id = "Xy5YQnQ5GJ2NOz0Q6959";
-	const redirect_uri = "http://localhost:3000/login";
+	const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+	const naver_client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
+	const redirect_uri = process.env.REACT_APP_REDIRECT_URL;
 
 	const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google_client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=profile email&access_type=offline`;
 	const NAVER_LOGIN_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver_client_id}&redirect_uri=${redirect_uri}&state=naverstate`;

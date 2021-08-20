@@ -3,20 +3,15 @@ import "../Styles/MainPiano.css";
 // import Piano from "../Piano/Piano";
 import Piano2 from "../Piano2/Piano2";
 import UploadModal from "../../Components/UploadModal";
-// import canvas from "../MainPage/canvas";
-
-interface BubbleData {
-	image: string;
-	sound: string;
-}
+import { BubbleData } from "../../@type/request";
 
 const MainPiano = (): JSX.Element => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const getRandom = (min: number, max: number): string => Math.floor(Math.random() * (max - min) + min).toString();
 	const [viewImage, setViewImage] = useState("");
 	const [bubbleData, setBubbleData] = useState<BubbleData>({
-		image: "dummyImage",
-		sound: "dummySound",
+		image: null,
+		sound: null,
 	});
 
 	const handlePainting = (note: string) => {
@@ -108,7 +103,7 @@ const MainPiano = (): JSX.Element => {
 	return (
 		<>
 			{isModal ? (
-				<UploadModal handleCloseModal={handleCloseModal} handleSaveClick={handleSaveClick} viewImage={viewImage} />
+				<UploadModal handleCloseModal={handleCloseModal} handleSaveClick={handleSaveClick} viewImage={viewImage} bubbleData={bubbleData}/>
 			) : null}
 			<div className="main-page__piano">
 				<canvas id="canvas" width="400px" height="400px" ref={canvasRef}></canvas>

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { PitchDetector } from "pitchy";
 import UploadModal from "../UploadModal";
 import "../Styles/RecordCanvas.css";
+import html2canvas from "html2canvas";
+import { BubbleData } from "../../@type/request";
 
 let recoding;
 
@@ -44,6 +46,13 @@ function RecordCanvas(): JSX.Element {
 		return 120;
 	};
 
+	const [recoder, setRecoder] = useState<MediaRecorder | null>(null);
+
+	const [bubbleData, setBubbleData] = useState<BubbleData>({
+		image: null,
+		sound: null,
+	});
+
 	async function getMicrophone() {
 		console.log("start!");
 		console.log("시작 속도", pickSpeed);
@@ -54,6 +63,38 @@ function RecordCanvas(): JSX.Element {
 		});
 
 		setAudio(audio);
+
+		//! mic record
+		//* --------------------------------------
+		const options = {
+			audioBitsPerSecond: 128000,
+			mimeType: "audio/webm", // webm밖에 지원하지 않음
+		};
+
+		const micRecoder: MediaRecorder = await new MediaRecorder(audio, options);
+		setRecoder(micRecoder);
+		micRecoder.start();
+
+		const recordedChunks: Blob[] = [];
+
+		//micRecoder에 이벤트 등록. stop 호출 시 dataavailable -> stop
+		micRecoder.addEventListener("dataavailable", function (event) {
+			console.log("event: dataavailable");
+			if (event.data.size > 0) {
+				recordedChunks.push(event.data);
+			}
+			console.log("recordedChunks", recordedChunks);
+		});
+
+		micRecoder.addEventListener("stop", function () {
+			console.log("event: stop");
+			// Blob 객체를 생성할 때 type을 변경해도 표기만 바꾸는 것, wav로 바꿔도 실제로 변환 x
+			const soundBlob = new Blob(recordedChunks, { type: "audio/webm" });
+			const soundFile = new File([soundBlob], "sound.webm", { type: soundBlob.type });
+			setBubbleData(Object.assign(bubbleData, { sound: soundFile }));
+		});
+		//* --------------------------------------
+
 		const audioContext = new window.AudioContext();
 		const analyserNode = audioContext.createAnalyser();
 
@@ -70,6 +111,9 @@ function RecordCanvas(): JSX.Element {
 			console.log("stop!");
 			audio.getTracks().forEach(track => track.stop());
 			setAudio(null);
+
+			// 녹음 중지
+			if (recoder) recoder.stop();
 		}
 		clearTimeout(recoding);
 	}
@@ -78,7 +122,20 @@ function RecordCanvas(): JSX.Element {
 		if (audio) {
 			stopMicrophone();
 			setBubbleIsClicked(false);
-			handleUploadModal();
+
+			const canvas = canvasRef.current;
+			if (!canvas) throw new Error("error");
+
+			//* use html2canvas
+			html2canvas(canvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
+				canvas.toBlob(imageBlob => {
+					if (!imageBlob) throw new Error("error");
+					const imageFile = new File([imageBlob], "image.png", { type: imageBlob.type });
+					setBubbleData(Object.assign(bubbleData, { image: imageFile }));
+
+					handleUploadModal();
+				}, "image/png");
+			});
 		} else {
 			getMicrophone();
 			setBubbleIsClicked(true);
@@ -155,6 +212,7 @@ function RecordCanvas(): JSX.Element {
 		context?.beginPath();
 		context.fillStyle = `white`;
 		context?.fillRect(0, 0, 400, 400);
+
 		const image = canvas?.toDataURL();
 		setViewImage(image);
 	};
@@ -192,7 +250,12 @@ function RecordCanvas(): JSX.Element {
 	return (
 		<>
 			{isModal ? (
-				<UploadModal handleCloseModal={handleCloseModal} handleSaveClick={handleSaveClick} viewImage={viewImage} />
+				<UploadModal
+					handleCloseModal={handleCloseModal}
+					handleSaveClick={handleSaveClick}
+					viewImage={viewImage}
+					bubbleData={bubbleData}
+				/>
 			) : null}
 			<div className="get-color-box">
 				{bubbleIsClicked ? (
@@ -200,6 +263,7 @@ function RecordCanvas(): JSX.Element {
 						width="400"
 						height="400"
 						onClick={toggleMicrophone}
+						id="canvas"
 						className="canvas backLight"
 						ref={canvasRef}
 					></canvas>

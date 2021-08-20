@@ -10,20 +10,24 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const connectDB_1 = require("./connectDB");
+const error_1 = require("./error");
 const userRouter_1 = __importDefault(require("./routes/userRouter"));
 const bubbleRouter_1 = __importDefault(require("./routes/bubbleRouter"));
 //* Connect DB
 connectDB_1.connectDB();
+//* Express App
 const app = express_1.default();
-const PORT = process.env.SERVER_PORT || 80;
-// Setting morgan date
-const today = new Date();
-const dateFormat = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString();
-morgan_1.default.token("date", () => {
-    return dateFormat;
-});
+const PORT = Number(process.env.SERVER_PORT) || 80;
 //* Middleware
-app.use(morgan_1.default(`"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length] [:date]`));
+const morganFormat = `"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length]`;
+app.use(morgan_1.default(morganFormat, {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    skip: (req, res) => {
+        if (req.originalUrl === "/")
+            return true;
+        return false;
+    },
+}));
 app.use(cors_1.default({
     origin: true,
     credentials: true,
@@ -46,6 +50,9 @@ app.use((req, res) => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err, req, res, next) => {
     console.error(err);
+    if (err instanceof error_1.FileTypeError) {
+        return res.status(400).send(err.message);
+    }
     res.status(500).send("Internal Server Error");
 });
 //* Listen

@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const multer_s3_1 = __importDefault(require("multer-s3"));
 const s3_1 = require("../aws/s3");
-const extensions = ["wav", "jpg", "jpeg", "png"];
+const error_1 = require("../error");
+const supportedExt = ["wav", "webm", "jpg", "jpeg", "png"];
 const upload = multer_1.default({
     storage: multer_s3_1.default({
         s3: s3_1.s3,
@@ -14,18 +15,36 @@ const upload = multer_1.default({
         contentType: multer_s3_1.default.AUTO_CONTENT_TYPE,
         acl: "public-read",
         key: function (req, file, callback) {
-            let extenstion = file.originalname.split(".").pop()?.toLowerCase();
-            if (!extensions.includes(extenstion))
-                extenstion = "jpg"; //? 확장자 제한 필요
-            const fileName = Date.now() + "." + extenstion;
-            let fullPath;
-            if (extenstion === "wav") {
-                fullPath = "sound/" + fileName;
+            console.log("file", file);
+            //* 파일 이름에서 확장자 추출
+            const originalFileName = file.originalname.split(".");
+            let ext;
+            if (originalFileName.length >= 2) {
+                ext = originalFileName.pop()?.toLowerCase();
             }
             else {
-                fullPath = "original/" + fileName;
+                ext = "null";
             }
-            callback(null, fullPath);
+            // MIME type에서 확장자 추출
+            const mimeTypeExt = file.mimetype.split("/").pop()?.toLowerCase();
+            if (!supportedExt.includes(ext) && !supportedExt.includes(mimeTypeExt)) {
+                // 지원하지 않는 파일
+                const errMessage = `Invalid File Type.\nsupported extensions: ${supportedExt.join(" ")}.\ninput file(FormData) extension: ${ext}, MIME type: ${file.mimetype}`;
+                return callback(new error_1.FileTypeError(errMessage));
+            }
+            //* S3에 저장할 파일 이름 생성 및 경로 설정
+            if (ext === "null")
+                ext = mimeTypeExt;
+            const s3FileName = Date.now() + "." + ext;
+            let s3FilePath;
+            if (file.mimetype.includes("audio")) {
+                s3FilePath = "sound/" + s3FileName;
+            }
+            else {
+                s3FilePath = "original/" + s3FileName;
+            }
+            // S3에 저장
+            callback(null, s3FilePath);
         },
     }),
 });

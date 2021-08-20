@@ -8,14 +8,16 @@ import SHARE from "../Static/icons/share_icon.png";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
+import { BubbleData } from "../@type/request";
 
 interface Props {
 	handleCloseModal: () => void;
 	handleSaveClick: () => void;
 	viewImage: string;
+	bubbleData: BubbleData;
 }
 
-const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage }: Props): JSX.Element => {
+const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const history = useHistory();
 	const BUBBLE_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
@@ -23,30 +25,32 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage }: Props): J
 	const { accessToken } = userState;
 
 	const handleBubbleUpload = (): void => {
+		console.log("업로드 bubbleData", bubbleData);
 		const formData = new FormData();
-		formData.append("image", viewImage);
-		// formData.append("sound", DummyData.sound);
+		// formData.append("image", viewImage);
+		formData.append("image", bubbleData.image as File);
+		formData.append("sound", bubbleData.sound as File);
 		formData.append("textContent", textContent);
-
-		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
-		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
-		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
-		// axios({
-		// 	method: "POST",
-		// 	url: `${BUBBLE_URL}/bubble/upload`,
-		// 	data: formData,
-		// 	headers: {
-		// 		"Content-Type": "multipart/form-data",
-		// 		authorization: `Bearer ${accessToken}`,
-		// 	},
-		// })
-		// 	.then(resp => {
-		// 		console.log("###", resp);
-		// 		// history.push("/palette");
-		// 	})
-		// 	.catch(err => {
-		// 		console.log(err);
-		// 	});
+	
+		axios({
+			method: "POST",
+			url: `${BUBBLE_URL}/bubble/upload`,
+			data: formData,
+			headers: {
+				"Content-Type": "multipart/form-data",
+				authorization: `Bearer ${accessToken}`,
+			},
+			withCredentials: true,
+		})
+			.then(resp => {
+				console.log("###", resp);
+				alert("업로드 성공");
+				// history.push("/palette");
+			})
+			.catch(err => {
+				alert("업로드 실패");
+				console.log(err);
+			});
 	};
 
 	return (
