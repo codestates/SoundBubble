@@ -1,27 +1,15 @@
-.audio-btn {
-	height: 30px;
-	border: none;
-	/* color: white; */
-	font-size: 1.5rem;
-}
-
 .get-color-box {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	/* align-items: flex-end; */
 	align-items: center;
 	width: 100%;
 }
 
-.message {
-	font-size: 1.2rem;
-}
-
-.create-bubble-btn {
+.reset-btn {
 	height: 3rem;
 	padding: 0px 20px;
-	margin: 0px 10px;
+	margin: 30px;
 	font-size: 1.3rem;
 	border: none;
 	border-radius: 5px;
@@ -31,19 +19,30 @@
 }
 
 .canvas {
-	width: 400px;
-	height: 400px;
 	background-color: white;
 	border-radius: 50%;
 	border: solid rgba(#000, 0.2);
 }
 
-/* .backLight{
-	box-shadow: ;
-} */
-
 .backLight {
 	animation: zoomIn 3s infinite;
+}
+
+.speedSlider {
+	-webkit-appearance: none;
+	width: 500px;
+	height: 25px;
+	background: rgba(119, 112, 255, 0.8);
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.speedSlider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 10px;
+	height: 50px;
+	background-color: white;
+	border-radius: 10px;
 }
 
 @keyframes zoomIn {
@@ -92,14 +91,14 @@
 파 240
 보 270
 
-C3(도) 130
-D3(레) 146
-E3(미) 165
-F3(파) 175
-G3(솔) 196
-A3(라) 220
-B3(시) 247
+C3(도) 130 빨
+D3(레) 146 주
+E3(미) 165 노
+F3(파) 175 초
+G3(솔) 196 녹
+A3(라) 220 파
+B3(시) 247 보
 
-C4(도) 260
+C4(도) 260 찐빨
 
 */
