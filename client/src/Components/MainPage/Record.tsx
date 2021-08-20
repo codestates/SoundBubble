@@ -59,7 +59,7 @@ function Record(): JSX.Element {
 			// Blob 객체를 생성할 때 type을 변경해도 표기만 바꾸는 것, wav로 바꿔도 실제로 변환 x
 			const soundBlob = new Blob(recordedChunks, { type: "audio/webm" });
 			console.log("soundBlob", soundBlob);
-			const soundFile = new File([soundBlob], "sound.wav", { type: soundBlob.type });
+			const soundFile = new File([soundBlob], "sound.webm", { type: soundBlob.type });
 			console.log("soundFile", soundFile);
 
 			bubbleData.sound = soundFile;
