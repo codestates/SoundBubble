@@ -36,34 +36,34 @@ const LandingThird = (): JSX.Element => {
 				circle.style.backgroundColor = "#FFAFD8";
 				break;
 			case "D":
-				circle.style.backgroundColor = "#F2CFA5";
+				circle.style.backgroundColor = "#fdd29e";
 				break;
 			case "DSharp":
 				circle.style.backgroundColor = "#FFE4AF";
 				break;
 			case "E":
-				circle.style.backgroundColor = "#FDFA87";
+				circle.style.backgroundColor = "#f8f18b";
 				break;
 			case "F":
 				circle.style.backgroundColor = "#AFFFBA";
 				break;
 			case "FSharp":
-				circle.style.backgroundColor = "#E2FFAF";
+				circle.style.backgroundColor = "#adffad";
 				break;
 			case "G":
 				circle.style.backgroundColor = "#AEE4FF";
 				break;
 			case "GSharp":
-				circle.style.backgroundColor = "#98e2dc";
+				circle.style.backgroundColor = "#aad9f8";
 				break;
 			case "A":
-				circle.style.backgroundColor = "#FCC6F7";
+				circle.style.backgroundColor = "#c4aaf5";
 				break;
 			case "ASharp":
 				circle.style.backgroundColor = "#B5C7ED";
 				break;
 			case "B":
-				circle.style.backgroundColor = "#cfa5f1";
+				circle.style.backgroundColor = "#fcafeb";
 				break;
 			default:
 				circle.style.left = "0px";

@@ -53,7 +53,7 @@ const Nickname = (): JSX.Element => {
 	return (
 		<>
 			<h2>Change Nickname</h2>
-			<div>
+			<div className="form">
 				<label>
 					<input
 						type="text"
