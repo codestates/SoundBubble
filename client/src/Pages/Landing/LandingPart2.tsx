@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "../Styles/LandingPart2.css";
 import "../Styles/Reset.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const LandingSecond = (): JSX.Element => {
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
@@ -15,11 +17,15 @@ const LandingSecond = (): JSX.Element => {
 		return () => window.removeEventListener("scroll", onScroll);
 	}, []);
 
+	useEffect(() => {
+		AOS.init();
+	}, []);
+
 	return (
 		<>
 			<div className="container2" ref={BackToTopRef}>
 				<div className="chMessageWrapper">
-					<div className="contentWrap">
+					<div data-aos="fade-right" data-aos-duration="2000" className="contentWrap">
 						<div className="circle"></div>
 						<h2>색청 (Colored Hearing)</h2>
 						<p>
@@ -30,7 +36,7 @@ const LandingSecond = (): JSX.Element => {
 					</div>
 				</div>
 				<div className="chMessageWrapper2">
-					<div className="contentWrap contentWrap2">
+					<div data-aos="fade-up" data-aos-duration="2000" className="contentWrap contentWrap2">
 						<div className="circle"></div>
 						<h2>Sound Bubble</h2>
 						<p>

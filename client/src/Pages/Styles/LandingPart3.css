@@ -1,5 +1,5 @@
 .container3 {
-	height: 100vh;
+	height: 80vh;
 	background-color: #000;
 	color: #fff;
 	display: flex;
@@ -30,8 +30,8 @@
 }
 
 .clickBtn {
-	width: 12.5vh;
-	height: 12.5vh;
+	width: 10vh;
+	height: 10vh;
 	border-radius: 100%;
 	background-color: rgba(255, 255, 255, 0.5);
 	display: flex;
@@ -45,11 +45,24 @@
 }
 
 .clickBtn .innerCircle {
-	width: 10vh;
-	height: 10vh;
+	width: 7vh;
+	height: 7vh;
 	border-radius: 100%;
 	background-color: rgba(255, 255, 255, 0.5);
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.icon {
+	animation: up-down 0.5s infinite ease-in-out alternate;
+}
+
+@keyframes up-down {
+	from {
+		transform: translatey(0px);
+	}
+	to {
+		transform: translatey(-5px);
+	}
 }
 
 .innerCircle {

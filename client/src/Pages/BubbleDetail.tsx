@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Styles/BubbleDetail.css";
 import axios from "axios";
 import Footer from "../Components/Footer";
+import { useHistory } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
@@ -10,6 +11,7 @@ const BubbleDetail = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const state = useSelector((state: RootReducerType) => state.userReducer);
 	const URL = process.env.REACT_APP_API_URL;
+	const history = useHistory();
 
 	const [commentInput, setCommentInput] = useState("");
 	const [bubbleComments, setBubbleComments] = useState([]);
@@ -24,6 +26,7 @@ const BubbleDetail = (): JSX.Element => {
 		image: "",
 		sound: "",
 		textContent: "",
+		user: { email: "", nickname: "" },
 	});
 
 	const getBubbleData = async () => {
@@ -120,7 +123,12 @@ const BubbleDetail = (): JSX.Element => {
 					</label>
 				</div>
 				<div className="heart-container">
-					<i className="fas fa-heart"></i>
+					{bubbleData.user.nickname} 님의 Sound Bubble
+					<div>
+						<button className="toBackBtn" onClick={() => history.push("/palette")}>
+							뒤로 가기
+						</button>
+					</div>
 				</div>
 			</div>
 		</>

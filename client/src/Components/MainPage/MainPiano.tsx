@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../Styles/MainPiano.css";
-import Piano from "../../Components/Piano/Piano";
+// import Piano from "../Piano/Piano";
+import Piano2 from "../Piano2/Piano2";
 import UploadModal from "../../Components/UploadModal";
+// import canvas from "../MainPage/canvas";
 
 interface BubbleData {
 	image: string;
@@ -16,6 +18,7 @@ const MainPiano = (): JSX.Element => {
 		image: "dummyImage",
 		sound: "dummySound",
 	});
+
 	const handlePainting = (note: string) => {
 		const randomPosition = {
 			x: Number(getRandom(0, 400)),
@@ -87,6 +90,12 @@ const MainPiano = (): JSX.Element => {
 		link.download = "myBubble";
 		link.click();
 	}
+
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		const note = e.currentTarget.value;
+		handlePainting(note);
+	};
+
 	const [isModal, setIsModal] = useState(false);
 	const handleUploadModal = () => {
 		setIsModal(true);
@@ -96,22 +105,16 @@ const MainPiano = (): JSX.Element => {
 		setIsModal(false);
 	};
 
-	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-		const note = e.currentTarget.value;
-		handlePainting(note);
-		const audio = new Audio(`sounds/piano_${e.currentTarget.value}.mp3`);
-		audio.play();
-	};
 	return (
 		<>
 			{isModal ? (
 				<UploadModal handleCloseModal={handleCloseModal} handleSaveClick={handleSaveClick} viewImage={viewImage} />
 			) : null}
 			<div className="main-page__piano">
-				<canvas id="canvas" ref={canvasRef}></canvas>
-				<Piano handleClick={handleClick} />
+				<canvas id="canvas" width="400px" height="400px" ref={canvasRef}></canvas>
+				<Piano2 />
 				<button onClick={handleUploadModal} className="create-bubble-btn">
-					Create Bubble !
+					Done
 				</button>
 			</div>
 		</>
