@@ -15,7 +15,7 @@ const updatePassword = async (req, res, next) => {
         if (!password) {
             return res.status(400).json({ message: "Invalid password(body)" });
         }
-        if (!newPassword || !validate_1.checkPassword(newPassword)) {
+        if (!newPassword || !validate_1.checkPasswordFormat(newPassword)) {
             return res.status(400).json({ message: "Invalid newPassword(body)" });
         }
         const hashedPassword = hash_1.default(password);

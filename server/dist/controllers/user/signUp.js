@@ -11,10 +11,10 @@ const signUp = async (req, res, next) => {
     const { email, password, nickname } = req.body;
     try {
         //* 파라미터 검사
-        if (!email || !validate_1.checkEmail(email)) {
+        if (!email || !validate_1.checkEmailFormat(email)) {
             return res.status(400).json({ message: `Invalid email(body), input 'email': ${email}` });
         }
-        if (!password || !validate_1.checkPassword(password)) {
+        if (!password || !validate_1.checkPasswordFormat(password)) {
             return res.status(400).json({ message: "Invalid password(body)" });
         }
         //? 닉네임 중복 검사, 유효성 검사

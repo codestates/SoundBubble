@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserInfo } from "../../@type/userInfo";
-import { checkPassword } from "../../utils/validate";
+import { checkPasswordFormat } from "../../utils/validate";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 
@@ -11,7 +11,7 @@ const updateNickname: RequestHandler = async (req: Request, res: Response, next:
 
 	try {
 		//* 파라미터 검사
-		if (!password || !checkPassword(password)) {
+		if (!password || !checkPasswordFormat(password)) {
 			return res.status(400).json({ message: "Invalid password(body)" });
 		}
 		//? 닉네임 중복 검사, 유효성 검사

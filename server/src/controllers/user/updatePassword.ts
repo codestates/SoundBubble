@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserInfo } from "../../@type/userInfo";
-import { checkPassword } from "../../utils/validate";
+import { checkPasswordFormat } from "../../utils/validate";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 
@@ -14,7 +14,7 @@ const updatePassword: RequestHandler = async (req: Request, res: Response, next:
 		if (!password) {
 			return res.status(400).json({ message: "Invalid password(body)" });
 		}
-		if (!newPassword || !checkPassword(newPassword)) {
+		if (!newPassword || !checkPasswordFormat(newPassword)) {
 			return res.status(400).json({ message: "Invalid newPassword(body)" });
 		}
 

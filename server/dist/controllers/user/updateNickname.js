@@ -12,7 +12,7 @@ const updateNickname = async (req, res, next) => {
     const { nickname, password } = req.body;
     try {
         //* 파라미터 검사
-        if (!password || !validate_1.checkPassword(password)) {
+        if (!password || !validate_1.checkPasswordFormat(password)) {
             return res.status(400).json({ message: "Invalid password(body)" });
         }
         //? 닉네임 중복 검사, 유효성 검사

@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
-import { checkEmail, checkPassword } from "../../utils/validate";
+import { checkEmailFormat, checkPasswordFormat } from "../../utils/validate";
 import { generateAccessToken, generateRefreshToken } from "../token/index";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
@@ -11,10 +11,10 @@ const login: RequestHandler = async (req: Request, res: Response, next: NextFunc
 
 	try {
 		//* 파라미터 검사
-		if (!email || !checkEmail(email)) {
+		if (!email || !checkEmailFormat(email)) {
 			return res.status(400).json({ message: `Invalid email(body), input 'email': ${email}` });
 		}
-		if (!password || !checkPassword(password)) {
+		if (!password || !checkPasswordFormat(password)) {
 			return res.status(400).json({ message: `Invalid password(body)` });
 		}
 

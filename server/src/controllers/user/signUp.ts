@@ -1,6 +1,6 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
-import { checkEmail, checkPassword } from "../../utils/validate";
+import { checkEmailFormat, checkPasswordFormat } from "../../utils/validate";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 
@@ -9,10 +9,10 @@ const signUp: RequestHandler = async (req: Request, res: Response, next: NextFun
 
 	try {
 		//* 파라미터 검사
-		if (!email || !checkEmail(email)) {
+		if (!email || !checkEmailFormat(email)) {
 			return res.status(400).json({ message: `Invalid email(body), input 'email': ${email}` });
 		}
-		if (!password || !checkPassword(password)) {
+		if (!password || !checkPasswordFormat(password)) {
 			return res.status(400).json({ message: "Invalid password(body)" });
 		}
 		//? 닉네임 중복 검사, 유효성 검사
