@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import "../Styles/MainPiano.css";
-// import Piano from "../Piano/Piano";
+import Piano from "../Piano/Piano";
 import Piano2 from "../Piano2/Piano2";
 import UploadModal from "../../Components/UploadModal";
 import { BubbleData } from "../../@type/request";
@@ -14,13 +14,31 @@ const MainPiano = (): JSX.Element => {
 		sound: null,
 	});
 
+	// Done 버튼을 클릭하면 캔버스가 리셋
+	// reset 버튼 추가
+
+	const [smallPiano, setSmallPiano] = useState(false);
+	console.log(window.innerWidth);
+	console.log(smallPiano);
+
+	const handlePianoView = () => {
+		if (window.innerWidth <= 500) {
+			setSmallPiano(true);
+		} else {
+			setSmallPiano(false);
+		}
+	};
+
+	useEffect(() => {
+		console.log(window.innerWidth);
+		handlePianoView();
+	}, []);
+
 	const handlePainting = (note: string) => {
 		const randomPosition = {
 			x: Number(getRandom(0, 400)),
 			y: Number(getRandom(0, 400)),
 		};
-
-		console.log(`(${randomPosition.x},${randomPosition.y})좌표`);
 		const canvas = canvasRef.current;
 
 		if (!canvas) throw new Error("error");
@@ -29,46 +47,161 @@ const MainPiano = (): JSX.Element => {
 		setViewImage(image);
 
 		if (!context) throw new Error("error");
-		context.filter = "blur(16px)";
+		context.filter = "blur(4px)";
 		context?.beginPath();
-		context?.arc(randomPosition.x / 1.5, randomPosition.y / 2, 50, 0, 2 * Math.PI, true);
+
+		if (smallPiano) {
+			context?.arc(randomPosition.x * 0.7, randomPosition.y * 0.7, 50, 0, 2 * Math.PI, true);
+		} else {
+			context?.arc(randomPosition.x * 1.2, randomPosition.y * 1.2, 80, 0, 2 * Math.PI, true);
+		}
 
 		switch (note) {
-			case "C":
-				context.fillStyle = "#FFAFB0";
+			// 작은 피아노
+			case "C": // 빨
+				context.fillStyle = "hsla(2.7, 100%, 75%, 0.6)"; // 3도 - 95%, 4도 - 75%, 5도 - 55%
 				break;
 			case "CSharp":
-				context.fillStyle = "#FFAFD8";
+				context.fillStyle = "hsla(22, 100%, 75%, 0.6)";
 				break;
-			case "D":
-				context.fillStyle = "#F2CFA5";
+			case "D": // 주
+				context.fillStyle = "hsla(42, 100%, 75%, 0.6)";
 				break;
 			case "DSharp":
-				context.fillStyle = "#FFE4AF";
+				context.fillStyle = "hsla(56, 100%, 75%, 0.6)";
 				break;
-			case "E":
-				context.fillStyle = "#FDFA87";
+			case "E": // 노
+				context.fillStyle = "hsla(70, 100%, 75%, 0.6)";
 				break;
-			case "F":
-				context.fillStyle = "#AFFFBA";
+			case "F": // 초
+				context.fillStyle = "hsla(120, 100%, 75%, 0.6)";
 				break;
 			case "FSharp":
-				context.fillStyle = "#E2FFAF";
+				context.fillStyle = "hsla(180, 100%, 75%, 0.6)";
 				break;
-			case "G":
-				context.fillStyle = "#AEE4FF";
+			case "G": // 파
+				context.fillStyle = "hsla(220, 100%, 75%, 0.6)";
 				break;
 			case "GSharp":
-				context.fillStyle = "#DFD4E4";
+				context.fillStyle = "hsla(245, 100%, 75%, 0.6)";
 				break;
-			case "A":
-				context.fillStyle = "#FCC6F7";
+			case "A": // 남
+				context.fillStyle = "hsla(270 ,100%, 75%, 0.6)";
 				break;
 			case "ASharp":
-				context.fillStyle = "#B5C7ED";
+				context.fillStyle = "hsla(295 ,100%, 75%, 0.6)";
 				break;
-			case "B":
-				context.fillStyle = "#C695FA";
+			case "B": // 보
+				context.fillStyle = "hsla(320 ,100%, 75%, 0.6)";
+				break;
+			// 큰 피아노
+			case "C3": // 빨
+				context.fillStyle = "hsla(2.7, 100%, 95%, 0.6)"; // 3도 - 95%, 4도 - 75%, 5도 - 55%
+				break;
+			case "C#3":
+				context.fillStyle = "hsla(22, 100%, 95%, 0.6)";
+				break;
+			case "D3": // 주
+				context.fillStyle = "hsla(42, 100%, 95%, 0.6)";
+				break;
+			case "D#3":
+				context.fillStyle = "hsla(56, 100%, 95%, 0.6)";
+				break;
+			case "E3": // 노
+				context.fillStyle = "hsla(70, 100%, 95%, 0.6)";
+				break;
+			case "F3": // 초
+				context.fillStyle = "hsla(120, 100%, 95%, 0.6)";
+				break;
+			case "F#3":
+				context.fillStyle = "hsla(180, 100%, 95%, 0.6)";
+				break;
+			case "G3": // 파
+				context.fillStyle = "hsla(220, 100%, 95%, 0.6)";
+				break;
+			case "G#3":
+				context.fillStyle = "hsla(245, 100%, 95%, 0.6)";
+				break;
+			case "A3": // 남
+				context.fillStyle = "hsla(270 ,100%, 95%, 0.6)";
+				break;
+			case "A#3":
+				context.fillStyle = "hsla(295 ,100%, 95%, 0.6)";
+				break;
+			case "B3": // 보
+				context.fillStyle = "hsla(320 ,100%, 95%, 0.6)";
+				break;
+			case "C4":
+				context.fillStyle = "hsla(2.7, 100%, 75%, 0.6)";
+				break;
+			case "C#4":
+				context.fillStyle = "hsla(22, 100%, 75%, 0.6)";
+				break;
+			case "D4": // 주
+				context.fillStyle = "hsla(42, 100%, 75%, 0.6)";
+				break;
+			case "D#4":
+				context.fillStyle = "hsla(56, 100%, 75%, 0.6)";
+				break;
+			case "E4": // 노
+				context.fillStyle = "hsla(70, 100%, 75%, 0.6)";
+				break;
+			case "F4": // 초
+				context.fillStyle = "hsla(120, 100%, 75%, 0.6)";
+				break;
+			case "F#4":
+				context.fillStyle = "hsla(180, 100%, 75%, 0.6)";
+				break;
+			case "G4": // 파
+				context.fillStyle = "hsla(220, 100%, 75%, 0.6)";
+				break;
+			case "G#4":
+				context.fillStyle = "hsla(245, 100%, 75%, 0.6)";
+				break;
+			case "A4": // 보
+				context.fillStyle = "hsla(270 ,100%, 75%, 0.6)";
+				break;
+			case "A#4":
+				context.fillStyle = "hsla(295 ,100%, 75%, 0.6)";
+				break;
+			case "B4": // 핑
+				context.fillStyle = "hsla(320 ,100%, 75%, 0.6)";
+				break;
+			case "C5":
+				context.fillStyle = "hsla(2.7, 100%, 55%, 0.6)";
+				break;
+			case "C#5":
+				context.fillStyle = "hsla(22, 100%, 55%, 0.6)";
+				break;
+			case "D5": // 주
+				context.fillStyle = "hsla(42, 100%, 55%, 0.6)";
+				break;
+			case "D#5":
+				context.fillStyle = "hsla(56, 100%, 55%, 0.6)";
+				break;
+			case "E5": // 노
+				context.fillStyle = "hsla(70, 100%, 55%, 0.6)";
+				break;
+			case "F5": // 초
+				context.fillStyle = "hsla(120, 100%, 55%, 0.6)";
+				break;
+			case "F#5":
+				context.fillStyle = "hsla(180, 100%, 55%, 0.6)";
+				break;
+			case "G5": // 파
+				context.fillStyle = "hsla(220, 100%, 55%, 0.6)";
+				break;
+			case "G#5":
+				context.fillStyle = "hsla(245, 100%, 55%, 0.6)";
+				break;
+			case "A5": // 남
+				context.fillStyle = "hsla(270 ,100%, 55%, 0.6)";
+				break;
+			case "A#5":
+				context.fillStyle = "hsla(295 ,100%, 55%, 0.6)";
+				break;
+			case "B5": // 보
+				context.fillStyle = "hsla(320 ,100%, 55%, 0.6)";
 				break;
 			default:
 				context.fillStyle = "white";
@@ -86,12 +219,8 @@ const MainPiano = (): JSX.Element => {
 		link.click();
 	}
 
-	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-		const note = e.currentTarget.value;
-		handlePainting(note);
-	};
-
 	const [isModal, setIsModal] = useState(false);
+
 	const handleUploadModal = () => {
 		setIsModal(true);
 	};
@@ -100,14 +229,40 @@ const MainPiano = (): JSX.Element => {
 		setIsModal(false);
 	};
 
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		const note = e.currentTarget.value;
+		if (!isModal && smallPiano) handlePainting(note);
+		const audio = new Audio(`sounds/piano_${note}.mp3`);
+		audio.play();
+	};
+
+	const handleClickPiano2 = (note: string) => {
+		if (!isModal && !smallPiano) handlePainting(note);
+	};
+
 	return (
 		<>
 			{isModal ? (
-				<UploadModal handleCloseModal={handleCloseModal} handleSaveClick={handleSaveClick} viewImage={viewImage} bubbleData={bubbleData}/>
+				<UploadModal
+					bubbleData={bubbleData}
+					handleCloseModal={handleCloseModal}
+					handleSaveClick={handleSaveClick}
+					viewImage={viewImage}
+				/>
 			) : null}
 			<div className="main-page__piano">
-				<canvas id="canvas" width="400px" height="400px" ref={canvasRef}></canvas>
-				<Piano2 />
+				{smallPiano ? (
+					<>
+						<canvas id="canvas" width="300px" height="300px" ref={canvasRef}></canvas>
+						<Piano handleClick={handleClick} />
+					</>
+				) : (
+					<>
+						<canvas id="canvas" width="500px" height="500px" ref={canvasRef}></canvas>
+						<Piano2 handleClick={handleClickPiano2} />
+					</>
+				)}
+
 				<button onClick={handleUploadModal} className="create-bubble-btn">
 					Done
 				</button>

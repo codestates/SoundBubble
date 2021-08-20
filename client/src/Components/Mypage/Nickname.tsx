@@ -8,7 +8,7 @@ import { editNickname } from "../../actions/index";
 const Nickname = (): JSX.Element => {
 	const [nickname, setNickname] = useState("");
 	const [password, setPassword] = useState("");
-	const history = useHistory();
+	const whistory = useHistory();
 	const url = process.env.REACT_APP_API_URL;
 
 	const dispatch = useDispatch();
