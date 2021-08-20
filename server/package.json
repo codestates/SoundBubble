@@ -6,7 +6,7 @@
    "scripts": {
       "start": "nodemon src/app.ts",
       "start:dev": "nodemon dist/app.js",
-      "start:prod": "NODE_ENV=production authbind --deep pm2 start dist/app.js",
+      "start:prod": "NODE_ENV=production authbind --deep pm2 start dist/app.js --time",
       "stop:prod": "authbind --deep pm2 stop dist/app.js",
       "test": "echo \"Error: no test specified\" && exit 1"
    },
