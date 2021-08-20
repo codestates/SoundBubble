@@ -12,18 +12,21 @@ const updateNickname = async (req, res, next) => {
     const { nickname, password } = req.body;
     try {
         //* 파라미터 검사
-        if (!password || !validate_1.checkPasswordFormat(password)) {
-            return res.status(400).json({ message: "Invalid password(body)" });
-        }
         if (!nickname || !validate_1.checkNicknameFormat(nickname)) {
             return res.status(400).json({ message: `Invalid nickname(body), input 'nickname: ${nickname}` });
         }
-        const hashedPassword = hash_1.default(password);
-        //* 유저 조회
-        const userInfo = await User_1.User.findUserById(userId, hashedPassword);
-        if (!userInfo) {
-            // 패스워드 다름
-            return res.status(403).json({ message: "Not authorized" });
+        //* 유저 조회: 인증 시 계정 확인됨
+        const userInfo = (await User_1.User.findOne(userId));
+        // 이메일 가입 or 통합 유저 (비밀번호 존재)
+        if (userInfo.signUpType === "email" || userInfo.signUpType === "intergration") {
+            if (!password) {
+                return res.status(400).json({ message: "Invalid password(body)" });
+            }
+            const hashedPassword = hash_1.default(password);
+            if (userInfo.password !== hashedPassword) {
+                // 패스워드 다름
+                return res.status(403).json({ message: "Incorrect password" });
+            }
         }
         if (userInfo.nickname === nickname) {
             // 이전과 동일한 닉네임

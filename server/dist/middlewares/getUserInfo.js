@@ -61,13 +61,13 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.accessToken = newAccessToken;
             tokenInfo.tokenExpIn = 86400;
             return tokenInfo;
-            //* (2) 유효하지 않은 토큰
         }
+        //* (2) 유효하지 않은 토큰
         else if (decoded.name === "JsonWebTokenError") {
             tokenInfo.error = "INVALID";
             return tokenInfo;
-            //* (3) 유효한 토큰
         }
+        //* (3) 유효한 토큰
         else {
             // 리턴 객체에 유저 및 토큰 정보 저장
             tokenInfo.userId = decoded.userId;
@@ -75,7 +75,7 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.accountType = decoded.accountType;
             tokenInfo.accessToken = accessToken;
             const expiredAt = decoded.exp;
-            tokenInfo.tokenExpIn = expiredAt - (Math.floor(new Date().getTime() / 1000));
+            tokenInfo.tokenExpIn = expiredAt - Math.floor(new Date().getTime() / 1000);
             return tokenInfo;
         }
     }

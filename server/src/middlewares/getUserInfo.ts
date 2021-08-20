@@ -1,10 +1,5 @@
 import { Response } from "express";
-import {
-	verifyAccessToken,
-	verifyExpiredAccessToken,
-	verifyRefreshToken,
-	generateAccessToken,
-} from "../token";
+import { verifyAccessToken, verifyExpiredAccessToken, verifyRefreshToken, generateAccessToken } from "../token";
 import { RequestTokenInfo } from "../@type/userInfo";
 import { User } from "../entity/User";
 import { UserToken } from "../entity/UserToken";
@@ -72,19 +67,21 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 			tokenInfo.accessToken = newAccessToken;
 			tokenInfo.tokenExpIn = 86400;
 			return tokenInfo;
-			//* (2) 유효하지 않은 토큰
-		} else if (decoded.name === "JsonWebTokenError") {
+		}
+		//* (2) 유효하지 않은 토큰
+		else if (decoded.name === "JsonWebTokenError") {
 			tokenInfo.error = "INVALID";
 			return tokenInfo;
-			//* (3) 유효한 토큰
-		} else {
+		}
+		//* (3) 유효한 토큰
+		else {
 			// 리턴 객체에 유저 및 토큰 정보 저장
 			tokenInfo.userId = decoded.userId;
 			tokenInfo.email = decoded.email;
 			tokenInfo.accountType = decoded.accountType;
 			tokenInfo.accessToken = accessToken;
 			const expiredAt: number = decoded.exp as number;
-			tokenInfo.tokenExpIn = expiredAt - (Math.floor(new Date().getTime() / 1000));
+			tokenInfo.tokenExpIn = expiredAt - Math.floor(new Date().getTime() / 1000);
 			return tokenInfo;
 		}
 	} catch (error) {

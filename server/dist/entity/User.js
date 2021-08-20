@@ -24,8 +24,6 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
     profileImage;
     signUpType;
     accountType;
-    // @Column({ nullable: true })
-    // refreshToken!: string;
     createdAt;
     updatedAt;
     bubbles;

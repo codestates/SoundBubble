@@ -35,13 +35,10 @@ export class User extends BaseEntity {
 	profileImage!: string;
 
 	@Column()
-	signUpType!: string;
+	signUpType!: SignUpType;
 
 	@Column()
-	accountType!: string;
-
-	// @Column({ nullable: true })
-	// refreshToken!: string;
+	accountType!: accountType;
 
 	@CreateDateColumn({ name: "createdAt" })
 	createdAt!: Date;

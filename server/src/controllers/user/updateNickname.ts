@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserInfo } from "../../@type/userInfo";
-import { checkPasswordFormat, checkNicknameFormat } from "../../utils/validate";
+import { checkNicknameFormat } from "../../utils/validate";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 
@@ -11,21 +11,24 @@ const updateNickname: RequestHandler = async (req: Request, res: Response, next:
 
 	try {
 		//* 파라미터 검사
-		if (!password || !checkPasswordFormat(password)) {
-			return res.status(400).json({ message: "Invalid password(body)" });
-		}
 		if (!nickname || !checkNicknameFormat(nickname)) {
 			return res.status(400).json({ message: `Invalid nickname(body), input 'nickname: ${nickname}` });
 		}
 
-		const hashedPassword: string = hash(password);
+		//* 유저 조회: 인증 시 계정 확인됨
+		const userInfo: User = (await User.findOne(userId)) as User;
 
-		//* 유저 조회
-		const userInfo: User | undefined = await User.findUserById(userId, hashedPassword);
+		// 이메일 가입 or 통합 유저 (비밀번호 존재)
+		if (userInfo.signUpType === "email" || userInfo.signUpType === "intergration") {
+			if (!password) {
+				return res.status(400).json({ message: "Invalid password(body)" });
+			}
 
-		if (!userInfo) {
-			// 패스워드 다름
-			return res.status(403).json({ message: "Not authorized" });
+			const hashedPassword: string = hash(password);
+			if (userInfo.password !== hashedPassword) {
+				// 패스워드 다름
+				return res.status(403).json({ message: "Incorrect password" });
+			}
 		}
 
 		if (userInfo.nickname === nickname) {
