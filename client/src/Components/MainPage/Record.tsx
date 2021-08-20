@@ -3,6 +3,7 @@ import { PitchDetector } from "pitchy";
 import UploadModal from "../../Components/UploadModal";
 import "../Styles/Record.css";
 import { BubbleData } from "../../@type/request";
+import html2canvas from "html2canvas";
 
 let recoding;
 
@@ -20,8 +21,6 @@ function Record(): JSX.Element {
 
 	const [recoder, setRecoder] = useState<MediaRecorder | null>(null);
 
-	let recordedChunks: Blob[] = [];
-
 	async function getMicrophone() {
 		console.log("start!");
 		console.log("isclicked!", isClicked);
@@ -33,7 +32,8 @@ function Record(): JSX.Element {
 
 		setAudio(audio);
 
-		//* record
+		//! mic record
+		//* --------------------------------------
 		const options = {
 			audioBitsPerSecond: 128000,
 			mimeType: "audio/webm", // webm밖에 지원하지 않음
@@ -43,10 +43,11 @@ function Record(): JSX.Element {
 		setRecoder(micRecoder);
 		micRecoder.start();
 
+		const recordedChunks: Blob[] = [];
+
 		//micRecoder에 이벤트 등록. stop 호출 시 dataavailable -> stop
 		micRecoder.addEventListener("dataavailable", function (event) {
 			console.log("event: dataavailable");
-			recordedChunks = [];
 			if (event.data.size > 0) {
 				recordedChunks.push(event.data);
 			}
@@ -55,12 +56,15 @@ function Record(): JSX.Element {
 
 		micRecoder.addEventListener("stop", function () {
 			console.log("event: stop");
-			// 브라우저 상 표기를 바꾸는 것, 실제로 wav로 변환 x
-			const sound = new Blob(recordedChunks, { type: "audio/wav" });
-			console.log("sound", sound);
+			// Blob 객체를 생성할 때 type을 변경해도 표기만 바꾸는 것, wav로 바꿔도 실제로 변환 x
+			const soundBlob = new Blob(recordedChunks, { type: "audio/webm" });
+			console.log("soundBlob", soundBlob);
+			const soundFile = new File([soundBlob], "sound.wav", { type: soundBlob.type });
+			console.log("soundFile", soundFile);
 
-			bubbleData.sound = sound;
+			bubbleData.sound = soundFile;
 		});
+		//* --------------------------------------
 
 		const audioContext = new window.AudioContext();
 		const analyserNode = audioContext.createAnalyser();
@@ -82,27 +86,43 @@ function Record(): JSX.Element {
 
 			// 녹음 중지
 			if (recoder) recoder.stop();
-			console.log(recoder);
 		}
 		clearTimeout(recoding);
 	}
 
 	function toggleMicrophone() {
 		if (audio) {
-			// stopMicrophone();
-			// setIsClicked(false);
+			stopMicrophone();
+			setIsClicked(false);
 			// handleUploadModal();
 
-			const canvas = canvasRef.current;
+			//! Capture canvas
+			// const canvas = canvasRef.current;
+			// if (!canvas) throw new Error("error");
+			// canvas.toBlob(imageBlob => {
+			// 	console.log("imageBlob", imageBlob);
+			// 	if(!imageBlob) throw new Error("error");
+			// 	const imageFile = new File([imageBlob], "image.png", { type: imageBlob.type });
+			// 	console.log("imageFile", imageFile);
+			// 	bubbleData.image = imageFile;
 
-			canvas?.toBlob(blob => {
-				console.log(blob);
-				bubbleData.image = blob;
+			// 	handleUploadModal();
+			// }, "image/png");
 
-				stopMicrophone();
-				setIsClicked(false);
-				handleUploadModal();
-			}, "image/png");
+			//* use html2canvas
+			html2canvas(document.getElementById("canvas")!, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(
+				canvas => {
+					canvas.toBlob(imageBlob => {
+						console.log("imageBlob", imageBlob);
+						if (!imageBlob) throw new Error("error");
+						const imageFile = new File([imageBlob], "image.png", { type: imageBlob.type });
+						console.log("imageFile", imageFile);
+						bubbleData.image = imageFile;
+
+						handleUploadModal();
+					}, "image/png");
+				},
+			);
 		} else {
 			getMicrophone();
 			setIsClicked(true);
@@ -157,6 +177,7 @@ function Record(): JSX.Element {
 		context?.beginPath();
 		context.fillStyle = `white`;
 		context?.fillRect(0, 0, 400, 400);
+
 		const image = canvas?.toDataURL();
 		setViewImage(image);
 	};
@@ -203,7 +224,7 @@ function Record(): JSX.Element {
 			) : null}
 			<div className="get-color-box">
 				{isClicked ? (
-					<canvas onClick={toggleMicrophone} className="canvas backLight" ref={canvasRef}></canvas>
+					<canvas onClick={toggleMicrophone} id="canvas" className="canvas backLight" ref={canvasRef}></canvas>
 				) : (
 					<canvas onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
 				)}

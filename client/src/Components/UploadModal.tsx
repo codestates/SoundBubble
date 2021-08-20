@@ -28,8 +28,8 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, bubbleData, viewImage 
 		console.log("bubbleData.sound", bubbleData.sound);
 		const formData = new FormData();
 		// formData.append("image", viewImage);
-		formData.append("image", bubbleData.image as Blob);
-		formData.append("sound", bubbleData.sound as Blob);
+		formData.append("image", bubbleData.image as File);
+		formData.append("sound", bubbleData.sound as File);
 		formData.append("textContent", textContent);
 
 		// ! # 현재 업로드 기능이 제대로 구현되지 않음.

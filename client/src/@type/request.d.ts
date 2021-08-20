@@ -1,4 +1,4 @@
 export interface BubbleData {
-  image: Blob | null;
-	sound: Blob | null;
+  image: File | null;
+	sound: File | null;
 }
