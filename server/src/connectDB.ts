@@ -1,12 +1,13 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions, Connection } from "typeorm";
+import * as readline from "readline";
 
 type DatabaseOptions = {
 	[env: string]: ConnectionOptions;
 };
 //* option
 const connectionOptions: DatabaseOptions = {
-	developtment: {
+	development: {
 		type: "mysql",
 		host: process.env.DATABASE_LOCAL_HOST,
 		port: Number(process.env.DATABASE_LOCAL_PORT),
@@ -45,17 +46,35 @@ const connectionOptions: DatabaseOptions = {
 };
 
 //* Select option
-const env: string = process.env.NODE_ENV || "developtment";
+const env: string = process.env.NODE_ENV || "development";
 
 const connectionOption: ConnectionOptions = connectionOptions[env];
-console.log("Database info: ", env);
+console.log("Database info:", env);
 
 //* Connect to Database
 export const connectDB = async (): Promise<void> => {
 	try {
 		const connection: Connection = await createConnection(connectionOption);
 		if (process.env.DATABASE_TRUNCATE) {
-			await truncateDB(connection);
+			console.log("DB Initialization setting...");
+			const rl: readline.Interface = readline.createInterface({
+				input: process.stdin,
+				output: process.stdout,
+			});
+
+			rl.question(`Do you really want to initialize the connected DB? [yes/no] `, async answer => {
+				switch (answer.toLowerCase()) {
+					case "yes":
+						await truncateDB(connection);
+						console.log("DB Initialization completed");
+						process.exit();
+						break;
+					default:
+						console.log("DB Initialization cancelled");
+						process.exit();
+						break;
+				}
+			});
 		}
 	} catch (err) {
 		console.log("Failed to connect database");
