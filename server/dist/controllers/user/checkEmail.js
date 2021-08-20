@@ -10,9 +10,11 @@ const checkEmail = async (req, res, next) => {
         if (!email || !validate_1.checkEmailFormat(email)) {
             return res.status(400).json({ message: `Invalid email(body), input 'email': ${email}` });
         }
-        const maybeUser = await User_1.User.findOne({ where: { email: email } });
-        if (maybeUser) {
-            return res.status(409).json({ message: "Email already exists" });
+        //* 이메일 중복 검사
+        const userUsingEmail = await User_1.User.findOne({ email });
+        if (userUsingEmail) {
+            // 사용 중인 이메일
+            return res.status(409).json({ message: "Email already in use" });
         }
         return res.status(200).json({ message: "Available email" });
     }

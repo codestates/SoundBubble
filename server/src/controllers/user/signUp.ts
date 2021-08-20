@@ -1,6 +1,6 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
-import { checkEmailFormat, checkPasswordFormat } from "../../utils/validate";
+import { checkEmailFormat, checkPasswordFormat, checkNicknameFormat } from "../../utils/validate";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 
@@ -15,17 +15,19 @@ const signUp: RequestHandler = async (req: Request, res: Response, next: NextFun
 		if (!password || !checkPasswordFormat(password)) {
 			return res.status(400).json({ message: "Invalid password(body)" });
 		}
-		//? 닉네임 중복 검사, 유효성 검사
-		if (!nickname) {
+		if (!nickname || !checkNicknameFormat(nickname)) {
 			return res.status(400).json({ message: `Invalid nickname(body), input 'nickname: ${nickname}` });
 		}
 
-		//* 유저 조회. 이메일 중복 확인
-		const userInfo: User | undefined = await User.findOne({ email });
-
-		if (userInfo) {
-			return res.status(409).json({ message: "Email already exists" });
+		//* 유저 조회. 이메일, 닉네임 중복 확인
+		const userUsingEmail: User | undefined = await User.findOne({ email });
+		if (userUsingEmail) {
+			return res.status(409).json({ message: "Email already in use" });
 		}
+		const userUsingNickname: User | undefined = await User.findOne({ nickname });
+		if (userUsingNickname) {
+			return res.status(409).json({ message: "Nickname already in use" });
+		}	
 
 		const hashedPassword: string = hash(password);
 

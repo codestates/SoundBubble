@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkPasswordFormat = exports.checkEmailFormat = void 0;
+exports.checkNicknameFormat = exports.checkPasswordFormat = exports.checkEmailFormat = void 0;
 const checkEmailFormat = (email) => {
     // 이메일 형식 체크
     const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -18,4 +18,13 @@ const checkPasswordFormat = (password) => {
     return false;
 };
 exports.checkPasswordFormat = checkPasswordFormat;
+const checkNicknameFormat = (nickname) => {
+    // 닉네임 형식 체크
+    // 최대 30자
+    const regExp = /^.{1,30}$/;
+    if (regExp.test(nickname))
+        return true;
+    return false;
+};
+exports.checkNicknameFormat = checkNicknameFormat;
 //# sourceMappingURL=validate.js.map

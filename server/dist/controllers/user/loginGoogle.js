@@ -38,28 +38,35 @@ const loginGoogle = async (req, res, next) => {
         if (!googleUserInfo || !googleUserInfo.email || !googleUserInfo.name) {
             return res.status(400).json({ message: "Invalid code(body), failed to get user information" });
         }
-        const { email, name } = googleUserInfo;
-        const user = await User_1.User.findOne({ email });
-        //* 유저 없음 -> 회원가입
-        if (!user) {
+        // const { email, name }: { email: string; name: string } = googleUserInfo as GoogleTokenPayload;
+        const email = googleUserInfo.email;
+        const nickname = googleUserInfo.name;
+        //* 유저 검색
+        const userUsingEmail = await User_1.User.findOne({ email });
+        // (1) 유저 없음 -> 회원가입
+        if (!userUsingEmail) {
+            // 유효한 닉네임 획득
+            const validName = await User_1.User.getValidNickname(nickname);
+            if (!validName) {
+                return next(new Error("Failed to get valid nickname"));
+            }
+            // DB 입력
             if (googleUserInfo.picture) {
                 const profileImage = googleUserInfo.picture;
-                await User_1.User.insertUser(email, "", name, "google", "user", profileImage);
+                await User_1.User.insertUser(email, "", validName, "google", "user", profileImage);
             }
             else {
-                await User_1.User.insertUser(email, "", name, "google", "user");
+                await User_1.User.insertUser(email, "", validName, "google", "user");
             }
             res.status(201);
         }
         else {
             res.status(200);
         }
-        //* 유저 존재. 소셜 로그인 대신 먼저 이메일로 가입한 유저
-        //? 이메일 도용 문제 존재
-        //! 일반 회원가입 -> 소셜 로그인 가능. 소셜 로그인 -> 일반 회원가입 불가.(소셜 로그인 유저는 비밀번호 변경을 통해 일반 로그인 가능)
-        if (user && user.signUpType === "email") {
-            user.signUpType = "intergration"; // 계정 통합
-            await user.save();
+        // (2) 유저 존재. 소셜 로그인 대신 먼저 이메일로 가입한 유저
+        if (userUsingEmail && userUsingEmail.signUpType === "email") {
+            userUsingEmail.signUpType = "intergration"; // 계정 통합
+            await userUsingEmail.save();
         }
         const userInfo = (await User_1.User.findUserByEmail(email));
         //* 토큰 발급

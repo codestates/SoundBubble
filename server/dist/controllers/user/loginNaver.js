@@ -7,7 +7,8 @@ const axios_1 = __importDefault(require("axios"));
 const User_1 = require("../../entity/User");
 const UserToken_1 = require("../../entity/UserToken");
 const index_1 = require("../../token/index");
-const loginNaver = async (req, res) => {
+const log_1 = require("../../utils/log");
+const loginNaver = async (req, res, next) => {
     //* 클라이언트로부터 Authorization Code 획득
     const { authorizationCode } = req.body;
     try {
@@ -46,28 +47,31 @@ const loginNaver = async (req, res) => {
         if (!email || !nickname) {
             return res.status(406).json({ message: "Invalid scope, failed to get user information" });
         }
-        //* 회원가입된 유저인지 확인
-        const user = await User_1.User.findOne({ email });
-        //* 유저 없음 -> 회원가입
-        if (!user) {
+        //* 유저 검색
+        const userUsingEmail = await User_1.User.findOne({ email });
+        // (1) 유저 없음 -> 회원가입
+        if (!userUsingEmail) {
+            // 유효한 닉네임 획득
+            const validName = await User_1.User.getValidNickname(nickname);
+            if (!validName) {
+                return next(new Error("Failed to get valid nickname"));
+            }
             const profileImage = profile.data.response.profile_image;
             if (profileImage) {
-                await User_1.User.insertUser(email, "", nickname, "naver", "user", profileImage);
+                await User_1.User.insertUser(email, "", validName, "naver", "user", profileImage);
             }
             else {
-                await User_1.User.insertUser(email, "", nickname, "naver", "user");
+                await User_1.User.insertUser(email, "", validName, "naver", "user");
             }
             res.status(201);
         }
         else {
             res.status(200);
         }
-        //* 유저 존재. 소셜 로그인 대신 먼저 이메일로 가입한 유저
-        //? 이메일 도용 문제 존재
-        //! 일반 회원가입 -> 소셜 로그인 가능. 소셜 로그인 -> 일반 회원가입 불가.(소셜 로그인 유저는 비밀번호 변경을 통해 일반 로그인 가능)
-        if (user && user.signUpType === "email") {
-            user.signUpType = "intergration"; // 계정 통합
-            await user.save();
+        // (2) 유저 존재. 소셜 로그인 대신 먼저 이메일로 가입한 유저
+        if (userUsingEmail && userUsingEmail.signUpType === "email") {
+            userUsingEmail.signUpType = "intergration"; // 계정 통합
+            await userUsingEmail.save();
         }
         const userInfo = (await User_1.User.findUserByEmail(email));
         //* 토큰 발급
@@ -76,9 +80,9 @@ const loginNaver = async (req, res) => {
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
         return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
     }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Faild to Naver login" });
+    catch (err) {
+        log_1.logError("Faild to Naver login");
+        next(err);
     }
 };
 exports.default = loginNaver;

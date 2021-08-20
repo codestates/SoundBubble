@@ -15,8 +15,7 @@ const updateNickname = async (req, res, next) => {
         if (!password || !validate_1.checkPasswordFormat(password)) {
             return res.status(400).json({ message: "Invalid password(body)" });
         }
-        //? 닉네임 중복 검사, 유효성 검사
-        if (!nickname) {
+        if (!nickname || !validate_1.checkNicknameFormat(nickname)) {
             return res.status(400).json({ message: `Invalid nickname(body), input 'nickname: ${nickname}` });
         }
         const hashedPassword = hash_1.default(password);
@@ -29,6 +28,11 @@ const updateNickname = async (req, res, next) => {
         if (userInfo.nickname === nickname) {
             // 이전과 동일한 닉네임
             return res.status(409).json({ message: "Same nickname" });
+        }
+        const userUsingNickname = await User_1.User.findOne({ nickname });
+        if (userUsingNickname) {
+            // 중복된 닉네임
+            return res.status(409).json({ message: "Nickname already in use" });
         }
         //* 닉네임 변경
         userInfo.nickname = nickname;

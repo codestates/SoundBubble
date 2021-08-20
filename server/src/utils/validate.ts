@@ -12,3 +12,11 @@ export const checkPasswordFormat = (password: string): boolean => {
   if (regExp.test(password)) return true;
   return false;
 };
+
+export const checkNicknameFormat = (nickname: string): boolean => {
+  // 닉네임 형식 체크
+  // 최대 30자
+  const regExp = /^.{1,30}$/
+  if (regExp.test(nickname)) return true;
+  return false;
+};

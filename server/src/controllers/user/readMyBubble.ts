@@ -13,7 +13,9 @@ const readMyBubble: RequestHandler = async (req: Request, res: Response, next: N
 		if (!userInfo) {
 			return res.status(404).json({ message: "User not found" });
 		}
+
 		const bubbles: Bubble[] = await Bubble.findBubblesByUserId(userId);
+		
 		return res.status(200).json({ data: { bubbles }, message: "All my bubbles successfully read" });
 	} catch (err) {
 		logError("Failed to read all bubbles");

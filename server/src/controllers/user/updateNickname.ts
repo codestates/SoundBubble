@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserInfo } from "../../@type/userInfo";
-import { checkPasswordFormat } from "../../utils/validate";
+import { checkPasswordFormat, checkNicknameFormat } from "../../utils/validate";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 
@@ -14,8 +14,7 @@ const updateNickname: RequestHandler = async (req: Request, res: Response, next:
 		if (!password || !checkPasswordFormat(password)) {
 			return res.status(400).json({ message: "Invalid password(body)" });
 		}
-		//? 닉네임 중복 검사, 유효성 검사
-		if (!nickname) {
+		if (!nickname || !checkNicknameFormat(nickname)) {
 			return res.status(400).json({ message: `Invalid nickname(body), input 'nickname: ${nickname}` });
 		}
 
@@ -32,6 +31,11 @@ const updateNickname: RequestHandler = async (req: Request, res: Response, next:
 		if (userInfo.nickname === nickname) {
 			// 이전과 동일한 닉네임
 			return res.status(409).json({ message: "Same nickname" });
+		}
+		const userUsingNickname: User | undefined = await User.findOne({ nickname });
+		if (userUsingNickname) {
+			// 중복된 닉네임
+			return res.status(409).json({ message: "Nickname already in use" });
 		}
 
 		//* 닉네임 변경
