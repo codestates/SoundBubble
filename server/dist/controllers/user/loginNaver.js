@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const User_1 = require("../../entity/User");
 const UserToken_1 = require("../../entity/UserToken");
-const index_1 = require("../token/index");
+const index_1 = require("../../token/index");
 const loginNaver = async (req, res) => {
     //* 클라이언트로부터 Authorization Code 획득
     const { authorizationCode } = req.body;

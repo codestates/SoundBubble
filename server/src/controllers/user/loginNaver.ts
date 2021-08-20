@@ -2,7 +2,7 @@ import axios from "axios";
 import { Request, Response, RequestHandler } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
-import { generateAccessToken, generateRefreshToken } from "../token/index";
+import { generateAccessToken, generateRefreshToken } from "../../token/index";
 
 const loginNaver: RequestHandler = async (req: Request, res: Response) => {
 	//* 클라이언트로부터 Authorization Code 획득

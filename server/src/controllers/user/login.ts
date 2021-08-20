@@ -2,7 +2,7 @@ import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
 import { checkEmailFormat, checkPasswordFormat } from "../../utils/validate";
-import { generateAccessToken, generateRefreshToken } from "../token/index";
+import { generateAccessToken, generateRefreshToken } from "../../token/index";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 

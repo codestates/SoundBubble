@@ -1,4 +1,4 @@
-import { User } from "../../entity/User";
+import { User } from "../entity/User";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const accessSecret: string = process.env.ACCESS_SECRET as string;

@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
-import { generateAccessToken, generateRefreshToken } from "../token/index";
+import { generateAccessToken, generateRefreshToken } from "../../token/index";
 import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
 import { GoogleTokenPayload } from "../../@type/oAuthUserInfo";
 import { GetTokenResponse } from "google-auth-library/build/src/auth/oauth2client";

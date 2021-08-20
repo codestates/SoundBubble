@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = require("../../entity/User");
 const UserToken_1 = require("../../entity/UserToken");
-const index_1 = require("../token/index");
+const index_1 = require("../../token/index");
 const google_auth_library_1 = require("google-auth-library");
 const log_1 = require("../../utils/log");
 const loginGoogle = async (req, res, next) => {

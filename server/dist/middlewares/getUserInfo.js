@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const token_1 = require("../controllers/token");
+const token_1 = require("../token");
 const User_1 = require("../entity/User");
 const UserToken_1 = require("../entity/UserToken");
 const getUserInfo = async (res, accessToken) => {

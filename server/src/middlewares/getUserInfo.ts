@@ -4,7 +4,7 @@ import {
 	verifyExpiredAccessToken,
 	verifyRefreshToken,
 	generateAccessToken,
-} from "../controllers/token";
+} from "../token";
 import { RequestTokenInfo } from "../@type/userInfo";
 import { User } from "../entity/User";
 import { UserToken } from "../entity/UserToken";

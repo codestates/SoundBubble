@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = require("../../entity/User");
 const UserToken_1 = require("../../entity/UserToken");
 const validate_1 = require("../../utils/validate");
-const index_1 = require("../token/index");
+const index_1 = require("../../token/index");
 const hash_1 = __importDefault(require("../../utils/hash"));
 const log_1 = require("../../utils/log");
 const login = async (req, res, next) => {
