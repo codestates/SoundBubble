@@ -2392,6 +2392,11 @@
     "loader-utils" "^2.0.0"
     "regex-parser" "^2.2.11"
 
+"adsr@^1.0.0":
+  "integrity" "sha1-p7wI5e+KceY2SryW/OffHESIHMM="
+  "resolved" "https://registry.npmjs.org/adsr/-/adsr-1.0.1.tgz"
+  "version" "1.0.1"
+
 "agent-base@6":
   "integrity" "sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ=="
   "resolved" "https://registry.npmjs.org/agent-base/-/agent-base-6.0.2.tgz"
@@ -2520,6 +2525,15 @@
   dependencies:
     "normalize-path" "^3.0.0"
     "picomatch" "^2.0.4"
+
+"aos@^2.3.4":
+  "integrity" "sha512-zh/ahtR2yME4I51z8IttIt4lC1Nw0ktsFtmeDzID1m9naJnWXhCoARaCgNOGXb5CLy3zm+wqmRAEgMYB5E2HUw=="
+  "resolved" "https://registry.npmjs.org/aos/-/aos-2.3.4.tgz"
+  "version" "2.3.4"
+  dependencies:
+    "classlist-polyfill" "^1.0.3"
+    "lodash.debounce" "^4.0.6"
+    "lodash.throttle" "^4.0.1"
 
 "aproba@^1.1.1":
   "integrity" "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="
@@ -2697,6 +2711,11 @@
   "integrity" "sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg=="
   "resolved" "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz"
   "version" "2.1.2"
+
+"audio-loader@^0.5.0":
+  "integrity" "sha1-nBJdGyXDPNliYIQFTZ9rfzHdyQg="
+  "resolved" "https://registry.npmjs.org/audio-loader/-/audio-loader-0.5.0.tgz"
+  "version" "0.5.0"
 
 "autoprefixer@^9.6.1":
   "integrity" "sha512-XrvP4VVHdRBCdX1S3WXVD8+RyG9qeb1D5Sn1DeLiG2xfSpzellk5k54xbUERJ3M5DggQxes39UGOTP8CFrEGbg=="
@@ -3503,6 +3522,11 @@
     "define-property" "^0.2.5"
     "isobject" "^3.0.0"
     "static-extend" "^0.1.1"
+
+"classlist-polyfill@^1.0.3":
+  "integrity" "sha1-k1vC39lFiodrJ5YXUUY4vKqWSi4="
+  "resolved" "https://registry.npmjs.org/classlist-polyfill/-/classlist-polyfill-1.2.0.tgz"
+  "version" "1.2.0"
 
 "clean-css@^4.2.3":
   "integrity" "sha512-VcMWDN54ZN/DS+g58HYL5/n4Zrqe8vHJpGA8KdgUXFU4fuP/aHNw8eld9SyEIyabIMJX/0RaY/fplOo5hYLSFA=="
@@ -7343,7 +7367,7 @@
   "resolved" "https://registry.npmjs.org/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz"
   "version" "4.5.0"
 
-"lodash.debounce@^4.0.8":
+"lodash.debounce@^4.0.6", "lodash.debounce@^4.0.8":
   "integrity" "sha1-gteb/zCmfEAF/9XiUVMArZyk168="
   "resolved" "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   "version" "4.0.8"
@@ -7372,6 +7396,11 @@
   "version" "4.2.0"
   dependencies:
     "lodash._reinterpolate" "^3.0.0"
+
+"lodash.throttle@^4.0.1":
+  "integrity" "sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ="
+  "resolved" "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
+  "version" "4.1.1"
 
 "lodash.truncate@^4.4.2":
   "integrity" "sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM="
@@ -7565,6 +7594,11 @@
   dependencies:
     "braces" "^3.0.1"
     "picomatch" "^2.2.3"
+
+"midimessage@^1.0.5":
+  "integrity" "sha1-rZnwTYY6BTolY9VTxb81BwtIgCw="
+  "resolved" "https://registry.npmjs.org/midimessage/-/midimessage-1.0.5.tgz"
+  "version" "1.0.5"
 
 "miller-rabin@^4.0.0":
   "integrity" "sha512-115fLhvZVqWwHPbClyntxEVfVDfl9DLLTuJvq3g2O/Oxi8AiNouAHvDSzHS0viUJc+V5vm3eq91Xwqn9dp4jRA=="
@@ -7949,6 +7983,16 @@
     "prepend-http" "^1.0.0"
     "query-string" "^4.1.0"
     "sort-keys" "^1.0.0"
+
+"note-parser@^1.1.0":
+  "integrity" "sha1-EunxflFFDsmU8TZKAZgsImZ7jms="
+  "resolved" "https://registry.npmjs.org/note-parser/-/note-parser-1.1.0.tgz"
+  "version" "1.1.0"
+
+"note-parser@^2.0.0":
+  "integrity" "sha1-JDj9V6RolLQCs6IHF5hmASnI+8E="
+  "resolved" "https://registry.npmjs.org/note-parser/-/note-parser-2.0.1.tgz"
+  "version" "2.0.1"
 
 "npm-run-path@^2.0.0":
   "integrity" "sha1-NakjLfo11wZ7TLLd8jV7GHFTbF8="
@@ -10135,6 +10179,15 @@
   "resolved" "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   "version" "2.1.2"
 
+"sample-player@^0.5.5":
+  "integrity" "sha1-vDW+o0Scb6lyUo8CKpu8KHIZVjc="
+  "resolved" "https://registry.npmjs.org/sample-player/-/sample-player-0.5.5.tgz"
+  "version" "0.5.5"
+  dependencies:
+    "adsr" "^1.0.0"
+    "midimessage" "^1.0.5"
+    "note-parser" "^1.1.0"
+
 "sane@^4.0.3":
   "integrity" "sha512-hhbzAgTIX8O7SHfp2c8/kREfEn4qO/9q8C9beyY6+tvZ87EpoZ3i1RIEvp27YBswnNbY9mWd6paKVmKbAgLfZA=="
   "resolved" "https://registry.npmjs.org/sane/-/sane-4.1.0.tgz"
@@ -10512,6 +10565,15 @@
   "version" "1.1.2"
   dependencies:
     "is-plain-obj" "^1.0.0"
+
+"soundfont-player@^0.11.0":
+  "integrity" "sha512-MkXPSwILFMNHYFhZW+8VBZbvjGG2rAB/EqpUUJqjhH7uNqOnlZyX3dzhk9ABWgyCwrA3PKFea90Qg6nuaniIpQ=="
+  "resolved" "https://registry.npmjs.org/soundfont-player/-/soundfont-player-0.11.0.tgz"
+  "version" "0.11.0"
+  dependencies:
+    "audio-loader" "^0.5.0"
+    "note-parser" "^2.0.0"
+    "sample-player" "^0.5.5"
 
 "source-list-map@^2.0.0":
   "integrity" "sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw=="

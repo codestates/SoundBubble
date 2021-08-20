@@ -13,11 +13,11 @@ import { BubbleData } from "../@type/request";
 interface Props {
 	handleCloseModal: () => void;
 	handleSaveClick: () => void;
-	bubbleData: BubbleData;
 	viewImage: string;
+	bubbleData: BubbleData;
 }
 
-const UploadModal = ({ handleCloseModal, handleSaveClick, bubbleData, viewImage }: Props): JSX.Element => {
+const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const history = useHistory();
 	const BUBBLE_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
@@ -25,21 +25,16 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, bubbleData, viewImage 
 	const { accessToken } = userState;
 
 	const handleBubbleUpload = (): void => {
-		console.log("bubbleData.sound", bubbleData.sound);
+		console.log("업로드 bubbleData", bubbleData);
 		const formData = new FormData();
 		// formData.append("image", viewImage);
 		formData.append("image", bubbleData.image as File);
 		formData.append("sound", bubbleData.sound as File);
 		formData.append("textContent", textContent);
-
-		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
-		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
-		// ! # 현재 업로드 기능이 제대로 구현되지 않음.
 	
 		axios({
 			method: "POST",
-			// url: `${BUBBLE_URL}/bubble/upload`,
-			url: `http://localhost:80/bubble/upload`,
+			url: `${BUBBLE_URL}/bubble/upload`,
 			data: formData,
 			headers: {
 				"Content-Type": "multipart/form-data",
@@ -49,9 +44,11 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, bubbleData, viewImage 
 		})
 			.then(resp => {
 				console.log("###", resp);
+				alert("업로드 성공");
 				// history.push("/palette");
 			})
 			.catch(err => {
+				alert("업로드 실패");
 				console.log(err);
 			});
 	};

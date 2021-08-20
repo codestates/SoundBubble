@@ -2,13 +2,17 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import "../Styles/LandingPart3.css";
 import Piano from "../../Components/Piano/Piano";
 import clickIcon from "../../Static/icons/clickIcon.png";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const LandingThird = (): JSX.Element => {
 	const container = document.querySelector(".container3");
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
 	const [fingerBtn, setFingerBtn] = useState(
 		<div className="clickBtn">
-			<div className="innerCircle">{<img src={clickIcon} alt="클릭아이콘" width="45px" height="50px"></img>}</div>
+			<div className="innerCircle">
+				{<img className="icon" src={clickIcon} alt="클릭아이콘" width="45px" height="50px"></img>}
+			</div>
 		</div>,
 	);
 
@@ -32,34 +36,34 @@ const LandingThird = (): JSX.Element => {
 				circle.style.backgroundColor = "#FFAFD8";
 				break;
 			case "D":
-				circle.style.backgroundColor = "#F2CFA5";
+				circle.style.backgroundColor = "#fdd29e";
 				break;
 			case "DSharp":
 				circle.style.backgroundColor = "#FFE4AF";
 				break;
 			case "E":
-				circle.style.backgroundColor = "#FDFA87";
+				circle.style.backgroundColor = "#f8f18b";
 				break;
 			case "F":
 				circle.style.backgroundColor = "#AFFFBA";
 				break;
 			case "FSharp":
-				circle.style.backgroundColor = "#E2FFAF";
+				circle.style.backgroundColor = "#adffad";
 				break;
 			case "G":
 				circle.style.backgroundColor = "#AEE4FF";
 				break;
 			case "GSharp":
-				circle.style.backgroundColor = "#98e2dc";
+				circle.style.backgroundColor = "#aad9f8";
 				break;
 			case "A":
-				circle.style.backgroundColor = "#FCC6F7";
+				circle.style.backgroundColor = "#c4aaf5";
 				break;
 			case "ASharp":
 				circle.style.backgroundColor = "#B5C7ED";
 				break;
 			case "B":
-				circle.style.backgroundColor = "#cfa5f1";
+				circle.style.backgroundColor = "#fcafeb";
 				break;
 			default:
 				circle.style.left = "0px";
@@ -80,7 +84,7 @@ const LandingThird = (): JSX.Element => {
 	return (
 		<>
 			<div className="container3">
-				<div className="contentWrap3">
+				<div className="contentWrap3" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
 					<div className="circle"></div>
 					<h2>건반을 클릭해보세요</h2>
 					{fingerBtn}

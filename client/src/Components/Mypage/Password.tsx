@@ -52,7 +52,7 @@ const Password = (): JSX.Element => {
 	return (
 		<>
 			<h2>Change Password</h2>
-			<div>
+			<div className="form">
 				<label>
 					<input
 						type="password"
