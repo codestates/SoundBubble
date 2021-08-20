@@ -166,7 +166,7 @@ export class User extends BaseEntity {
       if (!userUsingNickname) {
         return nickname;
       } else {
-        const newNickname = getNicknameRecursive(originalName + String(Math.floor(Math.random() * 10000)));
+        const newNickname = await getNicknameRecursive(originalName + String(Math.floor(Math.random() * 10000)));
         if (newNickname) return newNickname;
       }
     }
