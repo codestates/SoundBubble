@@ -165,8 +165,8 @@ function RecordCanvas(): JSX.Element {
 	const handlePainting = (viewPitch: number) => {
 		// ? # 랜덤 값 상수
 		const randomPosition = {
-			x: Number(getRandom(0, 400)),
-			y: Number(getRandom(0, 400)),
+			x: Number(getRandom(0, 500)),
+			y: Number(getRandom(0, 500)),
 			voiceConstant: 2.7,
 			voiceStrong: 360,
 		};
@@ -211,7 +211,7 @@ function RecordCanvas(): JSX.Element {
 		if (!context) throw new Error("error");
 		context?.beginPath();
 		context.fillStyle = `white`;
-		context?.fillRect(0, 0, 400, 400);
+		context?.fillRect(0, 0, 500, 500);
 
 		const image = canvas?.toDataURL();
 		setViewImage(image);
@@ -260,15 +260,15 @@ function RecordCanvas(): JSX.Element {
 			<div className="get-color-box">
 				{bubbleIsClicked ? (
 					<canvas
-						width="400"
-						height="400"
+						width="500"
+						height="500"
 						onClick={toggleMicrophone}
 						id="canvas"
 						className="canvas backLight"
 						ref={canvasRef}
 					></canvas>
 				) : (
-					<canvas width="400" height="400" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
+					<canvas width="500" height="500" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
 				)}
 				<button onClick={defaultBackground} className="reset-btn">
 					Reset
