@@ -64,15 +64,15 @@ const userReducer = (state = initialState, action: UserInfoAction): InitialState
 				nickname: action.payload.nickname,
 			});
 
-		case ACCESS_TOKEN_AUTHENTICAITON:
-			return Object.assign({}, state, {
-				accessToken: action.payload.accessToken,
-			});
+		// case ACCESS_TOKEN_AUTHENTICAITON:
+		// 	return Object.assign({}, state, {
+		// 		accessToken: action.payload.accessToken,
+		// 	});
 
-		case REFRESH_TOKEN_AUTHENTICAITON:
-			return Object.assign({}, state, {
-				refreshToken: action.payload.refreshToken,
-			});
+		// case REFRESH_TOKEN_AUTHENTICAITON:
+		// 	return Object.assign({}, state, {
+		// 		refreshToken: action.payload.refreshToken,
+		// 	});
 		default:
 			return state;
 	}
