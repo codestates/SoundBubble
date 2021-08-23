@@ -34,6 +34,10 @@ userRouter.post("/login", controller.login);
 userRouter.post("/login/google", controller.loginGoogle);
 // 네이버 로그인
 userRouter.post("/login/naver", controller.loginNaver);
+// 이메일 중복 확인
+userRouter.post("/check/email", controller.checkEmail);
+// 닉네임 중복 확인
+userRouter.post("/check/nickname", controller.checkNickname);
 //* 로그인이 필요한 요청
 userRouter.use("/", authUser_1.default);
 // 로그아웃

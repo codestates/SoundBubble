@@ -11,20 +11,23 @@ const signUp = async (req, res, next) => {
     const { email, password, nickname } = req.body;
     try {
         //* 파라미터 검사
-        if (!email || !validate_1.checkEmail(email)) {
+        if (!email || !validate_1.checkEmailFormat(email)) {
             return res.status(400).json({ message: `Invalid email(body), input 'email': ${email}` });
         }
-        if (!password || !validate_1.checkPassword(password)) {
+        if (!password || !validate_1.checkPasswordFormat(password)) {
             return res.status(400).json({ message: "Invalid password(body)" });
         }
-        //? 닉네임 중복 검사, 유효성 검사
-        if (!nickname) {
+        if (!nickname || !validate_1.checkNicknameFormat(nickname)) {
             return res.status(400).json({ message: `Invalid nickname(body), input 'nickname: ${nickname}` });
         }
-        //* 유저 조회. 이메일 중복 확인
-        const userInfo = await User_1.User.findOne({ email });
-        if (userInfo) {
-            return res.status(409).json({ message: "Email already exists" });
+        //* 유저 조회. 이메일, 닉네임 중복 확인
+        const userUsingEmail = await User_1.User.findOne({ email });
+        if (userUsingEmail) {
+            return res.status(409).json({ message: "Email already in use" });
+        }
+        const userUsingNickname = await User_1.User.findOne({ nickname });
+        if (userUsingNickname) {
+            return res.status(409).json({ message: "Nickname already in use" });
         }
         const hashedPassword = hash_1.default(password);
         //* DB 입력

@@ -73,9 +73,10 @@ const LoginModal = (): JSX.Element => {
 	const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 	const naver_client_id = process.env.REACT_APP_NAVER_CLIENT_ID;
 	const redirect_uri = process.env.REACT_APP_REDIRECT_URL;
+	const naver_redirect_uri = process.env.REACT_APP_NAVER_REDIRECT_URL;
 
 	const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google_client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=profile email&access_type=offline`;
-	const NAVER_LOGIN_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver_client_id}&redirect_uri=${redirect_uri}&state=naverstate`;
+	const NAVER_LOGIN_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver_client_id}&redirect_uri=${naver_redirect_uri}&state=naverstate`;
 
 	const googleLoginHandler = () => {
 		localStorage.setItem("socialType", "google");

@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserInfo } from "../../@type/userInfo";
-import { checkPassword } from "../../utils/validate";
+import { checkPasswordFormat } from "../../utils/validate";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 
@@ -11,39 +11,36 @@ const updatePassword: RequestHandler = async (req: Request, res: Response, next:
 
 	try {
 		//* 파라미터 검사
-		if (!password) {
-			return res.status(400).json({ message: "Invalid password(body)" });
-		}
-		if (!newPassword || !checkPassword(newPassword)) {
+		if (!newPassword || !checkPasswordFormat(newPassword)) {
 			return res.status(400).json({ message: "Invalid newPassword(body)" });
 		}
 
-		const hashedPassword: string = hash(password);
-
-		//* 유저 조회
-		const userInfo: User | undefined = await User.findOne(userId);
-
-		if (!userInfo) {
-			return res.status(404).json({ message: "User not found" });
-		}
+		//* 유저 조회: 인증 시 계정 확인됨
+		const userInfo: User = (await User.findOne(userId)) as User;
 
 		//* (1) 이메일 가입 or 통합 유저 (기존 비밀번호 존재)
 		if (userInfo.signUpType === "email" || userInfo.signUpType === "intergration") {
+			if (!password) {
+				return res.status(400).json({ message: "Invalid password(body)" });
+			}
+
+			const hashedPassword: string = hash(password);
 			if (userInfo.password !== hashedPassword) {
 				return res.status(403).json({ message: "Incorrect password" });
 			}
 
 			const hashedNewPassword = hash(newPassword);
 			if (userInfo.password === hashedNewPassword) {
+				// 이전과 동일한 비밀번호
 				return res.status(409).json({ message: "Same password" });
 			}
+
 			// 비밀번호 변경
 			userInfo.password = hashedNewPassword;
 			await userInfo.save();
 		}
-		//* (2) 소셜 로그인으로 가입하고 아직 비빌번호를 바꾸지 않은 유저
+		//* (2) 소셜 로그인으로 가입하고 아직 비빌번호를 변경하지 않은 유저
 		else {
-			//? 기존 빈 문자열 패스워드 검사 필요
 			const hashedNewPassword: string = hash(newPassword);
 			userInfo.password = hashedNewPassword;
 			userInfo.signUpType = "intergration";
@@ -53,7 +50,7 @@ const updatePassword: RequestHandler = async (req: Request, res: Response, next:
 
 		return res.status(200).json({ message: "User password successfully updated" });
 	} catch (err) {
-    logError("Failed to update password");
+		logError("Failed to update password");
 		next(err);
 	}
 };

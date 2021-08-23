@@ -24,8 +24,6 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
     profileImage;
     signUpType;
     accountType;
-    // @Column({ nullable: true })
-    // refreshToken!: string;
     createdAt;
     updatedAt;
     bubbles;
@@ -105,6 +103,39 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
             .getOne();
         return user;
     }
+    static async getValidNickname(originalName) {
+        // 닉네임 길이 제한 검사
+        if (originalName.length >= 26) {
+            originalName = originalName.slice(0, 26);
+        }
+        console.log("originalName", originalName);
+        // 닉네임 중복 확인
+        const userUsingNickname = await this.findOne({ nickname: originalName });
+        if (!userUsingNickname) {
+            return originalName;
+        }
+        let count = 0;
+        // 보조 재귀 함수: 랜덤으로 0~9999 숫자를 닉네임 뒤에 붙이며 중복되지 않는 닉네임 생성
+        const getNicknameRecursive = async (nickname) => {
+            console.log("RamdomName", nickname);
+            // 최대 100회 시도
+            if (count > 100) {
+                return;
+            }
+            count++;
+            const userUsingNickname = await this.findOne({ nickname });
+            if (!userUsingNickname) {
+                return nickname;
+            }
+            else {
+                const newNickname = await getNicknameRecursive(originalName + String(Math.floor(Math.random() * 10000)));
+                if (newNickname)
+                    return newNickname;
+            }
+        };
+        const newNickname = await getNicknameRecursive(originalName + String(Math.floor(Math.random() * 10000)));
+        return newNickname;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -119,7 +150,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "nickname", void 0);
 __decorate([
@@ -143,15 +174,15 @@ __decorate([
     __metadata("design:type", Date)
 ], User.prototype, "updatedAt", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => Bubble_1.Bubble, (bubble) => bubble.user),
+    typeorm_1.OneToMany(() => Bubble_1.Bubble, bubble => bubble.user),
     __metadata("design:type", Array)
 ], User.prototype, "bubbles", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => BubbleComment_1.BubbleComment, (bubbleComment) => bubbleComment.user),
+    typeorm_1.OneToMany(() => BubbleComment_1.BubbleComment, bubbleComment => bubbleComment.user),
     __metadata("design:type", Array)
 ], User.prototype, "bubbleComments", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => LikedBubble_1.LikedBubble, (LikedBubble) => LikedBubble.user),
+    typeorm_1.OneToMany(() => LikedBubble_1.LikedBubble, LikedBubble => LikedBubble.user),
     __metadata("design:type", Array)
 ], User.prototype, "likedBubbles", void 0);
 User = User_1 = __decorate([

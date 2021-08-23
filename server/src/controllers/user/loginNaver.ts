@@ -1,10 +1,11 @@
 import axios from "axios";
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
-import { generateAccessToken, generateRefreshToken } from "../token/index";
+import { generateAccessToken, generateRefreshToken } from "../../token/index";
+import { logError } from "../../utils/log";
 
-const loginNaver: RequestHandler = async (req: Request, res: Response) => {
+const loginNaver: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	//* 클라이언트로부터 Authorization Code 획득
 	const { authorizationCode }: { authorizationCode: string } = req.body;
 
@@ -30,10 +31,10 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
 				grant_type: "authorization_code",
 				state: "naverstate",
 			},
-    });
-    
-    const naverAccessToken: string | undefined = token.data.access_token;
-    if (!naverAccessToken) {
+		});
+
+		const naverAccessToken: string | undefined = token.data.access_token;
+		if (!naverAccessToken) {
 			return res.status(400).json({ message: "Invalid code(body), failed to get token" });
 		}
 
@@ -43,38 +44,41 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
 			headers: {
 				Authorization: `bearer ${naverAccessToken}`,
 			},
-    });
+		});
 
-    const { email, nickname }: { email:string; nickname:string } = profile.data.response;
-    if (!email || !nickname) {
-      return res.status(406).json({ message: "Invalid scope, failed to get user information" });
-    }
+		const { email, nickname }: { email: string; nickname: string } = profile.data.response;
+		if (!email || !nickname) {
+			return res.status(406).json({ message: "Invalid scope, failed to get user information" });
+		}
 
-		//* 회원가입된 유저인지 확인
-		const user: User | undefined = await User.findOne({ email });
-    //* 유저 없음 -> 회원가입
-		if (!user) {
+		//* 유저 검색
+		const userUsingEmail: User | undefined = await User.findOne({ email });
+		// (1) 유저 없음 -> 회원가입
+		if (!userUsingEmail) {
+			// 유효한 닉네임 획득
+			const validName: string | undefined = await User.getValidNickname(nickname);
+			if (!validName) {
+				return next(new Error("Failed to get valid nickname"));
+			}
+
 			const profileImage: string = profile.data.response.profile_image;
-
 			if (profileImage) {
-				await User.insertUser(email, "", nickname, "naver", "user", profileImage);
+				await User.insertUser(email, "", validName, "naver", "user", profileImage);
 			} else {
-				await User.insertUser(email, "", nickname, "naver", "user");
+				await User.insertUser(email, "", validName, "naver", "user");
 			}
 			res.status(201);
 		} else {
 			res.status(200);
 		}
 
-		//* 유저 존재. 소셜 로그인 대신 먼저 이메일로 가입한 유저
-		//? 이메일 도용 문제 존재
-		//! 일반 회원가입 -> 소셜 로그인 가능. 소셜 로그인 -> 일반 회원가입 불가.(소셜 로그인 유저는 비밀번호 변경을 통해 일반 로그인 가능)
-		if (user && user.signUpType === "email") {
-			user.signUpType = "intergration"; // 계정 통합
-			await user.save();
+		// (2) 유저 존재. 소셜 로그인 대신 먼저 이메일로 가입한 유저
+		if (userUsingEmail && userUsingEmail.signUpType === "email") {
+			userUsingEmail.signUpType = "intergration"; // 계정 통합
+			await userUsingEmail.save();
 		}
 
-		const userInfo = (await User.findUserByEmail(email)) as User;
+		const userInfo: User = (await User.findUserByEmail(email)) as User;
 
 		//* 토큰 발급
 		const accessToken: string = generateAccessToken(userInfo);
@@ -83,9 +87,9 @@ const loginNaver: RequestHandler = async (req: Request, res: Response) => {
 		await UserToken.insertToken(userInfo.id, refreshToken);
 
 		return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Faild to Naver login" });
+	} catch (err) {
+		logError("Faild to Naver login");
+		next(err);
 	}
 };
 
