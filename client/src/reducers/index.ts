@@ -1,4 +1,3 @@
-import numberReducer from "./numberReducer";
 import userReducer from "./userReducer";
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist"; // 추가
@@ -15,7 +14,6 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-	numberReducer,
 	userReducer,
 });
 

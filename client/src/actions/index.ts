@@ -1,5 +1,3 @@
-export const INCREASE_NUMBER = "INCREASE_NUMBER";
-export const DECREASE_NUMBER = "DECREASE_NUMBER";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const EDIT_NICKNAME = "EDIT_NICKNAME";
@@ -17,22 +15,7 @@ interface UserInfo {
 	profileImage?: string;
 }
 
-interface AccessToken {
-	accessToken: string;
-}
-
-export const increaseNumber = () => {
-	return {
-		type: INCREASE_NUMBER,
-	};
-};
-export const decreaseNumber = () => {
-	return {
-		type: DECREASE_NUMBER,
-	};
-};
-
-export const loginUser = (userInfo: UserInfo, accessToken: AccessToken): any => {
+export const loginUser = (userInfo: UserInfo, accessToken: string | null): any => {
 	return {
 		type: LOGIN_USER,
 		payload: { userInfo, accessToken },
