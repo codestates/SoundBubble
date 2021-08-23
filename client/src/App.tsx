@@ -8,7 +8,6 @@ import Mypage from "./Pages/Mypage";
 import LoginModal from "./Pages/LoginModal";
 import SignupModal from "./Pages/SignupModal";
 import error404 from "./Pages/error404";
-import Test from "./Pages/Test";
 
 function App(): JSX.Element {
 	return (
@@ -22,7 +21,6 @@ function App(): JSX.Element {
 					<Route path="/mypage" component={Mypage} />
 					<Route path="/login" component={LoginModal} />
 					<Route path="/signup" component={SignupModal} />
-					<Route path="/test" component={Test} />
 					<Route path="*" component={error404} />
 				</Switch>
 			</Router>

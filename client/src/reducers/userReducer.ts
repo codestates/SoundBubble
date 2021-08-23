@@ -1,5 +1,6 @@
 import {
 	loginUser,
+	editNickname,
 	LOGIN_USER,
 	LOGOUT_USER,
 	ACCESS_TOKEN_AUTHENTICAITON,
@@ -18,7 +19,7 @@ interface InitialState {
 	profileImage?: string;
 }
 
-type LoginAction = ReturnType<typeof loginUser>;
+type UserInfoAction = ReturnType<typeof loginUser | typeof editNickname>;
 
 const initialState: InitialState = {
 	id: 0,
@@ -31,7 +32,7 @@ const initialState: InitialState = {
 	profileImage: "",
 };
 
-const userReducer = (state = initialState, action: LoginAction): InitialState => {
+const userReducer = (state = initialState, action: UserInfoAction): InitialState => {
 	switch (action.type) {
 		case LOGIN_USER:
 			const { userInfo, accessToken } = action.payload;
@@ -63,15 +64,15 @@ const userReducer = (state = initialState, action: LoginAction): InitialState =>
 				nickname: action.payload.nickname,
 			});
 
-		case ACCESS_TOKEN_AUTHENTICAITON:
-			return Object.assign({}, state, {
-				accessToken: action.payload.accessToken,
-			});
+		// case ACCESS_TOKEN_AUTHENTICAITON:
+		// 	return Object.assign({}, state, {
+		// 		accessToken: action.payload.accessToken,
+		// 	});
 
-		case REFRESH_TOKEN_AUTHENTICAITON:
-			return Object.assign({}, state, {
-				refreshToken: action.payload.refreshToken,
-			});
+		// case REFRESH_TOKEN_AUTHENTICAITON:
+		// 	return Object.assign({}, state, {
+		// 		refreshToken: action.payload.refreshToken,
+		// 	});
 		default:
 			return state;
 	}
