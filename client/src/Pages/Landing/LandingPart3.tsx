@@ -20,7 +20,7 @@ const LandingThird = (): JSX.Element => {
 		setFingerBtn(<span />);
 		const circle = document.createElement("div");
 		const note = e.currentTarget.value;
-		const yPos = `${container ? Math.floor(container.clientHeight * Math.random()) / 2 : Number}px`;
+		const yPos = `${container ? Math.floor((container.clientHeight / 2) * Math.random()) : Number}px`;
 		const xPos = `${container ? Math.floor(container.clientWidth * Math.random()) : Number}px`;
 		circle.classList.add("sound-circle");
 		circle.style.left = xPos;
@@ -30,40 +30,40 @@ const LandingThird = (): JSX.Element => {
 
 		switch (note) {
 			case "C":
-				circle.style.backgroundColor = "#FFAFB0";
+				circle.style.backgroundColor = "#f38a8c";
 				break;
 			case "CSharp":
 				circle.style.backgroundColor = "#FFAFD8";
 				break;
 			case "D":
-				circle.style.backgroundColor = "#fdd29e";
+				circle.style.backgroundColor = "#ffc379";
 				break;
 			case "DSharp":
-				circle.style.backgroundColor = "#FFE4AF";
+				circle.style.backgroundColor = "#f5dc8b";
 				break;
 			case "E":
 				circle.style.backgroundColor = "#f8f18b";
 				break;
 			case "F":
-				circle.style.backgroundColor = "#AFFFBA";
+				circle.style.backgroundColor = "#68c55f";
 				break;
 			case "FSharp":
-				circle.style.backgroundColor = "#adffad";
+				circle.style.backgroundColor = "#adffe4";
 				break;
 			case "G":
 				circle.style.backgroundColor = "#AEE4FF";
 				break;
 			case "GSharp":
-				circle.style.backgroundColor = "#aad9f8";
+				circle.style.backgroundColor = "#68c3ff";
 				break;
 			case "A":
-				circle.style.backgroundColor = "#c4aaf5";
+				circle.style.backgroundColor = "#3c45a1";
 				break;
 			case "ASharp":
-				circle.style.backgroundColor = "#B5C7ED";
+				circle.style.backgroundColor = "#e1a2ee";
 				break;
 			case "B":
-				circle.style.backgroundColor = "#fcafeb";
+				circle.style.backgroundColor = "#c38df5";
 				break;
 			default:
 				circle.style.left = "0px";
@@ -84,7 +84,7 @@ const LandingThird = (): JSX.Element => {
 	return (
 		<>
 			<div className="container3">
-				<div className="contentWrap3" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500">
+				<div className="contentWrap3" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1000">
 					<div className="circle"></div>
 					<h2>건반을 클릭해보세요</h2>
 					{fingerBtn}

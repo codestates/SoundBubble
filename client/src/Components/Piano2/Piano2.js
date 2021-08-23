@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 import Instrument from "./Instrument";
 import "./Piano2.css";
 
-const Piano2 = () => {
+const Piano2 = ({ handleClick }) => {
 	const accidentalKey = ({ isPlaying, text, eventHandlers }) => {
 		return (
-			<div className="piano-accidental-key-wrapper">
+			<div className="piano-accisdental-key-wrapper">
 				<button
 					className={`piano-accidental-key ${isPlaying ? "piano-accidental-key-playing" : ""} `}
 					{...eventHandlers}
@@ -45,6 +45,7 @@ const Piano2 = () => {
 				startNote={"C3"}
 				endNote={"B5"}
 				renderPianoKey={renderPianoKey}
+				handleClick={handleClick}
 				keyboardMap={{
 					Q: "C3",
 					2: "C#3",

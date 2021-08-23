@@ -1,5 +1,5 @@
 .container3 {
-	height: 80vh;
+	height: 85vh;
 	background-color: #000;
 	color: #fff;
 	display: flex;
@@ -10,8 +10,8 @@
 }
 
 .circle {
-	width: 20px;
-	height: 20px;
+	width: 15px;
+	height: 15px;
 	border-radius: 100%;
 	background-color: #fff;
 }
