@@ -8,7 +8,7 @@ const Footer = (): JSX.Element => {
 		<div className="footerContainer">
 			<div className="footerWrap">
 				<a href="" className="logo">
-					LOGO
+					<img className="nav-logo" src="logo_w.png" alt="logo" />
 				</a>
 				<div className="aboutUs">
 					<h3>About Us</h3>
