@@ -17,32 +17,17 @@ const MainSelectBar = (props: SelectProps): JSX.Element => {
 		<>
 			<div className="select-mode">
 				{select === "piano" ? (
-					<img
-						className="piano"
-						src={piano}
-						onClick={e => handleBtnClick(e)}
-						style={{ background: "rgb(163, 158, 255)" }}
-					/>
+					<img className="piano" src={piano} onClick={e => handleBtnClick(e)} style={{ background: "white" }} />
 				) : (
 					<img className="piano" src={piano} onClick={e => handleBtnClick(e)} />
 				)}
 				{select === "mic" ? (
-					<img
-						className="mic"
-						src={mic}
-						onClick={e => handleBtnClick(e)}
-						style={{ background: "rgb(163, 158, 255)" }}
-					/>
+					<img className="mic" src={mic} onClick={e => handleBtnClick(e)} style={{ background: "white" }} />
 				) : (
 					<img className="mic" src={mic} onClick={e => handleBtnClick(e)} />
 				)}
 				{select === "upload" ? (
-					<img
-						className="upload"
-						src={upload}
-						onClick={e => handleBtnClick(e)}
-						style={{ background: "rgb(163, 158, 255)" }}
-					/>
+					<img className="upload" src={upload} onClick={e => handleBtnClick(e)} style={{ background: "white" }} />
 				) : (
 					<img className="upload" src={upload} onClick={e => handleBtnClick(e)} />
 				)}

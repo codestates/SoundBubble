@@ -8,32 +8,62 @@ import Footer from "../Components/Footer";
 
 import "./Styles/MainPage.css";
 import MainSelectBar from "../Components/MainPage/MainSelectBar";
+import { CirclePicker } from "react-color";
 
 interface Select {
 	select: string;
+	backColor: any;
+	pickSpeed: any;
 }
 
 // ? Mode에 따른 컴포넌트 랜더링
-function ChoiceMode(props: Select): JSX.Element {
-	const { select } = props;
+function ChoiceMode({ select, backColor, pickSpeed }: Select): JSX.Element {
 	if (select === "piano") return <MainPiano />;
-	else if (select === "mic") return <MainMic />;
+	else if (select === "mic") return <MainMic backColor={backColor} pickSpeed={pickSpeed} />;
 	else if (select === "upload") return <MainUpload />;
 	else return <Error404 />;
 }
 
 const MainPage = (): JSX.Element => {
-	const [select, setSelect] = useState("piano");
+	const [select, setSelect] = useState("mic");
 	const handleBtnClick = (e: React.ChangeEvent<HTMLButtonElement>) => {
 		setSelect(e.target.classList.value);
 	};
+	const [backColor, setBackColor] = useState<string>("white");
+	const handleChangeComplete = color => {
+		setBackColor(color.hex);
+	};
 
+	// ? # 원이 찍히는 속도 state
+	const [pickSpeed, setPickSpeed] = useState<number>(350);
 	return (
 		<>
 			<Navigation />
 			<div className="main-page">
-				<MainSelectBar select={select} handleBtnClick={handleBtnClick} />
-				<ChoiceMode select={select} />
+				<div className="main-left-background"></div>
+				<div className="main-left">
+					<MainSelectBar select={select} handleBtnClick={handleBtnClick} />
+					<div className="bubble-color-box">
+						<p className="bubble-color-message">color</p>
+						<div className="color-picker">
+							<CirclePicker color={backColor} onChangeComplete={handleChangeComplete} width="400px" />
+							<button className="white-btn" onClick={() => setBackColor("#FFFFFF")}></button>
+							<button className="black-btn" onClick={() => setBackColor("#000000")}></button>
+						</div>
+					</div>
+					<div className="bubble-speed-box">
+						<p className="bubble-speed-message">speed</p>
+						<input
+							type="range"
+							min="100"
+							max="600"
+							onChange={e => setPickSpeed(Number(e.target.value))}
+							value={pickSpeed}
+							className="speedSlider"
+						/>
+					</div>
+				</div>
+				<ChoiceMode select={select} backColor={backColor} pickSpeed={pickSpeed} />
 			</div>
 			<Footer />
 		</>
