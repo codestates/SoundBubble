@@ -108,7 +108,7 @@ const LoginModal = (): JSX.Element => {
 								Sign in with Google
 							</button>
 						</div>
-						<hr className="divider"/>
+						<hr className="login-divider"/>
 						<fieldset className="login-user-email">
 							<label className="login-label">Email Address</label>
 							<input className="login-input-email" type="email" onChange={e => setID(e.target.value)} />
