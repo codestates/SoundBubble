@@ -5,6 +5,23 @@
 	justify-content: center;
 	align-items: center;
 	position: relative;
+	background-color: rgb(33, 39, 50);
+}
+
+.backIcon {
+	width: 4rem;
+	position: fixed;
+	left: 2%;
+	top: 3%;
+	cursor: pointer;
+}
+
+.deleteBtn {
+	width: 4rem;
+	position: fixed;
+	right: 3%;
+	top: 3%;
+	cursor: pointer;
 }
 
 .bubbleDetail-container .comment-container {
@@ -19,8 +36,7 @@
 	pointer-events: all;
 	position: absolute;
 	font-size: 20px;
-	color: transparent;
-	text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+	color: white;
 	transition: 0.15s all;
 }
 
@@ -49,7 +65,7 @@
 	left: 30%;
 	top: 90%;
 }
-
+/* 
 .bubbleDetail-container .comment-container p:nth-child(6) {
 	left: 10%;
 	top: 10%;
@@ -89,11 +105,11 @@
 .bubbleDetail-container .comment-container p:nth-child(15) {
 	left: 100%;
 	top: 100%;
-}
+} */
 
 .bubbleDetail-container .comment-container p.my-comment {
 	font-size: 30px;
-	color: #333;
+	color: rgba(240, 240, 164, 0.897);
 	text-shadow: none;
 	cursor: pointer;
 }
@@ -109,6 +125,7 @@
 
 .bubbleDetail-container .bubble img {
 	width: 100%;
+	cursor: pointer;
 }
 
 .bubbleDetail-container .bubble p {
@@ -122,10 +139,12 @@
 	color: #fff;
 }
 
-.bubbleDetail-container .heart-container {
+.bubbleDetail-container .bubble-user {
 	position: absolute;
 	bottom: 30px;
 	left: 30px;
+	color: white;
+	font-size: 1.5rem;
 }
 
 .bubbleDetail-container .heart-container i {

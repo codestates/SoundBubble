@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Styles/BubbleDetail.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import backIcon from "./Styles/back.png";
+import trashcan from "./Styles/trashcan.png";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
@@ -11,9 +13,11 @@ const BubbleDetail = (): JSX.Element => {
 	const state = useSelector((state: RootReducerType) => state.userReducer);
 	const URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
+	console.log(state);
 
 	const [commentInput, setCommentInput] = useState("");
 	const [bubbleComments, setBubbleComments] = useState([]);
+	const [isPlaying, setIsPlaying] = useState(false);
 
 	const getBubbleId = (): string => {
 		return window.location.pathname.split("/")[2];
@@ -50,9 +54,13 @@ const BubbleDetail = (): JSX.Element => {
 	useEffect(() => {
 		getComment();
 		getBubbleData();
+		setIsPlaying(false);
 	}, []);
 
 	const handleSubmitComment = async (text: string) => {
+		if (!state.accessToken) {
+			if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) history.push("/login");
+		}
 		await axios({
 			method: "POST",
 			url: `${URL}/bubble/${bubbleId}/comment`,
@@ -60,7 +68,7 @@ const BubbleDetail = (): JSX.Element => {
 			headers: {
 				authorization: `Bearer ${state.accessToken}`,
 			},
-		}).then(res => {
+		}).then(() => {
 			setCommentInput("");
 			getComment();
 		});
@@ -80,15 +88,58 @@ const BubbleDetail = (): JSX.Element => {
 		});
 	};
 
+	const handleDeleteBubble: any = async id => {
+		if (confirm("버블을 삭제하시겠습니까?"))
+			await axios({
+				method: "DELETE",
+				url: `${URL}/bubble/${bubbleId}`,
+				headers: {
+					authorization: `Bearer ${state.accessToken}`,
+				},
+			}).then(() => {
+				history.push("/palette");
+			});
+	};
+
+	const audio = new Audio(`${bubbleData.sound}`);
+
+	const handlePlaySound = () => {
+		if (!isPlaying) {
+			audio.play();
+			setIsPlaying(true);
+		} else {
+			audio.pause();
+			audio.currentTime = 0;
+			setIsPlaying(false);
+		}
+	};
+	console.log(isPlaying);
+
+	// 재생 중일때 그림자 효과
+	// 페이지 바뀌면 sound off
+	// 한번 더 클릭하면 sound off
+
 	return (
 		<>
 			<div className="bubbleDetail-container">
+				<div>
+					<img src={backIcon} className="backIcon" alt="뒤로 가기" onClick={() => history.push("/palette")} />
+					{bubbleData.user.email === state.email ? (
+						<img src={trashcan} className="deleteBtn" alt="버블 삭제" onClick={handleDeleteBubble} />
+					) : null}
+				</div>
 				<div className="comment-container">
 					{bubbleComments.map((comment: any, i: number) => {
 						const commentId = comment.id;
 						if (comment.user.email === state.email) {
 							return (
-								<p key={i} className="my-comment" onDoubleClick={() => handleDeleteComment(commentId)}>
+								<p
+									key={i}
+									className="my-comment"
+									onDoubleClick={() => {
+										if (confirm("댓글을 삭제하시겠습니까?")) handleDeleteComment(commentId);
+									}}
+								>
 									{comment.textContent}
 								</p>
 							);
@@ -102,7 +153,7 @@ const BubbleDetail = (): JSX.Element => {
 					})}
 				</div>
 				<div className="bubble">
-					<img src={bubbleData.image} alt="COLORS OF MY VOICE" />
+					<img src={bubbleData.image} alt="COLORS OF MY VOICE" onClick={handlePlaySound} className="bubbleImg" />
 					<p>{bubbleData.textContent}</p>
 				</div>
 				<div className="form">
@@ -121,14 +172,7 @@ const BubbleDetail = (): JSX.Element => {
 						/>
 					</label>
 				</div>
-				<div className="heart-container">
-					{bubbleData.user.nickname} 님의 Sound Bubble
-					<div>
-						<button className="toBackBtn" onClick={() => history.push("/palette")}>
-							뒤로 가기
-						</button>
-					</div>
-				</div>
+				<div className="bubble-user">{bubbleData.user.nickname} 님의 Sound Bubble</div>
 			</div>
 		</>
 	);

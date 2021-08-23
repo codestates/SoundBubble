@@ -44,9 +44,13 @@ const MyPalettes = (): JSX.Element => {
 					const result = moment(subDate, "YYYY-MM-DD").add(5, "days").format("YYYY.MM.DD");
 					return (
 						<div className="palette-wrap" key={i}>
-							<div className="palette" onClick={() => window.location.replace(`/bubble/${bubbleId}`)}>
-								{result}
-							</div>
+							<img
+								src={bubble.image}
+								alt="bubble"
+								className="palette"
+								onClick={() => window.location.replace(`/bubble/${bubbleId}`)}
+							/>
+							{/* <p>{result}</p> */}
 						</div>
 					);
 				})}
