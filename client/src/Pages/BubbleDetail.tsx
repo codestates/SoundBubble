@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Styles/BubbleDetail.css";
 import axios from "axios";
-import Footer from "../Components/Footer";
 import { useHistory } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
