@@ -13,8 +13,11 @@ body {
 .login-sidebar-content {
 	width: 35%;
 	height: 100vh;
-	background-size: 100% 100%;
-	background-image: url(https://images.unsplash.com/photo-1561577762-a50bcb6417d1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80);
+	background-color: #D4CADE;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-image: url("../Styles/login_img.png");
 }
 
 .login-main {
@@ -53,6 +56,7 @@ body {
 
 .divider {
 	width: 100%;
+	border-top: 1px solid #bbb;
 }
 
 .login-label {
@@ -116,7 +120,7 @@ body {
 }
 
 .login-form-btn > button:nth-child(2) {
-	background-color: rgb(200, 112, 255);
+	background-color: #93ADE1;
 }
 
 /* #naverIdLogin {
@@ -179,4 +183,33 @@ body {
 .social-login-group > button:focus {
 	outline: none;
 	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25), 0 0 0 3px #c8dafc;
+}
+
+@media (max-width: 868px) {
+	.login-sidebar-content{
+		width: 0px;
+	}
+	.login-top-content {
+		margin: 0 auto;
+		width: 193px;
+		height: 56px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: url(logo_g.png);
+		position: fixed;
+		top: 5vh;
+	}
+}
+
+@media (max-width: 768px) {
+	.social-login-group {
+		display: flex;
+		flex-direction: column;
+	}
+	.login-naver-btn {
+		width: 100%;
+	}
+	.login-google-btn{
+		width: 100%;
+	}
 }
