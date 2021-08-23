@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions, Connection } from "typeorm";
 import * as readline from "readline";
+import app from "./app";
 
 type DatabaseOptions = {
 	[env: string]: ConnectionOptions;
@@ -56,6 +57,7 @@ export const connectDB = async (): Promise<void> => {
 	try {
 		const connection: Connection = await createConnection(connectionOption);
 		if (process.env.DATABASE_TRUNCATE) {
+			//* DB init 
 			console.log("DB Initialization setting...");
 			const rl: readline.Interface = readline.createInterface({
 				input: process.stdin,
@@ -75,6 +77,10 @@ export const connectDB = async (): Promise<void> => {
 						break;
 				}
 			});
+		} else {
+			//* Server listen
+			const PORT: number = Number(process.env.SERVER_PORT) || 80;
+			app.listen(PORT, () => console.log(`Server is runnning on ${PORT}`));
 		}
 	} catch (err) {
 		console.log("Failed to connect database");

@@ -11,12 +11,8 @@ import { FileTypeError } from "./error";
 import userRouter from "./routes/userRouter";
 import bubbleRouter from "./routes/bubbleRouter";
 
-//* Connect DB
-connectDB();
-
 //* Express App
 const app: express.Application = express();
-const PORT: number = Number(process.env.SERVER_PORT) || 80;
 
 //* Middleware
 const morganFormat = `"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length]`;
@@ -63,5 +59,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 	res.status(500).send("Internal Server Error");
 });
 
-//* Listen
-app.listen(PORT, () => console.log(`Server is runnning on ${PORT}`));
+//* Connect DB
+connectDB();
+
+export default app;

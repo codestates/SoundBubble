@@ -9,7 +9,7 @@
       "start:prod": "NODE_ENV=production authbind --deep pm2 start dist/app.js --time",
       "stop:prod": "authbind --deep pm2 stop dist/app.js",
       "truncate-all:dev": "DATABASE_TRUNCATE=true node dist/app.js",
-      "truncate-all:prod": "NODE_ENV=production DATABASE_TRUNCATE=true authbind --deep pm2 start dist/app.js --time",
+      "truncate-all:prod": "NODE_ENV=production DATABASE_TRUNCATE=true node dist/app.js",
       "test": "echo \"Error: no test specified\" && exit 1"
    },
    "devDependencies": {
