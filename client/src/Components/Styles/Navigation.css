@@ -30,8 +30,12 @@ li {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 80px;
+	width: 170px;
 	height: 80px;
+}
+.nav-logo {
+	width: 170px;
+	height: auto;
 }
 
 .right-nav-bar {

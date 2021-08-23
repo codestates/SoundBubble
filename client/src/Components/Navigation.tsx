@@ -50,7 +50,7 @@ const Navigation = (): JSX.Element => {
 			<nav className="navigation">
 				<div className="nav-container">
 					<div className="left-nav-bar">
-						<img className="nav-logo" src="" alt="logo" onClick={() => window.location.replace("/")} />
+						<img className="nav-logo" src="logo_w.png" alt="logo" onClick={() => window.location.replace("/")} />
 					</div>
 					<ul className="right-nav-bar">
 						<li>
