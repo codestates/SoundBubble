@@ -61,7 +61,7 @@
 @media screen and (max-width: 1100px) {
 	.bubble-section {
 		display: flex;
-		width: 190px;
+		width: 200px;
 		height: 250px;
 	}
 
