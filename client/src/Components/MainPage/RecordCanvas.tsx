@@ -7,7 +7,7 @@ import { BubbleData } from "../../@type/request";
 
 let recoding;
 
-function RecordCanvas(): JSX.Element {
+function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 	// ? # 인풋된 소리에 대한 state
 	const [audio, setAudio] = useState<MediaStream | null>(null);
 
@@ -23,27 +23,27 @@ function RecordCanvas(): JSX.Element {
 	// ? # 소리 인풋값을 시작할때 누르는 state
 	const [bubbleIsClicked, setBubbleIsClicked] = useState<boolean>(false);
 
-	// ? # 원이 찍히는 속도 state
-	const [pickSpeed, setPickSpeed] = useState<number>(350);
+	// // ? # 원이 찍히는 속도 state
+	// const [pickSpeed, setPickSpeed] = useState<number>(350);
 
 	// ! ###### 소리에 따른 원의 크기 조절 함수 ######
 	const getRadius = (viewPitch: number): number => {
 		if (viewPitch <= 0) return 30;
-		else if (viewPitch >= 0 && viewPitch < 50) return 30;
-		else if (viewPitch >= 50 && viewPitch < 70) return 40;
-		else if (viewPitch >= 70 && viewPitch < 90) return 50;
-		else if (viewPitch >= 90 && viewPitch < 110) return 60;
-		else if (viewPitch >= 110 && viewPitch < 130) return 70;
-		else if (viewPitch >= 130 && viewPitch < 150) return 75;
-		else if (viewPitch >= 150 && viewPitch < 170) return 80;
-		else if (viewPitch >= 170 && viewPitch < 190) return 85;
-		else if (viewPitch >= 190 && viewPitch < 210) return 90;
-		else if (viewPitch >= 210 && viewPitch < 230) return 95;
-		else if (viewPitch >= 230 && viewPitch < 250) return 100;
-		else if (viewPitch >= 250 && viewPitch < 260) return 105;
-		else if (viewPitch >= 260 && viewPitch < 270) return 110;
-		else if (viewPitch >= 270 && viewPitch < 280) return 115;
-		return 120;
+		else if (viewPitch >= 0 && viewPitch < 50) return 100;
+		else if (viewPitch >= 50 && viewPitch < 70) return 105;
+		else if (viewPitch >= 70 && viewPitch < 90) return 110;
+		else if (viewPitch >= 90 && viewPitch < 110) return 120;
+		else if (viewPitch >= 110 && viewPitch < 130) return 130;
+		else if (viewPitch >= 130 && viewPitch < 150) return 140;
+		else if (viewPitch >= 150 && viewPitch < 170) return 150;
+		else if (viewPitch >= 170 && viewPitch < 190) return 155;
+		else if (viewPitch >= 190 && viewPitch < 210) return 160;
+		else if (viewPitch >= 210 && viewPitch < 230) return 170;
+		else if (viewPitch >= 230 && viewPitch < 250) return 180;
+		else if (viewPitch >= 250 && viewPitch < 260) return 185;
+		else if (viewPitch >= 260 && viewPitch < 270) return 190;
+		else if (viewPitch >= 270 && viewPitch < 280) return 200;
+		return 210;
 	};
 
 	const [recoder, setRecoder] = useState<MediaRecorder | null>(null);
@@ -165,8 +165,8 @@ function RecordCanvas(): JSX.Element {
 	const handlePainting = (viewPitch: number) => {
 		// ? # 랜덤 값 상수
 		const randomPosition = {
-			x: Number(getRandom(0, 500)),
-			y: Number(getRandom(0, 500)),
+			x: Number(getRandom(0, 700)),
+			y: Number(getRandom(0, 700)),
 			voiceConstant: 2.7,
 			voiceStrong: 360,
 		};
@@ -191,7 +191,7 @@ function RecordCanvas(): JSX.Element {
 		if (!context) throw new Error("error");
 		context?.beginPath();
 		context?.arc(x, y, getRadius(viewPitch), 0, 2 * Math.PI);
-		context.filter = "blur(4px)";
+		context.filter = "blur(2px)";
 		context.fillStyle = `${
 			viewPitch > 260
 				? `hsla(${viewPitch * voiceConstant}, 100%, 50%, 0.75)`
@@ -202,16 +202,15 @@ function RecordCanvas(): JSX.Element {
 		setViewImage(image);
 	};
 
-	// ? # 버블 이미지 초기화
-	const defaultBackground = () => {
+	const colorChange = (color: string) => {
 		console.log("white painting");
 		const canvas = canvasRef.current;
 		if (!canvas) throw new Error("error");
 		const context = canvas?.getContext("2d");
 		if (!context) throw new Error("error");
 		context?.beginPath();
-		context.fillStyle = `white`;
-		context?.fillRect(0, 0, 500, 500);
+		context.fillStyle = `${color}`;
+		context?.fillRect(0, 0, 1000, 1000);
 
 		const image = canvas?.toDataURL();
 		setViewImage(image);
@@ -228,14 +227,22 @@ function RecordCanvas(): JSX.Element {
 		link.click();
 	}
 
+	function circleSize(viewPitch: number) {
+		if (viewPitch > 500) return 1.13;
+		return 1 + viewPitch / 4000;
+	}
+
 	// ? # pitch값이 바뀔때마다 그림이 그려짐.
 	useEffect(() => {
 		handlePainting(viewPitch);
+		circleSize(viewPitch);
+		console.log("소리에 따른 원 크기", circleSize(viewPitch));
+		document.documentElement.style.setProperty("--circleSize", `${circleSize(viewPitch)}`);
 	}, [viewPitch]);
 
 	useEffect(() => {
-		defaultBackground();
-	}, []);
+		colorChange(backColor);
+	}, [backColor]);
 
 	// ? # upload modal open / close
 	const [isModal, setIsModal] = useState(false);
@@ -258,29 +265,21 @@ function RecordCanvas(): JSX.Element {
 				/>
 			) : null}
 			<div className="get-color-box">
-				{bubbleIsClicked ? (
-					<canvas
-						width="500"
-						height="500"
-						onClick={toggleMicrophone}
-						id="canvas"
-						className="canvas backLight"
-						ref={canvasRef}
-					></canvas>
-				) : (
-					<canvas width="500" height="500" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
-				)}
-				<button onClick={defaultBackground} className="reset-btn">
-					Reset
-				</button>
-				<input
-					type="range"
-					min="100"
-					max="600"
-					onChange={e => setPickSpeed(Number(e.target.value))}
-					value={pickSpeed}
-					className="speedSlider"
-				/>
+				<div className="option-left"></div>
+				<div className="circle-right">
+					{bubbleIsClicked ? (
+						<canvas
+							width="700"
+							height="700"
+							onClick={toggleMicrophone}
+							id="canvas"
+							className="canvas backLight"
+							ref={canvasRef}
+						></canvas>
+					) : (
+						<canvas width="700" height="700" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
+					)}
+				</div>
 			</div>
 		</>
 	);
