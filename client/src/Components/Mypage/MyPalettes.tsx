@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from "../../axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../../Store";
 import moment from "moment";
@@ -13,13 +14,13 @@ const MyPalettes = (): JSX.Element => {
 	// todo: 배열 형태로 받아온 버블들을 map 함수를 이용해 나타내기
 	const [myBubbles, setMyBubbles] = useState([]);
 
-	const url = process.env.REACT_APP_API_URL;
+	const API_URL = process.env.REACT_APP_API_URL;
 
 	// 버블 받아오기
 	const getMyBubbles = async () => {
-		await axios({
+		await axiosInstance({
 			method: "GET",
-			url: `${url}/user/mypage/bubble`,
+			url: `${API_URL}/user/mypage/bubble`,
 			headers: {
 				authorization: `Bearer ${tokenState.accessToken}`,
 			},

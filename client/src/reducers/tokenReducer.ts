@@ -1,8 +1,8 @@
-import { SET_ACCESS_TOKEN, REMOVE_ACCESS_TOKEN, setAccessToken } from "../actions";
+import { SET_ACCESS_TOKEN, REMOVE_ACCESS_TOKEN, setAccessToken, removeAccessToken } from "../actions";
 import { InitialState } from "../@type/redux";
 import { initialState } from "./initialState";
 
-type TokenAction = ReturnType<typeof setAccessToken>;
+type TokenAction = ReturnType<typeof setAccessToken | typeof removeAccessToken>;
 
 const tokenReducer = (state = initialState, action: TokenAction): InitialState => {
 	switch (action.type) {

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from "../../axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducerType } from "../../Store";
 import { pwIsValid } from "../../Utils/Validator";
@@ -11,7 +12,7 @@ const Password = (): JSX.Element => {
 	const [newPassword, setNewPassword] = useState("");
 	const [newPasswordRe, setNewPasswordRe] = useState("");
 	const history = useHistory();
-	const URL = process.env.REACT_APP_API_URL;
+	const API_URL = process.env.REACT_APP_API_URL;
 
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
@@ -28,9 +29,9 @@ const Password = (): JSX.Element => {
 		} else if (newPassword !== newPasswordRe) {
 			setErrorMsg("새 비밀번호를 다시 확인해주세요");
 		} else {
-			axios({
+			axiosInstance({
 				method: "PATCH",
-				url: `${URL}/user/mypage/password`,
+				url: `${API_URL}/user/mypage/password`,
 				data: {
 					password: password,
 					newPassword: newPassword,
@@ -70,7 +71,9 @@ const Password = (): JSX.Element => {
 								? "기존 비밀번호"
 								: "비밀번호 등록 시 일반 로그인을 이용할 수 있습니다"
 						}
-						disabled={userState.user.signUpType === "email" || userState.user.signUpType === "intergration" ? false : true}
+						disabled={
+							userState.user.signUpType === "email" || userState.user.signUpType === "intergration" ? false : true
+						}
 						onChange={e => setPassword(e.target.value)}
 					/>
 				</label>

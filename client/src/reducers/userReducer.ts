@@ -4,6 +4,7 @@ import {
 	UPDATE_USER_NICKNAME,
 	UPDATE_USER_TYPE,
 	setUserInfo,
+	removeUserInfo,
 	updateUserNickname,
 	updateUserType,
 } from "../actions";
@@ -11,7 +12,9 @@ import { InitialState } from "../@type/redux";
 import { initialState } from "./initialState";
 import { UserInfo, SignUpType } from "../@type/userInfo";
 
-type UserAction = ReturnType<typeof setUserInfo | typeof updateUserNickname | typeof updateUserType>;
+type UserAction = ReturnType<
+	typeof setUserInfo | typeof removeUserInfo | typeof updateUserNickname | typeof updateUserType
+>;
 
 const userReducer = (state = initialState, action: UserAction): InitialState => {
 	switch (action.type) {
@@ -27,7 +30,7 @@ const userReducer = (state = initialState, action: UserAction): InitialState => 
 			});
 
 		case UPDATE_USER_NICKNAME:
-			const nickname: string = action.payload.userInfo.nickname;
+			const nickname: string = action.payload.userInfo.nickname
 			return Object.assign({}, state, {
 				user: {
 					...state.user,

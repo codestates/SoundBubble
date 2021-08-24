@@ -15,8 +15,10 @@ import { RootReducerType } from "../Store";
 
 const Mypage = (): JSX.Element => {
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 	const userImg = userState.user.profileImage;
 	console.log("Mypage-userState:", userState);
+	console.log("Mypage-tokenState:", tokenState);
 
 	const [openTutorial, setOpenTutorial] = useState<boolean>(false);
 

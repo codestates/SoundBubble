@@ -12,7 +12,7 @@ export const REMOVE_ACCESS_TOKEN = "REMOVE_ACCESS_TOKEN";
 
 //? 액션 생성 함수 정의
 //* 유저 정보 저장
-export const setUserInfo = (userInfo: UserInfo): IAction<PayloadUserInfo> => {
+export const setUserInfo = (userInfo: UserInfo): IAction<typeof SET_USER_INFO, PayloadUserInfo> => {
 	return {
 		type: SET_USER_INFO,
 		payload: { userInfo },
@@ -20,7 +20,7 @@ export const setUserInfo = (userInfo: UserInfo): IAction<PayloadUserInfo> => {
 };
 
 //* 유저 정보 삭제
-export const removeUserInfo = (): IAction<null> => {
+export const removeUserInfo = (): IAction<typeof REMOVE_USER_INFO, null> => {
 	return {
 		type: REMOVE_USER_INFO,
 		payload: null,
@@ -28,7 +28,7 @@ export const removeUserInfo = (): IAction<null> => {
 };
 
 //* 유저 닉네임 변경
-export const updateUserNickname = (userInfo: UserInfo): IAction<PayloadUserInfo> => {
+export const updateUserNickname = (userInfo: UserInfo): IAction<typeof UPDATE_USER_NICKNAME, PayloadUserInfo> => {
 	return {
 		type: UPDATE_USER_NICKNAME,
 		payload: { userInfo },
@@ -36,7 +36,7 @@ export const updateUserNickname = (userInfo: UserInfo): IAction<PayloadUserInfo>
 };
 
 //* 유저 타입 변경
-export const updateUserType = (userInfo: UserInfo): IAction<PayloadUserInfo> => {
+export const updateUserType = (userInfo: UserInfo): IAction<typeof UPDATE_USER_TYPE, PayloadUserInfo> => {
 	return {
 		type: UPDATE_USER_TYPE,
 		payload: { userInfo },
@@ -44,7 +44,7 @@ export const updateUserType = (userInfo: UserInfo): IAction<PayloadUserInfo> => 
 };
 
 //* 액세스 토큰 저장
-export const setAccessToken = (accessToken: string): IAction<PayloadToken> => {
+export const setAccessToken = (accessToken: string): IAction<typeof SET_ACCESS_TOKEN, PayloadToken> => {
 	return {
 		type: SET_ACCESS_TOKEN,
 		payload: { accessToken },
@@ -52,7 +52,7 @@ export const setAccessToken = (accessToken: string): IAction<PayloadToken> => {
 };
 
 //* 액세스 토큰 삭제
-export const removeAccessToken = (): IAction<null> => {
+export const removeAccessToken = (): IAction<typeof REMOVE_ACCESS_TOKEN, null> => {
 	return {
 		type: REMOVE_ACCESS_TOKEN,
 		payload: null,
