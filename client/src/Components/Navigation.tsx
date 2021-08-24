@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./Styles/Navigation.css";
+import NavHamburger from "./NavHamburger";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { logoutUser } from "../actions/index";
@@ -11,6 +12,7 @@ const Navigation = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const [isLogin, setIsLogin] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 	const API_URL = process.env.REACT_APP_API_URL;
 
 	const logInHandler = () => {
@@ -37,6 +39,10 @@ const Navigation = (): JSX.Element => {
 		}
 	};
 
+	const openChange = () => {
+		setIsOpen(!isOpen);
+	}
+
 	const mypageHandler = () => {
 		if (userState.accessToken) history.push("/mypage");
 		else history.push("/login");
@@ -44,6 +50,11 @@ const Navigation = (): JSX.Element => {
 	useEffect(() => {
 		logInHandler();
 	}, [isLogin]);
+
+	useEffect(() => {
+		openChange();
+		console.log(isOpen);
+	}, [])
 
 	return (
 		<>
@@ -76,6 +87,15 @@ const Navigation = (): JSX.Element => {
 							</li>
 						)}
 					</ul>
+					{isOpen ? (
+						<div>
+							<button className="nav-hamburger-btn" onClick={openChange}></button>
+							<NavHamburger />
+						</div>
+					): (
+						// <NavHamburger />
+						<button className="nav-hamburger-btn" onClick={openChange}></button>
+					)}
 				</div>
 			</nav>
 		</>
