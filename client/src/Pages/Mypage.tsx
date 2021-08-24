@@ -39,6 +39,7 @@ const Mypage = (): JSX.Element => {
 						<div className="userImg">
 							{userImg ? <img src={userImg} alt="프로필 사진" /> : <img src={profile} alt="프로필 사진" />}
 						</div>
+						<div className="userId">{state.email}</div>
 						<div className="userId">{state.nickname}</div>
 						<div className="sideTap">
 							<Link to="/mypage" className="tap">

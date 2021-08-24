@@ -21,6 +21,11 @@ const Nickname = (): JSX.Element => {
 	};
 
 	const handleChangeNickname = async () => {
+		if (state.nickname === nickname) {
+			setErrorMsg("새로운 닉네임을 입력해주세요.");
+			return;
+		}
+
 		await axios({
 			method: "PATCH",
 			url: `${url}/user/mypage/nickname`,
@@ -35,8 +40,9 @@ const Nickname = (): JSX.Element => {
 			.then(resp => {
 				resetErrorMsg();
 				setNickname(resp.data.data.userInfo.nickname);
+				dispatch(editNickname(nickname, state.accessToken));
 				console.log("수정 완료");
-				window.location.replace("/mypage");
+				// window.location.replace("/mypage");
 				alert("회원정보가 수정되었습니다.");
 			})
 			.catch(err => {
@@ -44,10 +50,9 @@ const Nickname = (): JSX.Element => {
 					setErrorMsg("비밀번호를 다시 확인해주세요.");
 				}
 				if (err.response.status === 409) {
-					setErrorMsg("새로운 닉네임을 입력해주세요.");
+					setErrorMsg("이미 사용 중인 닉네임입니다.");
 				}
 			});
-		dispatch(editNickname(nickname, state.accessToken)); // 동기화 안됨..
 	};
 
 	return (
@@ -66,7 +71,12 @@ const Nickname = (): JSX.Element => {
 					<input
 						type="password"
 						name="password"
-						placeholder="비밀번호를 입력하세요"
+						placeholder={
+							state.signUpType === "email" || state.signUpType === "intergration"
+								? "비밀번호를 입력하세요"
+								: "비밀번호 등록 전입니다"
+						}
+						disabled={state.signUpType === "email" || state.signUpType === "intergration" ? false : true}
 						onChange={e => setPassword(e.target.value)}
 					/>
 				</label>
