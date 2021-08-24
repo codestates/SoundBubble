@@ -30,6 +30,7 @@ app.use(
 		origin: true,
 		credentials: true,
 		methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+		exposedHeaders: ["authorization"],
 	}),
 );
 app.use(cookieParser());
