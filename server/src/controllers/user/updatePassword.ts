@@ -48,7 +48,9 @@ const updatePassword: RequestHandler = async (req: Request, res: Response, next:
 			await userInfo.save();
 		}
 
-		return res.status(200).json({ message: "User password successfully updated" });
+		const resUserInfo = await User.findUserByEmail(userInfo.email, userInfo.password);
+
+		return res.status(200).json({ userInfo: resUserInfo , message: "User password successfully updated" });
 	} catch (err) {
 		logError("Failed to update password");
 		next(err);

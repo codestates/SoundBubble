@@ -43,7 +43,8 @@ const updatePassword = async (req, res, next) => {
             // 비밀번호 변경 -> 일반 로그인 사용 가능
             await userInfo.save();
         }
-        return res.status(200).json({ message: "User password successfully updated" });
+        const resUserInfo = await User_1.User.findUserByEmail(userInfo.email, userInfo.password);
+        return res.status(200).json({ userInfo: resUserInfo, message: "User password successfully updated" });
     }
     catch (err) {
         log_1.logError("Failed to update password");
