@@ -3,6 +3,7 @@ import "../Styles/LandingPart1.css";
 import "../Styles/Reset.css";
 import { IoIosArrowUp } from "react-icons/io";
 import { useHistory } from "react-router-dom";
+import scrolldown from "../Styles/scrollarrowtodown.png";
 
 const LandingFirst = (): JSX.Element => {
 	const history = useHistory();
@@ -62,6 +63,8 @@ const LandingFirst = (): JSX.Element => {
 							팔레트 구경하기
 						</button>
 					</div>
+
+					<img className="scrolldown_img" src={scrolldown} />
 				</div>
 			</div>
 		</>

@@ -1,7 +1,11 @@
 .main-page__mic {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 70%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 70%;
+}
+
+.canvas {
+	top: 20px;
 }

@@ -10,9 +10,7 @@ const LandingThird = (): JSX.Element => {
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
 	const [fingerBtn, setFingerBtn] = useState(
 		<div className="clickBtn">
-			<div className="innerCircle">
-				{<img className="icon" src={clickIcon} alt="클릭아이콘" width="45px" height="50px"></img>}
-			</div>
+			<div className="innerCircle">{<img className="icon" src={clickIcon} alt="클릭아이콘"></img>}</div>
 		</div>,
 	);
 

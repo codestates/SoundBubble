@@ -54,6 +54,8 @@
 
 .icon {
 	animation: up-down 0.5s infinite ease-in-out alternate;
+	width: 45px;
+	height: 50px;
 }
 
 @keyframes up-down {
@@ -124,8 +126,8 @@
 		text-align: center;
 	}
 
-	.sound-circle {
-		width: 5rem;
-		height: 5rem;
+	.icon {
+		width: 36px;
+		height: 40px;
 	}
 }
