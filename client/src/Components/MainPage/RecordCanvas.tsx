@@ -269,15 +269,14 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 				<div className="circle-right">
 					{bubbleIsClicked ? (
 						<canvas
-							width="700"
-							height="700"
+							width="500"
+							height="500"
 							onClick={toggleMicrophone}
-							id="canvas"
 							className="canvas backLight"
 							ref={canvasRef}
 						></canvas>
 					) : (
-						<canvas width="700" height="700" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
+						<canvas width="500" height="500" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
 					)}
 				</div>
 			</div>
