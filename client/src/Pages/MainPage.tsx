@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 
 import "./Styles/MainPage.css";
 import MainSelectBar from "../Components/MainPage/MainSelectBar";
+import MainTutorial from "../Components/Tutorial/MainTutorial";
 import { CirclePicker } from "react-color";
 
 interface Select {
@@ -26,6 +27,8 @@ function ChoiceMode({ select, backColor, pickSpeed }: Select): JSX.Element {
 }
 
 const MainPage = (): JSX.Element => {
+	const [openTutorial, setOpenTutorial] = useState<boolean>(true);
+
 	const history = useHistory();
 	const [select, setSelect] = useState("mic");
 
@@ -36,12 +39,26 @@ const MainPage = (): JSX.Element => {
 	const handleBtnClick = (e: React.ChangeEvent<HTMLButtonElement>) => {
 		setSelect(e.target.classList.value);
 	};
+  
+  //* 임시 코드: 모달창 다시 열기
+	// localStorage.setItem("showTutorial", "true");
+	//* --------------------------------------
+  
 	const handleChangeComplete = color => {
 		setBackColor(color.hex);
 	};
 
+	const handleCloseTutorial = (): void => {
+		setOpenTutorial(false);
+	};
+
 	return (
 		<>
+			{openTutorial && localStorage.getItem("showTutorial") !== "false" ? (
+				<MainTutorial handleCloseTutorial={handleCloseTutorial} checkboxOption={true} />
+			) : (
+				""
+			)}
 			<Navigation />
 			<div className="main-page">
 				<div className="main-left-background"></div>

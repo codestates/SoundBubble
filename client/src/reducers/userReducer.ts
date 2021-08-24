@@ -1,11 +1,13 @@
 import {
 	loginUser,
 	editNickname,
+	editUserInfo,
 	LOGIN_USER,
 	LOGOUT_USER,
 	ACCESS_TOKEN_AUTHENTICAITON,
 	REFRESH_TOKEN_AUTHENTICAITON,
 	EDIT_NICKNAME,
+	EDIT_USERINFO
 } from "../actions/index";
 
 interface InitialState {
@@ -62,6 +64,19 @@ const userReducer = (state = initialState, action: UserInfoAction): InitialState
 		case EDIT_NICKNAME:
 			return Object.assign({}, state, {
 				nickname: action.payload.nickname,
+			});
+
+		case EDIT_USERINFO:
+			const { userInfo: updatedUserInfo } = action.payload;
+			console.log("리듀서");
+			return Object.assign({}, state, {
+				id: updatedUserInfo.id,
+				email: updatedUserInfo.email,
+				nickname: updatedUserInfo.nickname,
+				createdAt: updatedUserInfo.createdAt,
+				accountType: updatedUserInfo.accountType,
+				signUpType: updatedUserInfo.signUpType,
+				profileImage: updatedUserInfo.profileImage,
 			});
 
 		// case ACCESS_TOKEN_AUTHENTICAITON:

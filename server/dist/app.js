@@ -13,11 +13,8 @@ const connectDB_1 = require("./connectDB");
 const error_1 = require("./error");
 const userRouter_1 = __importDefault(require("./routes/userRouter"));
 const bubbleRouter_1 = __importDefault(require("./routes/bubbleRouter"));
-//* Connect DB
-connectDB_1.connectDB();
 //* Express App
 const app = express_1.default();
-const PORT = Number(process.env.SERVER_PORT) || 80;
 //* Middleware
 const morganFormat = `"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length]`;
 app.use(morgan_1.default(morganFormat, {
@@ -55,6 +52,7 @@ app.use((err, req, res, next) => {
     }
     res.status(500).send("Internal Server Error");
 });
-//* Listen
-app.listen(PORT, () => console.log(`Server is runnning on ${PORT}`));
+//* Connect DB
+connectDB_1.connectDB();
+exports.default = app;
 //# sourceMappingURL=app.js.map

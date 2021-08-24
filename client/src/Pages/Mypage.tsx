@@ -8,6 +8,7 @@ import MyPalettes from "../Components/Mypage/MyPalettes";
 import Nickname from "../Components/Mypage/Nickname";
 import Password from "../Components/Mypage/Password";
 import "./Styles/Mypage.css";
+import MainTutorial from "../Components/Tutorial/MainTutorial";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
@@ -17,8 +18,19 @@ const Mypage = (): JSX.Element => {
 	const userImg = state.profileImage;
 	console.log(state);
 
+	const [openTutorial, setOpenTutorial] = useState<boolean>(false);
+
+	const handleCloseTutorial = () => {
+		setOpenTutorial(false);
+	};
+
+	const handleShowTutorial = () => {
+		setOpenTutorial(true);
+	};
+
 	return (
 		<>
+			{openTutorial ? <MainTutorial handleCloseTutorial={handleCloseTutorial} /> : ""}
 			<Router>
 				<Navigation />
 				<div className="mypageContainer">
@@ -27,6 +39,7 @@ const Mypage = (): JSX.Element => {
 						<div className="userImg">
 							{userImg ? <img src={userImg} alt="프로필 사진" /> : <img src={profile} alt="프로필 사진" />}
 						</div>
+						<div className="userId">{state.email}</div>
 						<div className="userId">{state.nickname}</div>
 						<div className="sideTap">
 							<Link to="/mypage" className="tap">
@@ -38,6 +51,9 @@ const Mypage = (): JSX.Element => {
 							<Link to="/mypage/mypalettes" className="tap">
 								나의 팔레트
 							</Link>
+							<div className="tap" onClick={handleShowTutorial}>
+								가이드 보기
+							</div>
 						</div>
 					</div>
 					<div className="rightContents">

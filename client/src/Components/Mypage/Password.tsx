@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducerType } from "../../Store";
 import { pwIsValid } from "../../Utils/Validator";
+import { editUserInfo } from "../../actions";
 
 const Password = (): JSX.Element => {
 	const [password, setPassword] = useState("");
@@ -38,9 +39,14 @@ const Password = (): JSX.Element => {
 				},
 			})
 				.then(resp => {
+					setPassword("");
+					setNewPassword("");
+					setNewPasswordRe("");
 					console.log("수정 완료");
+					console.log("응답값", resp.data);
 					resetErrorMsg();
-					window.location.replace("/mypage/password"); // history.push를 사용하면 새로고침이 안됨
+					// window.location.replace("/mypage/password"); // history.push를 사용하면 새로고침이 안됨
+					dispatch(editUserInfo(resp.data.data.userInfo));
 					alert("비밀번호가 수정되었습니다.");
 				})
 				.catch(err => {
@@ -57,7 +63,13 @@ const Password = (): JSX.Element => {
 					<input
 						type="password"
 						name="changePassword"
-						placeholder="기존 비밀번호"
+						value={password}
+						placeholder={
+							state.signUpType === "email" || state.signUpType === "intergration"
+								? "기존 비밀번호"
+								: "비밀번호 등록 시 일반 로그인을 이용할 수 있습니다"
+						}
+						disabled={state.signUpType === "email" || state.signUpType === "intergration" ? false : true}
 						onChange={e => setPassword(e.target.value)}
 					/>
 				</label>
@@ -65,6 +77,7 @@ const Password = (): JSX.Element => {
 					<input
 						type="password"
 						name="changePassword"
+						value={newPassword}
 						placeholder="새 비밀번호"
 						onChange={e => setNewPassword(e.target.value)}
 					/>
@@ -73,6 +86,7 @@ const Password = (): JSX.Element => {
 					<input
 						type="password"
 						name="same-changePassword"
+						value={newPasswordRe}
 						placeholder="새 비밀번호 확인"
 						onChange={e => setNewPasswordRe(e.target.value)}
 					/>

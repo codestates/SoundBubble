@@ -15,14 +15,18 @@ const logout = async (req, res, next) => {
                 let validTokenIdx = -1;
                 for (let i = 0; i < parsedList.length; i++) {
                     const decoded = await token_1.verifyAccessToken(parsedList[i]);
-                    if (!decoded.error) { // 아직 만료되지 않은 토큰
+                    if (!decoded.error) {
+                        // 아직 만료되지 않은 토큰이 있으면 중지
                         validTokenIdx = i;
                         break;
                     }
+                    // 전부 만료된 토큰
+                    validTokenIdx = parsedList.length;
                 }
-                if (validTokenIdx >= 1)
+                if (validTokenIdx >= 1) {
                     parsedList = parsedList.slice(validTokenIdx);
-                console.log(`${validTokenIdx}개의 만료된 토큰 삭제`);
+                    console.log(`${validTokenIdx}개의 만료된 토큰 삭제`);
+                }
                 parsedList.push(accessToken);
                 await redis_1.setexAsync(String(userId), tokenExpIn, JSON.stringify(parsedList));
                 console.log("Redis 추가 토큰 등록");
