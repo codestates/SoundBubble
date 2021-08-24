@@ -9,6 +9,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
+import styled from "styled-components";
+
+import NeedLoginModal from "./NeedLoginModal";
 
 interface Props {
 	handleCloseModal: () => void;
@@ -31,7 +34,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 		formData.append("image", bubbleData.image as File);
 		formData.append("sound", bubbleData.sound as File);
 		formData.append("textContent", textContent);
-	
+
 		axios({
 			method: "POST",
 			url: `${BUBBLE_URL}/bubble/upload`,
@@ -43,18 +46,24 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			withCredentials: true,
 		})
 			.then(resp => {
-				console.log("###", resp);
-				alert("업로드 성공");
-				// history.push("/palette");
+				// console.log("###", resp);
+				// alert("업로드 성공");
+				history.push("/palette");
 			})
 			.catch(err => {
-				alert("업로드 실패");
-				console.log(err);
+				if (err.response.status === 401) setNeedLogin(true);
+				else console.log("업로드 에러");
 			});
+	};
+
+	const [needLogin, setNeedLogin] = useState<boolean>(false);
+	const handleNeedLoginModal = () => {
+		setNeedLogin(false);
 	};
 
 	return (
 		<>
+			{needLogin ? <NeedLoginModal handleNeedLoginModal={handleNeedLoginModal} /> : null}
 			<div className="upload-modal-background">
 				<main className="upload-modal-box">
 					<div className="upload-modal-top-bar">
