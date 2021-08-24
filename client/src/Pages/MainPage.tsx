@@ -79,7 +79,7 @@ const MainPage = (): JSX.Element => {
 					</div>
 					{select === "mic" ? (
 						<div className="bubble-speed-box">
-							<p className="bubble-speed-message">speed</p>
+							<p className="bubble-speed-message">Sensitivity</p>
 							<input
 								type="range"
 								min="100"
