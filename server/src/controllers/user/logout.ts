@@ -19,15 +19,20 @@ const logout: RequestHandler = async (req: Request, res: Response, next: NextFun
 
 				// 토큰을 저장된 순서대로 검사하여 만료되었으면 삭제
 				let validTokenIdx = -1;
-				for (let i = 0; i < parsedList.length; i++){
+				for (let i = 0; i < parsedList.length; i++) {
 					const decoded: JwtPayload = await verifyAccessToken(parsedList[i]);
-					if (!decoded.error) {	// 아직 만료되지 않은 토큰
+					if (!decoded.error) {
+						// 아직 만료되지 않은 토큰이 있으면 중지
 						validTokenIdx = i;
 						break;
 					}
+					// 전부 만료된 토큰
+					validTokenIdx = parsedList.length;
 				}
-				if (validTokenIdx >= 1) parsedList = parsedList.slice(validTokenIdx);
-				console.log(`${validTokenIdx}개의 만료된 토큰 삭제`);
+				if (validTokenIdx >= 1) {
+					parsedList = parsedList.slice(validTokenIdx);
+					console.log(`${validTokenIdx}개의 만료된 토큰 삭제`);
+				}
 
 				parsedList.push(accessToken);
 				await setexAsync(String(userId), tokenExpIn, JSON.stringify(parsedList));

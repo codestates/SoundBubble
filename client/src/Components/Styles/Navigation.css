@@ -36,6 +36,7 @@ li {
 .nav-logo {
 	width: 170px;
 	height: auto;
+	cursor: pointer;
 }
 
 .right-nav-bar {

@@ -18,11 +18,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.truncateDB = exports.connectDB = void 0;
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const readline = __importStar(require("readline"));
+const app_1 = __importDefault(require("./app"));
 //* option
 const connectionOptions = {
     development: {
@@ -71,6 +75,7 @@ const connectDB = async () => {
     try {
         const connection = await typeorm_1.createConnection(connectionOption);
         if (process.env.DATABASE_TRUNCATE) {
+            //* DB init 
             console.log("DB Initialization setting...");
             const rl = readline.createInterface({
                 input: process.stdin,
@@ -89,6 +94,11 @@ const connectDB = async () => {
                         break;
                 }
             });
+        }
+        else {
+            //* Server listen
+            const PORT = Number(process.env.SERVER_PORT) || 80;
+            app_1.default.listen(PORT, () => console.log(`Server is runnning on ${PORT}`));
         }
     }
     catch (err) {

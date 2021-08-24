@@ -1,7 +1,8 @@
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const EDIT_NICKNAME = "EDIT_NICKNAME";
-export const EDIT_PASSWORD = "EDIT_PASSWORD";
+// export const EDIT_PASSWORD = "EDIT_PASSWORD";
+export const EDIT_USERINFO = "EDIT_USERINFO";
 export const ACCESS_TOKEN_AUTHENTICAITON = "ACCESS_TOKEN_AUTHENTICAITON";
 export const REFRESH_TOKEN_AUTHENTICAITON = "REFRESH_TOKEN_AUTHENTICAITON";
 
@@ -32,6 +33,13 @@ export const editNickname = (nickname: string, accessToken: string | null): any 
 	return {
 		type: EDIT_NICKNAME,
 		payload: { nickname, accessToken },
+	};
+};
+
+export const editUserInfo = (userInfo: UserInfo): any => {
+	return {
+		type: EDIT_USERINFO,
+		payload: { userInfo },
 	};
 };
 
