@@ -20,7 +20,7 @@ interface Bubble {
 const Palette = styled.div`
 	display: flex;
 	width: 100%;
-	height: 100%;
+	height: 200vh;
 	background-color: rgba(2, 7, 21, 0.9);
 `;
 
