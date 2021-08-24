@@ -96,9 +96,7 @@ const LoginModal = (): JSX.Element => {
 					<img />
 				</aside>
 				<main className="login-main">
-				<div className="login-top-content">
 					<header className="login-top-content"></header>
-				</div>
 					<div className="login-content">
 						<h2>Login to SoundBubble</h2>
 						<div className="social-login-group">
