@@ -72,6 +72,7 @@ const SignupModal = (): JSX.Element => {
 					<img />
 				</aside>
 				<main className="signup-main">
+					<header className="signup-top-content"></header>
 					<div className="signup-content">
 						<h2>Sign up to soundBubble</h2>
 						<hr className="divider" />
