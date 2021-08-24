@@ -13,8 +13,11 @@ body {
 .signup-sidebar-content {
 	width: 35%;
 	height: 100vh;
-	background-size: 100% 100%;
-	background-image: url(https://cdn.pixabay.com/photo/2019/12/02/12/40/milky-way-4667644_1280.jpg);
+	background-color: #D4CADE;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-image: url("../Styles/signup_img.png");
 }
 
 .signup-main {
@@ -142,4 +145,20 @@ body {
 	width: 100%;
 	height: 1rem;
 	color: red;
+}
+
+@media (max-width: 868px) {
+	.signup-sidebar-content{
+		width: 0px;
+	}
+	.signup-top-content {
+		margin: 0 auto;
+		width: 193px;
+		height: 56px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: url(logo_g.png);
+		position: fixed;
+		top: 5vh;
+	}
 }

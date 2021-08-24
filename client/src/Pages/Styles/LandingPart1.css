@@ -5,6 +5,25 @@
 	color: white;
 	position: relative;
 }
+
+.scrolldown_img {
+	width: 3rem;
+	position: absolute;
+	top: 85%;
+	align-self: center;
+	margin: 2rem;
+	animation: up-down 0.4s infinite ease-in-out alternate;
+}
+
+@keyframes up-down {
+	from {
+		transform: translatey(5px);
+	}
+	to {
+		transform: translatey(-10px);
+	}
+}
+
 .circle {
 	width: 20px;
 	height: 20px;

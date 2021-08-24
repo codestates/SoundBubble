@@ -37,11 +37,21 @@
 	position: absolute;
 	font-size: 20px;
 	color: white;
-	transition: 0.15s all;
+	white-space: nowrap;
+	transition: 0.1s linear;
+	animation: ani 1.3s ease-in-out infinite alternate;
 }
 
-.bubbleDetail-container .comment-container p:hover {
-	color: #333;
+@keyframes ani {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1.15);
+	}
+}
+.bubbleDetail-container .comment-container div:hover {
+	color: rgb(33, 39, 50);
 	text-shadow: none;
 }
 
@@ -64,6 +74,39 @@
 .bubbleDetail-container .comment-container p:nth-child(5) {
 	left: 30%;
 	top: 90%;
+}
+
+.comment-user-nickname {
+	opacity: 0;
+	position: absolute;
+	transform: translate(-50%, -100%);
+	left: 50%;
+	top: -1rem;
+	padding: 8px;
+	display: inline-block;
+	border-radius: 5px;
+	word-break: keep-all;
+	font-size: 15px;
+	color: white;
+	background: rgb(119, 112, 255);
+	transition: 0.1s linear;
+}
+
+.bubbleDetail-container .comment-container p:hover .comment-user-nickname {
+	opacity: 1;
+}
+
+.comment-user-nickname:after {
+	content: "";
+	position: absolute;
+	transform: rotate(45deg);
+	left: 50%;
+	bottom: -5px;
+	margin-left: -5px;
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background: rgb(119, 112, 255);
 }
 /* 
 .bubbleDetail-container .comment-container p:nth-child(6) {
@@ -143,7 +186,7 @@
 	position: absolute;
 	bottom: 30px;
 	left: 30px;
-	color: white;
+	color: rgb(119, 112, 255);
 	font-size: 1.5rem;
 }
 
