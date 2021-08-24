@@ -41,7 +41,7 @@ const MainPiano = (): JSX.Element => {
 		};
 		const canvas = canvasRef.current;
 
-		if (!canvas) throw new Error("error");
+		if (!canvas) return;
 		const context = canvas?.getContext("2d");
 		const image = canvas?.toDataURL();
 		setViewImage(image);
@@ -237,7 +237,7 @@ const MainPiano = (): JSX.Element => {
 	};
 
 	const handleClickPiano2 = (note: string) => {
-		if (!isModal && !smallPiano) handlePainting(note);
+		if (!smallPiano) handlePainting(note);
 	};
 
 	return (
@@ -254,12 +254,16 @@ const MainPiano = (): JSX.Element => {
 				{smallPiano ? (
 					<>
 						<canvas id="canvas" width="300px" height="300px" ref={canvasRef}></canvas>
-						<Piano handleClick={handleClick} />
+						<div className="main-content-box">
+							<Piano handleClick={handleClick} />
+						</div>
 					</>
 				) : (
 					<>
 						<canvas id="canvas" width="500px" height="500px" ref={canvasRef}></canvas>
-						<Piano2 handleClick={handleClickPiano2} />
+						<div className="main-content-box">
+							<Piano2 handleClick={handleClickPiano2} />
+						</div>
 					</>
 				)}
 

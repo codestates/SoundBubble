@@ -54,7 +54,6 @@ const BubbleDetail = (): JSX.Element => {
 	useEffect(() => {
 		getComment();
 		getBubbleData();
-		setIsPlaying(false);
 	}, []);
 
 	const handleSubmitComment = async (text: string) => {
@@ -88,7 +87,7 @@ const BubbleDetail = (): JSX.Element => {
 		});
 	};
 
-	const handleDeleteBubble: any = async id => {
+	const handleDeleteBubble: any = async () => {
 		if (confirm("버블을 삭제하시겠습니까?"))
 			await axios({
 				method: "DELETE",
@@ -103,21 +102,18 @@ const BubbleDetail = (): JSX.Element => {
 
 	const audio = new Audio(`${bubbleData.sound}`);
 
-	const handlePlaySound = () => {
-		if (!isPlaying) {
-			audio.play();
-			setIsPlaying(true);
-		} else {
-			audio.pause();
-			audio.currentTime = 0;
-			setIsPlaying(false);
-		}
-	};
-	console.log(isPlaying);
+	// todo: 한번 더 클릭하면 소리 멈추게 하기
+	// todo: 다른 페이지로 이동하면 소리 멈추게 하기
 
-	// 재생 중일때 그림자 효과
-	// 페이지 바뀌면 sound off
-	// 한번 더 클릭하면 sound off
+	const handleStopSound = () => {
+		window.location.replace(`/bubble/${bubbleId}`);
+		// audio.pause();
+		// setIsPlaying(false);
+	};
+	const handlePlaySound = () => {
+		audio.play();
+		setIsPlaying(true);
+	};
 
 	return (
 		<>
@@ -141,19 +137,26 @@ const BubbleDetail = (): JSX.Element => {
 									}}
 								>
 									{comment.textContent}
+									<span className="comment-user-nickname">삭제하려면 더블클릭하세요.</span>
 								</p>
 							);
 						} else if (Number(comment.id) <= 15) {
 							return (
 								<p key={i} onDoubleClick={() => alert("본인이 쓴 댓글만 삭제할 수 있습니다.")}>
 									{comment.textContent}
+									<span className="comment-user-nickname">{comment.user.nickname}</span>
 								</p>
 							);
 						}
 					})}
 				</div>
 				<div className="bubble">
-					<img src={bubbleData.image} alt="COLORS OF MY VOICE" onClick={handlePlaySound} className="bubbleImg" />
+					<img
+						src={bubbleData.image}
+						alt="COLORS OF MY VOICE"
+						onClick={isPlaying ? handleStopSound : handlePlaySound}
+						className="bubbleImg"
+					/>
 					<p>{bubbleData.textContent}</p>
 				</div>
 				<div className="form">

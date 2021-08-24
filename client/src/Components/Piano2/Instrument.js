@@ -26,8 +26,8 @@ const Instrument = ({ instrumentName, startNote, endNote, renderPianoKey, keyboa
 		if (isRegularKey(e) && !e.repeat) {
 			const note = getNoteFromKeyboardKey(e.key);
 			if (note) {
-				setState({ ...state, notesPlaying: [...state.notesPlaying, note] });
 				handleClick(note);
+				setState({ ...state, notesPlaying: [...state.notesPlaying, note] });
 			}
 		}
 	};
