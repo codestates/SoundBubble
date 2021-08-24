@@ -14,9 +14,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 
 const Mypage = (): JSX.Element => {
-	const state = useSelector((state: RootReducerType) => state.userReducer);
-	const userImg = state.profileImage;
-	console.log(state);
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const userImg = userState.user.profileImage;
+	console.log("Mypage-userState:", userState);
 
 	const [openTutorial, setOpenTutorial] = useState<boolean>(false);
 
@@ -39,8 +39,8 @@ const Mypage = (): JSX.Element => {
 						<div className="userImg">
 							{userImg ? <img src={userImg} alt="프로필 사진" /> : <img src={profile} alt="프로필 사진" />}
 						</div>
-						<div className="userId">{state.email}</div>
-						<div className="userId">{state.nickname}</div>
+						<div className="userId">{userState.user.email}</div>
+						<div className="userId">{userState.user.nickname}</div>
 						<div className="sideTap">
 							<Link to="/mypage" className="tap">
 								닉네임 변경

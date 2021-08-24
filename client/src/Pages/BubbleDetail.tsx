@@ -10,10 +10,11 @@ import { RootReducerType } from "../Store";
 
 const BubbleDetail = (): JSX.Element => {
 	const dispatch = useDispatch();
-	const state = useSelector((state: RootReducerType) => state.userReducer);
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 	const URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
-	console.log(state);
+	// console.log(state);
 
 	const [commentInput, setCommentInput] = useState("");
 	const [bubbleComments, setBubbleComments] = useState([]);
@@ -57,7 +58,7 @@ const BubbleDetail = (): JSX.Element => {
 	}, []);
 
 	const handleSubmitComment = async (text: string) => {
-		if (!state.accessToken) {
+		if (!tokenState.accessToken) {
 			if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) history.push("/login");
 		}
 		await axios({
@@ -65,7 +66,7 @@ const BubbleDetail = (): JSX.Element => {
 			url: `${URL}/bubble/${bubbleId}/comment`,
 			data: { textContent: commentInput },
 			headers: {
-				authorization: `Bearer ${state.accessToken}`,
+				authorization: `Bearer ${tokenState.accessToken}`,
 			},
 		}).then(() => {
 			setCommentInput("");
@@ -79,7 +80,7 @@ const BubbleDetail = (): JSX.Element => {
 			url: `${URL}/bubble/${bubbleId}/comment`,
 			data: { commentId: id },
 			headers: {
-				authorization: `Bearer ${state.accessToken}`,
+				authorization: `Bearer ${tokenState.accessToken}`,
 			},
 		}).then(() => {
 			getComment();
@@ -93,7 +94,7 @@ const BubbleDetail = (): JSX.Element => {
 				method: "DELETE",
 				url: `${URL}/bubble/${bubbleId}`,
 				headers: {
-					authorization: `Bearer ${state.accessToken}`,
+					authorization: `Bearer ${tokenState.accessToken}`,
 				},
 			}).then(() => {
 				history.push("/palette");
@@ -120,14 +121,14 @@ const BubbleDetail = (): JSX.Element => {
 			<div className="bubbleDetail-container">
 				<div>
 					<img src={backIcon} className="backIcon" alt="뒤로 가기" onClick={() => history.push("/palette")} />
-					{bubbleData.user.email === state.email ? (
+					{bubbleData.user.email === userState.user.email ? (
 						<img src={trashcan} className="deleteBtn" alt="버블 삭제" onClick={handleDeleteBubble} />
 					) : null}
 				</div>
 				<div className="comment-container">
 					{bubbleComments.map((comment: any, i: number) => {
 						const commentId = comment.id;
-						if (comment.user.email === state.email) {
+						if (comment.user.email === userState.user.email) {
 							return (
 								<p
 									key={i}

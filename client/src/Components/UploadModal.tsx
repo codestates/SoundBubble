@@ -24,8 +24,8 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 	const history = useHistory();
 	const BUBBLE_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
-	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const { accessToken } = userState;
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
+	const { accessToken } = tokenState;
 
 	const handleBubbleUpload = (): void => {
 		console.log("업로드 bubbleData", bubbleData);

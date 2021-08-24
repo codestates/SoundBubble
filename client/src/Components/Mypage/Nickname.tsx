@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../../Store";
-import { editNickname } from "../../actions/index";
+import { updateUserNickname } from "../../actions";
 
 const Nickname = (): JSX.Element => {
 	const [nickname, setNickname] = useState("");
@@ -12,7 +12,8 @@ const Nickname = (): JSX.Element => {
 	const url = process.env.REACT_APP_API_URL;
 
 	const dispatch = useDispatch();
-	const state = useSelector((state: RootReducerType) => state.userReducer);
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 
 	const [errorMsg, setErrorMsg] = useState("");
 
@@ -21,7 +22,7 @@ const Nickname = (): JSX.Element => {
 	};
 
 	const handleChangeNickname = async () => {
-		if (state.nickname === nickname) {
+		if (userState.user.nickname === nickname) {
 			setErrorMsg("새로운 닉네임을 입력해주세요.");
 			return;
 		}
@@ -34,13 +35,13 @@ const Nickname = (): JSX.Element => {
 				password: password,
 			},
 			headers: {
-				authorization: `Bearer ${state.accessToken}`,
+				authorization: `Bearer ${tokenState.accessToken}`,
 			},
 		})
 			.then(resp => {
 				resetErrorMsg();
 				setNickname(resp.data.data.userInfo.nickname);
-				dispatch(editNickname(nickname, state.accessToken));
+				dispatch(updateUserNickname(resp.data.data.userInfo));
 				console.log("수정 완료");
 				// window.location.replace("/mypage");
 				alert("회원정보가 수정되었습니다.");
@@ -72,11 +73,11 @@ const Nickname = (): JSX.Element => {
 						type="password"
 						name="password"
 						placeholder={
-							state.signUpType === "email" || state.signUpType === "intergration"
+							userState.user.signUpType === "email" || userState.user.signUpType === "intergration"
 								? "비밀번호를 입력하세요"
 								: "비밀번호 등록 전입니다"
 						}
-						disabled={state.signUpType === "email" || state.signUpType === "intergration" ? false : true}
+						disabled={userState.user.signUpType === "email" || userState.user.signUpType === "intergration" ? false : true}
 						onChange={e => setPassword(e.target.value)}
 					/>
 				</label>

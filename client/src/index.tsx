@@ -9,7 +9,8 @@ dotenv.config();
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 
-const persistor = persistStore(store);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const persistor = persistStore(store as any);
 
 ReactDOM.render(
 	<Provider store={store}>

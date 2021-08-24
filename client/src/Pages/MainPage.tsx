@@ -39,11 +39,11 @@ const MainPage = (): JSX.Element => {
 	const handleBtnClick = (e: React.ChangeEvent<HTMLButtonElement>) => {
 		setSelect(e.target.classList.value);
 	};
-  
-  //* 임시 코드: 모달창 다시 열기
+
+	//* 임시 코드: 모달창 다시 열기
 	// localStorage.setItem("showTutorial", "true");
 	//* --------------------------------------
-  
+
 	const handleChangeComplete = color => {
 		setBackColor(color.hex);
 	};

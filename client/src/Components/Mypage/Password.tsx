@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducerType } from "../../Store";
 import { pwIsValid } from "../../Utils/Validator";
-import { editUserInfo } from "../../actions";
+import { updateUserType } from "../../actions";
 
 const Password = (): JSX.Element => {
 	const [password, setPassword] = useState("");
@@ -14,7 +14,8 @@ const Password = (): JSX.Element => {
 	const URL = process.env.REACT_APP_API_URL;
 
 	const dispatch = useDispatch();
-	const state = useSelector((state: RootReducerType) => state.userReducer);
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 
 	const [errorMsg, setErrorMsg] = useState("");
 	const resetErrorMsg = () => {
@@ -35,7 +36,7 @@ const Password = (): JSX.Element => {
 					newPassword: newPassword,
 				},
 				headers: {
-					authorization: `Bearer ${state.accessToken}`,
+					authorization: `Bearer ${tokenState.accessToken}`,
 				},
 			})
 				.then(resp => {
@@ -46,7 +47,7 @@ const Password = (): JSX.Element => {
 					console.log("응답값", resp.data);
 					resetErrorMsg();
 					// window.location.replace("/mypage/password"); // history.push를 사용하면 새로고침이 안됨
-					dispatch(editUserInfo(resp.data.data.userInfo));
+					dispatch(updateUserType(resp.data.data.userInfo));
 					alert("비밀번호가 수정되었습니다.");
 				})
 				.catch(err => {
@@ -65,11 +66,11 @@ const Password = (): JSX.Element => {
 						name="changePassword"
 						value={password}
 						placeholder={
-							state.signUpType === "email" || state.signUpType === "intergration"
+							userState.user.signUpType === "email" || userState.user.signUpType === "intergration"
 								? "기존 비밀번호"
 								: "비밀번호 등록 시 일반 로그인을 이용할 수 있습니다"
 						}
-						disabled={state.signUpType === "email" || state.signUpType === "intergration" ? false : true}
+						disabled={userState.user.signUpType === "email" || userState.user.signUpType === "intergration" ? false : true}
 						onChange={e => setPassword(e.target.value)}
 					/>
 				</label>

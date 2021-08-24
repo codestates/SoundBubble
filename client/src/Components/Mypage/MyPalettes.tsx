@@ -7,7 +7,8 @@ import emptyBubble from "../../Static/emptyBubble.png";
 
 const MyPalettes = (): JSX.Element => {
 	const dispatch = useDispatch();
-	const state = useSelector((state: RootReducerType) => state.userReducer);
+	// const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 
 	// todo: 배열 형태로 받아온 버블들을 map 함수를 이용해 나타내기
 	const [myBubbles, setMyBubbles] = useState([]);
@@ -20,7 +21,7 @@ const MyPalettes = (): JSX.Element => {
 			method: "GET",
 			url: `${url}/user/mypage/bubble`,
 			headers: {
-				authorization: `Bearer ${state.accessToken}`,
+				authorization: `Bearer ${tokenState.accessToken}`,
 			},
 		}).then(res => {
 			setMyBubbles(res.data.data.bubbles);
