@@ -5,6 +5,7 @@ import MainUpload from "../Components/MainPage/MainUpload";
 import Error404 from "../Pages/error404";
 import Navigation from "../Components/Navigation";
 import Footer from "../Components/Footer";
+import { useHistory } from "react-router-dom";
 
 import "./Styles/MainPage.css";
 import MainSelectBar from "../Components/MainPage/MainSelectBar";
@@ -25,17 +26,20 @@ function ChoiceMode({ select, backColor, pickSpeed }: Select): JSX.Element {
 }
 
 const MainPage = (): JSX.Element => {
+	const history = useHistory();
 	const [select, setSelect] = useState("mic");
+
+	const [backColor, setBackColor] = useState<string>("white");
+	// ? # 원이 찍히는 속도 state
+	const [pickSpeed, setPickSpeed] = useState<number>(350);
+
 	const handleBtnClick = (e: React.ChangeEvent<HTMLButtonElement>) => {
 		setSelect(e.target.classList.value);
 	};
-	const [backColor, setBackColor] = useState<string>("white");
 	const handleChangeComplete = color => {
 		setBackColor(color.hex);
 	};
 
-	// ? # 원이 찍히는 속도 state
-	const [pickSpeed, setPickSpeed] = useState<number>(350);
 	return (
 		<>
 			<Navigation />
@@ -46,7 +50,12 @@ const MainPage = (): JSX.Element => {
 					<div className="bubble-color-box">
 						<p className="bubble-color-message">color</p>
 						<div className="color-picker">
-							<CirclePicker color={backColor} onChangeComplete={handleChangeComplete} width="400px" />
+							<CirclePicker
+								className="circle-picker"
+								color={backColor}
+								onChangeComplete={handleChangeComplete}
+								width="400px"
+							/>
 							<button className="white-btn" onClick={() => setBackColor("#FFFFFF")}></button>
 							<button className="black-btn" onClick={() => setBackColor("#000000")}></button>
 						</div>
@@ -61,6 +70,19 @@ const MainPage = (): JSX.Element => {
 							value={pickSpeed}
 							className="speedSlider"
 						/>
+					</div>
+					<div className="bubble-btn-box">
+						<button
+							className="reset-btn"
+							onClick={() => {
+								window.location.replace("/main");
+							}}
+						>
+							Reset
+						</button>
+						<button className="reset-btn" onClick={() => window.location.replace("/palette")}>
+							Palette
+						</button>
 					</div>
 				</div>
 				<ChoiceMode select={select} backColor={backColor} pickSpeed={pickSpeed} />
