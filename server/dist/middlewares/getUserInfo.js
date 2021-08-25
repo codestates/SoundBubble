@@ -74,7 +74,7 @@ const getUserInfo = async (res, accessToken) => {
                 log_1.log(`[유저 ${userInfo.id}] 액세스 토큰 재발급 완료`);
                 // 토큰 화이트리스트에 액세스 토큰 저장
                 if (process.env.NODE_ENV === "production") {
-                    await redis_1.insertWhiteList(userInfo.id, accessToken);
+                    await redis_1.insertWhiteList(userInfo.id, newAccessToken);
                 }
                 //! 리턴 객체에 유저 및 토큰 정보 저장
                 tokenInfo.userId = decodedRefresh.userId;
