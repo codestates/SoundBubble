@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Styles/BubbleDetail.css";
 // import axios from "axios";
-import axiosInstance from '../axios';
+import axiosInstance from "../axios";
 import { useHistory } from "react-router-dom";
 import backIcon from "./Styles/back.png";
 import trashcan from "./Styles/trashcan.png";
@@ -133,7 +133,7 @@ const BubbleDetail = (): JSX.Element => {
 						alt="뒤로 가기"
 						onClick={() => window.location.replace("/palette")}
 					/>
-					{bubbleData.user.email === state.email ? (
+					{bubbleData.user.email === userState.user.email ? (
 						<img src={trashcan} className="deleteBtn" alt="버블 삭제" onClick={handleDeleteBubble} />
 					) : null}
 				</div>

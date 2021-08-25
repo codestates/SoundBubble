@@ -9,7 +9,7 @@ import axios from "axios";
 const Navigation = (): JSX.Element => {
 	const history = useHistory();
 	const dispatch = useDispatch();
-	// const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 	const [isLogin, setIsLogin] = useState(false);
 	const [open, setOpen] = useState(true);
@@ -42,7 +42,7 @@ const Navigation = (): JSX.Element => {
 
 	const openChange = () => {
 		setOpen(!open);
-	}
+	};
 
 	const mypageHandler = () => {
 		if (tokenState.accessToken) history.push("/mypage");
@@ -54,7 +54,7 @@ const Navigation = (): JSX.Element => {
 
 	useEffect(() => {
 		openChange();
-	}, [])
+	}, []);
 
 	return (
 		<>
@@ -104,26 +104,32 @@ const Navigation = (): JSX.Element => {
 									<hr className="nav-hr"></hr>
 								</li>
 								{isLogin ? (
-								<>
+									<>
+										<li>
+											<a>
+												<img
+													className="nav-user-img"
+													src={userState.user.profileImage === null ? "" : userState.user.profileImage}
+												></img>
+												{userState.user.nickname}
+											</a>
+										</li>
+										<li>
+											<a className="nav-login-btn" onClick={logOutHandler}>
+												Logout
+											</a>
+										</li>
+									</>
+								) : (
 									<li>
-										<a><img className="nav-user-img" src={userState.profileImage}></img>{userState.nickname}</a>
-									</li>
-									<li>
-										<a className="nav-login-btn" onClick={logOutHandler}>
-											Logout
+										<a className="nav-login-btn" onClick={() => window.location.replace("/login")}>
+											Login
 										</a>
 									</li>
-								</>
-							) : (
-								<li>
-									<a className="nav-login-btn" onClick={() => window.location.replace("/login")}>
-										Login
-									</a>
-								</li>
-							)}
+								)}
 							</ul>
 						</div>
-					): (
+					) : (
 						<button className="nav-hamburger-btn" onClick={openChange}></button>
 					)}
 				</div>
