@@ -6,7 +6,7 @@ import KAKAO from "../Static/icons/kakao_share.png";
 import FACEBOOK from "../Static/icons/facebook_share.png";
 import SHARE from "../Static/icons/share_icon.png";
 // import axios from "axios";
-import axiosInstance from '../axios';
+import axiosInstance from "../axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
@@ -25,14 +25,14 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
-	const { accessToken } = tokenState;
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	
 	const dispatch = useDispatch();
 
 	const handleBubbleUpload = (): void => {
 		console.log("업로드 bubbleData", bubbleData);
 
-		if (!accessToken) {
+		if (userState.user.id === -1) {
 			setNeedLogin(true);
 			return;
 		}
@@ -49,7 +49,6 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			data: formData,
 			headers: {
 				"Content-Type": "multipart/form-data",
-				authorization: `Bearer ${accessToken}`,
 			},
 			withCredentials: true,
 		})

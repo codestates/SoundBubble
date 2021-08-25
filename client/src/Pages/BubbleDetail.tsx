@@ -13,7 +13,6 @@ import { RootReducerType } from "../Store";
 const BubbleDetail = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 	const API_URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
 
@@ -43,6 +42,7 @@ const BubbleDetail = (): JSX.Element => {
 		await axiosInstance({
 			method: "GET",
 			url: `${API_URL}/bubble/${bubbleId}`,
+			withCredentials: true,
 		}).then(res => {
 			setBubbleData(res.data.data.bubble);
 		});
@@ -52,6 +52,7 @@ const BubbleDetail = (): JSX.Element => {
 		await axiosInstance({
 			method: "GET",
 			url: `${API_URL}/bubble/${bubbleId}`,
+			withCredentials: true,
 		}).then(res => {
 			setBubbleComments(res.data.data.comments);
 			console.log("받아와짐");
@@ -64,7 +65,7 @@ const BubbleDetail = (): JSX.Element => {
 	}, []);
 
 	const handleSubmitComment = async (text: string) => {
-		if (!tokenState.accessToken) {
+		if (userState.user.id === -1) {
 			if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) history.push("/login");
 			setIsModal(true);
 		}
@@ -72,9 +73,7 @@ const BubbleDetail = (): JSX.Element => {
 			method: "POST",
 			url: `${API_URL}/bubble/${bubbleId}/comment`,
 			data: { textContent: text },
-			headers: {
-				authorization: `Bearer ${tokenState.accessToken}`,
-			},
+			withCredentials: true,
 		}).then(() => {
 			setCommentInput("");
 			getComment();
@@ -86,9 +85,7 @@ const BubbleDetail = (): JSX.Element => {
 			method: "DELETE",
 			url: `${API_URL}/bubble/${bubbleId}/comment`,
 			data: { commentId: id },
-			headers: {
-				authorization: `Bearer ${tokenState.accessToken}`,
-			},
+			withCredentials: true,
 		}).then(() => {
 			getComment();
 		});
@@ -99,9 +96,7 @@ const BubbleDetail = (): JSX.Element => {
 			await axiosInstance({
 				method: "DELETE",
 				url: `${API_URL}/bubble/${bubbleId}`,
-				headers: {
-					authorization: `Bearer ${tokenState.accessToken}`,
-				},
+				withCredentials: true,
 			}).then(() => {
 				history.push("/palette");
 			});

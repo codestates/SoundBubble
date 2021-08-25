@@ -16,7 +16,7 @@ const Password = (): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
+	// const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 
 	const [errorMsg, setErrorMsg] = useState("");
 	const resetErrorMsg = () => {
@@ -36,9 +36,7 @@ const Password = (): JSX.Element => {
 					password: password,
 					newPassword: newPassword,
 				},
-				headers: {
-					authorization: `Bearer ${tokenState.accessToken}`,
-				},
+				withCredentials: true,
 			})
 				.then(resp => {
 					setPassword("");

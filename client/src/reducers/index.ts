@@ -1,5 +1,5 @@
 import userReducer from "./userReducer";
-import tokenReducer from "./tokenReducer";
+// import tokenReducer from "./tokenReducer";
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist"; // 추가
 import storage from "redux-persist/lib/storage"; // local storage에 저장
@@ -10,13 +10,12 @@ const persistConfig = {
 	// localStorage에 저장합니다.
 	storage,
 	// auth, board, studio 3개의 reducer 중에 auth reducer만 localstorage에 저장합니다.
-	whitelist: ["userReducer", "tokenReducer"],
+	whitelist: ["userReducer"],
 	// blacklist -> 그것만 제외합니다
 };
 
 const rootReducer = combineReducers({
 	userReducer,
-	tokenReducer,
 });
 
 // export default rootReducer;

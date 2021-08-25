@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-// import axios from "axios";
 import axiosInstance from "../../axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../../Store";
@@ -14,7 +13,6 @@ const Nickname = (): JSX.Element => {
 
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 
 	const [errorMsg, setErrorMsg] = useState("");
 
@@ -34,9 +32,6 @@ const Nickname = (): JSX.Element => {
 			data: {
 				nickname: nickname,
 				password: password,
-			},
-			headers: {
-				authorization: `Bearer ${tokenState.accessToken}`,
 			},
 			withCredentials: true,
 		})

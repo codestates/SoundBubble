@@ -3,30 +3,27 @@ import { useHistory } from "react-router-dom";
 import "./Styles/Navigation.css";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
-import { removeUserInfo, removeAccessToken } from "../actions";
+import { removeUserInfo } from "../actions";
 import axios from "axios";
 
 const Navigation = (): JSX.Element => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 	const [isLogin, setIsLogin] = useState(false);
 	const [open, setOpen] = useState(true);
 	const API_URL = process.env.REACT_APP_API_URL;
 
 	const logInHandler = () => {
-		if (tokenState.accessToken) setIsLogin(true);
+		if (userState.user.id >= 0) setIsLogin(true);
 	};
 
 	const logOutHandler = async () => {
-		if (tokenState.accessToken) {
+		if (userState.user.id >= 0) {
 			await axios({
 				method: "GET",
 				url: `${API_URL}/user/logout`,
-				headers: {
-					authorization: `Bearer ${tokenState.accessToken}`,
-				},
+				withCredentials: true,
 			})
 				.catch(err => {
 					console.log(err);
@@ -34,7 +31,6 @@ const Navigation = (): JSX.Element => {
 				.finally(() => {
 					setIsLogin(false);
 					dispatch(removeUserInfo());
-					dispatch(removeAccessToken());
 					window.location.replace("/");
 				});
 		}
@@ -45,7 +41,7 @@ const Navigation = (): JSX.Element => {
 	};
 
 	const mypageHandler = () => {
-		if (tokenState.accessToken) history.push("/mypage");
+		if (userState.user.id >= 0) history.push("/mypage");
 		else history.push("/login");
 	};
 	useEffect(() => {

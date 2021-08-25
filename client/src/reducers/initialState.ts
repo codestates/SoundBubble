@@ -10,5 +10,4 @@ export const initialState: InitialState = {
 		profileImage: null,
 		createdAt: "",
 	},
-	accessToken: "",
 };

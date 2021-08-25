@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserInfo, setAccessToken } from "../actions";
+import { setUserInfo } from "../actions";
 import { RootReducerType } from "../Store";
 import "./Styles/LoginModal.css";
 
@@ -14,7 +14,6 @@ const LoginModal = (): JSX.Element => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 	const API_URL = process.env.REACT_APP_API_URL;
 
 	//* Normal login
@@ -26,11 +25,11 @@ const LoginModal = (): JSX.Element => {
 				email: ID,
 				password: PW,
 			},
+			withCredentials: true,
 		})
 			.then(resp => {
-				const { accessToken, userInfo } = resp.data.data;
+				const { userInfo } = resp.data.data;
 				dispatch(setUserInfo(userInfo));
-				dispatch(setAccessToken(accessToken));
 				history.push("/main");
 			})
 			.catch(err => {
@@ -50,16 +49,18 @@ const LoginModal = (): JSX.Element => {
 
 	const handleSocialLogin = async authorizationCode => {
 		const socialType = localStorage.getItem("socialType");
-		await axios
-			.post(`${API_URL}/user/login/${socialType}`, {
+		await axios({
+			method: "POST",
+			url: `${API_URL}/user/login/${socialType}`,
+			data: {
 				authorizationCode: authorizationCode,
-			})
+			},
+			withCredentials: true,
+		})
 			.then(res => {
-				const { accessToken, userInfo } = res.data.data;
+				const { userInfo } = res.data.data;
 				dispatch(setUserInfo(userInfo));
-				dispatch(setAccessToken(accessToken));
 				console.log("LoginModal: userState", userState);
-				console.log("LoginModal: tokenState", tokenState)
 				history.push("/main");
 			})
 			.catch(err => {
