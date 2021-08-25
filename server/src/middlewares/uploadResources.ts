@@ -13,6 +13,10 @@ const upload: multer.Multer = multer({
 		acl: "public-read",
 		key: function (req: Express.Request, file: Express.Multer.File, callback) {
 			console.log("file", file);
+			if (file.size === 0) {
+				const errMessage = `Invalid File Type.\nfile size: ${file.size}`;
+				return callback(new FileTypeError(errMessage));
+			}
 
 			//* 파일 이름에서 확장자 추출
 			const originalFileName: string[] = file.originalname.split(".");

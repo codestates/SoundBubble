@@ -38,25 +38,22 @@ const authUser = async (req, res, next) => {
         try {
             const data = await redis_1.getAsync(String(userId));
             if (data) {
-                console.log("데이터 존재");
                 const parsedList = JSON.parse(data);
                 if (parsedList.includes(currentToken)) {
-                    console.log("데이터내부에 토큰 존재");
+                    log_1.log(`[유저 ${userId}] 토큰 검증 실패: 블랙리스트에 등록된 토큰 사용`);
                     return res.status(401).json({ message: "Invalid token, login again" });
                 }
             }
         }
         catch (err) {
-            log_1.logError("Redis 조회 실패");
+            log_1.logError("[유저 ${userId}] 블랙리스트 조회 실패");
             next(err);
         }
-        req.userInfo = userInfo;
-        next();
     }
-    else {
-        req.userInfo = userInfo;
-        next();
-    }
+    //* req 객체에 유저 정보를 담고 컨트롤러로 이동
+    log_1.log(`[유저 ${userId}] 토큰 검증 성공: email: ${email}. accountType: ${accountType}`);
+    req.userInfo = userInfo;
+    next();
 };
 exports.default = authUser;
 //# sourceMappingURL=authUser.js.map
