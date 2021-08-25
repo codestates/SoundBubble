@@ -1,14 +1,12 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { UserInfo } from "../../@type/userInfo";
 import { UserToken } from "../../entity/UserToken";
-import { setAsync, setexAsync, getAsync, insertBlackList } from "../../redis";
-import { log, logError } from "../../utils/log";
-import { verifyAccessToken, cookieOptions } from "../../token";
-import { JwtPayload } from "jsonwebtoken";
-import { RedisTokenList } from "../../@type/redis";
+import { insertBlackList } from "../../redis";
+import { logError } from "../../utils/log";
+import { cookieOptions } from "../../token";
 
 const logout: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-	const { userId, accessToken, tokenExpIn }: { userId: number; accessToken: string; tokenExpIn: number } =
+	const { userId, accessToken }: { userId: number; accessToken: string; tokenExpIn: number } =
 		req.userInfo as UserInfo;
 
 	try {

@@ -40,7 +40,8 @@ const updateNickname = async (req, res, next) => {
         //* 닉네임 변경
         userInfo.nickname = nickname;
         await userInfo.save();
-        return res.status(200).json({ data: { userInfo }, message: "User nickname successfully updated" });
+        const resUserInfo = (await User_1.User.findUserByEmail(userInfo.email));
+        return res.status(200).json({ data: { userInfo: resUserInfo }, message: "User nickname successfully updated" });
     }
     catch (err) {
         log_1.logError("Failed to update nickname");

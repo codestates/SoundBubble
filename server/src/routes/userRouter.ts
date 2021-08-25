@@ -22,7 +22,7 @@ userRouter.post("/check/email", controller.checkEmail);
 // 닉네임 중복 확인
 userRouter.post("/check/nickname", controller.checkNickname);
 
-//* 로그인이 필요한 요청
+//* 미들웨어 등록: ↓ 로그인이 필요한 요청
 userRouter.use("/", authUser);
 
 // 로그아웃

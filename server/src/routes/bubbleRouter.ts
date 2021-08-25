@@ -11,7 +11,7 @@ bubbleRouter.get("/", controller.readAllBubble);
 // 버블 상세 조회
 bubbleRouter.get("/:id", controller.readBubble);
 
-//* 로그인이 필요한 요청
+//* 미들웨어 등록: ↓ 로그인이 필요한 요청
 bubbleRouter.use("/", authUser);
 
 // 버블 업로드

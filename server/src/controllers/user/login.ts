@@ -44,7 +44,7 @@ const login: RequestHandler = async (req: Request, res: Response, next: NextFunc
 		// 응답 쿠키에 액세스 토큰 설정
 		res.cookie("accessToken", accessToken, cookieOptions);
 
-		return res.status(201).json({ data: { userInfo }, message: "Login succeed" });
+		return res.status(200).json({ data: { userInfo }, message: "Login succeed" });
 	} catch (err) {
 		logError("Failed to login");
 		next(err);

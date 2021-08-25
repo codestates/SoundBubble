@@ -5,7 +5,7 @@ const redis_1 = require("../../redis");
 const log_1 = require("../../utils/log");
 const token_1 = require("../../token");
 const logout = async (req, res, next) => {
-    const { userId, accessToken, tokenExpIn } = req.userInfo;
+    const { userId, accessToken } = req.userInfo;
     try {
         //* 토큰 블랙리스트에 만료되지 않은 액세스 토큰 저장
         if (process.env.NODE_ENV === "production") {
