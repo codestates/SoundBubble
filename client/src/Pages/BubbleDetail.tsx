@@ -42,7 +42,7 @@ const BubbleDetail = (): JSX.Element => {
 		await axiosInstance({
 			method: "GET",
 			url: `${API_URL}/bubble/${bubbleId}`,
-			withCredentials: true,
+			// withCredentials: true,
 		}).then(res => {
 			setBubbleData(res.data.data.bubble);
 		});
@@ -52,7 +52,7 @@ const BubbleDetail = (): JSX.Element => {
 		await axiosInstance({
 			method: "GET",
 			url: `${API_URL}/bubble/${bubbleId}`,
-			withCredentials: true,
+			// withCredentials: true,
 		}).then(res => {
 			setBubbleComments(res.data.data.comments);
 			console.log("받아와짐");
@@ -68,38 +68,49 @@ const BubbleDetail = (): JSX.Element => {
 		if (userState.user.id === -1) {
 			if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) history.push("/login");
 			setIsModal(true);
+		} else {
+			await axiosInstance({
+				method: "POST",
+				url: `${API_URL}/bubble/${bubbleId}/comment`,
+				data: { textContent: text },
+				withCredentials: true,
+			}).then(() => {
+				setCommentInput("");
+				getComment();
+			});
 		}
-		await axiosInstance({
-			method: "POST",
-			url: `${API_URL}/bubble/${bubbleId}/comment`,
-			data: { textContent: text },
-			withCredentials: true,
-		}).then(() => {
-			setCommentInput("");
-			getComment();
-		});
 	};
 
 	const handleDeleteComment = async id => {
-		await axiosInstance({
-			method: "DELETE",
-			url: `${API_URL}/bubble/${bubbleId}/comment`,
-			data: { commentId: id },
-			withCredentials: true,
-		}).then(() => {
-			getComment();
-		});
+		if (userState.user.id === -1) {
+			if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) history.push("/login");
+			setIsModal(true);
+		} else {
+			await axiosInstance({
+				method: "DELETE",
+				url: `${API_URL}/bubble/${bubbleId}/comment`,
+				data: { commentId: id },
+				withCredentials: true,
+			}).then(() => {
+				getComment();
+			});
+		}
 	};
 
 	const handleDeleteBubble = async () => {
-		if (confirm("버블을 삭제하시겠습니까?"))
-			await axiosInstance({
-				method: "DELETE",
-				url: `${API_URL}/bubble/${bubbleId}`,
-				withCredentials: true,
-			}).then(() => {
-				history.push("/palette");
-			});
+		if (userState.user.id === -1) {
+			if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) history.push("/login");
+			setIsModal(true);
+		} else {
+			if (confirm("버블을 삭제하시겠습니까?"))
+				await axiosInstance({
+					method: "DELETE",
+					url: `${API_URL}/bubble/${bubbleId}`,
+					withCredentials: true,
+				}).then(() => {
+					history.push("/palette");
+				});
+		}
 	};
 
 	const audio = new Audio(`${bubbleData.sound}`);

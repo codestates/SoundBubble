@@ -39,7 +39,6 @@ const Nickname = (): JSX.Element => {
 				setNickname("");
 				setPassword("");
 				resetErrorMsg();
-				setNickname(resp.data.data.userInfo.nickname);
 				dispatch(updateUserNickname(resp.data.data.userInfo));
 				console.log("수정 완료");
 				alert("회원정보가 수정되었습니다.");

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom"; //라우트 추가함
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Switch, Link, useHistory } from "react-router-dom"; //라우트 추가함
 import profile from "../Static/profile-img.png";
 import Footer from "../Components/Footer";
 import Navigation from "../Components/Navigation";
@@ -16,6 +16,7 @@ const Mypage = (): JSX.Element => {
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const userImg = userState.user.profileImage;
 	console.log("Mypage-userState:", userState);
+	const history = useHistory();
 
 	const [openTutorial, setOpenTutorial] = useState<boolean>(false);
 
@@ -26,6 +27,12 @@ const Mypage = (): JSX.Element => {
 	const handleShowTutorial = () => {
 		setOpenTutorial(true);
 	};
+
+	useEffect(() => {
+		if (userState.user.id === -1) {
+			history.push("/login");
+		}
+	})
 
 	return (
 		<>
