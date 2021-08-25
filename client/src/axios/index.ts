@@ -1,11 +1,11 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import store from "../Store";
 import { setAccessToken, removeAccessToken, removeUserInfo } from "../actions";
 
 const { dispatch } = store; // redux store에 바로 접근 (Hook 사용 불가)
 
 //* axios 인스턴스 생성
-const axiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
 	baseURL: process.env.REACT_APP_API_URL,
 	timeout: 1000,
 });

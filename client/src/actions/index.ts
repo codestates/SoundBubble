@@ -1,7 +1,7 @@
 import { UserInfo } from "../@type/userInfo";
 import { IAction, PayloadToken, PayloadUserInfo } from "../@type/redux";
 
-//? 타입 선언
+//? 액션 타입 선언
 export const SET_USER_INFO = "SET_USER_INFO";
 export const REMOVE_USER_INFO = "REMOVE_USER_INFO";
 export const UPDATE_USER_NICKNAME = "UPDATE_USER_NICKNAME";
