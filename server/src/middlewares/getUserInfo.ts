@@ -5,7 +5,7 @@ import { User } from "../entity/User";
 import { UserToken } from "../entity/UserToken";
 import { JwtPayload } from "jsonwebtoken";
 import { log } from "../utils/log";
-import { checkBlackList, checkWhiteList, clearWhiteList } from "../redis";
+import { checkBlackList, checkWhiteList, clearWhiteList, insertWhiteList } from "../redis";
 
 const getUserInfo = async (res: Response, accessToken: string): Promise<RequestTokenInfo> => {
 	const tokenInfo: RequestTokenInfo = {
@@ -80,6 +80,12 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 				const newAccessToken: string = await generateAccessToken(userInfo);
 				res.setHeader("authorization", `Bearer ${newAccessToken}`);
 				log(`[유저 ${userInfo.id}] 액세스 토큰 재발급 완료`);
+
+				// 토큰 화이트리스트에 액세스 토큰 저장
+				if (process.env.NODE_ENV === "production") {
+					await insertWhiteList(userInfo.id, accessToken);
+				}
+
 				//! 리턴 객체에 유저 및 토큰 정보 저장
 				tokenInfo.userId = decodedRefresh.userId;
 				tokenInfo.email = decodedRefresh.email;
