@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from "react";
 import "../Styles/MainPiano.css";
 import Piano from "../Piano/Piano";
 import Piano2 from "../Piano2/Piano2";
 import UploadModal from "../../Components/UploadModal";
 import { BubbleData } from "../../@type/request";
+import upArrow from "../Styles/arrow-up.png";
+import downArrow from "../Styles/arrow-down.png";
 
-const MainPiano = (): JSX.Element => {
+const MainPiano = ({ backColor }: any): JSX.Element => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const getRandom = (min: number, max: number): string => Math.floor(Math.random() * (max - min) + min).toString();
 	const [viewImage, setViewImage] = useState("");
@@ -16,10 +18,27 @@ const MainPiano = (): JSX.Element => {
 
 	// Done 버튼을 클릭하면 캔버스가 리셋
 	// reset 버튼 추가
+	const colorChange = (color: string) => {
+		console.log("white painting");
+		const canvas = canvasRef.current;
+		if (!canvas) throw new Error("error");
+		const context = canvas?.getContext("2d");
+		if (!context) throw new Error("error");
+		context?.beginPath();
+		context.fillStyle = `${color}`;
+		context?.fillRect(0, 0, 1000, 1000);
+
+		const image = canvas?.toDataURL();
+		setViewImage(image);
+	};
+
+	useEffect(() => {
+		colorChange(backColor);
+	}, [backColor]);
 
 	const [smallPiano, setSmallPiano] = useState(false);
-	console.log(window.innerWidth);
-	console.log(smallPiano);
+	// console.log(window.innerWidth);
+	// console.log(smallPiano);
 
 	const handlePianoView = () => {
 		if (window.innerWidth <= 500) {
@@ -29,10 +48,19 @@ const MainPiano = (): JSX.Element => {
 		}
 	};
 
-	useEffect(() => {
-		console.log(window.innerWidth);
-		handlePianoView();
+	const [windowSize, setWindowSize] = useState(window.innerWidth);
+
+	const handleWindowResize = useCallback(event => {
+		setWindowSize(window.innerWidth);
 	}, []);
+
+	useEffect(() => {
+		console.log("###", windowSize);
+		window.addEventListener("resize", handleWindowResize);
+		return () => {
+			window.removeEventListener("resize", handleWindowResize);
+		};
+	}, [handleWindowResize]);
 
 	const handlePainting = (note: string) => {
 		const randomPosition = {
@@ -240,6 +268,13 @@ const MainPiano = (): JSX.Element => {
 		if (!smallPiano) handlePainting(note);
 	};
 
+	const [pianoState, setPianoState] = useState(false);
+
+	const pianoToggle = () => {
+		if (pianoState) setPianoState(false);
+		else setPianoState(true);
+	};
+
 	return (
 		<>
 			{isModal ? (
@@ -260,9 +295,23 @@ const MainPiano = (): JSX.Element => {
 					</>
 				) : (
 					<>
-						<canvas id="canvas" width="500px" height="500px" ref={canvasRef}></canvas>
+						<canvas id="canvas" width="500px" height="500px" onClick={handleUploadModal} ref={canvasRef}></canvas>
 						<div className="main-content-box">
-							<Piano2 handleClick={handleClickPiano2} />
+							{pianoState ? (
+								<>
+									<img src={upArrow} alt="up" onClick={pianoToggle} className="upbtn" />
+									<div className="main-content-box-piano" style={{ display: "none" }}>
+										<Piano2 handleClick={handleClickPiano2} />
+									</div>
+								</>
+							) : (
+								<>
+									<img src={downArrow} alt="down" onClick={pianoToggle} className="btn" />
+									<div className="main-content-box-piano">
+										<Piano2 handleClick={handleClickPiano2} />
+									</div>
+								</>
+							)}
 						</div>
 					</>
 				)}
