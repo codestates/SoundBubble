@@ -11,6 +11,7 @@ const Navigation = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const [isLogin, setIsLogin] = useState(false);
+	const [open, setOpen] = useState(true);
 	const API_URL = process.env.REACT_APP_API_URL;
 
 	const logInHandler = () => {
@@ -37,6 +38,10 @@ const Navigation = (): JSX.Element => {
 		}
 	};
 
+	const openChange = () => {
+		setOpen(!open);
+	}
+
 	const mypageHandler = () => {
 		if (userState.accessToken) history.push("/mypage");
 		else history.push("/login");
@@ -44,6 +49,10 @@ const Navigation = (): JSX.Element => {
 	useEffect(() => {
 		logInHandler();
 	}, [isLogin]);
+
+	useEffect(() => {
+		openChange();
+	}, [])
 
 	return (
 		<>
@@ -76,6 +85,45 @@ const Navigation = (): JSX.Element => {
 							</li>
 						)}
 					</ul>
+					{open ? (
+						<div className="nav-hamburger">
+							<button className="nav-close-btn" onClick={openChange}></button>
+							<ul className="nav-hamburger-bar">
+								<li>
+									<a onClick={() => window.location.replace("/main")}>Main</a>
+								</li>
+								<li>
+									<a onClick={() => window.location.replace("/palette")}>Palette</a>
+								</li>
+								<li>
+									<a onClick={mypageHandler}>Mypage</a>
+								</li>
+								<li>
+									<hr className="nav-hr"></hr>
+								</li>
+								{isLogin ? (
+								<>
+									<li>
+										<a><img className="nav-user-img" src={userState.profileImage}></img>{userState.nickname}</a>
+									</li>
+									<li>
+										<a className="nav-login-btn" onClick={logOutHandler}>
+											Logout
+										</a>
+									</li>
+								</>
+							) : (
+								<li>
+									<a className="nav-login-btn" onClick={() => window.location.replace("/login")}>
+										Login
+									</a>
+								</li>
+							)}
+							</ul>
+						</div>
+					): (
+						<button className="nav-hamburger-btn" onClick={openChange}></button>
+					)}
 				</div>
 			</nav>
 		</>
