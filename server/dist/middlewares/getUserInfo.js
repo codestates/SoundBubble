@@ -71,14 +71,14 @@ const getUserInfo = async (res, accessToken) => {
                 // 검증 성공 -> 액세스 토큰 재발급, 응답 쿠키에 저장
                 const newAccessToken = await token_1.generateAccessToken(userInfo);
                 //!! 공통옵션
-                res.setHeader("authorization", `Bearer ${newAccessToken}`);
+                // res.setHeader("authorization", `Bearer ${newAccessToken}`);
                 res.cookie("accessToken", newAccessToken, token_1.cookieOptions);
                 log_1.log(`[유저 ${userInfo.id}] 액세스 토큰 재발급 완료`);
                 // 토큰 화이트리스트에 액세스 토큰 저장
                 if (process.env.NODE_ENV === "production") {
                     await redis_1.insertWhiteList(userInfo.id, newAccessToken);
                 }
-                //! 리턴 객체에 유저 및 토큰 정보 저장
+                // 리턴 객체에 유저 및 토큰 정보 저장
                 tokenInfo.userId = decodedRefresh.userId;
                 tokenInfo.email = decodedRefresh.email;
                 tokenInfo.accountType = decodedRefresh.accountType;
@@ -102,7 +102,7 @@ const getUserInfo = async (res, accessToken) => {
                     return tokenInfo;
                 }
             }
-            //! 리턴 객체에 유저 및 토큰 정보 저장
+            // 리턴 객체에 유저 및 토큰 정보 저장
             tokenInfo.userId = decoded.userId;
             tokenInfo.email = decoded.email;
             tokenInfo.accountType = decoded.accountType;

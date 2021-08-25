@@ -85,7 +85,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 				// 검증 성공 -> 액세스 토큰 재발급, 응답 쿠키에 저장
 				const newAccessToken: string = await generateAccessToken(userInfo);
 				//!! 공통옵션
-				res.setHeader("authorization", `Bearer ${newAccessToken}`);
+				// res.setHeader("authorization", `Bearer ${newAccessToken}`);
 				res.cookie("accessToken", newAccessToken, cookieOptions);
 				log(`[유저 ${userInfo.id}] 액세스 토큰 재발급 완료`);
 
@@ -94,7 +94,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 					await insertWhiteList(userInfo.id, newAccessToken);
 				}
 
-				//! 리턴 객체에 유저 및 토큰 정보 저장
+				// 리턴 객체에 유저 및 토큰 정보 저장
 				tokenInfo.userId = decodedRefresh.userId;
 				tokenInfo.email = decodedRefresh.email;
 				tokenInfo.accountType = decodedRefresh.accountType;
@@ -119,7 +119,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 				}
 			}
 
-			//! 리턴 객체에 유저 및 토큰 정보 저장
+			// 리턴 객체에 유저 및 토큰 정보 저장
 			tokenInfo.userId = decoded.userId;
 			tokenInfo.email = decoded.email;
 			tokenInfo.accountType = decoded.accountType;

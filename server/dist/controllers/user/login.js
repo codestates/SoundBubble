@@ -38,7 +38,7 @@ const login = async (req, res, next) => {
         }
         // 응답 쿠키에 액세스 토큰 설정
         res.cookie("accessToken", accessToken, token_1.cookieOptions);
-        return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
+        return res.status(201).json({ data: { userInfo }, message: "Login succeed" });
     }
     catch (err) {
         log_1.logError("Failed to login");

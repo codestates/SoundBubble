@@ -69,16 +69,15 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 const PORT: number = Number(process.env.SERVER_PORT) || 80;
 
 let server;
-if (process.env.NODE_ENV !== "production") {
-	if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
-		const privateKey = fs.readFileSync(__dirname + "/../key.pem", "utf8");
-		const certificate = fs.readFileSync(__dirname + "/../cert.pem", "utf8");
-		const credentials = { key: privateKey, cert: certificate };
+if (process.env.NODE_ENV !== "production" && fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
+	const privateKey = fs.readFileSync(__dirname + "/../key.pem", "utf8");
+	const certificate = fs.readFileSync(__dirname + "/../cert.pem", "utf8");
+	const credentials = { key: privateKey, cert: certificate };
 
-		server = https.createServer(credentials, app);
-		server.listen(PORT, () => console.log(`HTTPS server is runnning on ${PORT}`));
-	}
+	server = https.createServer(credentials, app);
+	server.listen(PORT, () => console.log(`HTTPS server is runnning on ${PORT}`));
 } else {
 	server = app.listen(PORT, () => console.log(`HTTP server is runnning on ${PORT}`));
 }
+
 // app.listen(PORT, () => console.log(`Server is runnning on ${PORT}`));
