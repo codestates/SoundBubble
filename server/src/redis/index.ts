@@ -94,6 +94,7 @@ export const checkWhiteList = async (userId: number, accessToken: string): Promi
 		if (idx >= 0) {
 			log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 존재`);
 			list.white.splice(idx, 1); // 조회한 토큰 삭제
+			await setAsync(String(userId), JSON.stringify(list));
 			return true;
 		}
 	}
@@ -123,6 +124,7 @@ export const clearWhiteList = async (userId: number): Promise<void> => {
 	if (redisData) {
 		const list: RedisTokenList = JSON.parse(redisData);
 		list.white = [];
+		await setAsync(String(userId), JSON.stringify(list));
 		log(`[유저 ${userId}] 토큰 화이트리스트: 초기화`);
 	}
 };

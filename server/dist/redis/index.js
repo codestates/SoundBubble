@@ -89,6 +89,7 @@ const checkWhiteList = async (userId, accessToken) => {
         if (idx >= 0) {
             log_1.log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 존재`);
             list.white.splice(idx, 1); // 조회한 토큰 삭제
+            await exports.setAsync(String(userId), JSON.stringify(list));
             return true;
         }
     }
@@ -116,6 +117,7 @@ const clearWhiteList = async (userId) => {
     if (redisData) {
         const list = JSON.parse(redisData);
         list.white = [];
+        await exports.setAsync(String(userId), JSON.stringify(list));
         log_1.log(`[유저 ${userId}] 토큰 화이트리스트: 초기화`);
     }
 };
