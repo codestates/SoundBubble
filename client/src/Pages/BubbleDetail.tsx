@@ -161,7 +161,7 @@ const BubbleDetail = (): JSX.Element => {
 						}
 					})}
 				</div>
-				<div className="bubble">
+				<div className="bubbleDetail-bubble">
 					<img
 						src={bubbleData.image}
 						alt="COLORS OF MY VOICE"
