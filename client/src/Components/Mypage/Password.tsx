@@ -24,35 +24,52 @@ const Password = (): JSX.Element => {
 	};
 
 	const handleChangePassword = () => {
+		if (newPassword === "" && newPasswordRe === "") {
+			setErrorMsg("비밀번호를 입력해주세요.");
+			return;
+		}
+		if (userState.user.signUpType === "email" || userState.user.signUpType === "intergration") {
+			if (password === "") {
+				setErrorMsg("비밀번호를 입력해주세요.");
+				return;
+			}
+		}
 		if (!pwIsValid(newPassword)) {
 			setErrorMsg("비밀번호는 숫자와 영어 8글자 이상으로 이루어져야 합니다.");
-		} else if (newPassword !== newPasswordRe) {
-			setErrorMsg("새 비밀번호를 다시 확인해주세요");
-		} else {
-			axiosInstance({
-				method: "PATCH",
-				url: `${API_URL}/user/mypage/password`,
-				data: {
-					password: password,
-					newPassword: newPassword,
-				},
-				withCredentials: true,
-			})
-				.then(resp => {
-					setPassword("");
-					setNewPassword("");
-					setNewPasswordRe("");
-					console.log("수정 완료");
-					console.log("응답값", resp.data);
-					resetErrorMsg();
-					// window.location.replace("/mypage/password"); // history.push를 사용하면 새로고침이 안됨
-					dispatch(updateUserType(resp.data.data.userInfo));
-					alert("비밀번호가 수정되었습니다.");
-				})
-				.catch(err => {
-					console.log(err);
-				});
 		}
+		if (newPassword !== newPasswordRe) {
+			setErrorMsg("두 비밀번호가 맞지 않습니다. 새 비밀번호를 다시 확인해주세요");
+			return;
+		}
+
+		axiosInstance({
+			method: "PATCH",
+			url: `${API_URL}/user/mypage/password`,
+			data: {
+				password: password,
+				newPassword: newPassword,
+			},
+			withCredentials: true,
+		})
+			.then(resp => {
+				setPassword("");
+				setNewPassword("");
+				setNewPasswordRe("");
+				console.log("수정 완료");
+				console.log("응답값", resp.data);
+				resetErrorMsg();
+				dispatch(updateUserType(resp.data.data.userInfo));
+				alert("비밀번호가 수정되었습니다.");
+			})
+			.catch(err => {
+				if (err.response) {
+					if (err.response.status === 403) {
+						setErrorMsg("기존 비밀번호를 다시 확인해주세요.");
+					} else if (err.response.status === 409) {
+						setErrorMsg("기존과 동일한 비밀번호로 변경할 수 없습니다.");
+					}
+				}
+			});
 	};
 
 	return (
