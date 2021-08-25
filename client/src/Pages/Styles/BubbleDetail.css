@@ -159,7 +159,7 @@
 	cursor: pointer;
 }
 
-.bubbleDetail-container .bubble {
+.bubbleDetail-container .bubbleDetail-bubble {
 	width: 500px;
 	height: 500px;
 	background-color: #aaa;
@@ -168,12 +168,12 @@
 	position: relative;
 }
 
-.bubbleDetail-container .bubble img {
+.bubbleDetail-container .bubbleDetail-bubble img {
 	width: 100%;
 	cursor: pointer;
 }
 
-.bubbleDetail-container .bubble p {
+.bubbleDetail-container .bubbleDetail-bubble p {
 	position: absolute;
 	transform: translate(-50%, -50%);
 	left: 50%;
