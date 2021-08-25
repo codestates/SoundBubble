@@ -6,14 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const getUserInfo_1 = __importDefault(require("./getUserInfo"));
 const log_1 = require("../utils/log");
 const authUser = async (req, res, next) => {
-    const authorization = req.headers.authorization;
+    // const authorization: string | undefined = req.headers.authorization;
+    const accessToken = req.cookies.AccessToken;
     //* 파라미터 검사
-    if (!authorization) {
-        return res.status(401).json({ message: "Invalid authorization(headers)" });
-    }
-    const accessToken = authorization.split("Bearer ")[1];
+    // if (!authorization) {
+    // 	return res.status(401).json({ message: "Invalid authorization(headers)" });
+    // }
+    // const accessToken: string = authorization.split("Bearer ")[1];
+    // if (!accessToken) {
+    // 	return res.status(401).json({ message: "Token must be Bearer type" });
+    // }
     if (!accessToken) {
-        return res.status(401).json({ message: "Token must be Bearer type" });
+        return res.status(401).json({ message: "Invalid token, token does not exist" });
     }
     //* 토큰으로부터 유저 정보 획득
     const userInfo = await getUserInfo_1.default(res, accessToken);

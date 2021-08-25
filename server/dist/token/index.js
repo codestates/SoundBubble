@@ -3,9 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyRefreshToken = exports.verifyExpiredAccessToken = exports.verifyAccessToken = exports.generateRefreshToken = exports.generateAccessToken = void 0;
+exports.verifyRefreshToken = exports.verifyExpiredAccessToken = exports.verifyAccessToken = exports.generateRefreshToken = exports.generateAccessToken = exports.cookieOptions = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const log_1 = require("../utils/log");
+exports.cookieOptions = {
+    // domain: "localhost",
+    // path: "/",
+    // maxAge: 24 * 60 * 60 * 1000,
+    sameSite: "none",
+    httpOnly: true,
+    secure: true,
+};
 const accessSecret = process.env.ACCESS_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;
 const generateAccessToken = (user) => {

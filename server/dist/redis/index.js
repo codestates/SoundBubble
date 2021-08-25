@@ -11,13 +11,11 @@ const token_1 = require("../token");
 const redisPort = Number(process.env.REDIS_PORT);
 const redisHost = process.env.REDIS_HOST;
 exports.redisClient = redis_1.default.createClient(redisPort, redisHost);
-if (process.env.NODE_ENV === "production") {
-    exports.redisClient.on("error", function (error) {
-        log_1.logError("Redis 접속 실패");
-        console.error(error);
-        // redisClient.quit();
-    });
-}
+exports.redisClient.on("error", function (error) {
+    log_1.logError("Redis 접속 실패");
+    console.error(error);
+    // redisClient.quit();
+});
 exports.redisClient.flushall();
 exports.setAsync = util_1.promisify(exports.redisClient.set).bind(exports.redisClient);
 exports.setexAsync = util_1.promisify(exports.redisClient.setex).bind(exports.redisClient);

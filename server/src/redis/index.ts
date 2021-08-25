@@ -10,13 +10,11 @@ const redisHost: string = process.env.REDIS_HOST as string;
 
 export const redisClient: RedisClient = redis.createClient(redisPort, redisHost);
 
-if (process.env.NODE_ENV === "production") {
-	redisClient.on("error", function (error) {
-		logError("Redis 접속 실패");
-		console.error(error);
-		// redisClient.quit();
-	});
-}
+redisClient.on("error", function (error) {
+	logError("Redis 접속 실패");
+	console.error(error);
+	// redisClient.quit();
+});
 
 redisClient.flushall();
 

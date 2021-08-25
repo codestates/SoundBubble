@@ -28,7 +28,7 @@ const getUserInfo = async (res, accessToken) => {
                     tokenInfo.error = "INVALID";
                     return tokenInfo;
                 }
-                //! 화이트 리스트에 등록된 토큰인지 확인
+                //? 화이트 리스트에 등록된 토큰인지 확인
                 if (process.env.NODE_ENV === "production") {
                     const isTokenInWhiteList = await redis_1.checkWhiteList(decodedExpired.userId, accessToken);
                     if (!isTokenInWhiteList) {
@@ -68,9 +68,10 @@ const getUserInfo = async (res, accessToken) => {
                     }
                     return tokenInfo;
                 }
-                // 검증 성공 -> 액세스 토큰 재발급, 응답 헤더에 저장
+                // 검증 성공 -> 액세스 토큰 재발급, 응답 쿠키에 저장
                 const newAccessToken = await token_1.generateAccessToken(userInfo);
-                res.setHeader("authorization", `Bearer ${newAccessToken}`);
+                // res.setHeader("authorization", `Bearer ${newAccessToken}`);
+                res.cookie("accessToken", newAccessToken, token_1.cookieOptions);
                 log_1.log(`[유저 ${userInfo.id}] 액세스 토큰 재발급 완료`);
                 // 토큰 화이트리스트에 액세스 토큰 저장
                 if (process.env.NODE_ENV === "production") {
@@ -92,7 +93,7 @@ const getUserInfo = async (res, accessToken) => {
         }
         //* (2) 유효한 토큰
         else {
-            //! 블랙리스트에 등록된 토큰인지 확인
+            //? 블랙리스트에 등록된 토큰인지 확인
             if (process.env.NODE_ENV === "production") {
                 const isTokenInBlackList = await redis_1.checkBlackList(decoded.userId, accessToken);
                 if (isTokenInBlackList) {

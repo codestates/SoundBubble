@@ -2,7 +2,7 @@ import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
 import { checkEmailFormat, checkPasswordFormat } from "../../utils/validate";
-import { generateAccessToken, generateRefreshToken } from "../../token/index";
+import { generateAccessToken, generateRefreshToken, cookieOptions } from "../../token";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
 import { insertWhiteList } from "../../redis";
@@ -33,15 +33,18 @@ const login: RequestHandler = async (req: Request, res: Response, next: NextFunc
 		const accessToken: string = generateAccessToken(userInfo);
 		const refreshToken: string = generateRefreshToken(userInfo);
 
-		//* DB에 리프레시 토큰 저장
+		// DB에 리프레시 토큰 저장
 		await UserToken.insertToken(userInfo.id, refreshToken);
 
-		//* 토큰 화이트리스트에 액세스 토큰 저장
+		// 토큰 화이트리스트에 액세스 토큰 저장
 		if (process.env.NODE_ENV === "production") {
 			await insertWhiteList(userInfo.id, accessToken);
 		}
 
-		return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
+		// 응답 쿠키에 액세스 토큰 설정
+		res.cookie("accessToken", accessToken, cookieOptions);
+
+		return res.status(201).json({ data: { userInfo }, message: "Login succeed" });
 	} catch (err) {
 		logError("Failed to login");
 		next(err);
