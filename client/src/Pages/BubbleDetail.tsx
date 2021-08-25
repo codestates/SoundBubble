@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./Styles/BubbleDetail.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import backIcon from "./Styles/back.png";
 import trashcan from "./Styles/trashcan.png";
+// import LoginModal from "../Components/BubbleDetail/LoginModal";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
@@ -17,7 +18,11 @@ const BubbleDetail = (): JSX.Element => {
 	const [commentInput, setCommentInput] = useState("");
 	const [bubbleComments, setBubbleComments] = useState([]);
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [hasError, setHasError] = useState(false);
+	const [isModal, setIsModal] = useState(false);
+
+	const handleCloseModal = (): any => {
+		setIsModal(false);
+	};
 
 	const getBubbleId = (): string => {
 		return window.location.pathname.split("/")[2];
@@ -59,6 +64,7 @@ const BubbleDetail = (): JSX.Element => {
 	const handleSubmitComment = async (text: string) => {
 		if (!state.accessToken) {
 			if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) history.push("/login");
+			setIsModal(true);
 		}
 		await axios({
 			method: "POST",
@@ -73,7 +79,7 @@ const BubbleDetail = (): JSX.Element => {
 		});
 	};
 
-	const handleDeleteComment: any = async id => {
+	const handleDeleteComment = async id => {
 		await axios({
 			method: "DELETE",
 			url: `${URL}/bubble/${bubbleId}/comment`,
@@ -86,7 +92,7 @@ const BubbleDetail = (): JSX.Element => {
 		});
 	};
 
-	const handleDeleteBubble: any = async () => {
+	const handleDeleteBubble = async () => {
 		if (confirm("버블을 삭제하시겠습니까?"))
 			await axios({
 				method: "DELETE",
@@ -116,6 +122,7 @@ const BubbleDetail = (): JSX.Element => {
 
 	return (
 		<>
+			{/* {isModal ? <LoginModal handleCloseModal={handleCloseModal} /> : null} */}
 			<div className="bubbleDetail-container">
 				<div>
 					<img

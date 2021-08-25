@@ -3,21 +3,18 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import profile from "../Static/profile-img.png";
 import Footer from "../Components/Footer";
 import Navigation from "../Components/Navigation";
-import { useHistory } from "react-router-dom";
 import MyPalettes from "../Components/Mypage/MyPalettes";
 import Nickname from "../Components/Mypage/Nickname";
 import Password from "../Components/Mypage/Password";
 import "./Styles/Mypage.css";
 import MainTutorial from "../Components/Tutorial/MainTutorial";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
 
 const Mypage = (): JSX.Element => {
 	const state = useSelector((state: RootReducerType) => state.userReducer);
 	const userImg = state.profileImage;
-	console.log(state);
-
 	const [openTutorial, setOpenTutorial] = useState<boolean>(false);
 
 	const handleCloseTutorial = () => {
