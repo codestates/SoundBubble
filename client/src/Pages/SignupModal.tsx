@@ -12,7 +12,7 @@ const SignupModal = (): JSX.Element => {
 	const [PW, setPW] = useState("");
 	const [RePW, setRePW] = useState("");
 	const [errorMsg, setErrorMsg] = useState("");
-	const URL = process.env.REACT_APP_API_URL;
+	const API_URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
 	const [isModal, setIsModal] = useState(false);
 
@@ -38,7 +38,7 @@ const SignupModal = (): JSX.Element => {
 		if (handleSamePW(PW, RePW)) {
 			axios({
 				method: "POST",
-				url: `${URL}/user/signup`,
+				url: `${API_URL}/user/signup`,
 				data: {
 					email: ID,
 					password: PW,

@@ -17,7 +17,7 @@ const Modal = ({ handleCloseModal }: Props): JSX.Element => {
 							</button>
 						</div>
 					</div>
-					<div className="modal-content"></div>
+					<div className="modal-content">{}</div>
 				</main>
 			</div>
 		</>

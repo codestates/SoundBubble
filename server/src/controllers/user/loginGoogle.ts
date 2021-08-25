@@ -5,6 +5,7 @@ import { generateAccessToken, generateRefreshToken } from "../../token/index";
 import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
 import { GetTokenResponse } from "google-auth-library/build/src/auth/oauth2client";
 import { logError } from "../../utils/log";
+import { insertWhiteList } from "../../redis";
 
 const loginGoogle: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	//* 클라이언트로부터 Authorization Code 획득
@@ -85,6 +86,10 @@ const loginGoogle: RequestHandler = async (req: Request, res: Response, next: Ne
 		const refreshToken: string = generateRefreshToken(userInfo);
 
 		await UserToken.insertToken(userInfo.id, refreshToken);
+
+		if (process.env.NODE_ENV === "production") {
+			await insertWhiteList(userInfo.id, accessToken);
+		}
 
 		return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
 	} catch (err) {

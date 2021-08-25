@@ -5,6 +5,7 @@ const UserToken_1 = require("../../entity/UserToken");
 const index_1 = require("../../token/index");
 const google_auth_library_1 = require("google-auth-library");
 const log_1 = require("../../utils/log");
+const redis_1 = require("../../redis");
 const loginGoogle = async (req, res, next) => {
     //* 클라이언트로부터 Authorization Code 획득
     const authorizationCode = req.body.authorizationCode;
@@ -73,6 +74,9 @@ const loginGoogle = async (req, res, next) => {
         const accessToken = index_1.generateAccessToken(userInfo);
         const refreshToken = index_1.generateRefreshToken(userInfo);
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
+        if (process.env.NODE_ENV === "production") {
+            await redis_1.insertWhiteList(userInfo.id, accessToken);
+        }
         return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
     }
     catch (err) {

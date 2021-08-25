@@ -29,6 +29,7 @@ app.use(cors_1.default({
     origin: true,
     credentials: true,
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    exposedHeaders: ["authorization"],
 }));
 app.use(cookie_parser_1.default());
 app.use(express_1.default.json());

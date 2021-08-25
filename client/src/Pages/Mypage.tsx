@@ -13,8 +13,12 @@ import { useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
 
 const Mypage = (): JSX.Element => {
-	const state = useSelector((state: RootReducerType) => state.userReducer);
-	const userImg = state.profileImage;
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
+	const userImg = userState.user.profileImage;
+	console.log("Mypage-userState:", userState);
+	console.log("Mypage-tokenState:", tokenState);
+
 	const [openTutorial, setOpenTutorial] = useState<boolean>(false);
 
 	const handleCloseTutorial = () => {
@@ -36,8 +40,8 @@ const Mypage = (): JSX.Element => {
 						<div className="userImg">
 							{userImg ? <img src={userImg} alt="프로필 사진" /> : <img src={profile} alt="프로필 사진" />}
 						</div>
-						<div className="userId">{state.email}</div>
-						<div className="userId">{state.nickname}</div>
+						<div className="userId">{userState.user.email}</div>
+						<div className="userId">{userState.user.nickname}</div>
 						<div className="sideTap">
 							<Link to="/mypage" className="tap">
 								닉네임 변경

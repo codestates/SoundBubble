@@ -5,8 +5,9 @@ import INSTA from "../Static/icons/insta_share.png";
 import KAKAO from "../Static/icons/kakao_share.png";
 import FACEBOOK from "../Static/icons/facebook_share.png";
 import SHARE from "../Static/icons/share_icon.png";
-import axios from "axios";
-import { useSelector } from "react-redux";
+// import axios from "axios";
+import axiosInstance from '../axios';
+import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
 import styled from "styled-components";
@@ -22,22 +23,29 @@ interface Props {
 
 const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const history = useHistory();
-	const BUBBLE_URL = process.env.REACT_APP_API_URL;
+	const API_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
-	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const { accessToken } = userState;
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
+	const { accessToken } = tokenState;
+	const dispatch = useDispatch();
 
 	const handleBubbleUpload = (): void => {
 		console.log("업로드 bubbleData", bubbleData);
+
+		if (!accessToken) {
+			setNeedLogin(true);
+			return;
+		}
+
 		const formData = new FormData();
 		// formData.append("image", viewImage);
 		formData.append("image", bubbleData.image as File);
 		formData.append("sound", bubbleData.sound as File);
 		formData.append("textContent", textContent);
 
-		axios({
+		axiosInstance({
 			method: "POST",
-			url: `${BUBBLE_URL}/bubble/upload`,
+			url: `${API_URL}/bubble/upload`,
 			data: formData,
 			headers: {
 				"Content-Type": "multipart/form-data",
@@ -51,8 +59,8 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 				history.push("/palette");
 			})
 			.catch(err => {
-				if (err.response.status === 401) setNeedLogin(true);
-				else console.log("업로드 에러");
+				// if (err.response.status === 401) setNeedLogin(true);
+				console.log("업로드 에러");
 			});
 	};
 

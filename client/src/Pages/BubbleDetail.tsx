@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Styles/BubbleDetail.css";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from '../axios';
 import { useHistory } from "react-router-dom";
 import backIcon from "./Styles/back.png";
 import trashcan from "./Styles/trashcan.png";
@@ -11,8 +12,9 @@ import { RootReducerType } from "../Store";
 
 const BubbleDetail = (): JSX.Element => {
 	const dispatch = useDispatch();
-	const state = useSelector((state: RootReducerType) => state.userReducer);
-	const URL = process.env.REACT_APP_API_URL;
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
+	const API_URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
 
 	const [commentInput, setCommentInput] = useState("");
@@ -38,18 +40,18 @@ const BubbleDetail = (): JSX.Element => {
 	});
 
 	const getBubbleData = async () => {
-		await axios({
+		await axiosInstance({
 			method: "GET",
-			url: `${URL}/bubble/${bubbleId}`,
+			url: `${API_URL}/bubble/${bubbleId}`,
 		}).then(res => {
 			setBubbleData(res.data.data.bubble);
 		});
 	};
 
 	const getComment = async () => {
-		await axios({
+		await axiosInstance({
 			method: "GET",
-			url: `${URL}/bubble/${bubbleId}`,
+			url: `${API_URL}/bubble/${bubbleId}`,
 		}).then(res => {
 			setBubbleComments(res.data.data.comments);
 			console.log("받아와짐");
@@ -62,16 +64,16 @@ const BubbleDetail = (): JSX.Element => {
 	}, []);
 
 	const handleSubmitComment = async (text: string) => {
-		if (!state.accessToken) {
+		if (!tokenState.accessToken) {
 			if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) history.push("/login");
 			setIsModal(true);
 		}
-		await axios({
+		await axiosInstance({
 			method: "POST",
-			url: `${URL}/bubble/${bubbleId}/comment`,
+			url: `${API_URL}/bubble/${bubbleId}/comment`,
 			data: { textContent: text },
 			headers: {
-				authorization: `Bearer ${state.accessToken}`,
+				authorization: `Bearer ${tokenState.accessToken}`,
 			},
 		}).then(() => {
 			setCommentInput("");
@@ -80,12 +82,12 @@ const BubbleDetail = (): JSX.Element => {
 	};
 
 	const handleDeleteComment = async id => {
-		await axios({
+		await axiosInstance({
 			method: "DELETE",
-			url: `${URL}/bubble/${bubbleId}/comment`,
+			url: `${API_URL}/bubble/${bubbleId}/comment`,
 			data: { commentId: id },
 			headers: {
-				authorization: `Bearer ${state.accessToken}`,
+				authorization: `Bearer ${tokenState.accessToken}`,
 			},
 		}).then(() => {
 			getComment();
@@ -94,11 +96,11 @@ const BubbleDetail = (): JSX.Element => {
 
 	const handleDeleteBubble = async () => {
 		if (confirm("버블을 삭제하시겠습니까?"))
-			await axios({
+			await axiosInstance({
 				method: "DELETE",
-				url: `${URL}/bubble/${bubbleId}`,
+				url: `${API_URL}/bubble/${bubbleId}`,
 				headers: {
-					authorization: `Bearer ${state.accessToken}`,
+					authorization: `Bearer ${tokenState.accessToken}`,
 				},
 			}).then(() => {
 				history.push("/palette");
@@ -138,7 +140,7 @@ const BubbleDetail = (): JSX.Element => {
 				<div className="comment-container">
 					{bubbleComments.map((comment: any, i: number) => {
 						const commentId = comment.id;
-						if (comment.user.email === state.email) {
+						if (comment.user.email === userState.user.email) {
 							return (
 								<p
 									key={i}

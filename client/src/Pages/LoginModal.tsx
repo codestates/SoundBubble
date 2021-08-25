@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser } from "../actions/index";
+import { setUserInfo, setAccessToken } from "../actions";
 import { RootReducerType } from "../Store";
 import "./Styles/LoginModal.css";
 
@@ -13,7 +13,8 @@ const LoginModal = (): JSX.Element => {
 
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const state = useSelector((state: RootReducerType) => state.userReducer);
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 	const API_URL = process.env.REACT_APP_API_URL;
 
 	//* Normal login
@@ -28,7 +29,8 @@ const LoginModal = (): JSX.Element => {
 		})
 			.then(resp => {
 				const { accessToken, userInfo } = resp.data.data;
-				dispatch(loginUser(userInfo, accessToken));
+				dispatch(setUserInfo(userInfo));
+				dispatch(setAccessToken(accessToken));
 				history.push("/main");
 			})
 			.catch(err => {
@@ -54,7 +56,10 @@ const LoginModal = (): JSX.Element => {
 			})
 			.then(res => {
 				const { accessToken, userInfo } = res.data.data;
-				dispatch(loginUser(userInfo, accessToken));
+				dispatch(setUserInfo(userInfo));
+				dispatch(setAccessToken(accessToken));
+				console.log("LoginModal: userState", userState);
+				console.log("LoginModal: tokenState", tokenState)
 				history.push("/main");
 			})
 			.catch(err => {
@@ -107,7 +112,7 @@ const LoginModal = (): JSX.Element => {
 								Sign in with Google
 							</button>
 						</div>
-						<hr className="login-divider"/>
+						<hr className="login-divider" />
 						<fieldset className="login-user-email">
 							<label className="login-label">Email Address</label>
 							<input className="login-input-email" type="email" onChange={e => setID(e.target.value)} />
