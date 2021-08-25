@@ -7,9 +7,12 @@ export const cookieOptions: CookieOptions = {
 	// domain: "localhost",
 	// path: "/",
 	// maxAge: 24 * 60 * 60 * 1000,
-	sameSite: "none",
 	httpOnly: true,
+	//* https
 	secure: true,
+	sameSite: "none",
+	//* http
+	// sameSite: "Lax",
 };
 
 const accessSecret: string = process.env.ACCESS_SECRET as string;

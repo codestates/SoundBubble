@@ -84,7 +84,8 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 
 				// 검증 성공 -> 액세스 토큰 재발급, 응답 쿠키에 저장
 				const newAccessToken: string = await generateAccessToken(userInfo);
-				// res.setHeader("authorization", `Bearer ${newAccessToken}`);
+				//!! 공통옵션
+				res.setHeader("authorization", `Bearer ${newAccessToken}`);
 				res.cookie("accessToken", newAccessToken, cookieOptions);
 				log(`[유저 ${userInfo.id}] 액세스 토큰 재발급 완료`);
 

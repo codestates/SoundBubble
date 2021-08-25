@@ -93,7 +93,7 @@ const loginGoogle: RequestHandler = async (req: Request, res: Response, next: Ne
 
 		res.cookie("accessToken", accessToken, cookieOptions);
 
-		return res.json({ data: { userInfo }, message: "Login succeed" });
+		return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
 	} catch (err) {
 		logError("Faild to google login");
 		next(err);

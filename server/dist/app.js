@@ -11,10 +11,14 @@ const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const connectDB_1 = require("./connectDB");
 const error_1 = require("./error");
+const fs_1 = __importDefault(require("fs"));
+const https_1 = __importDefault(require("https"));
 const userRouter_1 = __importDefault(require("./routes/userRouter"));
 const bubbleRouter_1 = __importDefault(require("./routes/bubbleRouter"));
 //* Express App
 const app = express_1.default();
+//* Connect DB
+connectDB_1.connectDB();
 //* Middleware
 const morganFormat = `"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length]`;
 app.use(morgan_1.default(morganFormat, {
@@ -53,7 +57,20 @@ app.use((err, req, res, next) => {
     }
     res.status(500).send("Internal Server Error");
 });
-//* Connect DB
-connectDB_1.connectDB();
-exports.default = app;
+//* Server listen
+const PORT = Number(process.env.SERVER_PORT) || 80;
+let server;
+if (process.env.NODE_ENV !== "production") {
+    if (fs_1.default.existsSync("./key.pem") && fs_1.default.existsSync("./cert.pem")) {
+        const privateKey = fs_1.default.readFileSync(__dirname + "/../key.pem", "utf8");
+        const certificate = fs_1.default.readFileSync(__dirname + "/../cert.pem", "utf8");
+        const credentials = { key: privateKey, cert: certificate };
+        server = https_1.default.createServer(credentials, app);
+        server.listen(PORT, () => console.log(`HTTPS server is runnning on ${PORT}`));
+    }
+}
+else {
+    server = app.listen(PORT, () => console.log(`HTTP server is runnning on ${PORT}`));
+}
+// app.listen(PORT, () => console.log(`Server is runnning on ${PORT}`));
 //# sourceMappingURL=app.js.map

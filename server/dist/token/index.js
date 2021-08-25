@@ -10,9 +10,12 @@ exports.cookieOptions = {
     // domain: "localhost",
     // path: "/",
     // maxAge: 24 * 60 * 60 * 1000,
-    sameSite: "none",
     httpOnly: true,
+    //* https
     secure: true,
+    sameSite: "none",
+    //* http
+    // sameSite: "Lax",
 };
 const accessSecret = process.env.ACCESS_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;

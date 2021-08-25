@@ -93,7 +93,7 @@ const loginNaver: RequestHandler = async (req: Request, res: Response, next: Nex
 
 		res.cookie("accessToken", accessToken, cookieOptions);
 
-		return res.json({ data: { userInfo }, message: "Login succeed" });
+		return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
 	} catch (err) {
 		logError("Faild to Naver login");
 		next(err);

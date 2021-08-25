@@ -7,12 +7,17 @@ import cors from "cors";
 import morgan from "morgan";
 import { connectDB } from "./connectDB";
 import { FileTypeError } from "./error";
+import fs from "fs";
+import https from "https";
 
 import userRouter from "./routes/userRouter";
 import bubbleRouter from "./routes/bubbleRouter";
 
 //* Express App
 const app: express.Application = express();
+
+//* Connect DB
+connectDB();
 
 //* Middleware
 const morganFormat = `"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length]`;
@@ -60,7 +65,20 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 	res.status(500).send("Internal Server Error");
 });
 
-//* Connect DB
-connectDB();
+//* Server listen
+const PORT: number = Number(process.env.SERVER_PORT) || 80;
 
-export default app;
+let server;
+if (process.env.NODE_ENV !== "production") {
+	if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
+		const privateKey = fs.readFileSync(__dirname + "/../key.pem", "utf8");
+		const certificate = fs.readFileSync(__dirname + "/../cert.pem", "utf8");
+		const credentials = { key: privateKey, cert: certificate };
+
+		server = https.createServer(credentials, app);
+		server.listen(PORT, () => console.log(`HTTPS server is runnning on ${PORT}`));
+	}
+} else {
+	server = app.listen(PORT, () => console.log(`HTTP server is runnning on ${PORT}`));
+}
+// app.listen(PORT, () => console.log(`Server is runnning on ${PORT}`));

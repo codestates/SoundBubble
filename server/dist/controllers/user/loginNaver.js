@@ -83,7 +83,7 @@ const loginNaver = async (req, res, next) => {
             await redis_1.insertWhiteList(userInfo.id, accessToken);
         }
         res.cookie("accessToken", accessToken, token_1.cookieOptions);
-        return res.json({ data: { userInfo }, message: "Login succeed" });
+        return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
     }
     catch (err) {
         log_1.logError("Faild to Naver login");
