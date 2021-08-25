@@ -4,6 +4,8 @@ import Piano from "../Piano/Piano";
 import Piano2 from "../Piano2/Piano2";
 import UploadModal from "../../Components/UploadModal";
 import { BubbleData } from "../../@type/request";
+import upArrow from "../Styles/arrow-up.png";
+import downArrow from "../Styles/arrow-down.png";
 
 const MainPiano = ({ backColor }: any): JSX.Element => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -266,6 +268,13 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 		if (!smallPiano) handlePainting(note);
 	};
 
+	const [pianoState, setPianoState] = useState(false);
+
+	const pianoToggle = () => {
+		if (pianoState) setPianoState(false);
+		else setPianoState(true);
+	};
+
 	return (
 		<>
 			{isModal ? (
@@ -286,9 +295,23 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 					</>
 				) : (
 					<>
-						<canvas id="canvas" width="500px" height="500px" ref={canvasRef}></canvas>
+						<canvas id="canvas" width="500px" height="500px" onClick={handleUploadModal} ref={canvasRef}></canvas>
 						<div className="main-content-box">
-							<Piano2 handleClick={handleClickPiano2} />
+							{pianoState ? (
+								<>
+									<img src={upArrow} alt="up" onClick={pianoToggle} className="upbtn" />
+									<div className="main-content-box-piano" style={{ display: "none" }}>
+										<Piano2 handleClick={handleClickPiano2} />
+									</div>
+								</>
+							) : (
+								<>
+									<img src={downArrow} alt="down" onClick={pianoToggle} className="btn" />
+									<div className="main-content-box-piano">
+										<Piano2 handleClick={handleClickPiano2} />
+									</div>
+								</>
+							)}
 						</div>
 					</>
 				)}

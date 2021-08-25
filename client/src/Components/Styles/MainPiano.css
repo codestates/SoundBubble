@@ -14,15 +14,65 @@
 	border: none;
 	background-color: rgb(255, 255, 255);
 	border-radius: 50%;
+	box-shadow: 0px 0px 70px rgb(255, 254, 214);
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+#canvas:hover {
+	transform: scale(1.015);
+	transition-duration: 0.15s;
 }
 
 .main-content-box {
 	position: absolute;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
 	bottom: 0%;
+}
+
+.main-content-box-piano {
+	animation: slide-up 0.6s;
+}
+
+.main-content-box > img {
+	width: 100px;
+	height: 50px;
+	color: white;
+	animation: jump-Button 1.3s infinite;
+	cursor: pointer;
+}
+
+.create-bubble-btn {
+	width: 100px;
+	height: 50px;
+	background-color: red;
+}
+
+@keyframes slide-up {
+	0% {
+		opacity: 0;
+		transform: translateY(50%);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+}
+@keyframes jump-Button {
+	0% {
+		transform: translateY(0%);
+	}
+	50% {
+		transform: translateY(-15%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
 }
 
 @media screen and (max-width: 1670px) {

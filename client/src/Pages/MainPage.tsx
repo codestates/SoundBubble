@@ -65,7 +65,7 @@ const MainPage = (): JSX.Element => {
 				<div className="main-left">
 					<MainSelectBar select={select} handleBtnClick={handleBtnClick} />
 					<div className="bubble-color-box">
-						<p className="bubble-color-message">color</p>
+						<p className="bubble-color-message">Bubble Color</p>
 						<div className="color-picker">
 							<CirclePicker
 								className="circle-picker"
@@ -79,7 +79,7 @@ const MainPage = (): JSX.Element => {
 					</div>
 					{select === "mic" ? (
 						<div className="bubble-speed-box">
-							<p className="bubble-speed-message">Sensitivity</p>
+							<p className="bubble-speed-message">Mic Sensitivity</p>
 							<input
 								type="range"
 								min="100"
