@@ -70,7 +70,7 @@ export const insertBlackList = async (userId: number, accessToken: string): Prom
 
 		list.black.push(accessToken);
 		await setAsync(String(userId), JSON.stringify(list));
-		log(`[유저 userId] 토큰 블랙리스트: 토큰 등록`);
+		log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 등록`);
 	} else {
 		const list: RedisTokenList = {
 			white: [],

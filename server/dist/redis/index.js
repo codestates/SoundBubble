@@ -66,7 +66,7 @@ const insertBlackList = async (userId, accessToken) => {
         }
         list.black.push(accessToken);
         await exports.setAsync(String(userId), JSON.stringify(list));
-        log_1.log(`[유저 userId] 토큰 블랙리스트: 토큰 등록`);
+        log_1.log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 등록`);
     }
     else {
         const list = {
