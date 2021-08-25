@@ -21,9 +21,19 @@ const Nickname = (): JSX.Element => {
 	};
 
 	const handleChangeNickname = async () => {
+		if (nickname === "") {
+			setErrorMsg("닉네임을 입력해주세요.");
+			return;
+		}
 		if (userState.user.nickname === nickname) {
 			setErrorMsg("새로운 닉네임을 입력해주세요.");
 			return;
+		}
+		if (userState.user.signUpType === "email" || userState.user.signUpType === "intergration") {
+			if (password === "") {
+				setErrorMsg("비밀번호를 입력해주세요.");
+				return;
+			}
 		}
 
 		await axiosInstance({
