@@ -20,7 +20,7 @@ interface Select {
 
 // ? Mode에 따른 컴포넌트 랜더링
 function ChoiceMode({ select, backColor, pickSpeed }: Select): JSX.Element {
-	if (select === "piano") return <MainPiano />;
+	if (select === "piano") return <MainPiano backColor={backColor} />;
 	else if (select === "mic") return <MainMic backColor={backColor} pickSpeed={pickSpeed} />;
 	else if (select === "upload") return <MainUpload />;
 	else return <Error404 />;
@@ -65,7 +65,7 @@ const MainPage = (): JSX.Element => {
 				<div className="main-left">
 					<MainSelectBar select={select} handleBtnClick={handleBtnClick} />
 					<div className="bubble-color-box">
-						<p className="bubble-color-message">color</p>
+						<p className="bubble-color-message">Bubble Color</p>
 						<div className="color-picker">
 							<CirclePicker
 								className="circle-picker"
@@ -77,17 +77,19 @@ const MainPage = (): JSX.Element => {
 							<button className="black-btn" onClick={() => setBackColor("#000000")}></button>
 						</div>
 					</div>
-					<div className="bubble-speed-box">
-						<p className="bubble-speed-message">speed</p>
-						<input
-							type="range"
-							min="100"
-							max="600"
-							onChange={e => setPickSpeed(Number(e.target.value))}
-							value={pickSpeed}
-							className="speedSlider"
-						/>
-					</div>
+					{select === "mic" ? (
+						<div className="bubble-speed-box">
+							<p className="bubble-speed-message">Mic Sensitivity</p>
+							<input
+								type="range"
+								min="100"
+								max="600"
+								onChange={e => setPickSpeed(Number(e.target.value))}
+								value={pickSpeed}
+								className="speedSlider"
+							/>
+						</div>
+					) : null}
 					<div className="bubble-btn-box">
 						<button
 							className="reset-btn"

@@ -59,11 +59,122 @@ li {
 	cursor: pointer;
 }
 
+.nav-hamburger {
+	display: none;
+}
+
+.nav-hamburger-btn {
+	display: none;
+}
+
+.nav-close-btn {
+	display: none;
+}
+
+.nav-hamburger-bar {
+	display: none;
+}
+
 @media (max-width: 1200px) {
 	.right-nav-bar {
 		width: 50%;
 	}
 	.right-nav-bar li {
 		margin-right: 0.8rem;
+		font-size: 1rem;
+	}
+	.nav-login-btn {
+		padding: 0.4rem 1rem;
+		font-size: 1rem;
+	}
+  .left-nav-bar {
+    margin-left: 5vw;
+    width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+	.navigation {
+		z-index: 900;
+		position: fixed;
+		height: 80px;
+	}
+	.nav-container{
+		position: fixed;
+		margin: 0px;
+		height: 0px;
+	}
+	.nav-logo {
+    width: 30vw;
+    height: auto;
+		margin-left: 5vw;
+  }
+	.left-nav-bar {
+		margin-left: 32vw;
+	}
+	.nav-hamburger {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100vh;
+	}
+	.nav-hamburger-btn {
+		margin-top: 25px;
+		margin-right: 5%;
+		display: flex;
+		width: 20px;
+		height: 20px;
+		background-image: url(menu.png);
+		background-repeat: no-repeat;
+		background-size: contain;
+		transition: all .35s;
+	}
+	.nav-close-btn {
+		flex-direction: column;
+		margin-top: 25px;
+		margin-left: 70%;
+		text-align: right;
+		display: flex;
+		width: 100%;
+		height: 16px;
+		background-image: url(close.png);
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+
+	.right-nav-bar {
+		display: none;
+	}
+	.nav-hamburger-bar {
+		display: flex;
+		z-index: 900;
+		margin-top: 39px;
+		margin-left: -205%;
+		flex-direction: column;
+		width: 305%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.9);
+		background-size: 100vw 100vh;
+	}
+	.nav-hamburger-bar li {
+		text-align: right;
+		padding: 0.5rem 0;
+	}
+	.nav-hamburger-bar a {
+		font-size: 1.2rem;
+		margin-right: 5%;
+	}
+	.nav-hr {
+		display: flex;
+		text-align: right;
+		width: 95%;
+		border: 0.5px solid rgba(255, 255, 255, 0.4);
+	}
+	.nav-user-img {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		margin-right: 20px;
+		object-fit: cover;
 	}
 }

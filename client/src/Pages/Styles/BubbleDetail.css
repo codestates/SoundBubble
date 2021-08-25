@@ -54,28 +54,6 @@
 	color: rgb(33, 39, 50);
 	text-shadow: none;
 }
-
-.bubbleDetail-container .comment-container p:nth-child(1) {
-	left: 40%;
-	top: 10%;
-}
-.bubbleDetail-container .comment-container p:nth-child(2) {
-	left: 10%;
-	top: 30%;
-}
-.bubbleDetail-container .comment-container p:nth-child(3) {
-	left: 80%;
-	top: 50%;
-}
-.bubbleDetail-container .comment-container p:nth-child(4) {
-	left: 70%;
-	top: 70%;
-}
-.bubbleDetail-container .comment-container p:nth-child(5) {
-	left: 30%;
-	top: 90%;
-}
-
 .comment-user-nickname {
 	opacity: 0;
 	position: absolute;
@@ -108,56 +86,80 @@
 	height: 10px;
 	background: rgb(119, 112, 255);
 }
-/* 
-.bubbleDetail-container .comment-container p:nth-child(6) {
-	left: 10%;
+.bubbleDetail-container .comment-container p:nth-child(1) {
+	left: 40%;
 	top: 10%;
 }
-.bubbleDetail-container .comment-container p:nth-child(7) {
-	left: 20%;
-	top: 20%;
-}
-.bubbleDetail-container .comment-container p:nth-child(8) {
-	left: 30%;
+.bubbleDetail-container .comment-container p:nth-child(2) {
+	left: 10%;
 	top: 30%;
 }
-.bubbleDetail-container .comment-container p:nth-child(9) {
-	left: 40%;
-	top: 40%;
-}
-.bubbleDetail-container .comment-container p:nth-child(10) {
-	left: 50%;
+.bubbleDetail-container .comment-container p:nth-child(3) {
+	left: 80%;
 	top: 50%;
 }
-.bubbleDetail-container .comment-container p:nth-child(11) {
-	left: 60%;
-	top: 60%;
-}
-.bubbleDetail-container .comment-container p:nth-child(12) {
+.bubbleDetail-container .comment-container p:nth-child(4) {
 	left: 70%;
 	top: 70%;
 }
+.bubbleDetail-container .comment-container p:nth-child(5) {
+	left: 30%;
+	top: 90%;
+}
+
+.bubbleDetail-container .comment-container p:nth-child(6) {
+	left: 20%;
+	top: 60%;
+}
+
+.bubbleDetail-container .comment-container p:nth-child(7) {
+	left: 75%;
+	top: 15%;
+}
+
+.bubbleDetail-container .comment-container p:nth-child(8) {
+	left: 80%;
+	top: 30%;
+}
+
+.bubbleDetail-container .comment-container p:nth-child(9) {
+	left: 25%;
+	top: 20%;
+}
+
+.bubbleDetail-container .comment-container p:nth-child(10) {
+	left: 5%;
+	top: 76%;
+}
+.bubbleDetail-container .comment-container p:nth-child(11) {
+	left: 50%;
+	top: 80%;
+}
+.bubbleDetail-container .comment-container p:nth-child(12) {
+	left: 70%;
+	top: 7%;
+}
 .bubbleDetail-container .comment-container p:nth-child(13) {
+	left: 2%;
+	top: 45%;
+}
+.bubbleDetail-container .comment-container p:nth-child(14) {
 	left: 80%;
 	top: 80%;
 }
-.bubbleDetail-container .comment-container p:nth-child(14) {
-	left: 90%;
+.bubbleDetail-container .comment-container p:nth-child(15) {
+	left: 70%;
 	top: 90%;
 }
-.bubbleDetail-container .comment-container p:nth-child(15) {
-	left: 100%;
-	top: 100%;
-} */
 
 .bubbleDetail-container .comment-container p.my-comment {
-	font-size: 30px;
+	font-size: 20px;
 	color: rgba(240, 240, 164, 0.897);
 	text-shadow: none;
 	cursor: pointer;
 }
 
-.bubbleDetail-container .bubble {
+.bubbleDetail-container .bubbleDetail-bubble {
 	width: 500px;
 	height: 500px;
 	background-color: #aaa;
@@ -166,12 +168,12 @@
 	position: relative;
 }
 
-.bubbleDetail-container .bubble img {
+.bubbleDetail-container .bubbleDetail-bubble img {
 	width: 100%;
 	cursor: pointer;
 }
 
-.bubbleDetail-container .bubble p {
+.bubbleDetail-container .bubbleDetail-bubble p {
 	position: absolute;
 	transform: translate(-50%, -50%);
 	left: 50%;
@@ -186,8 +188,8 @@
 	position: absolute;
 	bottom: 30px;
 	left: 30px;
-	color: rgb(119, 112, 255);
-	font-size: 1.5rem;
+	color: rgb(192, 192, 192);
+	font-size: 1.2rem;
 }
 
 .bubbleDetail-container .heart-container i {
