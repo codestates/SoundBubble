@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const getUserInfo_1 = __importDefault(require("./getUserInfo"));
-const redis_1 = require("../redis");
 const log_1 = require("../utils/log");
 const authUser = async (req, res, next) => {
     const authorization = req.headers.authorization;
@@ -33,23 +32,22 @@ const authUser = async (req, res, next) => {
     if (!userId || !email || !accountType || !currentToken) {
         return res.status(401).json({ message: "Invalid token, login again" });
     }
-    //* 블랙리스트에 등록된 토큰인지 확인
-    if (process.env.NODE_ENV === "production") {
-        try {
-            const data = await redis_1.getAsync(String(userId));
-            if (data) {
-                const parsedList = JSON.parse(data);
-                if (parsedList.includes(currentToken)) {
-                    log_1.log(`[유저 ${userId}] 토큰 검증 실패: 블랙리스트에 등록된 토큰 사용`);
-                    return res.status(401).json({ message: "Invalid token, login again" });
-                }
-            }
-        }
-        catch (err) {
-            log_1.logError("[유저 ${userId}] 블랙리스트 조회 실패");
-            next(err);
-        }
-    }
+    //! 블랙리스트에 등록된 토큰인지 확인
+    // if (process.env.NODE_ENV === "production") {
+    // 	try {
+    // 		const data: string | null = await getAsync(String(userId));
+    // 		if (data) {
+    // 			const parsedList: string[] = JSON.parse(data);
+    // 			if (parsedList.includes(currentToken)) {
+    // 				log(`[유저 ${userId}] 토큰 검증 실패: 블랙리스트에 등록된 토큰 사용`);
+    // 				return res.status(401).json({ message: "Invalid token, login again" });
+    // 			}
+    // 		}
+    // 	} catch (err) {
+    // 		logError("[유저 ${userId}] 블랙리스트 조회 실패");
+    // 		next(err);
+    // 	}
+    // }
     //* req 객체에 유저 정보를 담고 컨트롤러로 이동
     log_1.log(`[유저 ${userId}] 토큰 검증 성공: email: ${email}. accountType: ${accountType}`);
     req.userInfo = userInfo;

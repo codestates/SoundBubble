@@ -9,6 +9,7 @@ const validate_1 = require("../../utils/validate");
 const index_1 = require("../../token/index");
 const hash_1 = __importDefault(require("../../utils/hash"));
 const log_1 = require("../../utils/log");
+const redis_1 = require("../../redis");
 const login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -31,6 +32,10 @@ const login = async (req, res, next) => {
         const refreshToken = index_1.generateRefreshToken(userInfo);
         //* DB에 리프레시 토큰 저장
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
+        //* 토큰 화이트리스트에 액세스 토큰 저장
+        if (process.env.NODE_ENV === "production") {
+            await redis_1.insertWhiteList(userInfo.id, accessToken);
+        }
         return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
     }
     catch (err) {

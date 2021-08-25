@@ -5,6 +5,7 @@ import { User } from "../entity/User";
 import { UserToken } from "../entity/UserToken";
 import { JwtPayload } from "jsonwebtoken";
 import { log } from "../utils/log";
+import { checkBlackList, checkWhiteList, clearWhiteList } from "../redis";
 
 const getUserInfo = async (res: Response, accessToken: string): Promise<RequestTokenInfo> => {
 	const tokenInfo: RequestTokenInfo = {
@@ -29,6 +30,15 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 				if (!decodedExpired.userId || !decodedExpired.email || !decodedExpired.accountType) {
 					tokenInfo.error = "INVALID";
 					return tokenInfo;
+				}
+
+				//! 화이트 리스트에 등록된 토큰인지 확인
+				if (process.env.NODE_ENV === "production") {
+					const isTokenInWhiteList = await checkWhiteList(decodedExpired.userId, accessToken);
+					if (!isTokenInWhiteList) {
+						tokenInfo.error = "INVALID";
+						return tokenInfo;
+					}
 				}
 
 				// 검증한 값으로 유저를 특정하여 리프레시 토큰 획득
@@ -57,6 +67,12 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 					log(`[유저 ${userToken.userId}] 리프레시 토큰 만료`);
 					userToken.refreshToken = "";
 					await userToken.save();
+
+					// 토큰 화이트리스트 삭제
+					if (process.env.NODE_ENV === "production") {
+						await clearWhiteList(userToken.userId);
+					}
+
 					return tokenInfo;
 				}
 
@@ -69,7 +85,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 				tokenInfo.email = decodedRefresh.email;
 				tokenInfo.accountType = decodedRefresh.accountType;
 				tokenInfo.accessToken = newAccessToken;
-				tokenInfo.tokenExpIn = 86400;
+				tokenInfo.tokenExpIn = 86400;	// 불필요
 				return tokenInfo;
 			}
 			//* (1-2) 유효하지 않은 토큰
@@ -80,6 +96,15 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 		}
 		//* (2) 유효한 토큰
 		else {
+			//! 블랙리스트에 등록된 토큰인지 확인
+			if (process.env.NODE_ENV === "production") {
+				const isTokenInBlackList = await checkBlackList(decoded.userId, accessToken);
+				if (isTokenInBlackList) {
+					tokenInfo.error = "INVALID";
+					return tokenInfo;
+				}
+			}
+
 			//! 리턴 객체에 유저 및 토큰 정보 저장
 			tokenInfo.userId = decoded.userId;
 			tokenInfo.email = decoded.email;

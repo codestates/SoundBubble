@@ -4,6 +4,7 @@ const token_1 = require("../token");
 const User_1 = require("../entity/User");
 const UserToken_1 = require("../entity/UserToken");
 const log_1 = require("../utils/log");
+const redis_1 = require("../redis");
 const getUserInfo = async (res, accessToken) => {
     const tokenInfo = {
         userId: null,
@@ -26,6 +27,14 @@ const getUserInfo = async (res, accessToken) => {
                 if (!decodedExpired.userId || !decodedExpired.email || !decodedExpired.accountType) {
                     tokenInfo.error = "INVALID";
                     return tokenInfo;
+                }
+                //! 화이트 리스트에 등록된 토큰인지 확인
+                if (process.env.NODE_ENV === "production") {
+                    const isTokenInWhiteList = await redis_1.checkWhiteList(decodedExpired.userId, accessToken);
+                    if (!isTokenInWhiteList) {
+                        tokenInfo.error = "INVALID";
+                        return tokenInfo;
+                    }
                 }
                 // 검증한 값으로 유저를 특정하여 리프레시 토큰 획득
                 const userInfo = await User_1.User.findOne(decodedExpired.userId);
@@ -53,6 +62,10 @@ const getUserInfo = async (res, accessToken) => {
                     log_1.log(`[유저 ${userToken.userId}] 리프레시 토큰 만료`);
                     userToken.refreshToken = "";
                     await userToken.save();
+                    // 토큰 화이트리스트 삭제
+                    if (process.env.NODE_ENV === "production") {
+                        await redis_1.clearWhiteList(userToken.userId);
+                    }
                     return tokenInfo;
                 }
                 // 검증 성공 -> 액세스 토큰 재발급, 응답 헤더에 저장
@@ -64,7 +77,7 @@ const getUserInfo = async (res, accessToken) => {
                 tokenInfo.email = decodedRefresh.email;
                 tokenInfo.accountType = decodedRefresh.accountType;
                 tokenInfo.accessToken = newAccessToken;
-                tokenInfo.tokenExpIn = 86400;
+                tokenInfo.tokenExpIn = 86400; // 불필요
                 return tokenInfo;
             }
             //* (1-2) 유효하지 않은 토큰
@@ -75,6 +88,14 @@ const getUserInfo = async (res, accessToken) => {
         }
         //* (2) 유효한 토큰
         else {
+            //! 블랙리스트에 등록된 토큰인지 확인
+            if (process.env.NODE_ENV === "production") {
+                const isTokenInBlackList = await redis_1.checkBlackList(decoded.userId, accessToken);
+                if (isTokenInBlackList) {
+                    tokenInfo.error = "INVALID";
+                    return tokenInfo;
+                }
+            }
             //! 리턴 객체에 유저 및 토큰 정보 저장
             tokenInfo.userId = decoded.userId;
             tokenInfo.email = decoded.email;

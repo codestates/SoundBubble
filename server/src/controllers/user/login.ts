@@ -5,6 +5,7 @@ import { checkEmailFormat, checkPasswordFormat } from "../../utils/validate";
 import { generateAccessToken, generateRefreshToken } from "../../token/index";
 import hash from "../../utils/hash";
 import { logError } from "../../utils/log";
+import { insertWhiteList } from "../../redis";
 
 const login: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password }: { email: string; password: string } = req.body;
@@ -34,6 +35,11 @@ const login: RequestHandler = async (req: Request, res: Response, next: NextFunc
 
 		//* DB에 리프레시 토큰 저장
 		await UserToken.insertToken(userInfo.id, refreshToken);
+
+		//* 토큰 화이트리스트에 액세스 토큰 저장
+		if (process.env.NODE_ENV === "production") {
+			await insertWhiteList(userInfo.id, accessToken);
+		}
 
 		return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
 	} catch (err) {
