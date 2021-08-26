@@ -3,6 +3,27 @@
 	width: 300px;
 	height: 300px;
 }
+/* 
+.bubble {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	width: 300px;
+	height: 300px;
+	border-radius: 50%;
+	background-color: white;
+	background-size: 300px 300px;
+	box-shadow: 0px 0px 50px rgb(255, 252, 217);
+	-webkit-animation: moving-bubble 10000ms linear infinite;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-direction: alternate;
+	animation: moving-bubble 10000ms linear infinite;
+	animation-fill-mode: forwards;
+	animation-direction: alternate;
+	transition: transform 2s;
+	cursor: pointer;
+} */
 
 .bubble {
 	display: flex;
@@ -14,14 +35,6 @@
 	border-radius: 50%;
 	background-color: white;
 	background-size: 300px 300px;
-	/* box-shadow: 0px 0px 50px rgb(255, 252, 217); */
-	-webkit-animation: moving-bubble 10000ms linear infinite;
-	-webkit-animation-fill-mode: forwards;
-	-webkit-animation-direction: alternate;
-	animation: moving-bubble 10000ms linear infinite;
-	animation-fill-mode: forwards;
-	animation-direction: alternate;
-	transition: transform 2s;
 	cursor: pointer;
 }
 
@@ -33,9 +46,9 @@
 	transform: scale(1.1);
 }
 
-@-webkit-keyframes moving-bubble {
-	/* 0%{ -webkit-transform:translate3d(5px, 0, 0);opacity:0; }
-  13%{ -webkit-transform:translate3d(2px, -20px, 0); opacity:1; } */
+/* @-webkit-keyframes moving-bubble {
+	0%{ -webkit-transform:translate3d(5px, 0, 0);opacity:0; }
+  13%{ -webkit-transform:translate3d(2px, -20px, 0); opacity:1; }
 	20% {
 		-webkit-transform: translate3d(5px, -40px, 0) scale(1.1);
 	}
@@ -51,9 +64,9 @@
 	60% {
 		-webkit-transform: translate3d(8px, -40px, 0);
 	}
-	/* 70%{ opacity:0.5; }
-  80%, 100%{ -webkit-transform:translate3d(0,-200px, 0); opacity:0; } */
-}
+	70%{ opacity:0.5; }
+  80%, 100%{ -webkit-transform:translate3d(0,-200px, 0); opacity:0; }
+} */
 
 /* @keyframes moving-bubble{
   0%{ transform:translate3d(5px, 0, 0);opacity:0; }
@@ -68,6 +81,29 @@
 	100%{ transform:translate3d(0,20px, 0); opacity:0; }
 } */
 
+@media screen and (min-width: 1920px) {
+	.bubble-section {
+		display: flex;
+		width: 500px;
+		height: 650px;
+	}
+
+	.bubble {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		width: 400px;
+		height: 400px;
+		border-radius: 50%;
+		background-color: white;
+		background-size: 400px 400px;
+	}
+
+	.bubble-content {
+		position: absolute;
+	}
+}
 @media screen and (max-width: 1100px) {
 	.bubble-section {
 		display: flex;
