@@ -6,6 +6,7 @@ import UploadModal from "../../Components/UploadModalPiano";
 import { BubbleData } from "../../@type/request";
 import upArrow from "../Styles/arrow-up.png";
 import downArrow from "../Styles/arrow-down.png";
+import html2canvas from "html2canvas";
 
 const MainPiano = ({ backColor }: any): JSX.Element => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -240,13 +241,15 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 	function handleSaveClick() {
 		const canvas = canvasRef.current;
 		if (!canvas) throw new Error("error");
-		const image = canvas?.toDataURL();
-		const link = document.createElement("a");
-		link.href = image;
-		link.download = "myBubble";
-		link.click();
-	}
 
+		html2canvas(canvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
+			const image = canvas?.toDataURL();
+			const link = document.createElement("a");
+			link.href = image;
+			link.download = "myBubble";
+			link.click();
+		});
+	}
 	const [isModal, setIsModal] = useState(false);
 
 	const handleUploadModal = () => {
@@ -275,6 +278,14 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 		else setPianoState(true);
 	};
 
+	useEffect(() => {
+		const canvas = canvasRef.current;
+		if (!canvas) throw new Error("error");
+		html2canvas(canvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
+			const image = canvas?.toDataURL();
+			setViewImage(image);
+		});
+	}, [viewImage]);
 	return (
 		<>
 			{isModal ? (
