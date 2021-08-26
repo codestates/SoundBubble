@@ -159,25 +159,22 @@
 }
 
 .palette-container .palette-wrap {
-	width: 50%;
+	width: 100%;
 	margin-bottom: 50px;
 	background-color: rgb(33, 39, 50);
+	display: flex;
+	justify-content: space-around;
+	align-items: space-around;
 }
 
-.palette-container .palette {
+.palette-container img {
 	width: 300px;
 	height: 300px;
 	background-color: #ddd;
 	border-radius: 50%;
 	margin: 0 auto;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-family: "Montserrat", sans-serif;
-	font-size: 1.2rem;
-	letter-spacing: 2px;
-	/* background: url(../../Static/gradient.png) no-repeat center; */
 	color: #fff;
+	cursor: pointer;
 }
 
 .mypage__alert-box {

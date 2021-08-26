@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import store from "../Store";
 import { setAccessToken, removeAccessToken, removeUserInfo } from "../actions";
-
+import Swal from "sweetalert2";
 const { dispatch } = store; // redux store에 바로 접근 (Hook 사용 불가)
 
 //* axios 인스턴스 생성
@@ -25,10 +25,20 @@ axiosInstance.interceptors.response.use(
 	function (err: AxiosError) {
 		if (err.response && err.response.status === 401) {
 			// 사용자 재로그인 필요 (모달창 + 로그인 페이지로 이동);
-			alert("로그인 상태가 만료되었습니다. 재로그인 해주세요");
+			// alert("로그인 상태가 만료되었습니다. 재로그인 해주세요");
+			Swal.fire({
+				text: "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "로그인하기",
+				cancelButtonText: "아니오",
+			}).then(result => {
+				if (result.isConfirmed) {
+					window.location.replace("/login");
+				}
+			});
 			dispatch(removeUserInfo());
 			dispatch(removeAccessToken());
-			window.location.replace("/login");
 		}
 		return Promise.reject(err);
 	},

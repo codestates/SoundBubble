@@ -6,9 +6,6 @@ import KAKAO from "../Static/icons/kakao_share.png";
 import FACEBOOK from "../Static/icons/facebook_share.png";
 import SHARE from "../Static/icons/share_icon.png";
 // import axios from "axios";
-import axiosInstance from "../axios";
-import { useSelector, useDispatch } from "react-redux";
-import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
 import styled from "styled-components";
 
@@ -22,38 +19,8 @@ interface Props {
 }
 
 const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
-	const history = useHistory();
-	const API_URL = process.env.REACT_APP_API_URL;
-	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
-	const { accessToken } = tokenState;
-	const dispatch = useDispatch();
-
 	const handleBubbleUpload = (): void => {
 		setIsLimitModal(true);
-
-		const formData = new FormData();
-		// formData.append("image", viewImage);
-		formData.append("image", bubbleData.image as File);
-		formData.append("sound", bubbleData.sound as File);
-		formData.append("textContent", textContent);
-
-		axiosInstance({
-			method: "POST",
-			url: `${API_URL}/bubble/upload`,
-			data: formData,
-			headers: {
-				"Content-Type": "multipart/form-data",
-				authorization: `Bearer ${accessToken}`,
-			},
-			withCredentials: true,
-		})
-			.then(resp => {
-				history.push("/palette");
-			})
-			.catch(err => {
-				console.log("업로드 에러");
-			});
 	};
 
 	const [isLimitModal, setIsLimitModal] = useState<boolean>(false);
