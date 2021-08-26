@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const getUserInfo_1 = __importDefault(require("./getUserInfo"));
+const token_1 = require("../token");
 const log_1 = require("../utils/log");
 const authUser = async (req, res, next) => {
     const accessToken = req.cookies.accessToken;
@@ -33,6 +34,7 @@ const authUser = async (req, res, next) => {
     //* 토큰으로부터 유저 정보 획득
     const userInfo = await getUserInfo_1.default(res, accessToken);
     if (userInfo.error) {
+        res.cookie("accessToken", "", token_1.cookieOptions);
         if (userInfo.error === "EXPIRED") {
             return res.status(401).json({ message: "Expired token, login again" });
         }
@@ -45,6 +47,7 @@ const authUser = async (req, res, next) => {
     }
     const { userId, email, accountType, accessToken: currentToken } = userInfo;
     if (!userId || !email || !accountType || !currentToken) {
+        res.cookie("accessToken", "", token_1.cookieOptions);
         return res.status(401).json({ message: "Invalid token, login again" });
     }
     //! 블랙리스트에 등록된 토큰인지 확인

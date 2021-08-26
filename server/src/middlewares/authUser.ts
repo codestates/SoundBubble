@@ -2,6 +2,7 @@ import { Request, Response, NextFunction, RequestHandler } from "express";
 import getUserInfo from "./getUserInfo";
 import { RequestTokenInfo, UserInfo } from "../@type/userInfo";
 import { getAsync } from "../redis";
+import { cookieOptions } from "../token";
 import { log, logError } from "../utils/log";
 
 const authUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -36,6 +37,7 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
 	const userInfo: RequestTokenInfo = await getUserInfo(res, accessToken);
 
 	if (userInfo.error) {
+		res.cookie("accessToken", "", cookieOptions);
 		if (userInfo.error === "EXPIRED") {
 			return res.status(401).json({ message: "Expired token, login again" });
 		} else if (userInfo.error === "INVALID") {
@@ -46,6 +48,7 @@ const authUser: RequestHandler = async (req: Request, res: Response, next: NextF
 	}
 	const { userId, email, accountType, accessToken: currentToken } = userInfo;
 	if (!userId || !email || !accountType || !currentToken) {
+		res.cookie("accessToken", "", cookieOptions);
 		return res.status(401).json({ message: "Invalid token, login again" });
 	}
 
