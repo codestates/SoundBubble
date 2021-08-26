@@ -54,10 +54,10 @@ const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubble
 							</button>
 						</div>
 						<div className="social-share-btn-box">
-							{/* <img className="share_icon INSTA_icon" src={INSTA} alt="INSTA" />
+							<img className="share_icon INSTA_icon" src={INSTA} alt="INSTA" />
 							<img className="share_icon KAKAO_icon" src={KAKAO} alt="KAKAO" />
 							<img className="share_icon FACEBOOK_icon" src={FACEBOOK} alt="FACEBOOK" />
-							<img className="share_icon SHARE_icon" src={SHARE} alt="SHARE" /> */}
+							<img className="share_icon SHARE_icon" src={SHARE} alt="SHARE" />
 						</div>
 					</div>
 				</main>

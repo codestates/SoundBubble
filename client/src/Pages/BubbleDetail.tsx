@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Styles/BubbleDetail.css";
+import "./Styles/Reset.css";
 import axiosInstance from "../axios";
 import { useHistory } from "react-router-dom";
 import backIcon from "./Styles/back.png";
@@ -159,13 +160,15 @@ const BubbleDetail = (): JSX.Element => {
 						}
 					})}
 				</div>
+				{/* <video className="video" id="background-video" autoPlay muted loop>
+					<source src="Particles.mp4" type="video/mp4" />
+				</video> */}
 				<div className="bubbleDetail-bubble">
-					<img
-						src={bubbleData.image}
-						alt="COLORS OF MY VOICE"
-						onClick={isPlaying ? handleStopSound : handlePlaySound}
-						className="bubbleImg"
-					/>
+					{isPlaying ? (
+						<img src={bubbleData.image} onClick={handleStopSound} className="bubbleImg isPlaying" />
+					) : (
+						<img src={bubbleData.image} onClick={handlePlaySound} className="bubbleImg" />
+					)}
 					<p>{bubbleData.textContent}</p>
 				</div>
 				<div className="form">
