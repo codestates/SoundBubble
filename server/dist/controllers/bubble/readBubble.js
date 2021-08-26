@@ -25,4 +25,3 @@ const readBubble = async (req, res, next) => {
     }
 };
 exports.default = readBubble;
-//# sourceMappingURL=readBubble.js.map

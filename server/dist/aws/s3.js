@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteResource = exports.s3 = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
+const log_1 = require("../utils/log");
 //* S3 이미지 서버 연결
 aws_sdk_1.default.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -20,10 +21,9 @@ const deleteResource = async (bucket, filename) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function (error, data) {
         if (error) {
+            log_1.logError("S3 리소스 삭제 실패");
             console.error(error);
         }
     });
 };
 exports.deleteResource = deleteResource;
-console.log("resource server connected");
-//# sourceMappingURL=s3.js.map

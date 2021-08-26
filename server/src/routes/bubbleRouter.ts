@@ -16,12 +16,12 @@ bubbleRouter.use("/", authUser);
 
 // 버블 업로드
 bubbleRouter.post(
-  "/upload",
-  upload.fields([
-    { name: "image", maxCount: 1 },
-    { name: "sound", maxCount: 1 },
-  ]),
-  controller.createBubble
+	"/upload",
+	upload.fields([
+		{ name: "image", maxCount: 1 },
+		{ name: "sound", maxCount: 1 },
+	]),
+	controller.createBubble,
 );
 
 // 버블 삭제
@@ -30,7 +30,7 @@ bubbleRouter.delete("/:id", controller.deleteBubble);
 // 버블 댓글 등록
 bubbleRouter.post("/:id/comment", controller.createBubbleComment);
 
-// 본인 댓글 삭제
+// 버블 댓글 삭제
 bubbleRouter.delete("/:id/comment", controller.deleteBubbleComment);
 
 export default bubbleRouter;

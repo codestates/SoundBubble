@@ -5,10 +5,10 @@ const log_1 = require("../../utils/log");
 const deleteBubbleComment = async (req, res, next) => {
     const { userId, accountType } = req.userInfo;
     const commentId = req.body.commentId;
-    const bubbleId = req.params.id;
+    const bubbleId = Number(req.params.id);
     try {
         //* 파라미터 검사
-        if (isNaN(Number(bubbleId))) {
+        if (isNaN(bubbleId)) {
             return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
         }
         if (!commentId || isNaN(Number(commentId))) {
@@ -25,7 +25,7 @@ const deleteBubbleComment = async (req, res, next) => {
             return res.status(404).json({ message: "Comment not found" });
         }
         //* 댓글 삭제
-        // 관리자 권한 -> 모든 댓글 삭제 가능
+        // 관리자 -> 모든 댓글 삭제 가능
         if (accountType === "admin") {
             await commentInfo.remove();
         }
@@ -48,4 +48,3 @@ const deleteBubbleComment = async (req, res, next) => {
     }
 };
 exports.default = deleteBubbleComment;
-//# sourceMappingURL=deleteBubbleComment.js.map

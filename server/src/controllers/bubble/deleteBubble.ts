@@ -6,11 +6,11 @@ import { logError } from "../../utils/log";
 
 const deleteBubble: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId, accountType }: { userId: number; accountType: string } = req.userInfo as UserInfo;
-	const bubbleId: string = req.params.id as string;
+	const bubbleId: number = Number(req.params.id) as number;
 
 	try {
 		//* 파라미터 검사
-		if (isNaN(Number(bubbleId))) {
+		if (isNaN(bubbleId)) {
 			return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
 		}
 
@@ -26,7 +26,7 @@ const deleteBubble: RequestHandler = async (req: Request, res: Response, next: N
 		const thumbnailSrc: string = bubbleInfo.thumbnail.split("/").pop() as string;
 
 		//* 버블 삭제
-		// 관리자 권한 -> 모든 버블 삭제 가능
+		// 관리자 -> 모든 버블 삭제 가능
 		if (accountType === "admin") {
 			await bubbleInfo.remove();
 		}

@@ -19,7 +19,6 @@ const readBubble: RequestHandler = async (req: Request, res: Response, next: Nex
 			return res.status(404).json({ message: "Bubble not found" });
 		}
 
-
 		//* 해당 버블의 댓글 조회
 		const comments: BubbleComment[] = await BubbleComment.findComments(Number(bubbleId));
 

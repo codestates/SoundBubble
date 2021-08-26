@@ -23,10 +23,9 @@ const logout = async (req, res, next) => {
     }
     catch (err) {
         log_1.logError("Logout error");
-        // 서버 상황에 관계 없이 사용자는 로그아웃 할 수 있어야 됨
+        // 서버 상황에 관계 없이 유저는 로그아웃 가능
         res.status(200).json({ message: "Logout succeed" });
         next(err);
     }
 };
 exports.default = logout;
-//# sourceMappingURL=logout.js.map

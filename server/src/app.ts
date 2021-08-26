@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: __dirname + "/./../.env" });
+dotenv.config({ path: __dirname + "/../.env" });
 import express from "express";
 import { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
@@ -15,9 +15,7 @@ import bubbleRouter from "./routes/bubbleRouter";
 
 //* Express App
 const app: express.Application = express();
-
-//* Connect DB
-connectDB();
+const PORT: number = Number(process.env.SERVER_PORT) || 80;
 
 //* Middleware
 const morganFormat = `"HTTP/:http-version :method :url" :status :remote-addr - :remote-user :res[content-length]`;
@@ -32,10 +30,9 @@ app.use(
 );
 app.use(
 	cors({
-		origin: true,
+		origin: ["https://www.soundbubble.io", "http://localhost:3000"],
 		credentials: true,
-		methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
-		exposedHeaders: ["authorization"],
+		methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
 	}),
 );
 app.use(cookieParser());
@@ -65,17 +62,17 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 	res.status(500).send("Internal Server Error");
 });
 
-//* Server listen
-const PORT: number = Number(process.env.SERVER_PORT) || 80;
+//* Connect DB and Server listen
+connectDB(() => {
+	if (process.env.NODE_ENV !== "production" && fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
+		//? HTTPS: for CORS and cookie test in local
+		const privateKey = fs.readFileSync(__dirname + "/../key.pem", "utf8");
+		const certificate = fs.readFileSync(__dirname + "/../cert.pem", "utf8");
+		const credentials = { key: privateKey, cert: certificate };
 
-if (process.env.NODE_ENV !== "production" && fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
-	//? for CORS and cookie test
-	const privateKey = fs.readFileSync(__dirname + "/../key.pem", "utf8");
-	const certificate = fs.readFileSync(__dirname + "/../cert.pem", "utf8");
-	const credentials = { key: privateKey, cert: certificate };
-
-	const server: https.Server = https.createServer(credentials, app);
-	server.listen(PORT, () => console.log(`HTTPS server is runnning on ${PORT}`));
-} else {
-	app.listen(PORT, () => console.log(`HTTP server is runnning on ${PORT}`));
-}
+		const server: https.Server = https.createServer(credentials, app);
+		server.listen(PORT, () => console.log(`HTTPS server is runnning on ${PORT}`));
+	} else {
+		app.listen(PORT, () => console.log(`HTTP server is runnning on ${PORT}`));
+	}
+});

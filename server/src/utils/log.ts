@@ -1,9 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+//? 커스텀 로그
+
 export const log = (...values: any[]): void => {
 	console.log("[LOG]", ...values);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const logError = (...values: any[]): void => {
 	console.log("[ERROR]", ...values);
 };

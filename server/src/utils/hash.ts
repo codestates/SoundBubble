@@ -1,5 +1,6 @@
 import crypto from "crypto";
 
+//* 해싱 함수
 const hash = (value: string): string => {
   const hashed = crypto
     .createHash("sha512")

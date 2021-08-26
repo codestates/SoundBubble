@@ -24,4 +24,3 @@ const checkEmail = async (req, res, next) => {
     }
 };
 exports.default = checkEmail;
-//# sourceMappingURL=checkEmail.js.map

@@ -23,6 +23,7 @@ exports.truncateDB = exports.connectDB = void 0;
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const readline = __importStar(require("readline"));
+const redis_1 = require("./redis");
 //* option
 const connectionOptions = {
     development: {
@@ -67,7 +68,7 @@ const env = process.env.NODE_ENV || "development";
 const connectionOption = connectionOptions[env];
 console.log("Database info:", env);
 //* Connect to Database
-const connectDB = async () => {
+const connectDB = async (callback) => {
     try {
         const connection = await typeorm_1.createConnection(connectionOption);
         if (process.env.DATABASE_TRUNCATE) {
@@ -91,6 +92,10 @@ const connectDB = async () => {
                 }
             });
         }
+        else {
+            console.log("Database connected");
+            callback();
+        }
     }
     catch (err) {
         console.log("Failed to connect database");
@@ -101,6 +106,8 @@ exports.connectDB = connectDB;
 const truncateDB = async (connection) => {
     await connection.dropDatabase();
     await connection.synchronize();
+    if (process.env.NODE_ENV === "production") {
+        await redis_1.redisClient.flushall();
+    }
 };
 exports.truncateDB = truncateDB;
-//# sourceMappingURL=connectDB.js.map

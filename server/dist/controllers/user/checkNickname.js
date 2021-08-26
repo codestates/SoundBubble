@@ -24,4 +24,3 @@ const checkNickname = async (req, res, next) => {
     }
 };
 exports.default = checkNickname;
-//# sourceMappingURL=checkNickname.js.map

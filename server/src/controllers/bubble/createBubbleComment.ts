@@ -7,11 +7,11 @@ import { logError } from "../../utils/log";
 const createBubbleComment: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
 	const textContent: string | undefined = req.body.textContent;
-	const bubbleId: string = req.params.id as string;
+	const bubbleId: number = Number(req.params.id) as number;
 
 	try {
 		//* 파라미터 검사
-		if (isNaN(Number(bubbleId))) {
+		if (isNaN(bubbleId)) {
 			return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
 		}
 		if (!textContent) {
@@ -26,7 +26,7 @@ const createBubbleComment: RequestHandler = async (req: Request, res: Response, 
 		}
 
 		//* 댓글 입력
-		await BubbleComment.insertComment(userId, Number(bubbleId), textContent);
+		await BubbleComment.insertComment(userId, bubbleId, textContent);
 
 		//* 갱신된 댓글 목록 조회
 		const comments: BubbleComment[] = await BubbleComment.findComments(Number(bubbleId));

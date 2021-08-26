@@ -6,11 +6,11 @@ import { logError } from "../../utils/log";
 const deleteBubbleComment: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId, accountType }: { userId: number; accountType: string } = req.userInfo as UserInfo;
 	const commentId: number | string = req.body.commentId;
-	const bubbleId: string = req.params.id as string;
+	const bubbleId: number = Number(req.params.id) as number;
 
 	try {
 		//* 파라미터 검사
-		if (isNaN(Number(bubbleId))) {
+		if (isNaN(bubbleId)) {
 			return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
 		}
 		if (!commentId || isNaN(Number(commentId))) {
@@ -30,7 +30,7 @@ const deleteBubbleComment: RequestHandler = async (req: Request, res: Response, 
 		}
 
 		//* 댓글 삭제
-		// 관리자 권한 -> 모든 댓글 삭제 가능
+		// 관리자 -> 모든 댓글 삭제 가능
 		if (accountType === "admin") {
 			await commentInfo.remove();
 		}

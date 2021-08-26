@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions, Connection } from "typeorm";
 import * as readline from "readline";
+import { redisClient } from "./redis"
 
 type DatabaseOptions = {
 	[env: string]: ConnectionOptions;
@@ -52,7 +53,7 @@ const connectionOption: ConnectionOptions = connectionOptions[env];
 console.log("Database info:", env);
 
 //* Connect to Database
-export const connectDB = async (): Promise<void> => {
+export const connectDB = async (callback: () => void): Promise<void> => {
 	try {
 		const connection: Connection = await createConnection(connectionOption);
 		if (process.env.DATABASE_TRUNCATE) {
@@ -76,7 +77,10 @@ export const connectDB = async (): Promise<void> => {
 						break;
 				}
 			});
-		} 
+		} else {
+			console.log("Database connected");
+			callback();
+		}
 	} catch (err) {
 		console.log("Failed to connect database");
 		console.error(err);
@@ -86,4 +90,8 @@ export const connectDB = async (): Promise<void> => {
 export const truncateDB = async (connection: Connection): Promise<void> => {
 	await connection.dropDatabase();
 	await connection.synchronize();
+
+	if (process.env.NODE_ENV === "production") {
+		await redisClient.flushall();
+	}
 };
