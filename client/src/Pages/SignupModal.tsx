@@ -5,6 +5,7 @@ import axios from "axios";
 import { emailIsValid, pwIsValid } from "../Utils/Validator";
 import "./Styles/SignupModal.css";
 import Modal from "../Components/Modal";
+import Swal from "sweetalert2";
 
 const SignupModal = (): JSX.Element => {
 	const [name, setName] = useState("");
@@ -26,9 +27,13 @@ const SignupModal = (): JSX.Element => {
 
 	const handleSignUp = () => {
 		setErrorMsg("");
+		if (name === "" || ID === "" || PW === "" || RePW === "") {
+			setErrorMsg("모든 항목을 입력해주세요.");
+			return;
+		}
 		if (!emailIsValid(ID)) {
-			setErrorMsg("ID는 이메일 형식입니다.");
-			setIsModal(true);
+			setErrorMsg("올바른 이메일 형식이 아닙니다.");
+			// setIsModal(true);
 			return;
 		}
 		if (!pwIsValid(PW)) {
@@ -47,19 +52,41 @@ const SignupModal = (): JSX.Element => {
 				// withCredentials: true,
 			})
 				.then(resp => {
-					console.log("###", resp);
-					alert(resp.data.message);
-					history.push("/login");
+					setErrorMsg("");
+					Swal.fire({
+						text: "회원가입이 완료되었습니다.",
+						icon: "success",
+						confirmButtonText: "확인",
+					}).then(() => {
+						history.push("/login");
+					});
 				})
 				.catch(err => {
+					setErrorMsg("");
 					if (err.response.status === 409) {
-						alert("이미 회원가입이 완료된 이메일 입니다.");
+						if (err.response.data.message === "Nickname already in use") {
+							Swal.fire({
+								text: "이미 사용 중인 이름입니다.",
+								icon: "warning",
+								confirmButtonText: "확인",
+							});
+						} else {
+							Swal.fire({
+								text: "이미 사용 중인 이메일입니다.",
+								icon: "warning",
+								confirmButtonText: "확인",
+							});
+						}
 					} else {
-						alert("회원가입에 실패했습니다.");
+						Swal.fire({
+							text: "회원가입에 실패하였습니다.",
+							icon: "warning",
+							confirmButtonText: "확인",
+						});
 					}
 				});
 		} else {
-			setErrorMsg("비밀번호가 일치하지 않습니다.");
+			setErrorMsg("두 비밀번호가 일치하지 않습니다.");
 		}
 	};
 

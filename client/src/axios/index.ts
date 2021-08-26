@@ -14,31 +14,19 @@ const axiosInstance: AxiosInstance = axios.create({
 //* 응답 인터셉터 등록
 axiosInstance.interceptors.response.use(
 	function (res: AxiosResponse) {
-		console.log("응답 인터셉터!");
-		// if (res.headers.authorization) {
-		// 	console.log("액세스 토큰 재발급");
-		// 	const newAccessToken: string = res.headers.authorization.split("Bearer ")[1];
-		// 	dispatch(setAccessToken(newAccessToken));
-		// }
 		return res;
 	},
 
 	function (err: AxiosError) {
 		if (err.response && err.response.status === 401) {
-			// 사용자 재로그인 필요 (모달창 + 로그인 페이지로 이동);
-			// alert("로그인 상태가 만료되었습니다. 재로그인 해주세요");
 			Swal.fire({
-				text: "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?",
+				text: "로그인 상태가 만료되었습니다. 로그인 페이지로 이동합니다.",
 				icon: "warning",
-				showCancelButton: true,
-				confirmButtonText: "로그인하기",
-				cancelButtonText: "아니오",
-			}).then(result => {
-				if (result.isConfirmed) {
-					window.location.replace("/login");
-				}
+				confirmButtonText: "확인",
+			}).then(() => {
+				window.location.replace("/login");
+				dispatch(removeUserInfo());
 			});
-			dispatch(removeUserInfo());
 		}
 		return Promise.reject(err);
 	},

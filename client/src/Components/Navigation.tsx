@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { removeUserInfo } from "../actions";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Navigation = (): JSX.Element => {
 	const history = useHistory();
@@ -42,8 +43,21 @@ const Navigation = (): JSX.Element => {
 
 	const mypageHandler = () => {
 		if (userState.user.id >= 0) history.push("/mypage");
-		else history.push("/login");
+		else {
+			Swal.fire({
+				text: "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "로그인하기",
+				cancelButtonText: "아니오",
+			}).then(result => {
+				if (result.isConfirmed) {
+					window.location.replace("/login");
+				}
+			});
+		}
 	};
+	
 	useEffect(() => {
 		logInHandler();
 	}, [isLogin]);

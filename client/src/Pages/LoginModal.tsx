@@ -6,10 +6,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserInfo } from "../actions";
 import { RootReducerType } from "../Store";
 import "./Styles/LoginModal.css";
+import Swal from "sweetalert2";
 
 const LoginModal = (): JSX.Element => {
 	const [ID, setID] = useState("");
 	const [PW, setPW] = useState("");
+	const [errorMsg, setErrorMsg] = useState("");
 
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -18,6 +20,17 @@ const LoginModal = (): JSX.Element => {
 
 	//* Normal login
 	const handleLogin = () => {
+		if (ID === "" && PW === "") {
+			setErrorMsg("이메일과 비밀번호를 입력해주세요.");
+			return;
+		}else if (ID === "") {
+			setErrorMsg("이메일을 입력해주세요.");
+			return;
+		} else if (PW === "") {
+			setErrorMsg("비밀번호를 입력해주세요.");
+			return;
+		}
+
 		axios({
 			method: "POST",
 			url: `${API_URL}/user/login`,
@@ -28,12 +41,18 @@ const LoginModal = (): JSX.Element => {
 			withCredentials: true,
 		})
 			.then(resp => {
+				setErrorMsg("");
 				const { userInfo } = resp.data.data;
 				dispatch(setUserInfo(userInfo));
 				history.push("/main");
 			})
-			.catch(err => {
-				console.log(err);
+			.catch(() => {
+				setErrorMsg("");
+				Swal.fire({
+					text: "이메일과 비밀번호를 확인해주세요.",
+					icon: "warning",
+					confirmButtonText: "확인",
+				});
 			});
 	};
 
@@ -122,6 +141,7 @@ const LoginModal = (): JSX.Element => {
 							<label className="login-label">Password</label>
 							<input className="login-input-password" type="password" onChange={e => setPW(e.target.value)} />
 						</fieldset>
+						<div className="login-alert-box">{errorMsg}</div>
 						<div className="login-form-btn">
 							<button onClick={handleLogin}>Login</button>
 							<button onClick={() => history.push("/signup")}>Sign Up</button>
