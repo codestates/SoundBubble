@@ -67,7 +67,7 @@ const Navigation = (): JSX.Element => {
 							<a onClick={() => window.location.replace("/palette")}>Palette</a>
 						</li>
 						<li>
-							<a onClick={mypageHandler}>Mypage</a>
+							<a onClick={mypageHandler}>My page</a>
 						</li>
 						{isLogin ? (
 							<li>

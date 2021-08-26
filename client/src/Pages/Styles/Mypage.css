@@ -211,3 +211,84 @@
 .emptyBubble {
 	width: 50rem;
 }
+
+@media (max-width: 960px) {
+	.palette-container .palette {
+		width: 250px;
+		height: 250px;
+	}
+}
+
+@media (max-width: 768px) {
+	.mypageContainer {
+		display: block;
+		width: 100%;
+	}
+
+	.leftContents {
+		width: 100%;
+		padding: 35px 20px;
+	}
+
+	.mypageTitle {
+		font-size: 28px;
+		margin-bottom: 15px;
+		margin-top: 70px;
+	}
+
+	.sideTap {
+		text-align: center;
+		margin: 25px auto 0 auto;
+		width: 280px;
+	}
+
+	.sideTap > .tap {
+		font-size: 14px;
+	}
+
+	.rightContents {
+		height: 50%;
+		width: 100%;
+	}
+
+	.rightContents h2 {
+		margin: 0 0 20px 0;
+		font-size: 21px;
+	}
+
+	.rightContents input {
+		margin-bottom: 15px;
+	}
+
+	.rightContents button {
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 560px) {
+	.palette-container .palette {
+		width: 200px;
+		height: 200px;
+		font-size: 15px;
+	}
+}
+
+@media (max-width: 460px) {
+	.rightContents form {
+		padding: 0px 20px;
+		width: 100%;
+	}
+
+	.palette-container .palette {
+		width: 150px;
+		height: 150px;
+	}
+}
+
+@media (max-width: 360px) {
+	.palette-container .palette {
+		width: 130px;
+		height: 130px;
+		font-size: 14px;
+	}
+}

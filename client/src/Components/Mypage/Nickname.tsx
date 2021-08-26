@@ -4,6 +4,7 @@ import axiosInstance from "../../axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../../Store";
 import { updateUserNickname } from "../../actions";
+import Swal from "sweetalert2";
 
 const Nickname = (): JSX.Element => {
 	const [nickname, setNickname] = useState("");
@@ -50,8 +51,7 @@ const Nickname = (): JSX.Element => {
 				setPassword("");
 				resetErrorMsg();
 				dispatch(updateUserNickname(resp.data.data.userInfo));
-				console.log("수정 완료");
-				alert("회원정보가 수정되었습니다.");
+				Swal.fire("  ", "닉네임이 변경되었습니다.");
 			})
 			.catch(err => {
 				if (err.response) {
