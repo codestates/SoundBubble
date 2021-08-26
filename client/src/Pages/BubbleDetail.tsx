@@ -13,7 +13,6 @@ import { RootReducerType } from "../Store";
 const BubbleDetail = (): JSX.Element => {
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 	const API_URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
 
@@ -38,6 +37,7 @@ const BubbleDetail = (): JSX.Element => {
 		await axiosInstance({
 			method: "GET",
 			url: `${API_URL}/bubble/${bubbleId}`,
+			// withCredentials: true,
 		}).then(res => {
 			setBubbleData(res.data.data.bubble);
 			setBubbleComments(res.data.data.comments);
@@ -53,9 +53,7 @@ const BubbleDetail = (): JSX.Element => {
 			method: "POST",
 			url: `${API_URL}/bubble/${bubbleId}/comment`,
 			data: { textContent: text },
-			headers: {
-				authorization: `Bearer ${tokenState.accessToken}`,
-			},
+			withCredentials: true,
 		}).then(() => {
 			setCommentInput("");
 			getBubbleData();
@@ -77,9 +75,7 @@ const BubbleDetail = (): JSX.Element => {
 					method: "DELETE",
 					url: `${API_URL}/bubble/${bubbleId}/comment`,
 					data: { commentId: id },
-					headers: {
-						authorization: `Bearer ${tokenState.accessToken}`,
-					},
+					withCredentials: true,
 				}).then(() => {
 					getBubbleData();
 				});
@@ -105,9 +101,7 @@ const BubbleDetail = (): JSX.Element => {
 					axiosInstance({
 						method: "DELETE",
 						url: `${API_URL}/bubble/${bubbleId}`,
-						headers: {
-							authorization: `Bearer ${tokenState.accessToken}`,
-						},
+						withCredentials: true,
 					}).then(() => {
 						history.push("/palette");
 					});

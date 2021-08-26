@@ -6,15 +6,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const getUserInfo_1 = __importDefault(require("./getUserInfo"));
 const log_1 = require("../utils/log");
 const authUser = async (req, res, next) => {
-    const authorization = req.headers.authorization;
-    //* 파라미터 검사
-    if (!authorization) {
-        return res.status(401).json({ message: "Invalid authorization(headers)" });
-    }
-    const accessToken = authorization.split("Bearer ")[1];
+    const accessToken = req.cookies.accessToken;
+    console.log("req.cookies", req.cookies);
+    console.log("accessToken", accessToken);
     if (!accessToken) {
-        return res.status(401).json({ message: "Token must be Bearer type" });
+        return res.status(401).json({ message: "Invalid token, token does not exist" });
     }
+    //* 파라미터 검사
+    // const authorization: string | undefined = req.headers.authorization;
+    // if (!authorization) {
+    // 	return res.status(401).json({ message: "Invalid authorization(headers)" });
+    // }
+    // const accessToken: string = authorization.split("Bearer ")[1];
+    // if (!accessToken) {
+    // 	return res.status(401).json({ message: "Token must be Bearer type" });
+    // }
+    // //!! 공통 옵션
+    // let accessToken;
+    // if (req.cookies.accessToken) {
+    // 	console.log("쿠키 사용");
+    // 	accessToken = req.cookies.accessToken;
+    // } else if (req.headers.authorization) {
+    // 	console.log("인증 헤더 사용");
+    // 	accessToken = req.headers.authorization.split("Bearer ")[1];
+    // }
     //* 토큰으로부터 유저 정보 획득
     const userInfo = await getUserInfo_1.default(res, accessToken);
     if (userInfo.error) {

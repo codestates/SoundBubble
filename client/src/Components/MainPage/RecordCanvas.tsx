@@ -220,11 +220,14 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 	function handleSaveClick() {
 		const canvas = canvasRef.current;
 		if (!canvas) throw new Error("error");
-		const image = canvas?.toDataURL();
-		const link = document.createElement("a");
-		link.href = image;
-		link.download = "myBubble";
-		link.click();
+
+		html2canvas(canvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
+			const image = canvas?.toDataURL();
+			const link = document.createElement("a");
+			link.href = image;
+			link.download = "myBubble";
+			link.click();
+		});
 	}
 
 	function circleSize(viewPitch: number) {

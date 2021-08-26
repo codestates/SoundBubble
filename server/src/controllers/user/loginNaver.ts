@@ -2,7 +2,7 @@ import axios from "axios";
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
-import { generateAccessToken, generateRefreshToken } from "../../token/index";
+import { generateAccessToken, generateRefreshToken, cookieOptions } from "../../token";
 import { logError } from "../../utils/log";
 import { insertWhiteList } from "../../redis";
 
@@ -91,7 +91,9 @@ const loginNaver: RequestHandler = async (req: Request, res: Response, next: Nex
 			await insertWhiteList(userInfo.id, accessToken);
 		}
 
-		return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
+		res.cookie("accessToken", accessToken, cookieOptions);
+
+		return res.json({ data: { userInfo }, message: "Login succeed" });
 	} catch (err) {
 		logError("Faild to Naver login");
 		next(err);

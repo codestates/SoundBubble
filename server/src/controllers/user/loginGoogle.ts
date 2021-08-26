@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler, NextFunction } from "express";
 import { User } from "../../entity/User";
 import { UserToken } from "../../entity/UserToken";
-import { generateAccessToken, generateRefreshToken } from "../../token/index";
+import { generateAccessToken, generateRefreshToken, cookieOptions } from "../../token";
 import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
 import { GetTokenResponse } from "google-auth-library/build/src/auth/oauth2client";
 import { logError } from "../../utils/log";
@@ -91,7 +91,9 @@ const loginGoogle: RequestHandler = async (req: Request, res: Response, next: Ne
 			await insertWhiteList(userInfo.id, accessToken);
 		}
 
-		return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
+		res.cookie("accessToken", accessToken, cookieOptions);
+
+		return res.json({ data: { userInfo }, message: "Login succeed" });
 	} catch (err) {
 		logError("Faild to google login");
 		next(err);

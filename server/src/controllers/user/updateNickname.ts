@@ -45,7 +45,9 @@ const updateNickname: RequestHandler = async (req: Request, res: Response, next:
 		userInfo.nickname = nickname;
 		await userInfo.save();
 
-		return res.status(200).json({ data: { userInfo }, message: "User nickname successfully updated" });
+		const resUserInfo: User = (await User.findUserByEmail(userInfo.email)) as User;
+
+		return res.status(200).json({ data: { userInfo: resUserInfo }, message: "User nickname successfully updated" });
 	} catch (err) {
 		logError("Failed to update nickname");
 		next(err);

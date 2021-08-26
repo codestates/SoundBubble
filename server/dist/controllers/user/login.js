@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = require("../../entity/User");
 const UserToken_1 = require("../../entity/UserToken");
 const validate_1 = require("../../utils/validate");
-const index_1 = require("../../token/index");
+const token_1 = require("../../token");
 const hash_1 = __importDefault(require("../../utils/hash"));
 const log_1 = require("../../utils/log");
 const redis_1 = require("../../redis");
@@ -28,15 +28,17 @@ const login = async (req, res, next) => {
             return res.status(401).json({ message: "Not authorized" });
         }
         //* 토큰 발급
-        const accessToken = index_1.generateAccessToken(userInfo);
-        const refreshToken = index_1.generateRefreshToken(userInfo);
-        //* DB에 리프레시 토큰 저장
+        const accessToken = token_1.generateAccessToken(userInfo);
+        const refreshToken = token_1.generateRefreshToken(userInfo);
+        // DB에 리프레시 토큰 저장
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
-        //* 토큰 화이트리스트에 액세스 토큰 저장
+        // 토큰 화이트리스트에 액세스 토큰 저장
         if (process.env.NODE_ENV === "production") {
             await redis_1.insertWhiteList(userInfo.id, accessToken);
         }
-        return res.status(201).json({ data: { accessToken, userInfo }, message: "Login succeed" });
+        // 응답 쿠키에 액세스 토큰 설정
+        res.cookie("accessToken", accessToken, token_1.cookieOptions);
+        return res.status(200).json({ data: { userInfo }, message: "Login succeed" });
     }
     catch (err) {
         log_1.logError("Failed to login");

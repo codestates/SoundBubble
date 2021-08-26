@@ -10,13 +10,11 @@ const redisHost: string = process.env.REDIS_HOST as string;
 
 export const redisClient: RedisClient = redis.createClient(redisPort, redisHost);
 
-if (process.env.NODE_ENV === "production") {
-	redisClient.on("error", function (error) {
-		logError("Redis 접속 실패");
-		console.error(error);
-		// redisClient.quit();
-	});
-}
+redisClient.on("error", function (error) {
+	logError("Redis 접속 실패");
+	console.error(error);
+	// redisClient.quit();
+});
 
 redisClient.flushall();
 
@@ -93,15 +91,12 @@ export const checkWhiteList = async (userId: number, accessToken: string): Promi
 
 		if (idx >= 0) {
 			log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 존재`);
-			console.log("idx", idx);
-			console.log("삭제 전", list.white);
 			list.white.splice(idx, 1); // 조회한 토큰 삭제
-			console.log("삭제 후", list.white);
 			await setAsync(String(userId), JSON.stringify(list));
 			return true;
 		}
 	}
-	log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 없음`);
+	// log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 없음`);
 	return false;
 };
 
@@ -116,7 +111,7 @@ export const checkBlackList = async (userId: number, accessToken: string): Promi
 			return true;
 		}
 	}
-	log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 없음`);
+	// log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 없음`);
 	return false;
 };
 

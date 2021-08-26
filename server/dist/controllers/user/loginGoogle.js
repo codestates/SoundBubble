@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = require("../../entity/User");
 const UserToken_1 = require("../../entity/UserToken");
-const index_1 = require("../../token/index");
+const token_1 = require("../../token");
 const google_auth_library_1 = require("google-auth-library");
 const log_1 = require("../../utils/log");
 const redis_1 = require("../../redis");
@@ -71,13 +71,14 @@ const loginGoogle = async (req, res, next) => {
         }
         const userInfo = (await User_1.User.findUserByEmail(email));
         //* 토큰 발급
-        const accessToken = index_1.generateAccessToken(userInfo);
-        const refreshToken = index_1.generateRefreshToken(userInfo);
+        const accessToken = token_1.generateAccessToken(userInfo);
+        const refreshToken = token_1.generateRefreshToken(userInfo);
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
         if (process.env.NODE_ENV === "production") {
             await redis_1.insertWhiteList(userInfo.id, accessToken);
         }
-        return res.json({ data: { accessToken, userInfo }, message: "Login succeed" });
+        res.cookie("accessToken", accessToken, token_1.cookieOptions);
+        return res.json({ data: { userInfo }, message: "Login succeed" });
     }
     catch (err) {
         log_1.logError("Faild to google login");

@@ -44,7 +44,7 @@ const SignupModal = (): JSX.Element => {
 					password: PW,
 					nickname: name,
 				},
-				withCredentials: true,
+				// withCredentials: true,
 			})
 				.then(resp => {
 					console.log("###", resp);

@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import store from "../Store";
 import { setAccessToken, removeAccessToken, removeUserInfo } from "../actions";
 import Swal from "sweetalert2";
+
 const { dispatch } = store; // redux store에 바로 접근 (Hook 사용 불가)
 
 //* axios 인스턴스 생성
@@ -14,11 +15,11 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
 	function (res: AxiosResponse) {
 		console.log("응답 인터셉터!");
-		if (res.headers.authorization) {
-			console.log("액세스 토큰 재발급");
-			const newAccessToken: string = res.headers.authorization.split("Bearer ")[1];
-			dispatch(setAccessToken(newAccessToken));
-		}
+		// if (res.headers.authorization) {
+		// 	console.log("액세스 토큰 재발급");
+		// 	const newAccessToken: string = res.headers.authorization.split("Bearer ")[1];
+		// 	dispatch(setAccessToken(newAccessToken));
+		// }
 		return res;
 	},
 
@@ -38,7 +39,6 @@ axiosInstance.interceptors.response.use(
 				}
 			});
 			dispatch(removeUserInfo());
-			dispatch(removeAccessToken());
 		}
 		return Promise.reject(err);
 	},

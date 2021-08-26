@@ -11,13 +11,11 @@ const token_1 = require("../token");
 const redisPort = Number(process.env.REDIS_PORT);
 const redisHost = process.env.REDIS_HOST;
 exports.redisClient = redis_1.default.createClient(redisPort, redisHost);
-if (process.env.NODE_ENV === "production") {
-    exports.redisClient.on("error", function (error) {
-        log_1.logError("Redis 접속 실패");
-        console.error(error);
-        // redisClient.quit();
-    });
-}
+exports.redisClient.on("error", function (error) {
+    log_1.logError("Redis 접속 실패");
+    console.error(error);
+    // redisClient.quit();
+});
 exports.redisClient.flushall();
 exports.setAsync = util_1.promisify(exports.redisClient.set).bind(exports.redisClient);
 exports.setexAsync = util_1.promisify(exports.redisClient.setex).bind(exports.redisClient);
@@ -88,15 +86,12 @@ const checkWhiteList = async (userId, accessToken) => {
         const idx = list.white.indexOf(accessToken);
         if (idx >= 0) {
             log_1.log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 존재`);
-            console.log("idx", idx);
-            console.log("삭제 전", list.white);
             list.white.splice(idx, 1); // 조회한 토큰 삭제
-            console.log("삭제 후", list.white);
             await exports.setAsync(String(userId), JSON.stringify(list));
             return true;
         }
     }
-    log_1.log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 없음`);
+    // log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 없음`);
     return false;
 };
 exports.checkWhiteList = checkWhiteList;
@@ -110,7 +105,7 @@ const checkBlackList = async (userId, accessToken) => {
             return true;
         }
     }
-    log_1.log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 없음`);
+    // log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 없음`);
     return false;
 };
 exports.checkBlackList = checkBlackList;

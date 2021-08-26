@@ -22,10 +22,9 @@ interface Props {
 const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
-	const [textContent, setTextContent] = useState<string>("");
-	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
+	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	const { accessToken } = tokenState;
+
 	const dispatch = useDispatch();
 
 	const [bubbleUrl, setBubbleUrl] = useState<string>(viewImage);
@@ -33,7 +32,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 	const handleBubbleUpload = (): void => {
 		console.log("업로드 bubbleData", bubbleData);
 
-		if (!accessToken) {
+		if (userState.user.id === -1) {
 			setNeedLogin(true);
 			return;
 		}
@@ -50,7 +49,6 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			data: formData,
 			headers: {
 				"Content-Type": "multipart/form-data",
-				authorization: `Bearer ${accessToken}`,
 			},
 			withCredentials: true,
 		})
