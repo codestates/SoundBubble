@@ -241,6 +241,13 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 		circleSize(viewPitch);
 		console.log("소리에 따른 원 크기", circleSize(viewPitch));
 		document.documentElement.style.setProperty("--circleSize", `${circleSize(viewPitch)}`);
+
+		const canvas = canvasRef.current;
+		if (!canvas) throw new Error("error");
+		html2canvas(canvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
+			const image = canvas?.toDataURL();
+			setViewImage(image);
+		});
 	}, [viewPitch]);
 
 	useEffect(() => {
@@ -274,7 +281,6 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 						<canvas
 							width="500"
 							height="500"
-							
 							onClick={toggleMicrophone}
 							className="canvas backLight"
 							ref={canvasRef}

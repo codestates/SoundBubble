@@ -22,7 +22,7 @@ interface Props {
 const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
-	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
+	const [textContent, setTextContent] = useState<string>("");
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 
 	const dispatch = useDispatch();
