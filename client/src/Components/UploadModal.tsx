@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./Styles/UploadModal.css";
 import INSTA from "../Static/icons/insta_share.png";
 import KAKAO from "../Static/icons/kakao_share.png";
 import FACEBOOK from "../Static/icons/facebook_share.png";
 import SHARE from "../Static/icons/share_icon.png";
-// import axios from "axios";
-import axiosInstance from '../axios';
+import axiosInstance from "../axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
-import styled from "styled-components";
 
 import NeedLoginModal from "./NeedLoginModal";
 
@@ -24,10 +22,13 @@ interface Props {
 const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
-	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
+	const [textContent, setTextContent] = useState<string>("");
 	const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const { accessToken } = tokenState;
 	const dispatch = useDispatch();
+
+	const [bubbleUrl, setBubbleUrl] = useState<string>(viewImage);
 
 	const handleBubbleUpload = (): void => {
 		console.log("업로드 bubbleData", bubbleData);
@@ -69,6 +70,65 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 		setNeedLogin(false);
 	};
 
+	const kakaoShare = (): void => {
+		// ? # base64 -> file 형태로 만들기
+		function dataURLtoFile(dataurl, filename) {
+			const arr = dataurl.split(",");
+			const mime = arr[0].match(/:(.*?);/)[1];
+			const bstr = atob(arr[1]);
+			let n = bstr.length;
+			const u8arr = new Uint8Array(n);
+			while (n--) {
+				u8arr[n] = bstr.charCodeAt(n);
+			}
+			return new File([u8arr], filename, { type: mime });
+		}
+		const file = dataURLtoFile(viewImage, "mybubble.png");
+
+		// ? # 카카오톡 서버에 image 임시 업로드하기
+		window.Kakao.Link.uploadImage({
+			file: [file], // 배열로 감싸주기
+		}).then(function (res) {
+			// console.log("###", res.infos.original.url);
+			const imageUrl = res.infos.original.url;
+			setBubbleUrl(imageUrl);
+
+			// ? # 카카오톡 url 공유하기
+			window.Kakao.Link.createDefaultButton({
+				container: ".KAKAO_icon",
+				objectType: "feed",
+				content: {
+					title: `${userState.user.nickname === "" ? "Guest" : userState.user.nickname}님의 멋진 목소리 색깔이에요!`,
+					description:
+						textContent === ""
+							? "Sound Bubble이 뭔지 궁금하다면?"
+							: `${userState.user.nickname === "" ? "Guest" : userState.user.nickname} : ${textContent}`,
+					imageUrl: imageUrl,
+					link: {
+						mobileWebUrl: "https://www.soundbubble.io",
+						webUrl: "https://www.soundbubble.io",
+					},
+				},
+				buttons: [
+					{
+						title: "버블 구경하기",
+						link: {
+							mobileWebUrl: "https://www.soundbubble.io/palette",
+							webUrl: "https://www.soundbubble.io/palette",
+						},
+					},
+					{
+						title: "지금 만들러가기",
+						link: {
+							mobileWebUrl: "https://www.soundbubble.io/main",
+							webUrl: "https://www.soundbubble.io/main",
+						},
+					},
+				],
+			});
+		});
+	};
+
 	return (
 		<>
 			{needLogin ? <NeedLoginModal handleNeedLoginModal={handleNeedLoginModal} /> : null}
@@ -101,7 +161,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 						</div>
 						<div className="social-share-btn-box">
 							<img className="share_icon INSTA_icon" src={INSTA} alt="INSTA" />
-							<img className="share_icon KAKAO_icon" src={KAKAO} alt="KAKAO" />
+							<img className="share_icon KAKAO_icon" src={KAKAO} alt="KAKAO" onClick={kakaoShare} />
 							<img className="share_icon FACEBOOK_icon" src={FACEBOOK} alt="FACEBOOK" />
 							<img className="share_icon SHARE_icon" src={SHARE} alt="SHARE" />
 						</div>
