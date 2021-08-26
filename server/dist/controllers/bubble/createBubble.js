@@ -4,18 +4,19 @@ const Bubble_1 = require("../../entity/Bubble");
 const log_1 = require("../../utils/log");
 const createBubble = async (req, res, next) => {
     const { userId } = req.userInfo;
-    const textContent = req.body.textContent;
+    let textContent = req.body.textContent;
     try {
         //* 파라미터 검사
-        if (!textContent) {
-            return res.status(400).json({ message: `Invalid textContent(FormData), input 'textContent': ${textContent}` });
-        }
         const { image: imageInfo, sound: soundInfo } = req.files;
         if (!imageInfo) {
             return res.status(400).json({ message: `Invalid image(FormData), input 'image': ${imageInfo}` });
         }
         if (!soundInfo) {
             return res.status(400).json({ message: `Invalid sound(FormData), input 'sound': ${soundInfo}` });
+        }
+        if (!textContent) {
+            // return res.status(400).json({ message: `Invalid textContent(FormData), input 'textContent': ${textContent}` });
+            textContent = "";
         }
         //* 이미지 및 소리 경로 추출
         const imageSrc = imageInfo[0].location;

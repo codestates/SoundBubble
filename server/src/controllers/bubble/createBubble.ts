@@ -5,19 +5,20 @@ import { logError } from "../../utils/log"
 
 const createBubble: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId }: { userId: number } = req.userInfo as UserInfo;
-	const textContent: string | undefined = req.body.textContent;
+	let textContent: string | undefined = req.body.textContent;
 
 	try {
 		//* 파라미터 검사
-		if (!textContent) {
-			return res.status(400).json({ message: `Invalid textContent(FormData), input 'textContent': ${textContent}` });
-		}
 		const { image: imageInfo, sound: soundInfo } = req.files as { [fieldname: string]: Express.MulterS3.File[] };
 		if (!imageInfo) {
 			return res.status(400).json({ message: `Invalid image(FormData), input 'image': ${imageInfo}` });
 		}
 		if (!soundInfo) {
 			return res.status(400).json({ message: `Invalid sound(FormData), input 'sound': ${soundInfo}` });
+		}
+		if (!textContent) {
+			// return res.status(400).json({ message: `Invalid textContent(FormData), input 'textContent': ${textContent}` });
+			textContent = "";
 		}
 
 		//* 이미지 및 소리 경로 추출
