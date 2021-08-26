@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
 
-import NeedLoginModal from "./NeedLoginModal";
+import NeedLoginModal from "./UploadLimitModal";
 
 interface Props {
 	handleCloseModal: () => void;
@@ -55,12 +55,9 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			withCredentials: true,
 		})
 			.then(resp => {
-				// console.log("###", resp);
-				// alert("업로드 성공");
 				history.push("/palette");
 			})
 			.catch(err => {
-				// if (err.response.status === 401) setNeedLogin(true);
 				console.log("업로드 에러");
 			});
 	};

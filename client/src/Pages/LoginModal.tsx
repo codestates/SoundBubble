@@ -59,7 +59,7 @@ const LoginModal = (): JSX.Element => {
 				dispatch(setUserInfo(userInfo));
 				dispatch(setAccessToken(accessToken));
 				console.log("LoginModal: userState", userState);
-				console.log("LoginModal: tokenState", tokenState)
+				console.log("LoginModal: tokenState", tokenState);
 				history.push("/main");
 			})
 			.catch(err => {
@@ -114,7 +114,7 @@ const LoginModal = (): JSX.Element => {
 						</div>
 						<hr className="login-divider" />
 						<fieldset className="login-user-email">
-							<label className="login-label">Email Address</label>
+							<label className="login-label">Email</label>
 							<input className="login-input-email" type="email" onChange={e => setID(e.target.value)} />
 						</fieldset>
 						<fieldset className="login-user-password">

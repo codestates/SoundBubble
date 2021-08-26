@@ -47,8 +47,12 @@
 		transform: scale(1);
 	}
 	100% {
-		transform: scale(1.15);
+		transform: scale(1.2);
 	}
+}
+
+.isPlaying {
+	animation: ani 1.3s ease-in-out infinite alternate;
 }
 .bubbleDetail-container .comment-container div:hover {
 	color: rgb(33, 39, 50);
@@ -160,12 +164,12 @@
 }
 
 .bubbleDetail-container .bubbleDetail-bubble {
+	position: absolute;
 	width: 500px;
 	height: 500px;
 	background-color: #aaa;
 	border-radius: 50%;
 	overflow: hidden;
-	position: relative;
 }
 
 .bubbleDetail-container .bubbleDetail-bubble img {
