@@ -12,7 +12,7 @@ import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
 import styled from "styled-components";
 
-import NeedLoginModal from "./UploadLimitModal";
+import UploadLimitModal from "./UploadLimitModal";
 
 interface Props {
 	handleCloseModal: () => void;
@@ -21,7 +21,7 @@ interface Props {
 	bubbleData: BubbleData;
 }
 
-const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
+const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("텍스트를 입력해주세요!");
@@ -30,12 +30,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 	const dispatch = useDispatch();
 
 	const handleBubbleUpload = (): void => {
-		console.log("업로드 bubbleData", bubbleData);
-
-		if (!accessToken) {
-			setNeedLogin(true);
-			return;
-		}
+		setIsLimitModal(true);
 
 		const formData = new FormData();
 		// formData.append("image", viewImage);
@@ -61,14 +56,14 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			});
 	};
 
-	const [needLogin, setNeedLogin] = useState<boolean>(false);
-	const handleNeedLoginModal = () => {
-		setNeedLogin(false);
+	const [isLimitModal, setIsLimitModal] = useState<boolean>(false);
+	const handleLimitModal = () => {
+		setIsLimitModal(false);
 	};
 
 	return (
 		<>
-			{needLogin ? <NeedLoginModal handleNeedLoginModal={handleNeedLoginModal} /> : null}
+			{isLimitModal ? <UploadLimitModal handleLimitModal={handleLimitModal} /> : null}
 			<div className="upload-modal-background">
 				<main className="upload-modal-box">
 					<div className="upload-modal-top-bar">
@@ -80,11 +75,6 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 					</div>
 					<div className="upload-modal-image-content">
 						<img className="upload-modal-image" src={viewImage} />
-						<input
-							className="bubble-textContent"
-							onChange={e => setTextContent(e.target.value)}
-							placeholder="텍스트를 입력해 주세요!"
-						/>
 					</div>
 					<div className="create-message">이미지 생성이 완료되었습니다!</div>
 					<div className="upload-modal-option-content">
@@ -97,10 +87,10 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 							</button>
 						</div>
 						<div className="social-share-btn-box">
-							<img className="share_icon INSTA_icon" src={INSTA} alt="INSTA" />
+							{/* <img className="share_icon INSTA_icon" src={INSTA} alt="INSTA" />
 							<img className="share_icon KAKAO_icon" src={KAKAO} alt="KAKAO" />
 							<img className="share_icon FACEBOOK_icon" src={FACEBOOK} alt="FACEBOOK" />
-							<img className="share_icon SHARE_icon" src={SHARE} alt="SHARE" />
+							<img className="share_icon SHARE_icon" src={SHARE} alt="SHARE" /> */}
 						</div>
 					</div>
 				</main>
@@ -109,4 +99,4 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 	);
 };
 
-export default UploadModal;
+export default UploadModalPiano;
