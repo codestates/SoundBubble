@@ -20,23 +20,31 @@ interface Bubble {
 const Palette = styled.div`
 	display: flex;
 	width: 100%;
-	height: 200vh;
+	height: 120%;
 	background-color: rgba(2, 7, 21, 0.9);
 `;
 
 const Column = styled.div`
 	width: 34%;
+	/* border: 10px solid red; */
 `;
 
 const PalettePart = (): JSX.Element => {
 	// ? # bubble 배열을 받아왔을 때, column으로 배치하기
 	const [bubbles, setBubble] = useState([]);
 
+	const [topBubble, setTopBubble] = useState([]);
+	const [endBubble, setEndBubble] = useState([]);
 	// ? ###### 서버에서 Bubble 가져오기 ######
 	const getBubble = () => {
 		axios({ method: "GET", url: `${process.env.REACT_APP_API_URL}/bubble`, withCredentials: true }).then(resp => {
 			const { bubbles } = resp.data.data;
 			setBubble(bubbles);
+
+			const top = bubbles.slice(0, 3).map(bubble => bubble.id);
+			const end = bubbles.slice(bubbles.length - 3).map(bubble => bubble.id);
+			setTopBubble(top);
+			setEndBubble(end);
 		});
 	};
 
@@ -65,17 +73,17 @@ const PalettePart = (): JSX.Element => {
 			<Palette>
 				<Column>
 					{bubbleArr1.map((bubble: Bubble, i: number) => (
-						<Bubble key={i} bubble={bubble} />
+						<Bubble key={i} bubble={bubble} location="L" topBubble={topBubble} endBubble={endBubble} />
 					))}
 				</Column>
 				<Column>
 					{bubbleArr2.map((bubble: Bubble, i: number) => (
-						<Bubble key={i} bubble={bubble} />
+						<Bubble key={i} bubble={bubble} location="M" topBubble={topBubble} endBubble={endBubble} />
 					))}
 				</Column>
 				<Column>
 					{bubbleArr3.map((bubble: Bubble, i: number) => (
-						<Bubble key={i} bubble={bubble} />
+						<Bubble key={i} bubble={bubble} location="R" topBubble={topBubble} endBubble={endBubble} />
 					))}
 				</Column>
 				{/* <Column>
