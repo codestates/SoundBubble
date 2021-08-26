@@ -47,6 +47,8 @@ const Palette = (): JSX.Element => {
 		handleModalClose();
 	}, []);
 
+	const [temp, setTemp] = useState(0);
+
 	return (
 		<>
 			{guideModal ? (
@@ -57,7 +59,12 @@ const Palette = (): JSX.Element => {
 					</PaletteModal>
 				</>
 			) : null}
-			<div className="palette-main">
+			<div
+				className="palette-main"
+				onMouseMove={e => {
+					setTemp(e.clientX);
+				}}
+			>
 				<Navigation />
 				<PalettePart />
 			</div>
