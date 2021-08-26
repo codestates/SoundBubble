@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import store from "../Store";
-import { setAccessToken, removeAccessToken, removeUserInfo } from "../actions";
+import { removeUserInfo } from "../actions";
 import Swal from "sweetalert2";
 
 const { dispatch } = store; // redux store에 바로 접근 (Hook 사용 불가)
