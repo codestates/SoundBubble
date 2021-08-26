@@ -295,7 +295,7 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 					</>
 				) : (
 					<>
-						<canvas id="canvas" width="500px" height="500px" onClick={handleUploadModal} ref={canvasRef}></canvas>
+						<canvas id="canvas" onClick={handleUploadModal} ref={canvasRef}></canvas>
 						<div className="main-content-box">
 							{pianoState ? (
 								<>
