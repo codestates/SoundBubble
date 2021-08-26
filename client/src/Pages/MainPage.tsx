@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MainPiano from "../Components/MainPage/MainPiano";
 import MainMic from "../Components/MainPage/MainMic";
 import MainUpload from "../Components/MainPage/MainUpload";
@@ -51,6 +51,10 @@ const MainPage = (): JSX.Element => {
 	const handleCloseTutorial = (): void => {
 		setOpenTutorial(false);
 	};
+
+	useEffect(() => {
+		window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
+	}, []);
 
 	return (
 		<>
