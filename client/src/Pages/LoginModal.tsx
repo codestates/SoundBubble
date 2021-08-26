@@ -115,7 +115,7 @@ const LoginModal = (): JSX.Element => {
 						</div>
 						<hr className="login-divider" />
 						<fieldset className="login-user-email">
-							<label className="login-label">Email Address</label>
+							<label className="login-label">Email</label>
 							<input className="login-input-email" type="email" onChange={e => setID(e.target.value)} />
 						</fieldset>
 						<fieldset className="login-user-password">

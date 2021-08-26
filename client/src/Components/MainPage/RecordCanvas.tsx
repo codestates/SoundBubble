@@ -274,6 +274,7 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 						<canvas
 							width="500"
 							height="500"
+							
 							onClick={toggleMicrophone}
 							className="canvas backLight"
 							ref={canvasRef}

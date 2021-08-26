@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from
 import "../Styles/MainPiano.css";
 import Piano from "../Piano/Piano";
 import Piano2 from "../Piano2/Piano2";
-import UploadModal from "../../Components/UploadModal";
+import UploadModal from "../../Components/UploadModalPiano";
 import { BubbleData } from "../../@type/request";
 import upArrow from "../Styles/arrow-up.png";
 import downArrow from "../Styles/arrow-down.png";
@@ -295,7 +295,7 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 					</>
 				) : (
 					<>
-						<canvas id="canvas" width="500px" height="500px" onClick={handleUploadModal} ref={canvasRef}></canvas>
+						<canvas id="canvas" onClick={handleUploadModal} ref={canvasRef}></canvas>
 						<div className="main-content-box">
 							{pianoState ? (
 								<>

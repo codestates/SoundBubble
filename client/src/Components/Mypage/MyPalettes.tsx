@@ -55,7 +55,6 @@ const MyPalettes = (): JSX.Element => {
 									className="palette"
 									onClick={() => window.location.replace(`/bubble/${bubbleId}`)}
 								/>
-								<p>{result}</p>
 							</div>
 						);
 					})}
