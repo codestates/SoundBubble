@@ -2,4 +2,5 @@
 
 interface Window {
 	Kakao: any;
+	webkitAudioContext: typeof AudioContext;
 }
