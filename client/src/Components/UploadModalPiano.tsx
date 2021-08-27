@@ -55,7 +55,7 @@ const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubble
 
 			// ? # 카카오톡 url 공유하기
 			window.Kakao.Link.createDefaultButton({
-				container: ".KAKAO_icon",
+				container: ".share_icon",
 				objectType: "feed",
 				content: {
 					title: `${
@@ -113,10 +113,10 @@ const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubble
 							</button>
 						</div>
 						<div className="social-share-btn-box">
-							<img className="share_icon INSTA_icon" src={INSTA} alt="INSTA" />
-							<img className="share_icon KAKAO_icon" src={KAKAO} alt="KAKAO" onClick={kakaoShare} />
-							<img className="share_icon FACEBOOK_icon" src={FACEBOOK} alt="FACEBOOK" />
-							<img className="share_icon SHARE_icon" src={SHARE} alt="SHARE" />
+							<img src={KAKAO} alt="KAKAO" className="KAKAO_icon" />
+							<button className="share_icon" onClick={kakaoShare}>
+								카카오톡 공유하기
+							</button>
 						</div>
 					</div>
 				</main>
