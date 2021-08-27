@@ -1,16 +1,10 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import "./Styles/UploadModal.css";
-import INSTA from "../Static/icons/insta_share.png";
 import KAKAO from "../Static/icons/kakao_share.png";
-import FACEBOOK from "../Static/icons/facebook_share.png";
-import SHARE from "../Static/icons/share_icon.png";
-// import axios from "axios";
 import { BubbleData } from "../@type/request";
-import styled from "styled-components";
 import Swal from "sweetalert2";
 import UploadLimitModal from "./UploadLimitModal";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
 
 interface Props {
@@ -20,7 +14,7 @@ interface Props {
 	bubbleData: BubbleData;
 }
 
-const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
+const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage }: Props): JSX.Element => {
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const handleBubbleUpload = (): void => {
 		Swal.fire({
@@ -53,7 +47,6 @@ const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubble
 		window.Kakao.Link.uploadImage({
 			file: [file], // 배열로 감싸주기
 		}).then(function (res) {
-			// console.log("###", res.infos.original.url);
 			const imageUrl = res.infos.original.url;
 
 			// ? # 카카오톡 url 공유하기
