@@ -17,8 +17,19 @@ interface Props {
 const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const API_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("");
+	const [uploaded, setUploaded] = useState(false);
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
+
 	const handleBubbleUpload = (): void => {
+		if (uploaded) {
+			Swal.fire({
+				text: "이미 업로드 된 버블입니다!",
+				icon: "warning",
+				confirmButtonText: "확인",
+			});
+			return;
+		}
+
 		if (userState.user.id === -1) {
 			Swal.fire({
 				text: "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?",
@@ -49,6 +60,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			withCredentials: true,
 		})
 			.then(() => {
+				setUploaded(true);
 				Swal.fire({
 					title: "업로드 성공",
 					text: "팔레트 페이지에서 확인하시겠습니까?",
