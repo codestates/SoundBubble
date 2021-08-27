@@ -5,6 +5,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserInfo } from "../actions";
 import { RootReducerType } from "../Store";
+import { emailIsValid, pwIsValid } from "../Utils/Validator";
 import "./Styles/LoginModal.css";
 import Swal from "sweetalert2";
 
@@ -23,11 +24,20 @@ const LoginModal = (): JSX.Element => {
 		if (ID === "" && PW === "") {
 			setErrorMsg("이메일과 비밀번호를 입력해주세요.");
 			return;
-		}else if (ID === "") {
+		} else if (ID === "") {
 			setErrorMsg("이메일을 입력해주세요.");
 			return;
 		} else if (PW === "") {
 			setErrorMsg("비밀번호를 입력해주세요.");
+			return;
+		}
+
+		if (!emailIsValid(ID)) {
+			setErrorMsg("올바른 이메일 형식이 아닙니다.");
+			return;
+		}
+		if (!pwIsValid(PW)) {
+			setErrorMsg("비밀번호는 숫자와 영어 8글자 이상으로 이루어져야 합니다.");
 			return;
 		}
 
