@@ -104,19 +104,20 @@
 	width: 12rem;
 	height: 4rem;
 	font-family: "Noto Sans KR", sans-serif;
-	font-size: 1.6rem;
 	outline: none;
 	border: none;
 	border-radius: 10px;
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
 	background-color: #6d6b6b;
+	font-size: 1.6rem;
 	color: white;
 	margin: 0px 10px;
 }
 
 .bubble-upload-btn:hover,
-.bubble-download-btn:hover {
+.bubble-download-btn:hover,
+.social-share-btn-box:hover {
 	transform: scale(1.03);
 	-o-transform: scale(1.03);
 	-moz-transform: scale(1.03);
@@ -129,13 +130,28 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
-	margin-top: 20px;
+	width: 25.3rem;
+	height: 4rem;
+	font-family: "Noto Sans KR", sans-serif;
+	font-size: 1.6rem;
+	outline: none;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	background-color: #6d6b6b;
+	color: white;
+	margin: 3%;
 }
 /* icon */
 .share_icon {
-	margin: 5px 25px;
+	height: 100%;
+	font-size: 1.6rem;
+	color: white;
 	cursor: pointer;
+}
+.KAKAO_icon {
+	width: 3rem;
 }
 
 @keyframes scaleUp {
