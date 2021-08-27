@@ -10,7 +10,6 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { BubbleComment } from "./BubbleComment";
-import { LikedBubble } from "./LikedBubble";
 import { QueryOrder } from "../@type/query";
 
 @Entity({
@@ -47,9 +46,7 @@ export class Bubble extends BaseEntity {
   @OneToMany(() => BubbleComment, (bubbleComment) => bubbleComment.bubble)
   bubbleComments!: BubbleComment[];
 
-  @OneToMany(() => LikedBubble, (likedBubble) => likedBubble.bubble)
-  likedBubbles!: BubbleComment[];
-
+  //* 버블 생성
   static async insertBubble(
     userId: number,
     textContent: string,
