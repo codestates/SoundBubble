@@ -49,15 +49,17 @@ const BubbleDetail = (): JSX.Element => {
 	}, []);
 
 	const handleSubmitComment = async (text: string) => {
-		await axiosInstance({
-			method: "POST",
-			url: `${API_URL}/bubble/${bubbleId}/comment`,
-			data: { textContent: text },
-			withCredentials: true,
-		}).then(() => {
-			setCommentInput("");
-			getBubbleData();
-		});
+		if (userState.user.id >= 0) {
+			await axiosInstance({
+				method: "POST",
+				url: `${API_URL}/bubble/${bubbleId}/comment`,
+				data: { textContent: text },
+				withCredentials: true,
+			}).then(() => {
+				setCommentInput("");
+				getBubbleData();
+			});
+		}
 	};
 
 	const handleDeleteComment = async id => {
@@ -118,6 +120,21 @@ const BubbleDetail = (): JSX.Element => {
 		audio.play();
 		setIsPlaying(true);
 	};
+	const handleCommentClick = () => {
+		if (userState.user.id === -1) {
+			Swal.fire({
+				text: "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "로그인하기",
+				cancelButtonText: "아니오",
+			}).then(result => {
+				if (result.isConfirmed) {
+					window.location.replace("/login");
+				}
+			});
+		}
+	};
 
 	return (
 		<>
@@ -170,14 +187,19 @@ const BubbleDetail = (): JSX.Element => {
 						<input
 							type="text"
 							name="comment"
-							placeholder="댓글을 남겨주세요 (댓글 + Enter)"
+							placeholder={
+								userState.user.id === -1 ? "댓글을 남기시려면 로그인이 필요합니다" : "댓글을 남겨주세요 (댓글 + Enter)"
+							}
 							onChange={e => setCommentInput(e.target.value)}
 							value={commentInput}
+							// disabled={userState.user.id === -1 ? true : false}
+							readOnly={userState.user.id === -1 ? true : false}
 							onKeyPress={e => {
 								if (e.key === "Enter") {
 									handleSubmitComment(commentInput);
 								}
 							}}
+							onClick={handleCommentClick}
 						/>
 					</label>
 				</div>

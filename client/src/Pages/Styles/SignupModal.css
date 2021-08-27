@@ -151,6 +151,10 @@ body {
 	background-color: rgb(119, 112, 255);
 }
 
+.signup-form-btn > button:nth-child(1):hover {
+	background-color: rgb(200, 112, 255);
+}
+
 .signup-form-btn > button:nth-child(2) {
 	background-color: rgb(200, 112, 255);
 }

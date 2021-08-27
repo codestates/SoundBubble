@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { emailIsValid, pwIsValid } from "../Utils/Validator";
@@ -8,6 +8,8 @@ import Modal from "../Components/Modal";
 import Swal from "sweetalert2";
 import { IoMdReturnLeft } from "react-icons/io";
 import { runInContext } from "vm";
+import { useSelector, useDispatch } from "react-redux";
+import { RootReducerType } from "../Store";
 
 const SignupModal = (): JSX.Element => {
 	const [name, setName] = useState("");
@@ -21,6 +23,14 @@ const SignupModal = (): JSX.Element => {
 
 	const [nameChecked, setNameChecked] = useState(false);
 	const [emailChecked, setEmailChecked] = useState(false);
+
+	const userState = useSelector((state: RootReducerType) => state.userReducer);
+
+	useEffect(() => {
+		if (userState.user.id >= 0) {
+			history.push("/mypage");
+		}
+	}, []);
 
 	const handleCloseModal = () => {
 		setIsModal(false);

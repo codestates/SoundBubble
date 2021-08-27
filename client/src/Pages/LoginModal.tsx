@@ -58,6 +58,10 @@ const LoginModal = (): JSX.Element => {
 
 	//* Social login
 	useEffect(() => {
+		if (userState.user.id >= 0) {
+			history.push("/mypage");
+		}
+
 		const url = new URL(window.location.href);
 		const authorizationCode = url.searchParams.get("code");
 
