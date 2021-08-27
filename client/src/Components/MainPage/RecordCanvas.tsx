@@ -53,6 +53,14 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 		sound: null,
 	});
 
+	useEffect(() => {
+		if (audio) {
+			setTimeout(() => {
+				toggleMicrophone();
+			}, 15000);
+		}
+	}, [audio]);
+
 	async function getMicrophone() {
 		console.log("start!");
 		console.log("시작 속도", pickSpeed);
@@ -202,7 +210,7 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 			viewPitch > 260
 				? `hsla(${viewPitch * voiceConstant}, 100%, 50%, 0.75)`
 				: `hsla(${viewPitch * voiceConstant}, 100%, 75%, 0.6)`
-			}`;
+		}`;
 		context?.fill();
 		const image = canvas?.toDataURL();
 		setViewImage(image);
@@ -224,11 +232,11 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 
 	// ? # 이미지 합치기
 	function combineCanvas(ctx, over, x, y) {
-		const img = document.createElement('img');
+		const img = document.createElement("img");
 		img.src = over;
 		img.onload = function () {
 			ctx.drawImage(img, x, y);
-		}
+		};
 	}
 
 	// ? # 저장하기 버튼
@@ -294,19 +302,19 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 				<div className="circle-right">
 					{bubbleIsClicked ? (
 						<>
-						<canvas
-							width="500"
-							height="500"
-							onClick={toggleMicrophone}
-							className="canvas backLight"
-							ref={canvasRef}
-						></canvas>
+							<canvas
+								width="500"
+								height="500"
+								onClick={toggleMicrophone}
+								className="canvas backLight"
+								ref={canvasRef}
+							></canvas>
 							<img className="recordNoiseImg" src="noise.png" height="500" width="500" onClick={toggleMicrophone} />
 						</>
 					) : (
 						<>
-						<canvas width="500" height="500" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
-						<img className="recordNoiseImg" src="noise.png" height="500" width="500" onClick={toggleMicrophone}/>
+							<canvas width="500" height="500" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
+							<img className="recordNoiseImg" src="noise.png" height="500" width="500" onClick={toggleMicrophone} />
 						</>
 					)}
 				</div>
