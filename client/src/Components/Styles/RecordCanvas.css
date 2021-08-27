@@ -37,6 +37,7 @@
 	height: 50vh;
 	position: absolute;
 	transition: 0.5s;
+	border-radius: 50%;
 }
 
 .canvas:hover {

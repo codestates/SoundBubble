@@ -3,7 +3,7 @@
 }
 
 .piano-natural-key {
-	width: 5vh;
+	width: 2.5vw;
 	height: 15vh;
 	cursor: pointer;
 	background: #fafafa;
@@ -36,7 +36,7 @@
 	cursor: pointer;
 	background: #444;
 	transform: translateX(-50%);
-	width: 4vh;
+	width: 2vw;
 	height: 10vh;
 	border-radius: 0 0 3px 3px;
 	border: 3px solid #444;

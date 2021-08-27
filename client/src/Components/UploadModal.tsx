@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./Styles/UploadModal.css";
-import INSTA from "../Static/icons/insta_share.png";
 import KAKAO from "../Static/icons/kakao_share.png";
-import FACEBOOK from "../Static/icons/facebook_share.png";
-import SHARE from "../Static/icons/share_icon.png";
 import axiosInstance from "../axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
@@ -18,18 +15,10 @@ interface Props {
 }
 
 const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
-	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
 	const [textContent, setTextContent] = useState<string>("");
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-
-	const dispatch = useDispatch();
-
-	const [bubbleUrl, setBubbleUrl] = useState<string>(viewImage);
-
 	const handleBubbleUpload = (): void => {
-		console.log("업로드 bubbleData", bubbleData);
-
 		if (userState.user.id === -1) {
 			Swal.fire({
 				text: "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?",
@@ -46,7 +35,6 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 		}
 
 		const formData = new FormData();
-		// formData.append("image", viewImage);
 		formData.append("image", bubbleData.image as File);
 		formData.append("sound", bubbleData.sound as File);
 		formData.append("textContent", textContent);
@@ -83,11 +71,6 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			});
 	};
 
-	// const [needLogin, setNeedLogin] = useState<boolean>(false);
-	// const handleNeedLoginModal = () => {
-	// 	setNeedLogin(false);
-	// };
-
 	const kakaoShare = (): void => {
 		// ? # base64 -> file 형태로 만들기
 		function dataURLtoFile(dataurl, filename) {
@@ -107,9 +90,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 		window.Kakao.Link.uploadImage({
 			file: [file], // 배열로 감싸주기
 		}).then(function (res) {
-			// console.log("###", res.infos.original.url);
 			const imageUrl = res.infos.original.url;
-			setBubbleUrl(imageUrl);
 
 			// ? # 카카오톡 url 공유하기
 			window.Kakao.Link.createDefaultButton({
@@ -162,7 +143,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 						<img className="upload-modal-image" src={viewImage} />
 						<img className="modal-noise" src="noise.png" />
 						<input
-							className="bubble-texUploadLimitModaltContent"
+							className="bubble-textContent"
 							onChange={e => setTextContent(e.target.value)}
 							placeholder="텍스트를 입력해 주세요!"
 						/>
