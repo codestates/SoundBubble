@@ -36,8 +36,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 		colorChange(backColor);
 	}, [backColor]);
 
-	const [smallPiano, setSmallPiano] = useState(false);
-
 	const [windowSize, setWindowSize] = useState(window.innerWidth);
 
 	const handleWindowResize = useCallback(event => {
@@ -67,12 +65,7 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 		if (!context) throw new Error("error");
 		context.filter = "blur(4px)";
 		context?.beginPath();
-
-		if (smallPiano) {
-			context?.arc(randomPosition.x * 0.7, randomPosition.y * 0.7, 50, 0, 2 * Math.PI, true);
-		} else {
-			context?.arc(randomPosition.x * 1.2, randomPosition.y * 1.2, 80, 0, 2 * Math.PI, true);
-		}
+		context?.arc(randomPosition.x * 1.2, randomPosition.y * 1.2, 80, 0, 2 * Math.PI, true);
 
 		switch (note) {
 			case "C3": // 빨
@@ -211,15 +204,8 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 		setIsModal(false);
 	};
 
-	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-		const note = e.currentTarget.value;
-		if (!isModal && smallPiano) handlePainting(note);
-		const audio = new Audio(`sounds/piano_${note}.mp3`);
-		audio.play();
-	};
-
 	const handleClickPiano2 = (note: string) => {
-		if (!smallPiano) handlePainting(note);
+		handlePainting(note);
 	};
 
 	const [pianoState, setPianoState] = useState(false);
@@ -237,6 +223,7 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 			setViewImage(image);
 		});
 	}, [viewImage]);
+
 	return (
 		<>
 			{isModal ? (
