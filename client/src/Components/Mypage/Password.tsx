@@ -1,6 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-// import axios from "axios";
+import React, { useState } from "react";
 import axiosInstance from "../../axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootReducerType } from "../../Store";
@@ -12,12 +10,9 @@ const Password = (): JSX.Element => {
 	const [password, setPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [newPasswordRe, setNewPasswordRe] = useState("");
-	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
-
 	const dispatch = useDispatch();
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
-	// const tokenState = useSelector((state: RootReducerType) => state.tokenReducer);
 
 	const [errorMsg, setErrorMsg] = useState("");
 	const resetErrorMsg = () => {
