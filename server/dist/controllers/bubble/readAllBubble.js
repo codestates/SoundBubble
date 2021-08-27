@@ -21,4 +21,3 @@ const readAllBubble = async (req, res, next) => {
     }
 };
 exports.default = readAllBubble;
-//# sourceMappingURL=readAllBubble.js.map

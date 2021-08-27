@@ -15,11 +15,7 @@ const upload = multer_1.default({
         contentType: multer_s3_1.default.AUTO_CONTENT_TYPE,
         acl: "public-read",
         key: function (req, file, callback) {
-            console.log("file", file);
-            if (file.size === 0) {
-                const errMessage = `Invalid File Type.\nfile size: ${file.size}`;
-                return callback(new error_1.FileTypeError(errMessage));
-            }
+            console.log("파일 업로드", file.originalname);
             //* 파일 이름에서 확장자 추출
             const originalFileName = file.originalname.split(".");
             let ext;
@@ -27,7 +23,7 @@ const upload = multer_1.default({
                 ext = originalFileName.pop()?.toLowerCase();
             }
             else {
-                ext = "null";
+                ext = "";
             }
             // MIME type에서 확장자 추출
             const mimeTypeExt = file.mimetype.split("/").pop()?.toLowerCase();
@@ -37,7 +33,7 @@ const upload = multer_1.default({
                 return callback(new error_1.FileTypeError(errMessage));
             }
             //* S3에 저장할 파일 이름 생성 및 경로 설정
-            if (ext === "null")
+            if (ext === "")
                 ext = mimeTypeExt;
             const s3FileName = Date.now() + "." + ext;
             let s3FilePath;
@@ -53,4 +49,3 @@ const upload = multer_1.default({
     }),
 });
 exports.default = upload;
-//# sourceMappingURL=uploadResources.js.map

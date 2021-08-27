@@ -15,7 +15,7 @@ const loginNaver = async (req, res, next) => {
     try {
         //* 파라미터 검사
         if (!authorizationCode) {
-            return res.status(400).json({ message: "Invalid code(body), failed to get token" });
+            return res.status(400).json({ message: "Invalid authorizationCode(body), failed to get token" });
         }
         //* 네이버 토큰 획득
         const NaverClientId = process.env.NAVER_CLIENT_ID;
@@ -35,7 +35,7 @@ const loginNaver = async (req, res, next) => {
         });
         const naverAccessToken = token.data.access_token;
         if (!naverAccessToken) {
-            return res.status(400).json({ message: "Invalid code(body), failed to get token" });
+            return res.status(400).json({ message: "Invalid authorizationCode(body), failed to get token" });
         }
         //* 액세스 토큰으로 유저 정보 요청
         const profile = await axios_1.default({
@@ -78,10 +78,13 @@ const loginNaver = async (req, res, next) => {
         //* 토큰 발급
         const accessToken = token_1.generateAccessToken(userInfo);
         const refreshToken = token_1.generateRefreshToken(userInfo);
+        // DB에 리프레시 토큰 저장
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
+        // 토큰 화이트리스트에 액세스 토큰 저장
         if (process.env.NODE_ENV === "production") {
             await redis_1.insertWhiteList(userInfo.id, accessToken);
         }
+        // 응답 쿠키에 액세스 토큰 저장
         res.cookie("accessToken", accessToken, token_1.cookieOptions);
         return res.json({ data: { userInfo }, message: "Login succeed" });
     }
@@ -91,4 +94,3 @@ const loginNaver = async (req, res, next) => {
     }
 };
 exports.default = loginNaver;
-//# sourceMappingURL=loginNaver.js.map

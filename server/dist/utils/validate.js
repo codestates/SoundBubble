@@ -1,4 +1,5 @@
 "use strict";
+//? 형식 체크 함수
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkNicknameFormat = exports.checkPasswordFormat = exports.checkEmailFormat = void 0;
 const checkEmailFormat = (email) => {
@@ -27,4 +28,3 @@ const checkNicknameFormat = (nickname) => {
     return false;
 };
 exports.checkNicknameFormat = checkNicknameFormat;
-//# sourceMappingURL=validate.js.map

@@ -23,6 +23,7 @@ let BubbleComment = BubbleComment_1 = class BubbleComment extends typeorm_1.Base
     bubble;
     userId;
     user;
+    //* 버블 댓글 등록
     static async insertComment(userId, bubbleId, textContent) {
         const newBubbleComment = new BubbleComment_1();
         newBubbleComment.userId = userId;
@@ -31,6 +32,7 @@ let BubbleComment = BubbleComment_1 = class BubbleComment extends typeorm_1.Base
         await newBubbleComment.save();
         return newBubbleComment;
     }
+    //* 버블 댓글 조회
     static async findComments(bubbleId) {
         const comments = await this.createQueryBuilder("comment")
             .where("bubbleId = :id", { id: bubbleId })
@@ -78,4 +80,3 @@ BubbleComment = BubbleComment_1 = __decorate([
     })
 ], BubbleComment);
 exports.BubbleComment = BubbleComment;
-//# sourceMappingURL=BubbleComment.js.map

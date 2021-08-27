@@ -42,7 +42,6 @@ bubbleRouter.post("/upload", uploadResources_1.default.fields([
 bubbleRouter.delete("/:id", controller.deleteBubble);
 // 버블 댓글 등록
 bubbleRouter.post("/:id/comment", controller.createBubbleComment);
-// 본인 댓글 삭제
+// 버블 댓글 삭제
 bubbleRouter.delete("/:id/comment", controller.deleteBubbleComment);
 exports.default = bubbleRouter;
-//# sourceMappingURL=bubbleRouter.js.map

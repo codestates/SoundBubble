@@ -49,4 +49,3 @@ userRouter.patch("/mypage/password", controller.updatePassword);
 // 본인 버블 조회
 userRouter.get("/mypage/bubble", controller.readMyBubble);
 exports.default = userRouter;
-//# sourceMappingURL=userRouter.js.map

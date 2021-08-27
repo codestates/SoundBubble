@@ -1,4 +1,5 @@
 import aws from "aws-sdk";
+import { logError } from "../utils/log";
 
 //* S3 이미지 서버 연결
 aws.config.update({
@@ -18,10 +19,9 @@ export const deleteResource = async (bucket: string, filename: string): Promise<
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		function (error: aws.AWSError, data: aws.S3.DeleteObjectOutput) {
 			if (error) {
+				logError("S3 리소스 삭제 실패");
 				console.error(error);
 			}
 		},
 	);
 };
-
-console.log("resource server connected");

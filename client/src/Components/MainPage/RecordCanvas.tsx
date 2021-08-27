@@ -125,10 +125,15 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 
 			const canvas = canvasRef.current;
 			if (!canvas) throw new Error("error");
-
+			const context = canvas?.getContext("2d");
+			if (!context) throw new Error("error");
+			const noise = "noise.png";
+			combineCanvas(context, noise, 0, 0);
+			const newCanvas = canvasRef.current;
+			if (!newCanvas) throw new Error("error");
 			//* use html2canvas
-			html2canvas(canvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
-				canvas.toBlob(imageBlob => {
+			html2canvas(newCanvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
+				newCanvas.toBlob(imageBlob => {
 					if (!imageBlob) throw new Error("error");
 					const imageFile = new File([imageBlob], "image.png", { type: imageBlob.type });
 					setBubbleData(Object.assign(bubbleData, { image: imageFile }));
@@ -165,8 +170,8 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 	const handlePainting = (viewPitch: number) => {
 		// ? # 랜덤 값 상수
 		const randomPosition = {
-			x: Number(getRandom(0, 700)),
-			y: Number(getRandom(0, 700)),
+			x: Number(getRandom(0, 500)),
+			y: Number(getRandom(0, 500)),
 			voiceConstant: 2.7,
 			voiceStrong: 360,
 		};
@@ -190,13 +195,14 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 		const context = canvas?.getContext("2d");
 		if (!context) throw new Error("error");
 		context?.beginPath();
+		context.globalCompositeOperation = "source-over";
 		context?.arc(x, y, getRadius(viewPitch), 0, 2 * Math.PI);
-		context.filter = "blur(2px)";
+		context.filter = "blur(5px)";
 		context.fillStyle = `${
 			viewPitch > 260
 				? `hsla(${viewPitch * voiceConstant}, 100%, 50%, 0.75)`
 				: `hsla(${viewPitch * voiceConstant}, 100%, 75%, 0.6)`
-		}`;
+			}`;
 		context?.fill();
 		const image = canvas?.toDataURL();
 		setViewImage(image);
@@ -215,6 +221,15 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 		const image = canvas?.toDataURL();
 		setViewImage(image);
 	};
+
+	// ? # 이미지 합치기
+	function combineCanvas(ctx, over, x, y) {
+		const img = document.createElement('img');
+		img.src = over;
+		img.onload = function () {
+			ctx.drawImage(img, x, y);
+		}
+	}
 
 	// ? # 저장하기 버튼
 	function handleSaveClick() {
@@ -278,6 +293,7 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 				<div className="option-left"></div>
 				<div className="circle-right">
 					{bubbleIsClicked ? (
+						<>
 						<canvas
 							width="500"
 							height="500"
@@ -285,8 +301,13 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 							className="canvas backLight"
 							ref={canvasRef}
 						></canvas>
+							<img className="recordNoiseImg" src="noise.png" height="500" width="500" onClick={toggleMicrophone} />
+						</>
 					) : (
+						<>
 						<canvas width="500" height="500" onClick={toggleMicrophone} className="canvas" ref={canvasRef}></canvas>
+						<img className="recordNoiseImg" src="noise.png" height="500" width="500" onClick={toggleMicrophone}/>
+						</>
 					)}
 				</div>
 			</div>

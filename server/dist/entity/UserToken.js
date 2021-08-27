@@ -19,6 +19,7 @@ let UserToken = UserToken_1 = class UserToken extends typeorm_1.BaseEntity {
     createdAt;
     updatedAt;
     user;
+    //* 토큰 입력
     static async insertToken(userId, refreshToken) {
         const newToken = new UserToken_1();
         newToken.userId = userId;
@@ -54,4 +55,3 @@ UserToken = UserToken_1 = __decorate([
     })
 ], UserToken);
 exports.UserToken = UserToken;
-//# sourceMappingURL=UserToken.js.map

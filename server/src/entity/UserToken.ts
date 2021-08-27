@@ -30,6 +30,7 @@ export class UserToken extends BaseEntity {
   @JoinColumn()
   user!: User;
 
+  //* 토큰 입력
   static async insertToken(userId: number, refreshToken: string): Promise<UserToken> {
     const newToken: UserToken = new UserToken();
     newToken.userId = userId;

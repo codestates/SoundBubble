@@ -13,16 +13,19 @@ export const redisClient: RedisClient = redis.createClient(redisPort, redisHost)
 redisClient.on("error", function (error) {
 	logError("Redis 접속 실패");
 	console.error(error);
-	// redisClient.quit();
 });
 
-redisClient.flushall();
+// promisification: 콜백을 받는 함수를 프로미스를 반환하는 함수로 변경
+const setAsync = promisify(redisClient.set).bind(redisClient);
+const getAsync = promisify(redisClient.get).bind(redisClient);
 
-export const setAsync = promisify(redisClient.set).bind(redisClient);
-export const setexAsync = promisify(redisClient.setex).bind(redisClient);
-export const getAsync = promisify(redisClient.get).bind(redisClient);
+//? Redis 구조
+// userId: {
+// 	white: [화이트리스트에 등록된 토큰들],
+// 	black: [블랙리스트에 등록된 토큰들]
+// }
 
-//* 로그인: 화이트 리스트에 액세스 토큰 등록
+//* 화이트 리스트에 액세스 토큰 등록: 로그인
 export const insertWhiteList = async (userId: number, accessToken: string): Promise<void> => {
 	const redisData: string | null = await getAsync(String(userId));
 
@@ -43,9 +46,10 @@ export const insertWhiteList = async (userId: number, accessToken: string): Prom
 	}
 };
 
-//* 로그아웃: 블랙 리스트에 액세스 토큰 등록
+//* 블랙 리스트에 액세스 토큰 등록: 로그아웃
 export const insertBlackList = async (userId: number, accessToken: string): Promise<void> => {
 	const redisData: string | null = await getAsync(String(userId));
+
 	if (redisData) {
 		const list: RedisTokenList = JSON.parse(redisData);
 
@@ -81,7 +85,7 @@ export const insertBlackList = async (userId: number, accessToken: string): Prom
 	}
 };
 
-//* 화이트리스트 조회 (1회성. 액세스 토큰 재발급용)
+//* 화이트리스트 조회: 만료된 액세스 토큰 검증 이후 (1회성. 액세스 토큰 재발급용)
 export const checkWhiteList = async (userId: number, accessToken: string): Promise<boolean> => {
 	const redisData: string | null = await getAsync(String(userId));
 
@@ -91,16 +95,15 @@ export const checkWhiteList = async (userId: number, accessToken: string): Promi
 
 		if (idx >= 0) {
 			log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 존재`);
-			list.white.splice(idx, 1); // 조회한 토큰 삭제
+			list.white.splice(idx, 1); // 조회한 토큰은 삭제 (다시 조회 불가 -> 다시 토큰 재발급 불가)
 			await setAsync(String(userId), JSON.stringify(list));
 			return true;
 		}
 	}
-	// log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 없음`);
 	return false;
 };
 
-//* 블랙리스트 조회
+//* 블랙리스트 조회: 유효한 액세스 토큰 검증 이후
 export const checkBlackList = async (userId: number, accessToken: string): Promise<boolean> => {
 	const redisData: string | null = await getAsync(String(userId));
 
@@ -111,7 +114,6 @@ export const checkBlackList = async (userId: number, accessToken: string): Promi
 			return true;
 		}
 	}
-	// log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 없음`);
 	return false;
 };
 

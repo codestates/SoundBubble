@@ -36,7 +36,7 @@ const login = async (req, res, next) => {
         if (process.env.NODE_ENV === "production") {
             await redis_1.insertWhiteList(userInfo.id, accessToken);
         }
-        // 응답 쿠키에 액세스 토큰 설정
+        // 응답 쿠키에 액세스 토큰 저장
         res.cookie("accessToken", accessToken, token_1.cookieOptions);
         return res.status(200).json({ data: { userInfo }, message: "Login succeed" });
     }
@@ -46,4 +46,3 @@ const login = async (req, res, next) => {
     }
 };
 exports.default = login;
-//# sourceMappingURL=login.js.map

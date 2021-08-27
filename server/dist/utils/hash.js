@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const crypto_1 = __importDefault(require("crypto"));
+//* 해싱 함수
 const hash = (value) => {
     const hashed = crypto_1.default
         .createHash("sha512")
@@ -12,4 +13,3 @@ const hash = (value) => {
     return hashed;
 };
 exports.default = hash;
-//# sourceMappingURL=hash.js.map

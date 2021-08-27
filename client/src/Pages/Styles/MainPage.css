@@ -25,10 +25,15 @@
 	margin-bottom: 10px;
 }
 
+.bubble-color-box,
+.bubble-speed-box {
+	width: 90%;
+}
+
 .speedSlider {
 	z-index: 1;
 	-webkit-appearance: none;
-	width: 550px;
+	width: 100%;
 	height: 25px;
 	background: rgba(0, 0, 0, 0.8);
 	border-radius: 10px;
@@ -134,7 +139,7 @@
 	background-color: rgb(119, 112, 255);
 }
 
-@media screen and (max-width: 1670px) {
+@media screen and (max-width: 1400px) {
 	.main-left-background,
 	.bubble-speed-message,
 	.bubble-color-message,

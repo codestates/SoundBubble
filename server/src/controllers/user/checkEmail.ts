@@ -12,7 +12,7 @@ const checkEmail: RequestHandler = async (req: Request, res: Response, next: Nex
 			return res.status(400).json({ message: `Invalid email(body), input 'email': ${email}` });
 		}
 
-    //* 이메일 중복 검사
+		//* 이메일 중복 검사
 		const userUsingEmail: User | undefined = await User.findOne({ email });
 		if (userUsingEmail) {
 			// 사용 중인 이메일

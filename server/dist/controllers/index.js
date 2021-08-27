@@ -36,4 +36,3 @@ const checkEmail_1 = __importDefault(require("./user/checkEmail"));
 exports.checkEmail = checkEmail_1.default;
 const checkNickname_1 = __importDefault(require("./user/checkNickname"));
 exports.checkNickname = checkNickname_1.default;
-//# sourceMappingURL=index.js.map

@@ -12,7 +12,7 @@ const checkNickname: RequestHandler = async (req: Request, res: Response, next: 
 			return res.status(400).json({ message: `Invalid nickname(body), input 'nickname': ${nickname}` });
 		}
 
-    //* 닉네임 중복 검사
+		//* 닉네임 중복 검사
 		const userUsingNickname: User | undefined = await User.findOne({ nickname });
 		if (userUsingNickname) {
 			// 사용 중인 닉네임

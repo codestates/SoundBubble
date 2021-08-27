@@ -3,6 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { logError } from "../utils/log";
 import { CookieOptions } from "express";
 
+//* 토큰 쿠키 옵션
 export const cookieOptions: CookieOptions = {
 	maxAge: 24 * 60 * 60 * 1000 * 3,
 	httpOnly: true,
@@ -13,6 +14,7 @@ export const cookieOptions: CookieOptions = {
 const accessSecret: string = process.env.ACCESS_SECRET as string;
 const refreshSecret: string = process.env.REFRESH_SECRET as string;
 
+//* 액세스 토큰 생성
 export const generateAccessToken = (user: User): string => {
 	return jwt.sign(
 		{
@@ -25,6 +27,7 @@ export const generateAccessToken = (user: User): string => {
 	);
 };
 
+//* 리프레시 토큰 생성
 export const generateRefreshToken = (user: User): string => {
 	return jwt.sign(
 		{
@@ -37,6 +40,7 @@ export const generateRefreshToken = (user: User): string => {
 	);
 };
 
+//* 액세스 토큰 검증
 export const verifyAccessToken = (accessToken: string): JwtPayload => {
 	try {
 		return jwt.verify(accessToken, accessSecret) as JwtPayload;
@@ -46,6 +50,7 @@ export const verifyAccessToken = (accessToken: string): JwtPayload => {
 	}
 };
 
+//* 만료된 액세스 토큰 검증
 export const verifyExpiredAccessToken = (accessToken: string): JwtPayload => {
 	try {
 		return jwt.verify(accessToken, accessSecret, { ignoreExpiration: true }) as JwtPayload;
@@ -55,6 +60,7 @@ export const verifyExpiredAccessToken = (accessToken: string): JwtPayload => {
 	}
 };
 
+//* 리프레시 토큰 검증
 export const verifyRefreshToken = (refreshToken: string): JwtPayload => {
 	try {
 		return jwt.verify(refreshToken, refreshSecret) as JwtPayload;

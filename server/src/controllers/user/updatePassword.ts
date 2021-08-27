@@ -15,7 +15,7 @@ const updatePassword: RequestHandler = async (req: Request, res: Response, next:
 			return res.status(400).json({ message: "Invalid newPassword(body)" });
 		}
 
-		//* 유저 조회: 인증 시 계정 확인됨
+		//* 유저 조회: 인증(미들웨어) 시 계정 확인됨
 		const userInfo: User = (await User.findOne(userId)) as User;
 
 		//* (1) 이메일 가입 or 통합 유저 (기존 비밀번호 존재)
@@ -44,7 +44,7 @@ const updatePassword: RequestHandler = async (req: Request, res: Response, next:
 			const hashedNewPassword: string = hash(newPassword);
 			userInfo.password = hashedNewPassword;
 			userInfo.signUpType = "intergration";
-			// 비밀번호 변경 -> 일반 로그인 사용 가능
+			// 비밀번호 변경 -> 통합 유저로 변경.  일반 로그인 사용 가능
 			await userInfo.save();
 		}
 

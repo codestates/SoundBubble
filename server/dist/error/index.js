@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileTypeError = void 0;
-//* Custom error
+//* 커스텀 에러: 멀터 파일
 class FileTypeError extends Error {
     constructor(message) {
         super(message);
@@ -9,4 +9,3 @@ class FileTypeError extends Error {
     }
 }
 exports.FileTypeError = FileTypeError;
-//# sourceMappingURL=index.js.map

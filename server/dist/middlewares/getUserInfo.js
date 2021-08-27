@@ -6,12 +6,12 @@ const UserToken_1 = require("../entity/UserToken");
 const log_1 = require("../utils/log");
 const redis_1 = require("../redis");
 const getUserInfo = async (res, accessToken) => {
+    //* 요청의 유저 정보 초기값
     const tokenInfo = {
         userId: null,
         email: null,
         accountType: null,
         accessToken: null,
-        tokenExpIn: null,
         error: null,
     };
     try {
@@ -39,6 +39,7 @@ const getUserInfo = async (res, accessToken) => {
                 // 검증한 값으로 유저를 특정하여 리프레시 토큰 획득
                 const userInfo = await User_1.User.findOne(decodedExpired.userId);
                 if (!userInfo) {
+                    log_1.logError("존재하지 않는 유저의 토큰 사용");
                     tokenInfo.error = "INVALID";
                     return tokenInfo;
                 }
@@ -62,7 +63,7 @@ const getUserInfo = async (res, accessToken) => {
                     log_1.log(`[유저 ${userToken.userId}] 리프레시 토큰 만료`);
                     userToken.refreshToken = "";
                     await userToken.save();
-                    // 토큰 화이트리스트 삭제
+                    // -> 토큰 화이트리스트 삭제
                     if (process.env.NODE_ENV === "production") {
                         await redis_1.clearWhiteList(userToken.userId);
                     }
@@ -70,8 +71,6 @@ const getUserInfo = async (res, accessToken) => {
                 }
                 // 검증 성공 -> 액세스 토큰 재발급, 응답 쿠키에 저장
                 const newAccessToken = await token_1.generateAccessToken(userInfo);
-                //!! 공통옵션
-                // res.setHeader("authorization", `Bearer ${newAccessToken}`);
                 res.cookie("accessToken", newAccessToken, token_1.cookieOptions);
                 log_1.log(`[유저 ${userInfo.id}] 액세스 토큰 재발급 완료`);
                 // 토큰 화이트리스트에 액세스 토큰 저장
@@ -83,7 +82,6 @@ const getUserInfo = async (res, accessToken) => {
                 tokenInfo.email = decodedRefresh.email;
                 tokenInfo.accountType = decodedRefresh.accountType;
                 tokenInfo.accessToken = newAccessToken;
-                tokenInfo.tokenExpIn = 86400; // 불필요
                 return tokenInfo;
             }
             //* (1-2) 유효하지 않은 토큰
@@ -107,8 +105,6 @@ const getUserInfo = async (res, accessToken) => {
             tokenInfo.email = decoded.email;
             tokenInfo.accountType = decoded.accountType;
             tokenInfo.accessToken = accessToken;
-            const expiredAt = decoded.exp;
-            tokenInfo.tokenExpIn = expiredAt - Math.floor(new Date().getTime() / 1000);
             return tokenInfo;
         }
     }
@@ -119,4 +115,3 @@ const getUserInfo = async (res, accessToken) => {
     }
 };
 exports.default = getUserInfo;
-//# sourceMappingURL=getUserInfo.js.map

@@ -6,20 +6,20 @@ import {
 	generateAccessToken,
 	cookieOptions,
 } from "../token";
-import { RequestTokenInfo } from "../@type/userInfo";
+import { RequestUserInfo } from "../@type/userInfo";
 import { User } from "../entity/User";
 import { UserToken } from "../entity/UserToken";
 import { JwtPayload } from "jsonwebtoken";
-import { log } from "../utils/log";
+import { log, logError } from "../utils/log";
 import { checkBlackList, checkWhiteList, clearWhiteList, insertWhiteList } from "../redis";
 
-const getUserInfo = async (res: Response, accessToken: string): Promise<RequestTokenInfo> => {
-	const tokenInfo: RequestTokenInfo = {
+const getUserInfo = async (res: Response, accessToken: string): Promise<RequestUserInfo> => {
+	//* 요청의 유저 정보 초기값
+	const tokenInfo: RequestUserInfo = {
 		userId: null,
 		email: null,
 		accountType: null,
 		accessToken: null,
-		tokenExpIn: null,
 		error: null,
 	};
 
@@ -50,6 +50,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 				// 검증한 값으로 유저를 특정하여 리프레시 토큰 획득
 				const userInfo: User | undefined = await User.findOne(decodedExpired.userId);
 				if (!userInfo) {
+					logError("존재하지 않는 유저의 토큰 사용");
 					tokenInfo.error = "INVALID";
 					return tokenInfo;
 				}
@@ -74,7 +75,7 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 					userToken.refreshToken = "";
 					await userToken.save();
 
-					// 토큰 화이트리스트 삭제
+					// -> 토큰 화이트리스트 삭제
 					if (process.env.NODE_ENV === "production") {
 						await clearWhiteList(userToken.userId);
 					}
@@ -84,8 +85,6 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 
 				// 검증 성공 -> 액세스 토큰 재발급, 응답 쿠키에 저장
 				const newAccessToken: string = await generateAccessToken(userInfo);
-				//!! 공통옵션
-				// res.setHeader("authorization", `Bearer ${newAccessToken}`);
 				res.cookie("accessToken", newAccessToken, cookieOptions);
 				log(`[유저 ${userInfo.id}] 액세스 토큰 재발급 완료`);
 
@@ -99,7 +98,6 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 				tokenInfo.email = decodedRefresh.email;
 				tokenInfo.accountType = decodedRefresh.accountType;
 				tokenInfo.accessToken = newAccessToken;
-				tokenInfo.tokenExpIn = 86400; // 불필요
 				return tokenInfo;
 			}
 			//* (1-2) 유효하지 않은 토큰
@@ -124,8 +122,6 @@ const getUserInfo = async (res: Response, accessToken: string): Promise<RequestT
 			tokenInfo.email = decoded.email;
 			tokenInfo.accountType = decoded.accountType;
 			tokenInfo.accessToken = accessToken;
-			const expiredAt: number = decoded.exp as number;
-			tokenInfo.tokenExpIn = expiredAt - Math.floor(new Date().getTime() / 1000);
 			return tokenInfo;
 		}
 	} catch (error) {

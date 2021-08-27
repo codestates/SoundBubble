@@ -40,4 +40,3 @@ const signUp = async (req, res, next) => {
     }
 };
 exports.default = signUp;
-//# sourceMappingURL=signUp.js.map

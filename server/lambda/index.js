@@ -13,6 +13,7 @@ const s3 = new aws.S3();
 console.log(s3);
 
 exports.handler = async (event, context, callback) => {
+  //* s3 및 파일 설정
   const bucket = event.Records[0].s3.bucket.name;
   console.log("Bucket: ", bucket);
   const key = event.Records[0].s3.object.key;
@@ -24,10 +25,14 @@ exports.handler = async (event, context, callback) => {
   console.log("name: ", filename, " ext: ", ext);
 
   try {
+    // s3에서 이미지 get
     const s3Object = await s3.getObject({ Bucket: bucket, Key: key }).promise();
     console.log("original: ", s3Object.Body.length);
+
+    // 이미지 리사이징
     const resizedImage = await sharp(s3Object.Body).withMetadata().resize(200, 200).toFormat(requiredFormat).toBuffer();
 
+    // 리사이징 된 이미지 s3에 put
     await s3
       .putObject({
         Bucket: bucket,
@@ -45,7 +50,10 @@ exports.handler = async (event, context, callback) => {
   }
 };
 
-// install sharp
+// (1) upload lambda code to aws
+
+// (2) install modules
+// caution: installing sharp
 //$ npm install --arch=x64 --platform=linux --target=10.15.0 sharp
 
-// upload 'nodejs/node_modules' folder to lambday layer
+// (3) upload 'nodejs/node_modules' folder to lambda layer

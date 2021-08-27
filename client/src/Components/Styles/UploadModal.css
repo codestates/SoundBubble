@@ -58,6 +58,12 @@
 	align-items: center;
 	/* background-color: blue; */
 }
+.modal-noise {
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	transition: 0.5s;
+}
 
 .bubble-textContent {
 	position: absolute;
