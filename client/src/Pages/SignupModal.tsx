@@ -6,6 +6,8 @@ import { emailIsValid, pwIsValid } from "../Utils/Validator";
 import "./Styles/SignupModal.css";
 import Modal from "../Components/Modal";
 import Swal from "sweetalert2";
+import { IoMdReturnLeft } from "react-icons/io";
+import { runInContext } from "vm";
 
 const SignupModal = (): JSX.Element => {
 	const [name, setName] = useState("");
@@ -16,6 +18,9 @@ const SignupModal = (): JSX.Element => {
 	const API_URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
 	const [isModal, setIsModal] = useState(false);
+
+	const [nameChecked, setNameChecked] = useState(false);
+	const [emailChecked, setEmailChecked] = useState(false);
 
 	const handleCloseModal = () => {
 		setIsModal(false);
@@ -31,15 +36,15 @@ const SignupModal = (): JSX.Element => {
 			setErrorMsg("모든 항목을 입력해주세요.");
 			return;
 		}
-		if (!emailIsValid(ID)) {
-			setErrorMsg("올바른 이메일 형식이 아닙니다.");
-			// setIsModal(true);
-			return;
-		}
 		if (!pwIsValid(PW)) {
 			setErrorMsg("비밀번호는 숫자와 영어 8글자 이상으로 이루어져야 합니다.");
 			return;
 		}
+		if (!nameChecked || !emailChecked) {
+			setErrorMsg("이름과 이메일 모두 중복 확인을 해주세요.");
+			return;
+		}
+
 		if (handleSamePW(PW, RePW)) {
 			axios({
 				method: "POST",
@@ -90,6 +95,88 @@ const SignupModal = (): JSX.Element => {
 		}
 	};
 
+	const handleCheckName = () => {
+		setErrorMsg("");
+		if (nameChecked) {
+			return;
+		}
+		if (name === "") {
+			setErrorMsg("이름을 입력해주세요.");
+			return;
+		}
+
+		axios({
+			method: "POST",
+			url: `${API_URL}/user/check/nickname`,
+			data: {
+				nickname: name,
+			},
+		})
+			.then(() =>
+				Swal.fire({
+					text: "사용할 수 있는 이름입니다. 사용하시겠습니까?",
+					icon: "question",
+					showCancelButton: true,
+					confirmButtonText: "예",
+					cancelButtonText: "아니오",
+				}).then(result => {
+					if (result.isConfirmed) {
+						setNameChecked(true);
+					}
+				}),
+			)
+			.catch(() => {
+				Swal.fire({
+					text: "이미 사용 중인 이름입니다.",
+					icon: "warning",
+					confirmButtonText: "확인",
+				});
+			});
+	};
+
+	const handleCheckEmail = () => {
+		setErrorMsg("");
+		if (emailChecked) {
+			return;
+		}
+		if (ID === "") {
+			setErrorMsg("이메일을 입력해주세요.");
+			return;
+		}
+		if (!emailIsValid(ID)) {
+			setErrorMsg("올바른 이메일 형식이 아닙니다.");
+			return;
+		}
+
+		axios({
+			method: "POST",
+			url: `${API_URL}/user/check/email`,
+			data: {
+				email: ID,
+			},
+		})
+			.then(() =>
+				Swal.fire({
+					text: "사용할 수 있는 이메일입니다. 사용하시겠습니까?",
+					icon: "question",
+					showCancelButton: true,
+					confirmButtonText: "예",
+					cancelButtonText: "아니오",
+				}).then(result => {
+					if (result.isConfirmed) {
+						setEmailChecked(true);
+					}
+				}),
+			)
+			.catch(() => {
+				Swal.fire({
+					text: "이미 사용 중인 이메일입니다.",
+					icon: "warning",
+					confirmButtonText: "확인",
+				});
+			});
+	};
+
 	return (
 		<>
 			{isModal ? <Modal handleCloseModal={handleCloseModal} /> : null}
@@ -105,11 +192,33 @@ const SignupModal = (): JSX.Element => {
 						<hr className="divider" />
 						<fieldset className="signup-user-name">
 							<label className="signup-label">Name</label>
-							<input className="signup-input-name" type="text" onChange={e => setName(e.target.value)} />
+							<input
+								className={nameChecked ? "signup-input-name input-checked" : "signup-input-name"}
+								type="text"
+								onChange={e => setName(e.target.value)}
+								disabled={nameChecked ? true : false}
+							/>
+							<button
+								className={nameChecked ? "signup-check-btn signup-checked" : "signup-check-btn signup-unckecked"}
+								onClick={handleCheckName}
+							>
+								이름 중복 확인
+							</button>
 						</fieldset>
 						<fieldset className="signup-user-email">
 							<label className="signup-label">Email</label>
-							<input className="signup-input-email" type="email" onChange={e => setID(e.target.value)} />
+							<input
+								className={emailChecked ? "signup-input-email input-checked" : "signup-input-name"}
+								type="email"
+								onChange={e => setID(e.target.value)}
+								disabled={emailChecked ? true : false}
+							/>
+							<button
+								className={emailChecked ? "signup-check-btn signup-checked" : "signup-check-btn signup-unckecked"}
+								onClick={handleCheckEmail}
+							>
+								이메일 중복 확인
+							</button>
 						</fieldset>
 						<div className="signup-password-group">
 							<fieldset className="signup-user-password">

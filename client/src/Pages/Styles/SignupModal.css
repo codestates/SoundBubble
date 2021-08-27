@@ -13,7 +13,7 @@ body {
 .signup-sidebar-content {
 	width: 35%;
 	height: 100vh;
-	background-color: #D4CADE;
+	background-color: #d4cade;
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -106,6 +106,23 @@ body {
 	background-color: rgb(239, 239, 239);
 }
 
+.signup-check-btn {
+	background-color: rgb(119, 112, 255);
+	color: white;
+	cursor: pointer;
+}
+.signup-unckecked:hover{
+	background-color: rgb(200, 112, 255);
+}
+
+.signup-checked {
+	background-color: black;
+}
+
+.input-checked {
+	font-weight: 500;
+}
+
 .signup-input-password,
 .signup-input-RePassword {
 	width: 90%;
@@ -148,7 +165,7 @@ body {
 }
 
 @media (max-width: 868px) {
-	.signup-sidebar-content{
+	.signup-sidebar-content {
 		width: 0px;
 	}
 	.signup-top-content {
