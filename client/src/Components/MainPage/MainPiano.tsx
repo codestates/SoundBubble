@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../Styles/MainPiano.css";
-import Piano from "../Piano/Piano";
 import Piano2 from "../Piano2/Piano2";
 import Piano3 from "../Piano2/Piano3";
 import UploadModal from "../../Components/UploadModalPiano";
@@ -43,7 +42,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 	}, []);
 
 	useEffect(() => {
-		console.log("###", windowSize);
 		window.addEventListener("resize", handleWindowResize);
 		return () => {
 			window.removeEventListener("resize", handleWindowResize);
