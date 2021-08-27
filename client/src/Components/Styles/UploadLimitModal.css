@@ -174,3 +174,14 @@
 		background-color: rgb(119, 112, 255);
 	}
 }
+
+/* icon */
+.share_icon {
+	height: 100%;
+	font-size: 1.6rem;
+	color: white;
+	cursor: pointer;
+}
+.KAKAO_icon {
+	width: 3rem;
+}
