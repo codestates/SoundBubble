@@ -51,6 +51,14 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 		sound: null,
 	});
 
+	useEffect(() => {
+		if (audio) {
+			setTimeout(() => {
+				toggleMicrophone();
+			}, 15000);
+		}
+	}, [audio]);
+
 	async function getMicrophone() {
 		// ? # 미디어 입력 장치 사용 권한 요청
 		const audio = await navigator.mediaDevices.getUserMedia({

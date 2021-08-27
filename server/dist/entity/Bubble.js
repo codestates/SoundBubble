@@ -14,7 +14,6 @@ exports.Bubble = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
 const BubbleComment_1 = require("./BubbleComment");
-const LikedBubble_1 = require("./LikedBubble");
 let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
     id;
     image;
@@ -26,7 +25,7 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
     userId;
     user;
     bubbleComments;
-    likedBubbles;
+    //* 버블 생성
     static async insertBubble(userId, textContent, imageSrc, soundSrc, thumbnailSrc) {
         const newBubble = new Bubble_1();
         newBubble.userId = userId;
@@ -126,10 +125,6 @@ __decorate([
     typeorm_1.OneToMany(() => BubbleComment_1.BubbleComment, (bubbleComment) => bubbleComment.bubble),
     __metadata("design:type", Array)
 ], Bubble.prototype, "bubbleComments", void 0);
-__decorate([
-    typeorm_1.OneToMany(() => LikedBubble_1.LikedBubble, (likedBubble) => likedBubble.bubble),
-    __metadata("design:type", Array)
-], Bubble.prototype, "likedBubbles", void 0);
 Bubble = Bubble_1 = __decorate([
     typeorm_1.Entity({
         name: "Bubbles",

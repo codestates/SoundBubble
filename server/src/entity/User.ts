@@ -9,7 +9,6 @@ import {
 } from "typeorm";
 import { Bubble } from "./Bubble";
 import { BubbleComment } from "./BubbleComment";
-import { LikedBubble } from "./LikedBubble";
 
 type SignUpType = "email" | "google" | "naver" | "intergration";
 type accountType = "user" | "admin";
@@ -51,9 +50,6 @@ export class User extends BaseEntity {
 
 	@OneToMany(() => BubbleComment, bubbleComment => bubbleComment.user)
 	bubbleComments!: BubbleComment[];
-
-	@OneToMany(() => LikedBubble, LikedBubble => LikedBubble.user)
-	likedBubbles!: BubbleComment[];
 
 	//* 유저 가입
 	static async insertUser(

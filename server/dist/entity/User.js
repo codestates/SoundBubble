@@ -14,7 +14,6 @@ exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const Bubble_1 = require("./Bubble");
 const BubbleComment_1 = require("./BubbleComment");
-const LikedBubble_1 = require("./LikedBubble");
 let User = User_1 = class User extends typeorm_1.BaseEntity {
     // Active Record 패턴. 모델에서 바로 메소드 사용 가능
     id;
@@ -28,7 +27,6 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
     updatedAt;
     bubbles;
     bubbleComments;
-    likedBubbles;
     //* 유저 가입
     static async insertUser(email, password, nickname, signUpType, accountType, profileImage) {
         const newUser = new User_1();
@@ -184,10 +182,6 @@ __decorate([
     typeorm_1.OneToMany(() => BubbleComment_1.BubbleComment, bubbleComment => bubbleComment.user),
     __metadata("design:type", Array)
 ], User.prototype, "bubbleComments", void 0);
-__decorate([
-    typeorm_1.OneToMany(() => LikedBubble_1.LikedBubble, LikedBubble => LikedBubble.user),
-    __metadata("design:type", Array)
-], User.prototype, "likedBubbles", void 0);
 User = User_1 = __decorate([
     typeorm_1.Entity({
         name: "Users",
