@@ -101,6 +101,7 @@ const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubble
 					</div>
 					<div className="upload-modal-image-content">
 						<img className="upload-modal-image" src={viewImage} />
+						<img className="modal-noise" src="noise.png" />
 					</div>
 					<div className="create-message">이미지 생성이 완료되었습니다!</div>
 					<div className="upload-modal-option-content">

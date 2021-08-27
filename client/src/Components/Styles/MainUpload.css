@@ -8,7 +8,7 @@
 	height: calc(100% - 80px);
 }
 
-@media screen and (max-width: 1670px) {
+@media screen and (max-width: 1400px) {
 	.main-page__upload {
 		position: absolute;
 		right: 0;

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from
 import "../Styles/MainPiano.css";
 import Piano from "../Piano/Piano";
 import Piano2 from "../Piano2/Piano2";
+import Piano3 from "../Piano2/Piano3";
 import UploadModal from "../../Components/UploadModalPiano";
 import { BubbleData } from "../../@type/request";
 import upArrow from "../Styles/arrow-up.png";
@@ -65,8 +66,8 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 
 	const handlePainting = (note: string) => {
 		const randomPosition = {
-			x: Number(getRandom(0, 400)),
-			y: Number(getRandom(0, 400)),
+			x: Number(getRandom(0, 500)),
+			y: Number(getRandom(0, 500)),
 		};
 		const canvas = canvasRef.current;
 
@@ -307,19 +308,36 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 				) : (
 					<>
 						<canvas id="canvas" width="500px" height="500px" onClick={handleUploadModal} ref={canvasRef}></canvas>
+						<img className="noiseImg" src="noise.png" height="500" width="500" onClick={handleUploadModal}/>
 						<div className="main-content-box">
 							{pianoState ? (
 								<>
-									<img src={upArrow} alt="up" onClick={pianoToggle} className="upbtn" />
-									<div className="main-content-box-piano" style={{ display: "none" }}>
-										<Piano2 handleClick={handleClickPiano2} />
+									<div className="piano-long">
+										<img src={upArrow} alt="up" onClick={pianoToggle} className="btn" />
+										<div className="main-content-box-piano" style={{ display: "none" }}>
+											<Piano2 handleClick={handleClickPiano2} />
+										</div>
+								  </div>
+									<div className="piano-short">
+										<img src={upArrow} alt="up" onClick={pianoToggle} className="btn" />
+										<div className="main-content-box-piano" style={{ display: "none" }}>
+											<Piano3 handleClick={handleClickPiano2} />
+										</div>
 									</div>
 								</>
 							) : (
 								<>
-									<img src={downArrow} alt="down" onClick={pianoToggle} className="btn" />
-									<div className="main-content-box-piano">
-										<Piano2 handleClick={handleClickPiano2} />
+									<div className="piano-long">
+										<img src={downArrow} alt="down" onClick={pianoToggle} className="btn" />
+										<div className="main-content-box-piano">
+											<Piano2 handleClick={handleClickPiano2} />
+										</div>
+									</div>
+									<div className="piano-short">
+										<img src={downArrow} alt="up" onClick={pianoToggle} className="btn" />
+										<div className="main-content-box-piano" >
+											<Piano3 handleClick={handleClickPiano2} />
+										</div>
 									</div>
 								</>
 							)}

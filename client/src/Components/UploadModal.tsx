@@ -138,6 +138,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 					</div>
 					<div className="upload-modal-image-content">
 						<img className="upload-modal-image" src={viewImage} />
+						<img className="modal-noise" src="noise.png" />
 						<input
 							className="bubble-textContent"
 							onChange={e => setTextContent(e.target.value)}
