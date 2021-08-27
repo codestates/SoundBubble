@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axiosInstance from "../../axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 const Nickname = (): JSX.Element => {
 	const [nickname, setNickname] = useState("");
 	const [password, setPassword] = useState("");
-	const history = useHistory();
 	const API_URL = process.env.REACT_APP_API_URL;
 
 	const dispatch = useDispatch();
