@@ -344,10 +344,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 						</div>
 					</>
 				)}
-
-				<button onClick={handleUploadModal} className="create-bubble-btn">
-					Done
-				</button>
 			</div>
 		</>
 	);
