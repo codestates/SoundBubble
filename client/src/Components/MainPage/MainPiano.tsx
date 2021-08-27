@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../Styles/MainPiano.css";
 import Piano from "../Piano/Piano";
 import Piano2 from "../Piano2/Piano2";
@@ -18,8 +18,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 		sound: null,
 	});
 
-	// Done 버튼을 클릭하면 캔버스가 리셋
-	// reset 버튼 추가
 	const colorChange = (color: string) => {
 		console.log("white painting");
 		const canvas = canvasRef.current;
@@ -39,14 +37,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 	}, [backColor]);
 
 	const [smallPiano, setSmallPiano] = useState(false);
-
-	const handlePianoView = () => {
-		if (window.innerWidth <= 500) {
-			setSmallPiano(true);
-		} else {
-			setSmallPiano(false);
-		}
-	};
 
 	const [windowSize, setWindowSize] = useState(window.innerWidth);
 
@@ -85,44 +75,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 		}
 
 		switch (note) {
-			// 작은 피아노
-			case "C": // 빨
-				context.fillStyle = "hsla(2.7, 100%, 75%, 0.6)"; // 3도 - 95%, 4도 - 75%, 5도 - 55%
-				break;
-			case "CSharp":
-				context.fillStyle = "hsla(22, 100%, 75%, 0.6)";
-				break;
-			case "D": // 주
-				context.fillStyle = "hsla(42, 100%, 75%, 0.6)";
-				break;
-			case "DSharp":
-				context.fillStyle = "hsla(56, 100%, 75%, 0.6)";
-				break;
-			case "E": // 노
-				context.fillStyle = "hsla(70, 100%, 75%, 0.6)";
-				break;
-			case "F": // 초
-				context.fillStyle = "hsla(120, 100%, 75%, 0.6)";
-				break;
-			case "FSharp":
-				context.fillStyle = "hsla(180, 100%, 75%, 0.6)";
-				break;
-			case "G": // 파
-				context.fillStyle = "hsla(220, 100%, 75%, 0.6)";
-				break;
-			case "GSharp":
-				context.fillStyle = "hsla(245, 100%, 75%, 0.6)";
-				break;
-			case "A": // 남
-				context.fillStyle = "hsla(270 ,100%, 75%, 0.6)";
-				break;
-			case "ASharp":
-				context.fillStyle = "hsla(295 ,100%, 75%, 0.6)";
-				break;
-			case "B": // 보
-				context.fillStyle = "hsla(320 ,100%, 75%, 0.6)";
-				break;
-			// 큰 피아노
 			case "C3": // 빨
 				context.fillStyle = "hsla(2.7, 100%, 95%, 0.6)"; // 3도 - 95%, 4도 - 75%, 5도 - 55%
 				break;
@@ -296,52 +248,43 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 				/>
 			) : null}
 			<div className="main-page__piano">
-				{smallPiano ? (
-					<>
-						<canvas id="canvas" width="300px" height="300px" ref={canvasRef}></canvas>
-						<div className="main-content-box">
-							<Piano handleClick={handleClick} />
-						</div>
-					</>
-				) : (
-					<>
-						<canvas id="canvas" width="500px" height="500px" onClick={handleUploadModal} ref={canvasRef}></canvas>
-						<img className="noiseImg" src="noise.png" height="500" width="500" onClick={handleUploadModal}/>
-						<div className="main-content-box">
-							{pianoState ? (
-								<>
-									<div className="piano-long">
-										<img src={upArrow} alt="up" onClick={pianoToggle} className="btn" />
-										<div className="main-content-box-piano" style={{ display: "none" }}>
-											<Piano2 handleClick={handleClickPiano2} />
-										</div>
-								  </div>
-									<div className="piano-short">
-										<img src={upArrow} alt="up" onClick={pianoToggle} className="btn" />
-										<div className="main-content-box-piano" style={{ display: "none" }}>
-											<Piano3 handleClick={handleClickPiano2} />
-										</div>
+				<>
+					<canvas id="canvas" width="500px" height="500px" onClick={handleUploadModal} ref={canvasRef}></canvas>
+					<img className="noiseImg" src="noise.png" height="500" width="500" onClick={handleUploadModal} />
+					<div className="main-content-box">
+						{pianoState ? (
+							<>
+								<div className="piano-long">
+									<img src={upArrow} alt="up" onClick={pianoToggle} className="btn" />
+									<div className="main-content-box-piano" style={{ display: "none" }}>
+										<Piano2 handleClick={handleClickPiano2} />
 									</div>
-								</>
-							) : (
-								<>
-									<div className="piano-long">
-										<img src={downArrow} alt="down" onClick={pianoToggle} className="btn" />
-										<div className="main-content-box-piano">
-											<Piano2 handleClick={handleClickPiano2} />
-										</div>
+								</div>
+								<div className="piano-short">
+									<img src={upArrow} alt="up" onClick={pianoToggle} className="btn" />
+									<div className="main-content-box-piano" style={{ display: "none" }}>
+										<Piano3 handleClick={handleClickPiano2} />
 									</div>
-									<div className="piano-short">
-										<img src={downArrow} alt="up" onClick={pianoToggle} className="btn" />
-										<div className="main-content-box-piano" >
-											<Piano3 handleClick={handleClickPiano2} />
-										</div>
+								</div>
+							</>
+						) : (
+							<>
+								<div className="piano-long">
+									<img src={downArrow} alt="down" onClick={pianoToggle} className="btn" />
+									<div className="main-content-box-piano">
+										<Piano2 handleClick={handleClickPiano2} />
 									</div>
-								</>
-							)}
-						</div>
-					</>
-				)}
+								</div>
+								<div className="piano-short">
+									<img src={downArrow} alt="up" onClick={pianoToggle} className="btn" />
+									<div className="main-content-box-piano">
+										<Piano3 handleClick={handleClickPiano2} />
+									</div>
+								</div>
+							</>
+						)}
+					</div>
+				</>
 			</div>
 		</>
 	);
