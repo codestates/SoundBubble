@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import "./Bubble.css";
 
-const Bubble = ({ key, bubble, location, topBubble, endBubble }: any): JSX.Element => {
+const Bubble = ({ bubble, location, topBubble, endBubble }: any): JSX.Element => {
 	const { id, image, textContent } = bubble;
 	const history = useHistory();
 	const getRandom = (min: number, max: number): string => Math.floor(Math.random() * (max - min) + min).toString();

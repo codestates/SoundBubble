@@ -21,6 +21,7 @@ function App(): JSX.Element {
 					<Route path="/mypage" component={Mypage} />
 					<Route path="/login" component={LoginModal} />
 					<Route path="/signup" component={SignupModal} />
+					<Route path="/error404" component={error404} />
 					<Route path="*" component={error404} />
 				</Switch>
 			</Router>

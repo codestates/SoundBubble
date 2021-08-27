@@ -19,7 +19,7 @@ const loginNaver: RequestHandler = async (req: Request, res: Response, next: Nex
 		//* 네이버 토큰 획득
 		const NaverClientId: string = process.env.NAVER_CLIENT_ID as string;
 		const NaverClientSecret: string = process.env.NAVER_CLIENT_SECRET as string;
-		const NaverRedirectUri: string = process.env.NAVER_REDIRECT_URI as string;
+		const NaverRedirectUri: string = process.env.CLIENT_REDIRECT_URL as string;
 
 		const token = await axios({
 			url: "https://nid.naver.com/oauth2.0/token",
