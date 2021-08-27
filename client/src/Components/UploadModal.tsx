@@ -10,8 +10,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
 import Swal from "sweetalert2";
-import NeedLoginModal from "./UploadLimitModal";
-
 interface Props {
 	handleCloseModal: () => void;
 	handleSaveClick: () => void;
@@ -33,7 +31,17 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 		console.log("업로드 bubbleData", bubbleData);
 
 		if (userState.user.id === -1) {
-			setNeedLogin(true);
+			Swal.fire({
+				text: "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "로그인하기",
+				cancelButtonText: "아니오",
+			}).then(result => {
+				if (result.isConfirmed) {
+					window.location.replace("/login");
+				}
+			});
 			return;
 		}
 
@@ -75,10 +83,10 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			});
 	};
 
-	const [needLogin, setNeedLogin] = useState<boolean>(false);
-	const handleNeedLoginModal = () => {
-		setNeedLogin(false);
-	};
+	// const [needLogin, setNeedLogin] = useState<boolean>(false);
+	// const handleNeedLoginModal = () => {
+	// 	setNeedLogin(false);
+	// };
 
 	const kakaoShare = (): void => {
 		// ? # base64 -> file 형태로 만들기
@@ -141,7 +149,6 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 
 	return (
 		<>
-			{needLogin ? <NeedLoginModal handleNeedLoginModal={handleNeedLoginModal} /> : null}
 			<div className="upload-modal-background">
 				<main className="upload-modal-box">
 					<div className="upload-modal-top-bar">
@@ -155,7 +162,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 						<img className="upload-modal-image" src={viewImage} />
 						<img className="modal-noise" src="noise.png" />
 						<input
-							className="bubble-textContent"
+							className="bubble-texUploadLimitModaltContent"
 							onChange={e => setTextContent(e.target.value)}
 							placeholder="텍스트를 입력해 주세요!"
 						/>
