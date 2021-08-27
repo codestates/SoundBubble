@@ -38,6 +38,7 @@ export class BubbleComment extends BaseEntity {
   @ManyToOne(() => User, (user) => user.bubbles, { onDelete: "CASCADE" })
   user!: User;
 
+  //* 버블 댓글 등록
   static async insertComment(userId: number, bubbleId: number, textContent: string): Promise<BubbleComment> {
     const newBubbleComment: BubbleComment = new BubbleComment();
     newBubbleComment.userId = userId;
@@ -47,6 +48,7 @@ export class BubbleComment extends BaseEntity {
     return newBubbleComment;
   }
 
+  //* 버블 댓글 조회
   static async findComments(bubbleId: number): Promise<BubbleComment[]> {
     const comments: BubbleComment[] = await this.createQueryBuilder("comment")
       .where("bubbleId = :id", { id: bubbleId })

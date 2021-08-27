@@ -15,7 +15,7 @@ const updateNickname: RequestHandler = async (req: Request, res: Response, next:
 			return res.status(400).json({ message: `Invalid nickname(body), input 'nickname: ${nickname}` });
 		}
 
-		//* 유저 조회: 인증 시 계정 확인됨
+		//* 유저 조회: 인증(미들웨어) 시 계정 확인됨
 		const userInfo: User = (await User.findOne(userId)) as User;
 
 		// 이메일 가입 or 통합 유저 (비밀번호 존재)

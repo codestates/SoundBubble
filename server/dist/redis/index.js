@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clearWhiteList = exports.checkBlackList = exports.checkWhiteList = exports.insertBlackList = exports.insertWhiteList = exports.getAsync = exports.setexAsync = exports.setAsync = exports.redisClient = void 0;
+exports.clearWhiteList = exports.checkBlackList = exports.checkWhiteList = exports.insertBlackList = exports.insertWhiteList = exports.redisClient = void 0;
 const redis_1 = __importDefault(require("redis"));
 const log_1 = require("../utils/log");
 const util_1 = require("util");
@@ -14,19 +14,22 @@ exports.redisClient = redis_1.default.createClient(redisPort, redisHost);
 exports.redisClient.on("error", function (error) {
     log_1.logError("Redis 접속 실패");
     console.error(error);
-    // redisClient.quit();
 });
-exports.redisClient.flushall();
-exports.setAsync = util_1.promisify(exports.redisClient.set).bind(exports.redisClient);
-exports.setexAsync = util_1.promisify(exports.redisClient.setex).bind(exports.redisClient);
-exports.getAsync = util_1.promisify(exports.redisClient.get).bind(exports.redisClient);
-//* 로그인: 화이트 리스트에 액세스 토큰 등록
+// promisification: 콜백을 받는 함수를 프로미스를 반환하는 함수로 변경
+const setAsync = util_1.promisify(exports.redisClient.set).bind(exports.redisClient);
+const getAsync = util_1.promisify(exports.redisClient.get).bind(exports.redisClient);
+//? Redis 구조
+// userId: {
+// 	white: [화이트리스트에 등록된 토큰들],
+// 	black: [블랙리스트에 등록된 토큰들]
+// }
+//* 화이트 리스트에 액세스 토큰 등록: 로그인
 const insertWhiteList = async (userId, accessToken) => {
-    const redisData = await exports.getAsync(String(userId));
+    const redisData = await getAsync(String(userId));
     if (redisData) {
         const list = JSON.parse(redisData);
         list.white.push(accessToken);
-        await exports.setAsync(String(userId), JSON.stringify(list));
+        await setAsync(String(userId), JSON.stringify(list));
         log_1.log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 등록`);
     }
     else {
@@ -35,15 +38,15 @@ const insertWhiteList = async (userId, accessToken) => {
             black: [],
         };
         list.white.push(accessToken);
-        await exports.setAsync(String(userId), JSON.stringify(list));
+        await setAsync(String(userId), JSON.stringify(list));
         log_1.log(`[유저 ${userId}] 토큰 리스트 생성`);
         log_1.log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 등록`);
     }
 };
 exports.insertWhiteList = insertWhiteList;
-//* 로그아웃: 블랙 리스트에 액세스 토큰 등록
+//* 블랙 리스트에 액세스 토큰 등록: 로그아웃
 const insertBlackList = async (userId, accessToken) => {
-    const redisData = await exports.getAsync(String(userId));
+    const redisData = await getAsync(String(userId));
     if (redisData) {
         const list = JSON.parse(redisData);
         // 블랙리스트에서 토큰을 저장된 순서대로 검사하여 만료되었으면 삭제
@@ -63,7 +66,7 @@ const insertBlackList = async (userId, accessToken) => {
             log_1.log(`[유저 ${userId}] 토큰 블랙리스트: ${validTokenIdx}개의 만료된 토큰 삭제`);
         }
         list.black.push(accessToken);
-        await exports.setAsync(String(userId), JSON.stringify(list));
+        await setAsync(String(userId), JSON.stringify(list));
         log_1.log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 등록`);
     }
     else {
@@ -72,32 +75,31 @@ const insertBlackList = async (userId, accessToken) => {
             black: [],
         };
         list.black.push(accessToken);
-        await exports.setAsync(String(userId), JSON.stringify(list));
+        await setAsync(String(userId), JSON.stringify(list));
         log_1.log(`[유저 ${userId}] 토큰 리스트 생성`);
         log_1.log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 등록`);
     }
 };
 exports.insertBlackList = insertBlackList;
-//* 화이트리스트 조회 (1회성. 액세스 토큰 재발급용)
+//* 화이트리스트 조회: 만료된 액세스 토큰 검증 이후 (1회성. 액세스 토큰 재발급용)
 const checkWhiteList = async (userId, accessToken) => {
-    const redisData = await exports.getAsync(String(userId));
+    const redisData = await getAsync(String(userId));
     if (redisData) {
         const list = JSON.parse(redisData);
         const idx = list.white.indexOf(accessToken);
         if (idx >= 0) {
             log_1.log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 존재`);
-            list.white.splice(idx, 1); // 조회한 토큰 삭제
-            await exports.setAsync(String(userId), JSON.stringify(list));
+            list.white.splice(idx, 1); // 조회한 토큰은 삭제 (다시 조회 불가 -> 다시 토큰 재발급 불가)
+            await setAsync(String(userId), JSON.stringify(list));
             return true;
         }
     }
-    // log(`[유저 ${userId}] 토큰 화이트리스트: 토큰 없음`);
     return false;
 };
 exports.checkWhiteList = checkWhiteList;
-//* 블랙리스트 조회
+//* 블랙리스트 조회: 유효한 액세스 토큰 검증 이후
 const checkBlackList = async (userId, accessToken) => {
-    const redisData = await exports.getAsync(String(userId));
+    const redisData = await getAsync(String(userId));
     if (redisData) {
         const list = JSON.parse(redisData);
         if (list.black.includes(accessToken)) {
@@ -105,19 +107,17 @@ const checkBlackList = async (userId, accessToken) => {
             return true;
         }
     }
-    // log(`[유저 ${userId}] 토큰 블랙리스트: 토큰 없음`);
     return false;
 };
 exports.checkBlackList = checkBlackList;
 //* 화이트리스트 삭제 (리프레시 토큰 만료시)
 const clearWhiteList = async (userId) => {
-    const redisData = await exports.getAsync(String(userId));
+    const redisData = await getAsync(String(userId));
     if (redisData) {
         const list = JSON.parse(redisData);
         list.white = [];
-        await exports.setAsync(String(userId), JSON.stringify(list));
+        await setAsync(String(userId), JSON.stringify(list));
         log_1.log(`[유저 ${userId}] 토큰 화이트리스트: 초기화`);
     }
 };
 exports.clearWhiteList = clearWhiteList;
-//# sourceMappingURL=index.js.map

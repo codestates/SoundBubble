@@ -5,10 +5,10 @@ const s3_1 = require("../../aws/s3");
 const log_1 = require("../../utils/log");
 const deleteBubble = async (req, res, next) => {
     const { userId, accountType } = req.userInfo;
-    const bubbleId = req.params.id;
+    const bubbleId = Number(req.params.id);
     try {
         //* 파라미터 검사
-        if (isNaN(Number(bubbleId))) {
+        if (isNaN(bubbleId)) {
             return res.status(400).json({ message: `Invalid bubbleId(query), input 'bubbleId': ${bubbleId}` });
         }
         //* 버블 조회. 존재하는 버블인지 확인
@@ -20,7 +20,7 @@ const deleteBubble = async (req, res, next) => {
         const imageSrc = bubbleInfo.image.split("/").pop();
         const thumbnailSrc = bubbleInfo.thumbnail.split("/").pop();
         //* 버블 삭제
-        // 관리자 권한 -> 모든 버블 삭제 가능
+        // 관리자 -> 모든 버블 삭제 가능
         if (accountType === "admin") {
             await bubbleInfo.remove();
         }
@@ -45,4 +45,3 @@ const deleteBubble = async (req, res, next) => {
     }
 };
 exports.default = deleteBubble;
-//# sourceMappingURL=deleteBubble.js.map

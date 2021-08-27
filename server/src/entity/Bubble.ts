@@ -67,6 +67,7 @@ export class Bubble extends BaseEntity {
     return newBubble;
   }
 
+  //* 모든 버블 조회 (검색 옵션 사용 가능)
   static async findAllBubbles(
     start: number,
     end: number,
@@ -92,6 +93,7 @@ export class Bubble extends BaseEntity {
     return bubbles;
   }
 
+  //* 특정 버블 조회
   static async findBubble(bubbleId: number): Promise<Bubble | undefined> {
     const bubble: Bubble | undefined = await this.createQueryBuilder("bubble")
       .where("bubble.id = :id", { id: bubbleId })
@@ -110,6 +112,7 @@ export class Bubble extends BaseEntity {
     return bubble;
   }
 
+  //* 특정 유저의 버블 조회
   static async findBubblesByUserId(userId: number): Promise<Bubble[]> {
     const bubbles: Bubble[] = await this.createQueryBuilder("bubble")
       .where("bubble.userId = :userId", { userId: userId })

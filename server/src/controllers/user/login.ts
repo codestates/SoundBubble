@@ -41,7 +41,7 @@ const login: RequestHandler = async (req: Request, res: Response, next: NextFunc
 			await insertWhiteList(userInfo.id, accessToken);
 		}
 
-		// 응답 쿠키에 액세스 토큰 설정
+		// 응답 쿠키에 액세스 토큰 저장
 		res.cookie("accessToken", accessToken, cookieOptions);
 
 		return res.status(200).json({ data: { userInfo }, message: "Login succeed" });

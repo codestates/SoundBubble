@@ -1,20 +1,20 @@
-type TokenError = "EXPIRED" | "INVALID" | "SERVER";
-
-export interface RequestTokenInfo {
+//* 타입: 요청의 유저 정보
+export interface RequestUserInfo {
 	userId: number | null;
 	email: string | null;
 	accountType: string | null;
 	accessToken: string | null;
-	tokenExpIn: null | number;
 	error: null | TokenError;
 }
 
-export interface UserInfo {
+type TokenError = "EXPIRED" | "INVALID" | "SERVER";
+
+//* 타입: 요청의 인증된 유저 정보
+export interface UserInfo extends RequestUserInfo {
 	userId: number;
 	email: string;
 	accountType: string;
 	accessToken: string;
-	tokenExpIn: number;
 	error: null;
 }
 

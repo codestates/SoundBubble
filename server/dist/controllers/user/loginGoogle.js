@@ -12,7 +12,7 @@ const loginGoogle = async (req, res, next) => {
     try {
         //* 파라미터 검사
         if (!authorizationCode) {
-            return res.status(400).json({ message: "Code(body) does not exist" });
+            return res.status(400).json({ message: "authorizationCode(body) does not exist" });
         }
         //* 구글 유저 정보 획득
         const googleClientId = process.env.GOOGLE_CLIENT_ID;
@@ -27,10 +27,10 @@ const loginGoogle = async (req, res, next) => {
         catch (err) {
             console.log("Invalid Authorization Code");
             console.error(err);
-            return res.status(400).json({ message: "Invalid code(body), failed to get token" });
+            return res.status(400).json({ message: "Invalid authorizationCode(body), failed to get token" });
         }
         if (!response.tokens || !response.tokens.id_token) {
-            return res.status(400).json({ message: "Invalid code(body), failed to get token" });
+            return res.status(400).json({ message: "Invalid authorizationCode(body), failed to get token" });
         }
         //* 구글 id 토큰 검증하여 유저 정보 획득
         const idToken = response.tokens.id_token;
@@ -39,7 +39,6 @@ const loginGoogle = async (req, res, next) => {
         if (!googleUserInfo || !googleUserInfo.email || !googleUserInfo.name) {
             return res.status(400).json({ message: "Invalid code(body), failed to get user information" });
         }
-        // const { email, name }: { email: string; name: string } = googleUserInfo as GoogleTokenPayload;
         const email = googleUserInfo.email;
         const nickname = googleUserInfo.name;
         //* 유저 검색
@@ -73,10 +72,13 @@ const loginGoogle = async (req, res, next) => {
         //* 토큰 발급
         const accessToken = token_1.generateAccessToken(userInfo);
         const refreshToken = token_1.generateRefreshToken(userInfo);
+        // DB에 리프레시 토큰 저장
         await UserToken_1.UserToken.insertToken(userInfo.id, refreshToken);
+        // 토큰 화이트리스트에 액세스 토큰 저장
         if (process.env.NODE_ENV === "production") {
             await redis_1.insertWhiteList(userInfo.id, accessToken);
         }
+        // 응답 쿠키에 액세스 토큰 저장
         res.cookie("accessToken", accessToken, token_1.cookieOptions);
         return res.json({ data: { userInfo }, message: "Login succeed" });
     }
@@ -86,4 +88,3 @@ const loginGoogle = async (req, res, next) => {
     }
 };
 exports.default = loginGoogle;
-//# sourceMappingURL=loginGoogle.js.map

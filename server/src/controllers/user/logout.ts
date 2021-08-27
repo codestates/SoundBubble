@@ -6,8 +6,7 @@ import { logError } from "../../utils/log";
 import { cookieOptions } from "../../token";
 
 const logout: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-	const { userId, accessToken }: { userId: number; accessToken: string; tokenExpIn: number } =
-		req.userInfo as UserInfo;
+	const { userId, accessToken }: { userId: number; accessToken: string } = req.userInfo as UserInfo;
 
 	try {
 		//* 토큰 블랙리스트에 만료되지 않은 액세스 토큰 저장
@@ -27,7 +26,7 @@ const logout: RequestHandler = async (req: Request, res: Response, next: NextFun
 		res.status(200).json({ message: "Logout succeed" });
 	} catch (err) {
 		logError("Logout error");
-		// 서버 상황에 관계 없이 사용자는 로그아웃 할 수 있어야 됨
+		// 서버 상황에 관계 없이 유저는 로그아웃 가능
 		res.status(200).json({ message: "Logout succeed" });
 		next(err);
 	}

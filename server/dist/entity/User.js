@@ -29,6 +29,7 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
     bubbles;
     bubbleComments;
     likedBubbles;
+    //* 유저 가입
     static async insertUser(email, password, nickname, signUpType, accountType, profileImage) {
         const newUser = new User_1();
         newUser.email = email;
@@ -41,6 +42,7 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
         await newUser.save();
         return newUser;
     }
+    //* email, password(option)로 유저 검색
     static async findUserByEmail(email, password) {
         let user;
         if (password) {
@@ -73,6 +75,7 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
         }
         return user;
     }
+    //* id, password로 유저 검색
     static async findUserById(userId, password) {
         const user = await this.createQueryBuilder("user")
             .where("user.id = :id AND user.password = :password", { id: userId, password: password })
@@ -88,6 +91,7 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
             .getOne();
         return user;
     }
+    //* signUpType으로 유저 검색
     static async findUserBySignUpType(email, signUpType) {
         const user = await this.createQueryBuilder("user")
             .where("email = :email AND signUpType = :signUpType", { email: email, signUpType: signUpType })
@@ -103,12 +107,12 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
             .getOne();
         return user;
     }
+    //* 유효한 닉네임 생성
     static async getValidNickname(originalName) {
         // 닉네임 길이 제한 검사
         if (originalName.length >= 26) {
             originalName = originalName.slice(0, 26);
         }
-        console.log("originalName", originalName);
         // 닉네임 중복 확인
         const userUsingNickname = await this.findOne({ nickname: originalName });
         if (!userUsingNickname) {
@@ -117,7 +121,6 @@ let User = User_1 = class User extends typeorm_1.BaseEntity {
         let count = 0;
         // 보조 재귀 함수: 랜덤으로 0~9999 숫자를 닉네임 뒤에 붙이며 중복되지 않는 닉네임 생성
         const getNicknameRecursive = async (nickname) => {
-            console.log("RamdomName", nickname);
             // 최대 100회 시도
             if (count > 100) {
                 return;
@@ -191,4 +194,3 @@ User = User_1 = __decorate([
     })
 ], User);
 exports.User = User;
-//# sourceMappingURL=User.js.map

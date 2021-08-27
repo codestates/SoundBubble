@@ -15,7 +15,7 @@ const updatePassword = async (req, res, next) => {
         if (!newPassword || !validate_1.checkPasswordFormat(newPassword)) {
             return res.status(400).json({ message: "Invalid newPassword(body)" });
         }
-        //* 유저 조회: 인증 시 계정 확인됨
+        //* 유저 조회: 인증(미들웨어) 시 계정 확인됨
         const userInfo = (await User_1.User.findOne(userId));
         //* (1) 이메일 가입 or 통합 유저 (기존 비밀번호 존재)
         if (userInfo.signUpType === "email" || userInfo.signUpType === "intergration") {
@@ -40,7 +40,7 @@ const updatePassword = async (req, res, next) => {
             const hashedNewPassword = hash_1.default(newPassword);
             userInfo.password = hashedNewPassword;
             userInfo.signUpType = "intergration";
-            // 비밀번호 변경 -> 일반 로그인 사용 가능
+            // 비밀번호 변경 -> 통합 유저로 변경.  일반 로그인 사용 가능
             await userInfo.save();
         }
         const resUserInfo = (await User_1.User.findUserByEmail(userInfo.email, userInfo.password));
@@ -52,4 +52,3 @@ const updatePassword = async (req, res, next) => {
     }
 };
 exports.default = updatePassword;
-//# sourceMappingURL=updatePassword.js.map

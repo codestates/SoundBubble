@@ -37,6 +37,7 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
         await newBubble.save();
         return newBubble;
     }
+    //* 모든 버블 조회 (검색 옵션 사용 가능)
     static async findAllBubbles(start, end, limit, order) {
         const bubbles = await this.createQueryBuilder("bubble")
             .where("bubble.id >= :sId AND bubble.id <= :eId", { sId: start, eId: end })
@@ -56,6 +57,7 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
             .getMany();
         return bubbles;
     }
+    //* 특정 버블 조회
     static async findBubble(bubbleId) {
         const bubble = await this.createQueryBuilder("bubble")
             .where("bubble.id = :id", { id: bubbleId })
@@ -73,6 +75,7 @@ let Bubble = Bubble_1 = class Bubble extends typeorm_1.BaseEntity {
             .getOne();
         return bubble;
     }
+    //* 특정 유저의 버블 조회
     static async findBubblesByUserId(userId) {
         const bubbles = await this.createQueryBuilder("bubble")
             .where("bubble.userId = :userId", { userId: userId })
@@ -133,4 +136,3 @@ Bubble = Bubble_1 = __decorate([
     })
 ], Bubble);
 exports.Bubble = Bubble;
-//# sourceMappingURL=Bubble.js.map
