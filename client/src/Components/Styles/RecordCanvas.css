@@ -9,7 +9,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 65%;
+	width: 60%;
 	height: 80vh;
 }
 
@@ -17,7 +17,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 35%;
+	width: 40%;
 	height: 80vh;
 }
 
@@ -30,6 +30,13 @@
 	transition: 0.5s;
 	box-shadow: 0px 0px 70px rgb(255, 254, 214);
 	cursor: pointer;
+}
+
+.recordNoiseImg {
+	width: 50vh;
+	height: 50vh;
+	position: absolute;
+	transition: 0.5s;
 }
 
 .canvas:hover {
@@ -93,7 +100,7 @@
 	}
 }
 
-@media screen and (max-width: 1670px) {
+@media screen and (max-width: 1400px) {
 	.canvas {
 		background-color: white;
 		border-radius: 50%;
@@ -102,6 +109,11 @@
 		height: 40vh;
 		transition: 0.5s;
 		box-shadow: 0px 0px 70px rgb(255, 254, 214);
+	}
+	.recordNoiseImg {
+		width: 40vh;
+		height: 40vh;
+		position: absolute;
 	}
 	.option-left {
 		display: none;

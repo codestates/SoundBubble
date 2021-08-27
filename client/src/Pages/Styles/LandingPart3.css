@@ -74,8 +74,8 @@
 }
 
 .sound-circle {
-	width: 12rem;
-	height: 12rem;
+	width: 10rem;
+	height: 10rem;
 	top: 150px;
 	border-radius: 50%;
 	position: absolute;
@@ -125,7 +125,10 @@
 		font-size: 2rem;
 		text-align: center;
 	}
-
+	.sound-circle {
+		width: 6rem;
+		height: 6rem;
+	}
 	.icon {
 		width: 36px;
 		height: 40px;

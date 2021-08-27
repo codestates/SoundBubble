@@ -10,9 +10,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
 import Swal from "sweetalert2";
-
-// import NeedLoginModal from "./UploadLimitModal";
-
 interface Props {
 	handleCloseModal: () => void;
 	handleSaveClick: () => void;
@@ -34,7 +31,6 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 		console.log("업로드 bubbleData", bubbleData);
 
 		if (userState.user.id === -1) {
-			// setNeedLogin(true);
 			Swal.fire({
 				text: "로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?",
 				icon: "warning",
@@ -64,11 +60,26 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			},
 			withCredentials: true,
 		})
-			.then(resp => {
-				history.push("/palette");
+			.then(() => {
+				Swal.fire({
+					title: "업로드 성공",
+					text: "팔레트 페이지에서 확인하시겠습니까?",
+					icon: "success",
+					showCancelButton: true,
+					cancelButtonColor: "#f17878",
+					confirmButtonColor: "rgb(119, 112, 255)",
+					confirmButtonText: "예",
+					cancelButtonText: "아니오",
+				}).then(result => {
+					if (result.isConfirmed) window.location.replace("/palette");
+				});
 			})
-			.catch(err => {
-				console.log("업로드 에러");
+			.catch(() => {
+				Swal.fire({
+					icon: "error",
+					title: "업로드 실패",
+					text: "다시 시도해주세요",
+				});
 			});
 	};
 
@@ -102,7 +113,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 
 			// ? # 카카오톡 url 공유하기
 			window.Kakao.Link.createDefaultButton({
-				container: ".KAKAO_icon",
+				container: ".share_icon",
 				objectType: "feed",
 				content: {
 					title: `${userState.user.nickname === "" ? "Guest" : userState.user.nickname}님의 멋진 목소리 색깔이에요!`,
@@ -138,7 +149,6 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 
 	return (
 		<>
-			{/* {needLogin ? <NeedLoginModal handleNeedLoginModal={handleNeedLoginModal} /> : null} */}
 			<div className="upload-modal-background">
 				<main className="upload-modal-box">
 					<div className="upload-modal-top-bar">
@@ -150,6 +160,7 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 					</div>
 					<div className="upload-modal-image-content">
 						<img className="upload-modal-image" src={viewImage} />
+						<img className="modal-noise" src="noise.png" />
 						<input
 							className="bubble-texUploadLimitModaltContent"
 							onChange={e => setTextContent(e.target.value)}
@@ -167,10 +178,10 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 							</button>
 						</div>
 						<div className="social-share-btn-box">
-							<img className="share_icon INSTA_icon" src={INSTA} alt="INSTA" />
-							<img className="share_icon KAKAO_icon" src={KAKAO} alt="KAKAO" onClick={kakaoShare} />
-							<img className="share_icon FACEBOOK_icon" src={FACEBOOK} alt="FACEBOOK" />
-							<img className="share_icon SHARE_icon" src={SHARE} alt="SHARE" />
+							<img src={KAKAO} alt="KAKAO" className="KAKAO_icon" />
+							<button className="share_icon" onClick={kakaoShare}>
+								카카오톡 공유하기
+							</button>
 						</div>
 					</div>
 				</main>

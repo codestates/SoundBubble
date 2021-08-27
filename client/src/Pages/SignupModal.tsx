@@ -6,9 +6,7 @@ import { emailIsValid, pwIsValid } from "../Utils/Validator";
 import "./Styles/SignupModal.css";
 import Modal from "../Components/Modal";
 import Swal from "sweetalert2";
-import { IoMdReturnLeft } from "react-icons/io";
-import { runInContext } from "vm";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootReducerType } from "../Store";
 
 const SignupModal = (): JSX.Element => {

@@ -51,11 +51,11 @@ const Palette = (): JSX.Element => {
 
 	return (
 		<>
+			<Navigation />
 			{guideModal ? (
 				<>
-					<Navigation />
 					<PaletteModal>
-						<p className="palette-message">다른사람의 버블을 구경해보세요</p>
+						<p className="palette-message">다른 사람의 버블을 구경해보세요</p>
 					</PaletteModal>
 				</>
 			) : null}
@@ -65,7 +65,6 @@ const Palette = (): JSX.Element => {
 					setTemp(e.clientX);
 				}}
 			>
-				<Navigation />
 				<PalettePart />
 			</div>
 		</>

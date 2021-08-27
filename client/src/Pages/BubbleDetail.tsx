@@ -15,6 +15,7 @@ const BubbleDetail = (): JSX.Element => {
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const API_URL = process.env.REACT_APP_API_URL;
 	const history = useHistory();
+	console.log(userState);
 
 	const [commentInput, setCommentInput] = useState("");
 	const [bubbleComments, setBubbleComments] = useState([]);
@@ -140,6 +141,13 @@ const BubbleDetail = (): JSX.Element => {
 		<>
 			<div className="bubbleDetail-container">
 				<div>
+					{isPlaying ? null : (
+						<div className="arrow_box">
+							{" "}
+							Click to <br />
+							Play Sound !{" "}
+						</div>
+					)}
 					<img
 						src={backIcon}
 						className="backIcon"
@@ -150,6 +158,7 @@ const BubbleDetail = (): JSX.Element => {
 						<img src={trashcan} className="deleteBtn" alt="버블 삭제" onClick={handleDeleteBubble} />
 					) : null}
 				</div>
+
 				<div className="comment-container">
 					{bubbleComments.map((comment: any, i: number) => {
 						console.log("댓글 맵함수", comment);
@@ -158,7 +167,7 @@ const BubbleDetail = (): JSX.Element => {
 							return (
 								<p key={i} className="my-comment" onDoubleClick={() => handleDeleteComment(commentId)}>
 									{comment.textContent}
-									<span className="comment-user-nickname">삭제하려면 더블클릭하세요.</span>
+									<span className="my-nickname">삭제하려면 더블클릭하세요.</span>
 								</p>
 							);
 						} else {
@@ -171,17 +180,19 @@ const BubbleDetail = (): JSX.Element => {
 						}
 					})}
 				</div>
-				{/* <video className="video" id="background-video" autoPlay muted loop>
-					<source src="Particles.mp4" type="video/mp4" />
-				</video> */}
-				<div className="bubbleDetail-bubble">
-					{isPlaying ? (
-						<img src={bubbleData.image} onClick={handleStopSound} className="bubbleImg isPlaying" />
-					) : (
+
+				{isPlaying ? (
+					<div className="bubbleDetail-bubble isPlaying">
+						<img src={bubbleData.image} onClick={handleStopSound} className="bubbleImg" />
+						<p>{bubbleData.textContent}</p>
+					</div>
+				) : (
+					<div className="bubbleDetail-bubble">
 						<img src={bubbleData.image} onClick={handlePlaySound} className="bubbleImg" />
-					)}
-					<p>{bubbleData.textContent}</p>
-				</div>
+						<p>{bubbleData.textContent}</p>
+					</div>
+				)}
+
 				<div className="form">
 					<label>
 						<input
@@ -203,7 +214,9 @@ const BubbleDetail = (): JSX.Element => {
 						/>
 					</label>
 				</div>
-				<div className="bubble-user">{bubbleData.user.nickname}님의 Sound Bubble</div>
+				<div className="bubble-user">
+					<p>{bubbleData.user.nickname}님의 Sound Bubble</p>
+				</div>
 			</div>
 		</>
 	);

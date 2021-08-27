@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootReducerType } from "../../Store";
 import { pwIsValid } from "../../Utils/Validator";
 import { updateUserType } from "../../actions";
+import Swal from "sweetalert2";
 
 const Password = (): JSX.Element => {
 	const [password, setPassword] = useState("");
@@ -55,11 +56,9 @@ const Password = (): JSX.Element => {
 				setPassword("");
 				setNewPassword("");
 				setNewPasswordRe("");
-				console.log("수정 완료");
-				console.log("응답값", resp.data);
 				resetErrorMsg();
 				dispatch(updateUserType(resp.data.data.userInfo));
-				alert("비밀번호가 수정되었습니다.");
+				Swal.fire(" ", "비밀번호가 변경되었습니다.");
 			})
 			.catch(err => {
 				if (err.response) {
