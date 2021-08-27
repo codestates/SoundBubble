@@ -46,7 +46,6 @@ const Instrument = ({ instrumentName, startNote, endNote, renderPianoKey, keyboa
 
 	const onPlayNoteStart = note => {
 		setState({ ...state, notesPlaying: [...state.notesPlaying, note] });
-		// console.log(note);
 		handleClick(note);
 	};
 

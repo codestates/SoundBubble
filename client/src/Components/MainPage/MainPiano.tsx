@@ -39,8 +39,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 	}, [backColor]);
 
 	const [smallPiano, setSmallPiano] = useState(false);
-	// console.log(window.innerWidth);
-	// console.log(smallPiano);
 
 	const handlePianoView = () => {
 		if (window.innerWidth <= 500) {

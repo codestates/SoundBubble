@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserInfo } from "../actions";
 import { RootReducerType } from "../Store";
 import "./Styles/LoginModal.css";
+import Swal from "sweetalert2";
 
 const LoginModal = (): JSX.Element => {
 	const [ID, setID] = useState("");

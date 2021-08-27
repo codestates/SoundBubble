@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,800&display=swap");
 .bubbleDetail-container {
 	width: 100vw;
 	height: 100vh;
@@ -10,7 +11,7 @@
 
 .backIcon {
 	width: 4rem;
-	position: fixed;
+	position: absolute;
 	left: 2%;
 	top: 3%;
 	cursor: pointer;
@@ -47,12 +48,66 @@
 		transform: scale(1);
 	}
 	100% {
-		transform: scale(1.2);
+		transform: scale(1.1);
 	}
 }
 
+.arrow_box {
+	position: relative;
+	background: rgb(67, 175, 103);
+	border-radius: 0.6em;
+	font-size: 2rem;
+	font-family: "Nunito", sans-serif;
+	color: white;
+	padding: 12px;
+	top: -30vh;
+	left: 13vw;
+	width: fit-content;
+	animation: blink 1s ease-in-out infinite alternate;
+	z-index: 999;
+}
+
+.arrow_box:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 45px solid transparent;
+	border-top-color: rgb(67, 175, 103);
+	border-bottom: 0;
+	border-left: 0;
+	margin-left: -22.5px;
+	margin-bottom: -45px;
+}
+
+@-webkit-keyframes blink {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@-moz-keyframes blink {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes blink {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 .isPlaying {
-	animation: ani 1.3s ease-in-out infinite alternate;
+	animation: ani 1s ease-in-out infinite alternate;
 }
 .bubbleDetail-container .comment-container div:hover {
 	color: rgb(33, 39, 50);
@@ -74,6 +129,39 @@
 	transition: 0.1s linear;
 }
 
+.my-nickname {
+	opacity: 0;
+	position: absolute;
+	transform: translate(-50%, -100%);
+	left: 50%;
+	top: -1rem;
+	padding: 8px;
+	display: inline-block;
+	border-radius: 5px;
+	word-break: keep-all;
+	font-size: 15px;
+	color: white;
+	background: rgb(241, 125, 109);
+	transition: 0.1s linear;
+}
+
+.my-nickname:after {
+	content: "";
+	position: absolute;
+	transform: rotate(45deg);
+	left: 50%;
+	bottom: -5px;
+	margin-left: -5px;
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background: rgb(241, 125, 109);
+}
+
+.bubbleDetail-container .comment-container p:hover .my-nickname {
+	opacity: 1;
+}
+
 .bubbleDetail-container .comment-container p:hover .comment-user-nickname {
 	opacity: 1;
 }
@@ -90,6 +178,7 @@
 	height: 10px;
 	background: rgb(119, 112, 255);
 }
+
 .bubbleDetail-container .comment-container p:nth-child(1) {
 	left: 40%;
 	top: 10%;
@@ -183,9 +272,8 @@
 	left: 50%;
 	top: 50%;
 	font-family: "Montserrat", sans-serif;
-	font-weight: 700;
 	font-size: 18px;
-	color: #fff;
+	color: rgb(0, 0, 0);
 }
 
 .bubbleDetail-container .bubble-user {
@@ -230,4 +318,76 @@
 .toBackBtn {
 	border: 1px solid black;
 	padding: auto;
+}
+
+@media (max-width: 540px) {
+	.arrow_box {
+		font-size: 1.5rem;
+		top: -30vh;
+		left: 20vw;
+	}
+
+	.arrow_box:after {
+		margin-bottom: -40px;
+	}
+	.bubble-user p {
+		font-size: 15px;
+	}
+
+	.bubbleDetail-container input {
+		width: 250px;
+	}
+
+	.bubbleDetail-container form {
+		bottom: 20px;
+		right: 20px;
+	}
+
+	.bubbleDetail-container .bubbleDetail-bubble {
+		width: 350px;
+		height: 350px;
+	}
+
+	.bubbleDetail-container .comment-container p {
+		font-size: 18px;
+	}
+
+	.bubbleDetail-container .comment-container p.my-comment {
+		font-size: 24px;
+	}
+	.bubbleDetail-container .comment-container p:nth-child(1) {
+		left: 40%;
+		top: 15%;
+	}
+
+	.bubbleDetail-container .comment-container p:nth-child(5) {
+		left: 20%;
+		top: 75%;
+	}
+
+	.bubbleDetail-container .comment-container p:nth-child(3) {
+		left: 70%;
+	}
+}
+
+@media (max-width: 380px) {
+	.bubble-user {
+		width: 100px;
+	}
+	.bubbleDetail-container .bubbleDetail-bubble {
+		width: 300px;
+		height: 300px;
+	}
+
+	.bubbleDetail-container .comment-container p.my-comment {
+		font-size: 22px;
+	}
+
+	.bubbleDetaul-container .comment-container p {
+		font-size: 16px;
+	}
+
+	.bubbleDetail-container input {
+		width: 200px;
+	}
 }
