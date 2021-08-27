@@ -36,6 +36,10 @@
 }
 
 @media (max-width: 1200px) {
+	.footerContainer {
+		bottom: 0;
+		height: 70vh;
+	}
 	.footerWrap {
 		width: 90%;
 	}
@@ -53,7 +57,6 @@
 @media (max-width: 768px) {
 	.footerWrap {
 		flex-direction: column;
-		width: 90%;
 	}
 
 	.aboutUs,

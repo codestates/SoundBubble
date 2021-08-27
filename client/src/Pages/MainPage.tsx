@@ -103,9 +103,9 @@ const MainPage = (): JSX.Element => {
 						>
 							Reset
 						</button>
-						<button className="reset-btn" onClick={() => window.location.replace("/palette")}>
+						{/* <button className="reset-btn" onClick={() => window.location.replace("/palette")}>
 							Palette
-						</button>
+						</button> */}
 					</div>
 				</div>
 				<ChoiceMode select={select} backColor={backColor} pickSpeed={pickSpeed} />

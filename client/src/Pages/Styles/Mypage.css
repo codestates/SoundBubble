@@ -57,6 +57,7 @@
 	margin: 65px auto 0 auto;
 	width: 50%;
 	border-color: rgb(75, 70, 168);
+	cursor: pointer;
 }
 
 .sideTap > .tap {
@@ -247,8 +248,10 @@
 	}
 
 	.rightContents {
-		height: 50%;
+		margin-top: 10%;
+		height: 40vh;
 		width: 100%;
+		position: relative;
 	}
 
 	.rightContents h2 {
@@ -258,6 +261,7 @@
 
 	.rightContents input {
 		margin-bottom: 15px;
+		width: 70vw;
 	}
 
 	.rightContents button {

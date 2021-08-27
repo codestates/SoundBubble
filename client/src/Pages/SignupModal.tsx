@@ -5,6 +5,7 @@ import axios from "axios";
 import { emailIsValid, pwIsValid } from "../Utils/Validator";
 import "./Styles/SignupModal.css";
 import Modal from "../Components/Modal";
+import Swal from "sweetalert2";
 
 const SignupModal = (): JSX.Element => {
 	const [name, setName] = useState("");

@@ -8,7 +8,7 @@ import SHARE from "../Static/icons/share_icon.png";
 // import axios from "axios";
 import { BubbleData } from "../@type/request";
 import styled from "styled-components";
-
+import Swal from "sweetalert2";
 import UploadLimitModal from "./UploadLimitModal";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
@@ -23,7 +23,10 @@ interface Props {
 const UploadModalPiano = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData }: Props): JSX.Element => {
 	const userState = useSelector((state: RootReducerType) => state.userReducer);
 	const handleBubbleUpload = (): void => {
-		setIsLimitModal(true);
+		Swal.fire({
+			title: "",
+			text: "조금만 기다려주세요.",
+		});
 	};
 
 	const [isLimitModal, setIsLimitModal] = useState<boolean>(false);

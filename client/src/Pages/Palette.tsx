@@ -55,7 +55,7 @@ const Palette = (): JSX.Element => {
 				<>
 					<Navigation />
 					<PaletteModal>
-						<p className="palette-message">다른사람의 버블을 구경해보세요</p>
+						<p className="palette-message">다른 사람의 버블을 구경해보세요</p>
 					</PaletteModal>
 				</>
 			) : null}

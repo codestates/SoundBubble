@@ -9,7 +9,7 @@ import axiosInstance from "../axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducerType } from "../Store";
 import { BubbleData } from "../@type/request";
-
+import Swal from "sweetalert2";
 import NeedLoginModal from "./UploadLimitModal";
 
 interface Props {
@@ -52,11 +52,26 @@ const UploadModal = ({ handleCloseModal, handleSaveClick, viewImage, bubbleData 
 			},
 			withCredentials: true,
 		})
-			.then(resp => {
-				history.push("/palette");
+			.then(() => {
+				Swal.fire({
+					title: "업로드 성공",
+					text: "팔레트 페이지에서 확인하시겠습니까?",
+					icon: "success",
+					showCancelButton: true,
+					cancelButtonColor: "#f17878",
+					confirmButtonColor: "rgb(119, 112, 255)",
+					confirmButtonText: "예",
+					cancelButtonText: "아니오",
+				}).then(result => {
+					if (result.isConfirmed) window.location.replace("/palette");
+				});
 			})
-			.catch(err => {
-				console.log("업로드 에러");
+			.catch(() => {
+				Swal.fire({
+					icon: "error",
+					title: "업로드 실패",
+					text: "다시 시도해주세요",
+				});
 			});
 	};
 

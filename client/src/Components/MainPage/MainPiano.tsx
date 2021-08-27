@@ -38,8 +38,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 	}, [backColor]);
 
 	const [smallPiano, setSmallPiano] = useState(false);
-	// console.log(window.innerWidth);
-	// console.log(smallPiano);
 
 	const handlePianoView = () => {
 		if (window.innerWidth <= 500) {
@@ -326,10 +324,6 @@ const MainPiano = ({ backColor }: any): JSX.Element => {
 						</div>
 					</>
 				)}
-
-				<button onClick={handleUploadModal} className="create-bubble-btn">
-					Done
-				</button>
 			</div>
 		</>
 	);
