@@ -5,10 +5,10 @@ import { CookieOptions } from "express";
 
 //* 토큰 쿠키 옵션
 export const cookieOptions: CookieOptions = {
-	maxAge: 24 * 60 * 60 * 1000 * 3,
+	maxAge: 24 * 60 * 60 * 1000 * 14,
 	httpOnly: true,
 	secure: true,
-	sameSite: "none",
+	sameSite: "strict",
 };
 
 const accessSecret: string = process.env.ACCESS_SECRET as string;

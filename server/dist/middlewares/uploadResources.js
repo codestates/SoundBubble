@@ -9,6 +9,9 @@ const s3_1 = require("../aws/s3");
 const error_1 = require("../error");
 const supportedExt = ["wav", "webm", "jpg", "jpeg", "png"];
 const upload = multer_1.default({
+    limits: {
+        fileSize: 2 * 1024 * 1024,
+    },
     storage: multer_s3_1.default({
         s3: s3_1.s3,
         bucket: "soundbubble-resource",

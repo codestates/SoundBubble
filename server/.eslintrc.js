@@ -11,10 +11,10 @@ module.exports = {
 	},
 	plugins: ["@typescript-eslint"],
 	rules: {
-		"no-empty": "error", // 빈 블록문을 지양
-		"default-case": "error", // switch 문 default가 포함
-		"default-case-last": "error", // switch 문 default 항상 마지막에 작성
-		eqeqeq: ["error", "always"], // '==' 밎 '!=' 사용을 지양
+		"no-empty": "error",
+		"default-case": "error",
+		"default-case-last": "error",
+		eqeqeq: ["error", "always"],
 	},
 	ignorePatterns: ["dist", "lambda"],
 };

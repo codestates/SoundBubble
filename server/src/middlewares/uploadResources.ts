@@ -6,6 +6,9 @@ import { FileTypeError } from "../error";
 const supportedExt: string[] = ["wav", "webm", "jpg", "jpeg", "png"];
 
 const upload: multer.Multer = multer({
+	limits: {
+		fileSize: 2 * 1024 * 1024,
+	},
 	storage: multerS3({
 		s3: s3,
 		bucket: "soundbubble-resource",
@@ -27,7 +30,9 @@ const upload: multer.Multer = multer({
 			const mimeTypeExt: string = file.mimetype.split("/").pop()?.toLowerCase() as string;
 			if (!supportedExt.includes(ext) && !supportedExt.includes(mimeTypeExt)) {
 				// 지원하지 않는 파일
-				const errMessage = `Invalid File Type.\nsupported extensions: ${supportedExt.join(" ")}.\ninput file(FormData) extension: ${ext}, MIME type: ${file.mimetype}`;
+				const errMessage = `Invalid File Type.\nsupported extensions: ${supportedExt.join(
+					" ",
+				)}.\ninput file(FormData) extension: ${ext}, MIME type: ${file.mimetype}`;
 				return callback(new FileTypeError(errMessage));
 			}
 

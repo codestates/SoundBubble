@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions, Connection } from "typeorm";
 import * as readline from "readline";
-import { redisClient } from "./redis"
+import { redisClient } from "./redis";
 
 type DatabaseOptions = {
 	[env: string]: ConnectionOptions;
@@ -69,14 +69,13 @@ export const connectDB = async (callback: () => void): Promise<void> => {
 					case "yes":
 						await truncateDB(connection);
 						console.log("DB Initialization completed");
-						process.exit();
 						break;
 					default:
 						console.log("DB Initialization cancelled");
-						process.exit();
 						break;
 				}
 			});
+			process.exit();
 		} else {
 			console.log("Database connected");
 			callback();
