@@ -10,6 +10,7 @@ const util_1 = require("util");
 const token_1 = require("../token");
 const redisPort = Number(process.env.REDIS_PORT);
 const redisHost = process.env.REDIS_HOST;
+//* Redis Client
 exports.redisClient = redis_1.default.createClient(redisPort, redisHost);
 exports.redisClient.on("error", function (error) {
     log_1.logError("Redis 접속 실패");
@@ -110,7 +111,7 @@ const checkBlackList = async (userId, accessToken) => {
     return false;
 };
 exports.checkBlackList = checkBlackList;
-//* 화이트리스트 삭제 (리프레시 토큰 만료시)
+//* 화이트리스트 삭제: 리프레시 토큰 만료시
 const clearWhiteList = async (userId) => {
     const redisData = await getAsync(String(userId));
     if (redisData) {

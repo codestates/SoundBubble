@@ -8,6 +8,7 @@ import { JwtPayload } from "jsonwebtoken";
 const redisPort: number = Number(process.env.REDIS_PORT) as number;
 const redisHost: string = process.env.REDIS_HOST as string;
 
+//* Redis Client
 export const redisClient: RedisClient = redis.createClient(redisPort, redisHost);
 
 redisClient.on("error", function (error) {
@@ -117,7 +118,7 @@ export const checkBlackList = async (userId: number, accessToken: string): Promi
 	return false;
 };
 
-//* 화이트리스트 삭제 (리프레시 토큰 만료시)
+//* 화이트리스트 삭제: 리프레시 토큰 만료시
 export const clearWhiteList = async (userId: number): Promise<void> => {
 	const redisData: string | null = await getAsync(String(userId));
 

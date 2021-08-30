@@ -145,14 +145,14 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 			const newCanvas = canvas;
 			if (!newCanvas) throw new Error("error");
 			//* use html2canvas
-			html2canvas(newCanvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
-				newCanvas.toBlob(imageBlob => {
-					if (!imageBlob) throw new Error("error");
-					const imageFile = new File([imageBlob], "image.png", { type: imageBlob.type });
-					setBubbleData(Object.assign(bubbleData, { image: imageFile }));
+			// html2canvas(newCanvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
+			newCanvas.toBlob(imageBlob => {
+				if (!imageBlob) throw new Error("error");
+				const imageFile = new File([imageBlob], "image.png", { type: imageBlob.type });
+				setBubbleData(Object.assign(bubbleData, { image: imageFile }));
 
-					handleUploadModal();
-				}, "image/png");
+				handleUploadModal();
+				// }, "image/png");
 			});
 		} else {
 			getMicrophone();
@@ -257,10 +257,10 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 
 		const canvas = canvasRef.current;
 		if (!canvas) throw new Error("error");
-		html2canvas(canvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
-			const image = canvas?.toDataURL();
-			setViewImage(image);
-		});
+		// html2canvas(canvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
+		const image = canvas?.toDataURL();
+		setViewImage(image);
+		// });
 	}, [viewPitch]);
 
 	useEffect(() => {

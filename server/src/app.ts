@@ -13,7 +13,7 @@ import https from "https";
 import userRouter from "./routes/userRouter";
 import bubbleRouter from "./routes/bubbleRouter";
 
-//* Express App
+//* Express Instance
 const app: express.Application = express();
 const PORT: number = Number(process.env.SERVER_PORT) || 80;
 
@@ -30,7 +30,7 @@ app.use(
 );
 app.use(
 	cors({
-		origin: ["https://www.soundbubble.io", "http://localhost:3000"],
+		origin: ["https://www.soundbubble.io"],
 		credentials: true,
 		methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
 	}),
