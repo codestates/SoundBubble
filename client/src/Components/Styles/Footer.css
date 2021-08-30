@@ -8,9 +8,9 @@
 	bottom: 0%;
 }
 .footerWrap {
+	font-family: "NanumSquareRound";
 	width: 1200px;
 	margin: 0 auto;
-
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
@@ -63,4 +63,9 @@
 	.contact h3 {
 		display: none;
 	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../../Pages/Styles/fonts/NanumSquareRoundR.ttf");
 }

@@ -17,6 +17,7 @@
 }
 
 .contentWrap3 {
+	font-family: "NanumSquareRound";
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -133,4 +134,9 @@
 		width: 36px;
 		height: 40px;
 	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundR.ttf");
 }
