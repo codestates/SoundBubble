@@ -146,7 +146,7 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 			if (!newCanvas) throw new Error("error");
 			//* use html2canvas
 			html2canvas(newCanvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
-				canvas.toBlob(imageBlob => {
+				newCanvas.toBlob(imageBlob => {
 					if (!imageBlob) throw new Error("error");
 					const imageFile = new File([imageBlob], "image.png", { type: imageBlob.type });
 					setBubbleData(Object.assign(bubbleData, { image: imageFile }));
