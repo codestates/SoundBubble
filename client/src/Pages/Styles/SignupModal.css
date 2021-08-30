@@ -108,6 +108,7 @@ body {
 }
 
 .signup-check-btn {
+	font-family: "NanumSquareRound";
 	background-color: rgb(119, 112, 255);
 	color: white;
 	cursor: pointer;
@@ -117,6 +118,7 @@ body {
 }
 
 .signup-checked {
+	font-family: "NanumSquareRound";
 	cursor:not-allowed;
 	background-color: black;
 }
@@ -184,4 +186,9 @@ body {
 		position: fixed;
 		top: 5vh;
 	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundR.ttf");
 }

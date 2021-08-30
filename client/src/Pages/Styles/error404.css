@@ -18,6 +18,10 @@
   margin-bottom: 10vh;
 }
 
+.errorMessage > .page {
+  font-family: "NanumSquareRound";
+}
+
 .errorMessage .error404 {
   font-size: 5rem;
   font-weight: 800;
@@ -34,7 +38,7 @@
 .btn-go {
   width: 15rem;
 	height: 4rem;
-	font-family: "Noto Sans KR", sans-serif;
+	font-family: "NanumSquareRound";
 	font-size: 1rem;
 	outline: none;
 	border: none;
@@ -208,4 +212,9 @@
   .error-bubbles{
     bottom: 40vh;
   }
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundR.ttf");
 }
