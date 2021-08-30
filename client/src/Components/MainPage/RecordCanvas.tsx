@@ -142,7 +142,7 @@ function RecordCanvas({ backColor, pickSpeed }: any): JSX.Element {
 			if (!context) throw new Error("error");
 			const noise = "noise.png";
 			combineCanvas(context, noise, 0, 0);
-			const newCanvas = canvasRef.current;
+			const newCanvas = canvas;
 			if (!newCanvas) throw new Error("error");
 			//* use html2canvas
 			html2canvas(newCanvas, { allowTaint: true, backgroundColor: "rgba(0,0,0,0)" }).then(canvas => {
