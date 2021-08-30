@@ -83,13 +83,12 @@ const connectDB = async (callback) => {
                     case "yes":
                         await exports.truncateDB(connection);
                         console.log("DB Initialization completed");
-                        process.exit();
                         break;
                     default:
                         console.log("DB Initialization cancelled");
-                        process.exit();
                         break;
                 }
+                process.exit();
             });
         }
         else {

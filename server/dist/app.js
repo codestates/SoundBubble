@@ -15,7 +15,7 @@ const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
 const userRouter_1 = __importDefault(require("./routes/userRouter"));
 const bubbleRouter_1 = __importDefault(require("./routes/bubbleRouter"));
-//* Express App
+//* Express Instance
 const app = express_1.default();
 const PORT = Number(process.env.SERVER_PORT) || 80;
 //* Middleware
@@ -29,7 +29,7 @@ app.use(morgan_1.default(morganFormat, {
     },
 }));
 app.use(cors_1.default({
-    origin: ["https://www.soundbubble.io", "http://localhost:3000"],
+    origin: ["https://www.soundbubble.io"],
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
 }));

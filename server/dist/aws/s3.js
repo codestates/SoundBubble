@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteResource = exports.s3 = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const log_1 = require("../utils/log");
-//* S3 이미지 서버 연결
+//* aws config
 aws_sdk_1.default.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
