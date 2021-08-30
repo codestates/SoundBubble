@@ -1,0 +1,142 @@
+.container3 {
+	height: 85vh;
+	background-color: #000;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	position: relative;
+	overflow-x: hidden;
+}
+
+.circle {
+	width: 15px;
+	height: 15px;
+	border-radius: 100%;
+	background-color: #fff;
+}
+
+.contentWrap3 {
+	font-family: "NanumSquareRound";
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+}
+
+.contentWrap3 h2 {
+	font-size: 3.5rem;
+	font-weight: bold;
+	margin: 1rem 0 5rem 0;
+}
+
+.clickBtn {
+	width: 10vh;
+	height: 10vh;
+	border-radius: 100%;
+	background-color: rgba(255, 255, 255, 0.5);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 15rem;
+	z-index: 3;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.clickBtn .innerCircle {
+	width: 7vh;
+	height: 7vh;
+	border-radius: 100%;
+	background-color: rgba(255, 255, 255, 0.5);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.icon {
+	animation: up-down 0.5s infinite ease-in-out alternate;
+	width: 45px;
+	height: 50px;
+}
+
+@keyframes up-down {
+	from {
+		transform: translatey(0px);
+	}
+	to {
+		transform: translatey(-5px);
+	}
+}
+
+.innerCircle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sound-circle {
+	width: 10rem;
+	height: 10rem;
+	top: 150px;
+	border-radius: 50%;
+	position: absolute;
+	background-color: #fff;
+	animation-name: soundCircle;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+	-webkit-filter: blur(1px);
+	-moz-filter: blur(1px);
+	-o-filter: blur(1px);
+	-ms-filter: blur(1px);
+	filter: blur(1px);
+}
+
+@keyframes soundCircle {
+	0% {
+		transform: scale(1);
+		opacity: 0;
+	}
+
+	50% {
+		transform: scale(1.5);
+		opacity: 1;
+		-webkit-filter: blur(2px);
+		-moz-filter: blur(2px);
+		-o-filter: blur(2px);
+		-ms-filter: blur(2px);
+		filter: blur(2px);
+	}
+
+	100% {
+		transform: scale(2);
+		opacity: 0;
+		-webkit-filter: blur(5px);
+		-moz-filter: blur(5px);
+		-o-filter: blur(5px);
+		-ms-filter: blur(5px);
+		filter: blur(5px);
+	}
+}
+
+@media (max-width: 768px) {
+	.contentWrap3 {
+		padding: 0 2rem;
+	}
+	.contentWrap3 h2 {
+		font-size: 2rem;
+		text-align: center;
+	}
+	.sound-circle {
+		width: 6rem;
+		height: 6rem;
+	}
+	.icon {
+		width: 36px;
+		height: 40px;
+	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundR.ttf");
+}

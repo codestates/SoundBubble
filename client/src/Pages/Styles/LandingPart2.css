@@ -1,0 +1,91 @@
+.container2 {
+	background-color: #000;
+	color: #fff;
+}
+.circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 100%;
+	background-color: #fff;
+}
+
+.chMessageWrapper {
+	font-family: "NanumSquareRound";
+	background-image: url(../../Static/backimg.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 40rem;
+	display: flex;
+	align-items: center;
+}
+.contentWrap {
+	width: 1200px;
+	margin: 0 auto;
+}
+.contentWrap h2 {
+	font-size: 3.5rem;
+	font-weight: bold;
+	margin: 1rem 0;
+	text-align: left;
+}
+.contentWrap p {
+	font-size: 1.4rem;
+	font-weight: 100;
+	line-height: 1.6;
+}
+
+.chMessageWrapper2 {
+	font-family: "NanumSquareRound";
+	background-image: url(../../Static/backimg2.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+}
+.contentWrap2 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.contentWrap2 h2,
+.contentWrap2 p {
+	text-align: center;
+}
+.contentWrap2 strong {
+	font-weight: bold;
+}
+
+@media (max-width: 1200px) {
+	.contentWrap {
+		width: 100%;
+		padding: 0 2rem;
+	}
+	.chMessageWrapper2 {
+		background-position: center;
+	}
+}
+@media (max-width: 768px) {
+	.contentWrap h2 {
+		font-size: 2rem;
+	}
+	.contentWrap p {
+		font-size: 1.2rem;
+	}
+	.contentWrap p br {
+		display: none;
+	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundR.ttf");
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundEB.ttf");
+	font-weight: bold;
+}

@@ -1,0 +1,27 @@
+.main-page__upload {
+	position: absolute;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 65%;
+	height: calc(100% - 80px);
+}
+
+@media screen and (max-width: 1400px) {
+	.main-page__upload {
+		position: absolute;
+		right: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 787px) {
+	.main-page__img {
+		width: 100vw;
+		height: auto;
+	}
+}

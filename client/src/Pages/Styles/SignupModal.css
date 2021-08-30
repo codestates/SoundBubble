@@ -1,0 +1,194 @@
+body {
+	margin: 0;
+}
+.signup-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100vh;
+	margin: 0;
+}
+
+.signup-sidebar-content {
+	width: 35%;
+	height: 100vh;
+	background-color: #d4cade;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-image: url("../Styles/signup_img.png");
+}
+
+.signup-main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 65%;
+	height: 100vh;
+	/* background-color: blue; */
+}
+
+.signup-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 100%;
+	max-width: 420px;
+	height: 70%;
+	max-height: 800px;
+	margin: auto;
+	/* background-color: green; */
+}
+
+.divider {
+	width: 100%;
+}
+
+.signup-password-group {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 15%;
+	/* background-color: yellow; */
+}
+
+.signup-user-RePassword {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.signup-label {
+	width: 90%;
+	text-align: start;
+	font-weight: bold;
+	font-size: 1.1rem;
+	color: black;
+}
+
+.signup-password-group > fieldset {
+	width: 100%;
+}
+
+.signup-content > fieldset {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	height: 15%;
+	/* background-color: yellow; */
+}
+
+/* fieldset */
+.signup-user-name,
+.signup-user-email,
+.signup-user-password,
+.signup-user-RePassword {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+/* input */
+.signup-input-name,
+.signup-input-email,
+.signup-input-password,
+.signup-input-RePassword {
+	width: 100%;
+	height: 2.6rem;
+	margin: 0;
+	padding: 0;
+	padding-left: 15px;
+	border: none;
+	border-radius: 5px;
+	background-color: rgb(239, 239, 239);
+}
+
+.signup-check-btn {
+	font-family: "NanumSquareRound";
+	background-color: rgb(119, 112, 255);
+	color: white;
+	cursor: pointer;
+}
+.signup-unckecked:hover{
+	background-color: rgb(200, 112, 255);
+}
+
+.signup-checked {
+	font-family: "NanumSquareRound";
+	cursor:not-allowed;
+	background-color: black;
+}
+
+.input-checked {
+	font-weight: 500;
+}
+
+.signup-input-password,
+.signup-input-RePassword {
+	width: 90%;
+}
+
+/* button */
+.signup-form-btn {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	border: none;
+}
+
+.signup-form-btn > button {
+	width: 46%;
+	height: 2.6rem;
+	font-size: 1rem;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	margin: 0;
+	padding: 0;
+}
+
+.signup-form-btn > button:nth-child(1) {
+	background-color: rgb(119, 112, 255);
+}
+
+.signup-form-btn > button:nth-child(1):hover {
+	background-color: rgb(200, 112, 255);
+}
+
+.signup-form-btn > button:nth-child(2) {
+	background-color: rgb(200, 112, 255);
+}
+
+.signup-alert-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 1rem;
+	color: red;
+}
+
+@media (max-width: 868px) {
+	.signup-sidebar-content {
+		width: 0px;
+	}
+	.signup-top-content {
+		margin: 0 auto;
+		width: 193px;
+		height: 56px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: url(logo_g.png);
+		position: fixed;
+		top: 5vh;
+	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundR.ttf");
+}

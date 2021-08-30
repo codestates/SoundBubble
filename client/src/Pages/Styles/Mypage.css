@@ -1,0 +1,306 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+	font-family: "NanumSquareRound";
+	/* color: white; */
+	text-decoration: none;
+	border: none;
+	background-color: transparent;
+	outline: none;
+	box-sizing: border-box;
+}
+
+.mypageContainer {
+	width: 100vw;
+	height: calc(100vh - 80px);
+	background-color: rgb(33, 39, 50);
+	display: flex;
+}
+
+.leftContents {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: #fff;
+	width: 30%;
+}
+
+.mypageTitle {
+	font-weight: 700;
+	font-size: 2.2rem;
+	color: #333;
+	margin-bottom: 30px;
+	letter-spacing: -1.5px;
+}
+
+.userImg {
+	margin-bottom: 10px;
+}
+
+.userImg img {
+	width: 100px;
+	border-radius: 50%;
+	border: 1px solid #ddd;
+	box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.userId {
+	font-family: "NanumSquareRound";
+	color: black;
+	font-size: 1.1rem;
+	letter-spacing: -1px;
+}
+
+.sideTap {
+	text-align: center;
+	margin: 65px auto 0 auto;
+	width: 50%;
+	border-color: rgb(75, 70, 168);
+	cursor: pointer;
+}
+
+.sideTap > .tap {
+	font-family: "NanumSquareRound";
+	display: block;
+	padding: 10px 0;
+	border: 1px solid rgb(134, 133, 136);
+	color: rgb(134, 133, 136);
+	font-weight: 500;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	transition: 0.1s all;
+}
+
+.sideTap > .tap:last-child {
+	margin-bottom: 0;
+}
+
+.sideTap > .tap:hover {
+	background-color: rgb(119, 112, 255);
+	border: 1px solid rgb(119, 112, 255);
+	color: #fff;
+}
+
+.rightContents {
+	font-family: "NanumSquareRound";
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 70%;
+	background: rgb(33, 39, 50);
+	flex-direction: column;
+}
+
+.rightContents h2 {
+	font-family: "Montserrat", sans-serif;
+	color: #fff;
+	font-size: 1.4rem;
+	margin-bottom: 30px;
+	margin-top: 10%;
+}
+
+.rightContents label {
+	display: block;
+}
+
+.rightContents form {
+	width: 400px;
+}
+
+.rightContents input {
+	background-color: #fff;
+	border-radius: 5px;
+	height: 45px;
+	margin-bottom: 30px;
+	width: 25rem;
+	font-size: 1rem;
+	padding-left: 15px;
+	transition: 0.3s all;
+	color: #333;
+}
+
+.rightContents input::placeholder {
+	color: #bbb;
+	font-weight: 200;
+}
+
+.rightContents input:focus {
+	box-shadow: 0px 0px 10px 3px #6e75da;
+}
+
+.rightContents label:last-child input {
+	margin-bottom: 0;
+}
+
+.rightContents button {
+	width: 50%;
+	background-color: rgb(134, 133, 136);
+	color: #fff;
+	display: block;
+	cursor: pointer;
+	font-size: 1.05rem;
+	margin: 0 auto;
+	border-radius: 3px;
+	padding: 10px 0;
+}
+
+.rightContents button:hover {
+	background-color: rgb(119, 112, 255);
+}
+
+.rightContents button:active {
+	background-color: rgb(75, 70, 168);
+}
+
+.palette-container {
+	display: flex;
+	flex-wrap: wrap;
+	overflow-x: hidden;
+	padding-top: 50px;
+	background-color: rgb(33, 39, 50);
+}
+
+.palette-container .palette-wrap {
+	width: 100%;
+	margin-bottom: 50px;
+	background-color: rgb(33, 39, 50);
+	display: flex;
+	justify-content: space-around;
+	align-items: space-around;
+}
+
+.palette-container img {
+	width: 300px;
+	height: 300px;
+	background-color: #ddd;
+	border-radius: 50%;
+	margin: 0 auto;
+	color: #fff;
+	cursor: pointer;
+}
+
+.mypage__alert-box {
+	justify-self: center;
+	text-align: center;
+	margin-top: 5rem;
+	color: rgb(202, 76, 76);
+	font-weight: bold;
+	height: 10px;
+}
+
+.mypalettes_container {
+	display: flex;
+	flex-direction: column;
+	height: 50vh;
+	justify-content: space-evenly;
+	align-content: center;
+	font-size: 3rem;
+}
+
+.mypalettes_mainBtn {
+	align-self: center;
+	width: 17rem;
+	height: 4.5rem;
+	font-family: "Noto Sans KR", sans-serif;
+	font-size: 1.6rem;
+	outline: none;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+.emptyBubble {
+	width: 50rem;
+}
+
+@media (max-width: 960px) {
+	.palette-container .palette {
+		width: 250px;
+		height: 250px;
+	}
+}
+
+@media (max-width: 768px) {
+	.mypageContainer {
+		display: block;
+		width: 100%;
+	}
+
+	.leftContents {
+		width: 100%;
+		padding: 35px 20px;
+	}
+
+	.mypageTitle {
+		font-size: 28px;
+		margin-bottom: 15px;
+		margin-top: 70px;
+	}
+
+	.sideTap {
+		text-align: center;
+		margin: 25px auto 0 auto;
+		width: 280px;
+	}
+
+	.sideTap > .tap {
+		font-size: 14px;
+	}
+
+	.rightContents {
+		margin-top: 10%;
+		height: 40vh;
+		width: 100%;
+		position: relative;
+	}
+
+	.rightContents h2 {
+		margin: 0 0 20px 0;
+		font-size: 21px;
+	}
+
+	.rightContents input {
+		margin-bottom: 15px;
+		width: 70vw;
+	}
+
+	.rightContents button {
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 560px) {
+	.palette-container .palette {
+		width: 200px;
+		height: 200px;
+		font-size: 15px;
+	}
+}
+
+@media (max-width: 460px) {
+	.rightContents form {
+		padding: 0px 20px;
+		width: 100%;
+	}
+
+	.palette-container .palette {
+		width: 150px;
+		height: 150px;
+	}
+}
+
+@media (max-width: 360px) {
+	.palette-container .palette {
+		width: 130px;
+		height: 130px;
+		font-size: 14px;
+	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../Styles/fonts/NanumSquareRoundR.ttf");
+}

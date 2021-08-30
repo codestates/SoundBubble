@@ -1,0 +1,36 @@
+.palette-main {
+	position: absolute;
+	width: 100%;
+}
+
+.palette-message {
+	font-family: "NanumSquareRound";
+	color: white;
+	animation: MessageFadeInOut 3s;
+}
+
+@keyframes MessageFadeInOut {
+	0% {
+		color: transparent;
+	}
+	50% {
+		color: white;
+	}
+	100% {
+		color: transparent;
+	}
+}
+
+@media (max-width: 540px) {
+	.palette-message {
+		font-size: 1.5rem;
+	}
+	.palette-main {
+		overflow: hidden;
+	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../Styles/fonts/NanumSquareRoundR.ttf");
+}

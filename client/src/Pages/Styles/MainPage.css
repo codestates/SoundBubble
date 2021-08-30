@@ -1,0 +1,262 @@
+.main-page {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	top: 80px;
+	height: calc(100vh - 80px);
+	background-color: rgba(2, 7, 21, 0.9);
+}
+
+.main-left-background {
+	position: absolute;
+	left: 0;
+	width: 40%;
+	height: calc(100vh - 80px);
+	background-color: rgb(255, 255, 255);
+	box-shadow: 15px 0px 15px rgba(2, 7, 21, 0.7);
+}
+
+.bubble-speed-message,
+.bubble-color-message {
+	font-family: "NanumSquareRound";
+	margin-left: 5px;
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.bubble-color-box,
+.bubble-speed-box {
+	width: 90%;
+}
+
+.speedSlider {
+	z-index: 1;
+	-webkit-appearance: none;
+	width: 100%;
+	height: 25px;
+	background: rgba(0, 0, 0, 0.8);
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.speedSlider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 15px;
+	height: 50px;
+	background-color: white;
+	border: 1px solid rgba(2, 7, 21, 0.3);
+	border-radius: 10px;
+	box-shadow: 1px 2px 2px rgba(2, 7, 21, 0.4);
+	transition-duration: 0.15s;
+}
+
+.speedSlider::-webkit-slider-thumb:hover {
+	transform: scale(1.1);
+	transition-duration: 0.15s;
+}
+
+.main-left {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	width: 40%;
+	left: 0;
+	height: calc(100vh - 80px);
+	top: 80px;
+}
+
+.color-picker {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	/* background-color: green; */
+}
+
+.white-btn {
+	background-color: white;
+	height: 70px;
+	width: 70px;
+	border-radius: 10px;
+	margin-right: 20px;
+	cursor: pointer;
+	box-shadow: 1px 2px 4px rgba(2, 7, 21, 0.3);
+	transition-duration: 0.15s;
+}
+
+.white-btn:hover {
+	transform: scale(1.1);
+	transition-duration: 0.15s;
+}
+
+.black-btn {
+	background-color: black;
+	height: 70px;
+	width: 70px;
+	border-radius: 10px;
+	cursor: pointer;
+	box-shadow: 1px 2px 4px rgba(2, 7, 21, 0.3);
+	transition-duration: 0.15s;
+}
+
+.black-btn:hover {
+	transform: scale(1.1);
+	transition-duration: 0.15s;
+}
+
+.bubble-btn-box {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 100%;
+	height: 100px;
+}
+
+.reset-btn {
+	width: 17rem;
+	height: 4.5rem;
+	font-family: "NanumSquareRound";
+	font-size: 1.6rem;
+	outline: none;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	background-color: #6d6b6b;
+	color: white;
+	margin: 0px 10px;
+}
+
+.reset-btn:hover {
+	transform: scale(1.03);
+	-o-transform: scale(1.03);
+	-moz-transform: scale(1.03);
+	-webkit-transform: scale(1.03);
+	color: #fff;
+	background-color: rgb(119, 112, 255);
+}
+
+@media screen and (max-width: 1400px) {
+	.main-left-background,
+	.bubble-speed-message,
+	.bubble-color-message,
+	.speedSlider,
+	.color-picker,
+	.bubble-color-box {
+		display: none;
+	}
+
+	.main-page {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100vh;
+		background-color: rgba(2, 7, 21, 0.9);
+	}
+
+	.main-left {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		height: calc(100vh - 80px);
+		top: 80px;
+	}
+
+	.bubble-btn-box {
+		z-index: 10;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100px;
+		margin-bottom: 10vh;
+	}
+
+	.reset-btn {
+		width: 17rem;
+		height: 4.5rem;
+		font-family: "NanumSquareRound";
+		font-size: 1.6rem;
+		outline: none;
+		border: none;
+		border-radius: 10px;
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+		background-color: #6d6b6b;
+		color: white;
+		margin: 0px 30px;
+	}
+
+	.reset-btn:hover {
+		transform: scale(1.03);
+		-o-transform: scale(1.03);
+		-moz-transform: scale(1.03);
+		-webkit-transform: scale(1.03);
+		color: #fff;
+		background-color: rgb(119, 112, 255);
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.main-left-background,
+	.bubble-speed-message,
+	.bubble-color-message,
+	.speedSlider,
+	.color-picker,
+	.bubble-color-box {
+		display: none;
+	}
+
+	.main-left {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		height: calc(100vh - 80px);
+		top: 80px;
+	}
+
+	.bubble-btn-box {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		width: 100%;
+	}
+
+	.reset-btn {
+		width: 15rem;
+		height: 4rem;
+		font-family: "NanumSquareRound";
+		font-size: 1rem;
+		outline: none;
+		border: none;
+		border-radius: 10px;
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+		background-color: #6d6b6b;
+		color: white;
+		margin: 0px 10px;
+	}
+
+	.reset-btn:hover {
+		transform: scale(1.03);
+		-o-transform: scale(1.03);
+		-moz-transform: scale(1.03);
+		-webkit-transform: scale(1.03);
+		color: #fff;
+		background-color: rgb(119, 112, 255);
+	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../Styles/fonts/NanumSquareRoundR.ttf");
+}

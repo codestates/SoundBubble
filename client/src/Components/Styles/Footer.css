@@ -1,0 +1,71 @@
+.footerContainer {
+	background-color: #000;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 5rem 0;
+	bottom: 0%;
+}
+.footerWrap {
+	font-family: "NanumSquareRound";
+	width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+.aboutUs h3,
+.contact h3 {
+	font-size: 1.6rem;
+	font-weight: bold;
+	margin-bottom: 3rem;
+}
+.aboutUs p,
+.contact p {
+	font-size: 1.2rem;
+	font-weight: 100;
+	margin-bottom: 1rem;
+}
+.iconWrap img:first-child {
+	margin-right: 2rem;
+}
+.copyRight {
+	text-align: center;
+	margin-top: 10rem;
+}
+
+@media (max-width: 1200px) {
+	.footerContainer {
+		bottom: 0;
+		height: 70vh;
+	}
+	.footerWrap {
+		width: 90%;
+	}
+	.footerWrap > div:first-of-type {
+		margin-top: 2rem;
+	}
+	.footerWrap > div {
+		margin: 1rem 0;
+	}
+	.copyRight {
+		margin-top: 5rem;
+		padding: 0 2rem;
+	}
+}
+@media (max-width: 768px) {
+	.footerWrap {
+		flex-direction: column;
+	}
+
+	.aboutUs,
+	.contact h3 {
+		display: none;
+	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../../Pages/Styles/fonts/NanumSquareRoundR.ttf");
+}

@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css?family=Dosis:300,400,700,800");
+
+.errorWrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.errorMessage {
+  text-align: center;
+  color:#fff;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 10vh;
+}
+
+.errorMessage > .page {
+  font-family: "NanumSquareRound";
+}
+
+.errorMessage .error404 {
+  font-size: 5rem;
+  font-weight: 800;
+  margin-bottom: 2vh;
+  font-family: "Dosis", sans-serif;
+}
+
+.error-btnWrap {
+	width: 32rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.btn-go {
+  width: 15rem;
+	height: 4rem;
+	font-family: "NanumSquareRound";
+	font-size: 1rem;
+	outline: none;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+  background-color: #fff;
+	color: #2e2e2e;
+}
+
+.btn-go:hover {
+  transform: scale(1.03);
+	-o-transform: scale(1.03);
+	-moz-transform: scale(1.03);
+	-webkit-transform: scale(1.03);
+  color: #fff;
+	background-color: rgb(119, 112, 255);
+}
+
+.error-bubbles{
+  width:50%;
+  padding-left:20px;
+  position:absolute;
+  bottom:40vh;
+  left:40%;
+  display:inline-block;
+}
+
+.error-bubble{
+  -webkit-animation:short-bubble 1500ms linear infinite;
+  animation:short-bubble 1500ms linear infinite;
+  -webkit-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+  height:80px;
+  width:80px;
+  border-radius:50%;
+  background:radial-gradient(rgb(250, 128, 114) 20%, rgba(250, 128, 114, 0.482) 40%, rgba(250, 128, 114, 0) 60%);
+}
+
+.b2{
+  -webkit-animation:medium-bubble 5000ms linear infinite;
+  animation:medium-bubble 5000ms linear infinite;
+  -webkit-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+  margin-left:-70vw;
+  margin-top:25px;
+  height:30px;
+  width:30px;
+  background:radial-gradient(rgb(177, 114, 250) 20%, rgba(177, 114, 250, 0.482) 40%, rgba(177, 114, 250, 0) 60%);
+}
+
+.b3{
+  -webkit-animation-duration:3500ms;
+  animation-duration:3500ms;
+  margin-left:20vw;
+  margin-bottom:10px;
+  background:radial-gradient(rgb(114, 164, 250) 20%, rgba(114, 164, 250, 0.482) 40%, rgba(114, 164, 250, 0) 60%);
+
+}
+
+.b4{
+  -webkit-animation-duration:2000ms;
+  animation-duration:2000ms;
+  -webkit-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+  margin:0 0 -10vh 40vw;
+  height:30px;
+  width:30px;
+  background:radial-gradient(rgb(232, 250, 114) 20%, rgba(232, 250, 114, 0.482) 40%, rgba(232, 250, 114, 0) 60%);
+}
+
+.b5{
+  -webkit-animation:medium-bubble 3000ms linear infinite;
+  animation:medium-bubble 3000ms linear infinite;
+  -webkit-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+  margin-left:-1px;
+  margin-top:100px;
+  height:20px;
+  width:20px;
+  background:radial-gradient(rgb(250, 177, 114) 20%, rgba(250, 177, 114, 0.482) 40%, rgba(133, 80, 33, 0) 60%);
+}
+
+.b6{
+  -webkit-animation-duration:3000ms;
+  animation-duration:3000ms;
+  margin-left:-20vw;
+  margin-bottom:50px;
+  background:radial-gradient(rgb(114, 250, 218) 20%, rgba(114, 250, 218, 0.482) 40%, rgba(114, 250, 218, 0) 60%);
+}
+
+.b7{
+  -webkit-animation-duration:6000ms;
+  animation-duration:6000ms;
+  margin-left:10vw;
+  margin-bottom:50px;
+  height:35px;
+  width:35px;
+  background:radial-gradient(rgb(250, 114, 177) 20%, rgba(250, 114, 177, 0.482) 40%, rgba(250, 114, 177, 0) 60%);
+}
+
+.b8{
+  -webkit-animation:medium-bubble 2000ms linear infinite;
+  -webkit-animation-fill-mode:forwards;
+  animation:medium-bubble 2000ms linear infinite;
+  animation-fill-mode:forwards;
+  margin-left:-30vw;
+  margin-bottom:30px;
+  background:radial-gradient(rgb(250, 189, 114) 20%, rgba(250, 189, 114, 0.482) 40%, rgba(250, 189, 114, 0) 60%);
+}
+
+@-webkit-keyframes short-bubble{
+  0%{ -webkit-transform:translate3d(5px, 0, 0);opacity:0; }
+  13%{ -webkit-transform:translate3d(2px, -20px, 0); opacity:1; }
+  20%{ -webkit-transform:translate3d(5px, -40px, 0) scale(1.2); }
+  30%{ -webkit-transform:translate3d(0, -60px, 0); }
+  40%{ -webkit-transform:translate3d(8px, -80px, 0); }
+  50%{ -webkit-transform:translate3d(3px, -100px, 0); }
+  60%{ -webkit-transform:translate3d(8px, -120px, 0); }
+  70%{ opacity:0.5; }
+  80%, 100%{ -webkit-transform:translate3d(0,-200px, 0); opacity:0; }
+}
+
+@keyframes short-bubble{
+  0%{ transform:translate3d(5px, 0, 0);opacity:0; }
+  13%{ transform:translate3d(2px, -20px, 0); opacity:1; }
+  20%{ transform:translate3d(5px, -40px, 0) scale(1.2); }
+  30%{ transform:translate3d(0px, -60px, 0); }
+  40%{ transform:translate3d(8px, -80px, 0); }
+  50%{ transform:translate3d(3px, -100px, 0); }
+  60%{ transform:translate3d(8px, -120px, 0); }
+  70%{ opacity:0.5; }
+  80%, 100%{ transform:translate3d(0,-200px, 0); opacity:0; }
+}
+
+@-webkit-keyframes medium-bubble{
+  0%{ -webkit-transform:translate3d(0, 0, 0); opacity:0;}
+  5%{ -webkit-transform:translate3d(4px, -20px, 0); opacity:1;}
+  10%{ -webkit-transform:translate3d(2px, -40px, 0) rotate(10deg); }
+  20%{ -webkit-transform:translate3d(7px, -80px, 0) rotate(14deg) scale(0.7); }
+  30%{ -webkit-transform:translate3d(5px, -120px, 0) rotate(15deg); }
+  40%{ -webkit-transform:translate3d(1px, -160px, 0) rotate(20deg); }
+  50%{ -webkit-transform:translate3d(2px, -200px, 0) rotate(18deg) scale(1.1); }
+  60%{ -webkit-transform:translate3d(-3px, -240px, 0) rotate(22deg); opacity:0.4; }
+  100%{ -webkit-transform:translate3d(0, -400px, 0); opacity:0; }
+}
+
+@keyframes medium-bubble{
+  0%{ transform:translate3d(0, 0, 0); opacity:0;}
+  5%{ transform:translate3d(4px, -20px, 0); opacity:1;}
+  10%{ transform:translate3d(2px, -40px, 0) rotate(10deg); }
+  20%{ transform:translate3d(7px, -80px, 0) rotate(14deg) scale(0.7); }
+  30%{ transform:translate3d(5px, -120px, 0) rotate(15deg); }
+  40%{ transform:translate3d(1px, -160px, 0) rotate(20deg); }
+  50%{ transform:translate3d(2px, -200px, 0) rotate(18deg) scale(1.1); }
+  60%{ transform:translate3d(-3px, -240px, 0) rotate(22deg); opacity:0.4; }
+  100%{ transform:translate3d(0, -400px, 0); opacity:0; }
+}
+
+@media (max-width: 768px) {
+  .error-btnWrap {
+		flex-direction: column;
+		align-items: center;
+		width: 70%;
+	}
+
+  .btn-go {
+    margin-bottom: 1rem;
+  }
+
+  .error-bubbles{
+    bottom: 40vh;
+  }
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundR.ttf");
+}

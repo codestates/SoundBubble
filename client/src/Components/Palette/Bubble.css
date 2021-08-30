@@ -1,0 +1,103 @@
+.bubble-section {
+	display: flex;
+	width: 300px;
+	height: 450px;
+}
+
+.bubble {
+	font-family: "NanumSquareRound";
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	width: 300px;
+	height: 300px;
+	border-radius: 50%;
+	background-color: white;
+	background-size: 300px 300px;
+	cursor: pointer;
+}
+
+.bubble-content {
+	position: absolute;
+}
+
+.bubble:hover {
+	transform: scale(1.1);
+}
+
+@media screen and (min-width: 1920px) {
+	.bubble-section {
+		display: flex;
+		width: 500px;
+		height: 650px;
+	}
+
+	.bubble {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		width: 400px;
+		height: 400px;
+		border-radius: 50%;
+		background-color: white;
+		background-size: 400px 400px;
+	}
+
+	.bubble-content {
+		position: absolute;
+	}
+}
+@media screen and (max-width: 1100px) {
+	.bubble-section {
+		display: flex;
+		width: 200px;
+		height: 250px;
+	}
+
+	.bubble {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		width: 200px;
+		height: 200px;
+		border-radius: 50%;
+		background-color: white;
+		background-size: 200px 200px;
+	}
+
+	.bubble-content {
+		position: absolute;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.bubble-section {
+		display: flex;
+		width: 120px;
+		height: 190px;
+	}
+
+	.bubble {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		background-color: white;
+		background-size: 120px 120px;
+	}
+
+	.bubble-content {
+		position: absolute;
+	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../../Pages/Styles/fonts/NanumSquareRoundR.ttf");
+}
