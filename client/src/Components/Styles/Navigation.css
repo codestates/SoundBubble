@@ -27,6 +27,7 @@ li {
 	margin: 0px 20px;
 }
 .left-nav-bar {
+	margin-left: 50px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -49,6 +50,7 @@ li {
 
 .right-nav-bar a {
 	cursor: pointer;
+	font-family: "NanumSquareRound";
 }
 
 .nav-login-btn {
@@ -163,6 +165,7 @@ li {
 	.nav-hamburger-bar a {
 		font-size: 1.2rem;
 		margin-right: 5%;
+		font-family: "NanumSquareRound";
 	}
 	.nav-hr {
 		display: flex;
@@ -176,5 +179,11 @@ li {
 		border-radius: 50%;
 		margin-right: 20px;
 		object-fit: cover;
+		background-color: #fff;
 	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../../Pages/Styles/fonts/NanumSquareRoundR.ttf");
 }

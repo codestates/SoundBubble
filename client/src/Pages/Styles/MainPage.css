@@ -19,6 +19,7 @@
 
 .bubble-speed-message,
 .bubble-color-message {
+	font-family: "NanumSquareRound";
 	margin-left: 5px;
 	font-size: 1.5rem;
 	font-weight: bold;
@@ -118,7 +119,7 @@
 .reset-btn {
 	width: 17rem;
 	height: 4.5rem;
-	font-family: "Noto Sans KR", sans-serif;
+	font-family: "NanumSquareRound";
 	font-size: 1.6rem;
 	outline: none;
 	border: none;
@@ -253,4 +254,9 @@
 		color: #fff;
 		background-color: rgb(119, 112, 255);
 	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../Styles/fonts/NanumSquareRoundR.ttf");
 }

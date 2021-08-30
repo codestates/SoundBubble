@@ -119,7 +119,7 @@ const Navigation = (): JSX.Element => {
 											<a>
 												<img
 													className="nav-user-img"
-													src={userState.user.profileImage === null ? "" : userState.user.profileImage}
+													src={userState.user.profileImage === null ? "profile-img.png" : userState.user.profileImage}
 												></img>
 												{userState.user.nickname}
 											</a>

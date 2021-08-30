@@ -5,6 +5,7 @@
 }
 
 .bubble {
+	font-family: "NanumSquareRound";
 	display: flex;
 	position: relative;
 	justify-content: center;
@@ -94,4 +95,9 @@
 	.bubble-content {
 		position: absolute;
 	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../../Pages/Styles/fonts/NanumSquareRoundR.ttf");
 }

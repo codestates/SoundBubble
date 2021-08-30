@@ -10,6 +10,7 @@
 }
 
 .chMessageWrapper {
+	font-family: "NanumSquareRound";
 	background-image: url(../../Static/backimg.png);
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -35,6 +36,7 @@
 }
 
 .chMessageWrapper2 {
+	font-family: "NanumSquareRound";
 	background-image: url(../../Static/backimg2.png);
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -75,4 +77,15 @@
 	.contentWrap p br {
 		display: none;
 	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundR.ttf");
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("./fonts/NanumSquareRoundEB.ttf");
+	font-weight: bold;
 }

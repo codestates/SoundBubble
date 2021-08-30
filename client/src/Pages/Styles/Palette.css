@@ -4,6 +4,7 @@
 }
 
 .palette-message {
+	font-family: "NanumSquareRound";
 	color: white;
 	animation: MessageFadeInOut 3s;
 }
@@ -27,4 +28,9 @@
 	.palette-main {
 		overflow: hidden;
 	}
+}
+
+@font-face {
+	font-family: "NanumSquareRound";
+	src: url("../Styles/fonts/NanumSquareRoundR.ttf");
 }
