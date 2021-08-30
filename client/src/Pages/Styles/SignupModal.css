@@ -116,6 +116,7 @@ body {
 }
 
 .signup-checked {
+	cursor:not-allowed;
 	background-color: black;
 }
 
