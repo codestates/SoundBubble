@@ -12,8 +12,8 @@
 
 .tutorial-modal-box {
 	max-width: 1400px;
-	width: 55%;
-	height: 700px;
+	width: 1300px;
+	height: 750px;
 	border-radius: 3px;
 	background-color: white;
 	box-shadow: 2px 4px 8px rgba(2, 7, 21, 0.3);
@@ -59,7 +59,6 @@
 	align-items: center;
 	height: 100%;
 	flex: 0.5 1 0;
-	background-color: yellow;
 	text-align: center;
 	cursor: pointer;
 }
@@ -68,7 +67,6 @@
 	display: flex;
 	line-height: 100%;
 	flex: 9 1 0;
-	background-color: grey;
 	overflow: hidden;
 }
 
