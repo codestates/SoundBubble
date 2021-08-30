@@ -8,10 +8,10 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const log_1 = require("../utils/log");
 //* 토큰 쿠키 옵션
 exports.cookieOptions = {
-    maxAge: 24 * 60 * 60 * 1000 * 3,
+    maxAge: 24 * 60 * 60 * 1000 * 14,
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "strict",
 };
 const accessSecret = process.env.ACCESS_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;
